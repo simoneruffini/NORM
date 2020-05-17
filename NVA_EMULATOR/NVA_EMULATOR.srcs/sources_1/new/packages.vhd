@@ -2,9 +2,9 @@
 -- Company: 
 -- Engineer: 
 -- 
--- Create Date: 05/13/2020 11:30:40 AM
+-- Create Date: 05/17/2020 03:31:31 PM
 -- Design Name: 
--- Module Name: power_approximation - Behavioral
+-- Module Name: packages - Behavioral
 -- Project Name: 
 -- Target Devices: 
 -- Tool Versions: 
@@ -19,33 +19,18 @@
 ----------------------------------------------------------------------------------
 
 
-
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
-use IEEE.NUMERIC_STD.ALL;
-
-use work.COMMON_PACKAGE.all;
+--use IEEE.NUMERIC_STD.ALL;
 
 -- Uncomment the following library declaration if instantiating
 -- any Xilinx leaf cells in this code.
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
-entity power_approximation is
-    generic(
-        NUM_PWR_STATES : INTEGER
-    );
-    port(
-        PWR_STATES_ARR : in PWR_STATES_ARR_TYPE(NUM_PWR_STATES -1 downto 0)
-    );
-end power_approximation;
-
-architecture Behavioral of power_approximation is
-
-begin
-
-
-end Behavioral;
+package INTERMITTENCY_PKG is
+    type intermittency_arr_int_type is array (integer range <>) of integer;
+end package INTERMITTENCY_PKG;

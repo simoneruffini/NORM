@@ -1,9 +1,8 @@
 ----------------------------------------------------------------------------------
 -- Company: 
--- Engineer: 	Simone Ruffini 	[simone.ruffini@tutanota.com]
---		Luca Caronti	[carontiluca@gmail.com]
+-- Engineer: 
 -- 
--- Create Date: 08/19/2019 11:03:37 PM
+-- Create Date: 05/17/2020 05:59:12 PM
 -- Design Name: 
 -- Module Name: counter - Behavioral
 -- Project Name: 
@@ -61,9 +60,7 @@ begin
     begin
         if resetn = '0' then
             counter <= 0;
---            TC <= '0';
         elsif rising_edge(clk) then
---            TC <= '0';
             if INIT = '1' then
                 counter <= INIT_VALUE;
             elsif CE = '1' then
@@ -73,9 +70,6 @@ begin
                     counter <= counter + INCREASE_BY;
                 end if;
             end if;
---            if( counter = MAX-1 ) then 
---                    TC <= '1';
---            end if;
         end if;
     end process;
 

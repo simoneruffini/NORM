@@ -1,0 +1,90 @@
+----------------------------------------------------------------------------------
+-- Company: 
+-- Engineer: 
+-- 
+-- Create Date: 05/17/2020 05:51:16 PM
+-- Design Name: 
+-- Module Name: scaler - Behavioral
+-- Project Name: 
+-- Target Devices: 
+-- Tool Versions: 
+-- Description: 
+-- 
+-- Dependencies: 
+-- 
+-- Revision:
+-- Revision 0.01 - File Created
+-- Additional Comments:
+-- 
+----------------------------------------------------------------------------------
+
+
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+
+-- Uncomment the following library declaration if using
+-- arithmetic functions with Signed or Unsigned values
+--use IEEE.NUMERIC_STD.ALL;
+
+-- Uncomment the following library declaration if instantiating
+-- any Xilinx leaf cells in this code.
+--library UNISIM;
+--use UNISIM.VComponents.all;
+
+entity scaler is
+    generic(
+        PRESCALER : integer -- must be multiple of 2  
+    );
+    port(
+        sys_clk         : in std_logic;
+        resetn          : in std_logic;
+        prescaler_clk   : out std_logic
+    );
+end scaler;
+
+architecture Behavioral of scaler is
+    component counter is
+        Generic(
+            MAX         : INTEGER;
+            INIT_VALUE  : INTEGER;
+            INCREASE_BY : INTEGER
+        );
+        Port ( 
+            clk         : in STD_LOGIC;
+            resetn      : in STD_LOGIC;
+            INIT        : in STD_LOGIC;
+            CE          : in STD_LOGIC;
+            TC          : out STD_LOGIC;
+            value       : out INTEGER RANGE 0 TO MAX
+        );
+    end component;
+    signal prescaler_clk_signal : std_logic := '0';
+    signal TC_counter           : std_logic;
+    signal value_counter        : integer range 0 to (PRESCALER / 2) - 1;
+    
+begin
+    scaler_counter : counter
+        generic map(
+            MAX         => (PRESCALER / 2) - 1 ,
+            INIT_VALUE  => 0,
+            INCREASE_BY => 1
+        )
+        port map(
+            clk     => sys_clk,
+            resetN  => resetN,
+            INIT    => '0',
+            CE      => '1',
+            TC      => TC_counter,
+            value   => value_counter 
+        );
+
+    process(sys_clk) begin
+        prescaler_clk_signal <= prescaler_clk_signal;
+        if rising_edge(sys_clk) and resetn = '1' and TC_counter = '1' then
+            prescaler_clk_signal <= not prescaler_clk_signal;
+        end if;
+    end process;
+    
+    prescaler_clk <= prescaler_clk_signal;
+
+end Behavioral;
