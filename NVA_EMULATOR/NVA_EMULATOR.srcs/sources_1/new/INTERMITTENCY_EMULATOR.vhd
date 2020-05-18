@@ -42,8 +42,9 @@ entity INTERMITTENCY_EMULATOR is
     port(
         sys_clk             : in std_logic;
         resetN              : in std_logic;
-        reset_emulator     : out std_logic;
+        reset_emulator      : out std_logic;
         threshold_value     : in intermittency_arr_int_type(NUM_THRESHOLD - 1 downto 0);
+        threshold_compared  : out std_logic_vector(NUM_THRESHOLD - 1 downto 0);
         select_threshold    : in integer range 0 to NUM_THRESHOLD -1
     );
 end INTERMITTENCY_EMULATOR;
@@ -94,8 +95,8 @@ architecture Behavioral of INTERMITTENCY_EMULATOR is
     
     signal TC_counter   : std_logic;
     
-    type output_comparator_array_type is array (NUM_THRESHOLD - 1 downto 0) of std_logic;
-    signal output_comparator : output_comparator_array_type;
+--    type output_comparator_array_type is array (NUM_THRESHOLD - 1 downto 0) of std_logic;
+    signal output_comparator : std_logic_vector(NUM_THRESHOLD - 1 downto 0);
 begin
     
     voltage_trace_ROM : trace_ROM
@@ -138,5 +139,7 @@ begin
     end generate;
     
     reset_emulator <= output_comparator(select_threshold);
+    
+    threshold_compared <= output_comparator;
 
 end Behavioral;

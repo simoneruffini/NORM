@@ -93,9 +93,9 @@ begin
         select_threshold <= 0;
         wait for 100 ns;
         resetn <= '1';
-        wait for 100 ms;
+        wait for 10 ms;
         select_threshold <= 1;
-        wait for 100 ms;
+        wait for 10 ms;
         select_threshold <= 2;
         wait;
     end process;
