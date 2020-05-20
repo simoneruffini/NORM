@@ -31,7 +31,8 @@ use IEEE.STD_LOGIC_1164.ALL;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
-package PWR_STATE_ARR_PKG is
+package COMMON_PACKAGE is
         type PWR_STATES_ARR_TYPE is array(natural range <>) of INTEGER;
+        constant NV_DELAY   : INTEGER := 4; -- TODO: move this value to the config package
 end package;
 
