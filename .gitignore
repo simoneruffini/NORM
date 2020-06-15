@@ -1,1 +1,6 @@
-*.cache*
+**.cache**
+**.sim**
+**.runs**
+**PDF/**
+**NVA_EMULATOR.sim**
+**NVA_EMULATOR.runs**

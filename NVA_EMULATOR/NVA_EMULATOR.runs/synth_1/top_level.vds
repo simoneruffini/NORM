@@ -1,0 +1,429 @@
+#-----------------------------------------------------------
+# Vivado v2019.2 (64-bit)
+# SW Build 2708876 on Wed Nov  6 21:39:14 MST 2019
+# IP Build 2700528 on Thu Nov  7 00:09:20 MST 2019
+# Start of session at: Sun Jun 14 23:01:04 2020
+# Process ID: 93123
+# Current directory: /home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.runs/synth_1
+# Command line: vivado -log top_level.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source top_level.tcl
+# Log file: /home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.runs/synth_1/top_level.vds
+# Journal file: /home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.runs/synth_1/vivado.jou
+#-----------------------------------------------------------
+source top_level.tcl -notrace
+Command: synth_design -top top_level -part xc7z020clg484-1
+Starting synth_design
+Attempting to get a license for feature 'Synthesis' and/or device 'xc7z020'
+INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7z020'
+INFO: [Device 21-403] Loading part xc7z020clg484-1
+INFO: Launching helper process for spawning children vivado processes
+INFO: Helper process launched with PID 93168 
+---------------------------------------------------------------------------------
+Starting RTL Elaboration : Time (s): cpu = 00:00:03 ; elapsed = 00:00:05 . Memory (MB): peak = 1861.367 ; gain = 200.688 ; free physical = 4555 ; free virtual = 27208
+---------------------------------------------------------------------------------
+INFO: [Synth 8-638] synthesizing module 'top_level' [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.srcs/sources_1/new/top_level.vhd:43]
+INFO: [Synth 8-3491] module 'POWER_APPROXIMATION' declared at '/home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.srcs/sources_1/new/POWER_APPROXIMATION.vhd:38' bound to instance 'PWR_APPROX_1' of component 'POWER_APPROXIMATION' [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.srcs/sources_1/new/top_level.vhd:82]
+INFO: [Synth 8-638] synthesizing module 'POWER_APPROXIMATION' [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.srcs/sources_1/new/POWER_APPROXIMATION.vhd:49]
+	Parameter MAX bound to: 1023 - type: integer 
+	Parameter INIT_VALUE bound to: 0 - type: integer 
+	Parameter INCREASE_BY bound to: 1 - type: integer 
+INFO: [Synth 8-3491] module 'counter' declared at '/home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.srcs/sources_1/new/counter.vhd:34' bound to instance 'COUTERX' of component 'counter' [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.srcs/sources_1/new/POWER_APPROXIMATION.vhd:72]
+INFO: [Synth 8-638] synthesizing module 'counter' [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.srcs/sources_1/new/counter.vhd:50]
+	Parameter MAX bound to: 1023 - type: integer 
+	Parameter INIT_VALUE bound to: 0 - type: integer 
+	Parameter INCREASE_BY bound to: 1 - type: integer 
+INFO: [Synth 8-256] done synthesizing module 'counter' (1#1) [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.srcs/sources_1/new/counter.vhd:50]
+	Parameter MAX bound to: 1023 - type: integer 
+	Parameter INIT_VALUE bound to: 0 - type: integer 
+	Parameter INCREASE_BY bound to: 1 - type: integer 
+INFO: [Synth 8-3491] module 'counter' declared at '/home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.srcs/sources_1/new/counter.vhd:34' bound to instance 'COUTERX' of component 'counter' [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.srcs/sources_1/new/POWER_APPROXIMATION.vhd:72]
+	Parameter MAX bound to: 1023 - type: integer 
+	Parameter INIT_VALUE bound to: 0 - type: integer 
+	Parameter INCREASE_BY bound to: 1 - type: integer 
+INFO: [Synth 8-3491] module 'counter' declared at '/home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.srcs/sources_1/new/counter.vhd:34' bound to instance 'COUTERX' of component 'counter' [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.srcs/sources_1/new/POWER_APPROXIMATION.vhd:72]
+INFO: [Synth 8-256] done synthesizing module 'POWER_APPROXIMATION' (2#1) [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.srcs/sources_1/new/POWER_APPROXIMATION.vhd:49]
+INFO: [Synth 8-3491] module 'INSTANT_PWR_CALC' declared at '/home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.srcs/sources_1/new/INSTANT_PWR_CALC.vhd:37' bound to instance 'INSTANT_PWR_CALC_1' of component 'INSTANT_PWR_CALC' [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.srcs/sources_1/new/top_level.vhd:92]
+INFO: [Synth 8-638] synthesizing module 'INSTANT_PWR_CALC' [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.srcs/sources_1/new/INSTANT_PWR_CALC.vhd:49]
+	Parameter NUM_ELEMENTS_ROM bound to: 3 - type: integer 
+	Parameter MAX_VAL bound to: 1024 - type: integer 
+INFO: [Synth 8-3491] module 'PWR_CONSUMPTION_VAL_ROM' declared at '/home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.srcs/sources_1/new/PWR_CONSUMPTION_VAL_ROM.vhd:34' bound to instance 'PWR_CONSUMPTION_VAL_ROM_1' of component 'PWR_CONSUMPTION_VAL_ROM' [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.srcs/sources_1/new/INSTANT_PWR_CALC.vhd:115]
+INFO: [Synth 8-638] synthesizing module 'PWR_CONSUMPTION_VAL_ROM' [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.srcs/sources_1/new/PWR_CONSUMPTION_VAL_ROM.vhd:46]
+	Parameter NUM_ELEMENTS_ROM bound to: 3 - type: integer 
+	Parameter MAX_VAL bound to: 1024 - type: integer 
+INFO: [Synth 8-256] done synthesizing module 'PWR_CONSUMPTION_VAL_ROM' (3#1) [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.srcs/sources_1/new/PWR_CONSUMPTION_VAL_ROM.vhd:46]
+INFO: [Synth 8-3491] module 'xbip_multadd_0' declared at '/home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.srcs/sources_1/ip/xbip_multadd_0/synth/xbip_multadd_0.vhd:59' bound to instance 'MULTIPLIER_0' of component 'xbip_multadd_0' [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.srcs/sources_1/new/INSTANT_PWR_CALC.vhd:127]
+INFO: [Synth 8-638] synthesizing module 'xbip_multadd_0' [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.srcs/sources_1/ip/xbip_multadd_0/synth/xbip_multadd_0.vhd:73]
+	Parameter C_VERBOSITY bound to: 0 - type: integer 
+	Parameter C_XDEVICEFAMILY bound to: zynq - type: string 
+	Parameter C_A_WIDTH bound to: 10 - type: integer 
+	Parameter C_B_WIDTH bound to: 10 - type: integer 
+	Parameter C_C_WIDTH bound to: 2 - type: integer 
+	Parameter C_A_TYPE bound to: 1 - type: integer 
+	Parameter C_B_TYPE bound to: 1 - type: integer 
+	Parameter C_C_TYPE bound to: 1 - type: integer 
+	Parameter C_CE_OVERRIDES_SCLR bound to: 0 - type: integer 
+	Parameter C_AB_LATENCY bound to: -1 - type: integer 
+	Parameter C_C_LATENCY bound to: -1 - type: integer 
+	Parameter C_OUT_HIGH bound to: 19 - type: integer 
+	Parameter C_OUT_LOW bound to: 0 - type: integer 
+	Parameter C_USE_PCIN bound to: 0 - type: integer 
+	Parameter C_TEST_CORE bound to: 0 - type: integer 
+INFO: [Synth 8-3491] module 'xbip_multadd_v3_0_15' declared at '/home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.srcs/sources_1/ip/xbip_multadd_0/hdl/xbip_multadd_v3_0_vh_rfs.vhd:2172' bound to instance 'U0' of component 'xbip_multadd_v3_0_15' [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.srcs/sources_1/ip/xbip_multadd_0/synth/xbip_multadd_0.vhd:134]
+INFO: [Synth 8-256] done synthesizing module 'xbip_multadd_0' (10#1) [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.srcs/sources_1/ip/xbip_multadd_0/synth/xbip_multadd_0.vhd:73]
+WARNING: [Synth 8-614] signal 'ROM_addr_FF' is read in the process but is not in the sensitivity list [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.srcs/sources_1/new/INSTANT_PWR_CALC.vhd:187]
+WARNING: [Synth 8-614] signal 'input_counter_val_std_logic_vector_FF' is read in the process but is not in the sensitivity list [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.srcs/sources_1/new/INSTANT_PWR_CALC.vhd:187]
+INFO: [Synth 8-256] done synthesizing module 'INSTANT_PWR_CALC' (11#1) [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.srcs/sources_1/new/INSTANT_PWR_CALC.vhd:49]
+WARNING: [Synth 8-3848] Net start_evaluation in module/entity top_level does not have driver. [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.srcs/sources_1/new/top_level.vhd:75]
+WARNING: [Synth 8-3848] Net num_state_to_evaluate in module/entity top_level does not have driver. [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.srcs/sources_1/new/top_level.vhd:77]
+WARNING: [Synth 8-3848] Net input_counter_val[2] in module/entity top_level does not have driver. [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.srcs/sources_1/new/top_level.vhd:78]
+WARNING: [Synth 8-3848] Net input_counter_val[1] in module/entity top_level does not have driver. [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.srcs/sources_1/new/top_level.vhd:78]
+WARNING: [Synth 8-3848] Net input_counter_val[0] in module/entity top_level does not have driver. [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.srcs/sources_1/new/top_level.vhd:78]
+INFO: [Synth 8-256] done synthesizing module 'top_level' (12#1) [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.srcs/sources_1/new/top_level.vhd:43]
+WARNING: [Synth 8-3331] design xbip_dsp48e1_wrapper_v3_0 has unconnected port CEA1
+WARNING: [Synth 8-3331] design xbip_dsp48e1_wrapper_v3_0 has unconnected port CEA2
+WARNING: [Synth 8-3331] design xbip_dsp48e1_wrapper_v3_0 has unconnected port CEB1
+WARNING: [Synth 8-3331] design xbip_dsp48e1_wrapper_v3_0 has unconnected port CEB2
+WARNING: [Synth 8-3331] design xbip_dsp48e1_wrapper_v3_0 has unconnected port CEAD
+WARNING: [Synth 8-3331] design xbip_dsp48e1_wrapper_v3_0 has unconnected port CED
+WARNING: [Synth 8-3331] design xbip_dsp48e1_wrapper_v3_0 has unconnected port CEC
+WARNING: [Synth 8-3331] design xbip_dsp48e1_wrapper_v3_0 has unconnected port CECARRYIN
+WARNING: [Synth 8-3331] design xbip_dsp48e1_wrapper_v3_0 has unconnected port CECTRL
+WARNING: [Synth 8-3331] design xbip_dsp48e1_wrapper_v3_0 has unconnected port CEALUMODE
+WARNING: [Synth 8-3331] design xbip_dsp48e1_wrapper_v3_0 has unconnected port CEINMODE
+WARNING: [Synth 8-3331] design xbip_dsp48e1_wrapper_v3_0 has unconnected port CEM
+WARNING: [Synth 8-3331] design xbip_dsp48e1_wrapper_v3_0 has unconnected port CEP
+WARNING: [Synth 8-3331] design xbip_dsp48e1_wrapper_v3_0 has unconnected port SCLRA
+WARNING: [Synth 8-3331] design xbip_dsp48e1_wrapper_v3_0 has unconnected port SCLRB
+WARNING: [Synth 8-3331] design xbip_dsp48e1_wrapper_v3_0 has unconnected port SCLRC
+WARNING: [Synth 8-3331] design xbip_dsp48e1_wrapper_v3_0 has unconnected port SCLRD
+WARNING: [Synth 8-3331] design xbip_dsp48e1_wrapper_v3_0 has unconnected port SCLRALLCARRYIN
+WARNING: [Synth 8-3331] design xbip_dsp48e1_wrapper_v3_0 has unconnected port SCLRCTRL
+WARNING: [Synth 8-3331] design xbip_dsp48e1_wrapper_v3_0 has unconnected port SCLRALUMODE
+WARNING: [Synth 8-3331] design xbip_dsp48e1_wrapper_v3_0 has unconnected port SCLRINMODE
+WARNING: [Synth 8-3331] design xbip_dsp48e1_wrapper_v3_0 has unconnected port SCLRM
+WARNING: [Synth 8-3331] design xbip_dsp48e1_wrapper_v3_0 has unconnected port SCLRP
+WARNING: [Synth 8-3331] design multadd_dsp has unconnected port PCIN[47]
+WARNING: [Synth 8-3331] design multadd_dsp has unconnected port PCIN[46]
+WARNING: [Synth 8-3331] design multadd_dsp has unconnected port PCIN[45]
+WARNING: [Synth 8-3331] design multadd_dsp has unconnected port PCIN[44]
+WARNING: [Synth 8-3331] design multadd_dsp has unconnected port PCIN[43]
+WARNING: [Synth 8-3331] design multadd_dsp has unconnected port PCIN[42]
+WARNING: [Synth 8-3331] design multadd_dsp has unconnected port PCIN[41]
+WARNING: [Synth 8-3331] design multadd_dsp has unconnected port PCIN[40]
+WARNING: [Synth 8-3331] design multadd_dsp has unconnected port PCIN[39]
+WARNING: [Synth 8-3331] design multadd_dsp has unconnected port PCIN[38]
+WARNING: [Synth 8-3331] design multadd_dsp has unconnected port PCIN[37]
+WARNING: [Synth 8-3331] design multadd_dsp has unconnected port PCIN[36]
+WARNING: [Synth 8-3331] design multadd_dsp has unconnected port PCIN[35]
+WARNING: [Synth 8-3331] design multadd_dsp has unconnected port PCIN[34]
+WARNING: [Synth 8-3331] design multadd_dsp has unconnected port PCIN[33]
+WARNING: [Synth 8-3331] design multadd_dsp has unconnected port PCIN[32]
+WARNING: [Synth 8-3331] design multadd_dsp has unconnected port PCIN[31]
+WARNING: [Synth 8-3331] design multadd_dsp has unconnected port PCIN[30]
+WARNING: [Synth 8-3331] design multadd_dsp has unconnected port PCIN[29]
+WARNING: [Synth 8-3331] design multadd_dsp has unconnected port PCIN[28]
+WARNING: [Synth 8-3331] design multadd_dsp has unconnected port PCIN[27]
+WARNING: [Synth 8-3331] design multadd_dsp has unconnected port PCIN[26]
+WARNING: [Synth 8-3331] design multadd_dsp has unconnected port PCIN[25]
+WARNING: [Synth 8-3331] design multadd_dsp has unconnected port PCIN[24]
+WARNING: [Synth 8-3331] design multadd_dsp has unconnected port PCIN[23]
+WARNING: [Synth 8-3331] design multadd_dsp has unconnected port PCIN[22]
+WARNING: [Synth 8-3331] design multadd_dsp has unconnected port PCIN[21]
+WARNING: [Synth 8-3331] design multadd_dsp has unconnected port PCIN[20]
+WARNING: [Synth 8-3331] design multadd_dsp has unconnected port PCIN[19]
+WARNING: [Synth 8-3331] design multadd_dsp has unconnected port PCIN[18]
+WARNING: [Synth 8-3331] design multadd_dsp has unconnected port PCIN[17]
+WARNING: [Synth 8-3331] design multadd_dsp has unconnected port PCIN[16]
+WARNING: [Synth 8-3331] design multadd_dsp has unconnected port PCIN[15]
+WARNING: [Synth 8-3331] design multadd_dsp has unconnected port PCIN[14]
+WARNING: [Synth 8-3331] design multadd_dsp has unconnected port PCIN[13]
+WARNING: [Synth 8-3331] design multadd_dsp has unconnected port PCIN[12]
+WARNING: [Synth 8-3331] design multadd_dsp has unconnected port PCIN[11]
+WARNING: [Synth 8-3331] design multadd_dsp has unconnected port PCIN[10]
+WARNING: [Synth 8-3331] design multadd_dsp has unconnected port PCIN[9]
+WARNING: [Synth 8-3331] design multadd_dsp has unconnected port PCIN[8]
+WARNING: [Synth 8-3331] design multadd_dsp has unconnected port PCIN[7]
+WARNING: [Synth 8-3331] design multadd_dsp has unconnected port PCIN[6]
+WARNING: [Synth 8-3331] design multadd_dsp has unconnected port PCIN[5]
+WARNING: [Synth 8-3331] design multadd_dsp has unconnected port PCIN[4]
+WARNING: [Synth 8-3331] design multadd_dsp has unconnected port PCIN[3]
+WARNING: [Synth 8-3331] design multadd_dsp has unconnected port PCIN[2]
+WARNING: [Synth 8-3331] design multadd_dsp has unconnected port PCIN[1]
+WARNING: [Synth 8-3331] design multadd_dsp has unconnected port PCIN[0]
+---------------------------------------------------------------------------------
+Finished RTL Elaboration : Time (s): cpu = 00:00:06 ; elapsed = 00:00:09 . Memory (MB): peak = 1973.117 ; gain = 312.438 ; free physical = 4572 ; free virtual = 27226
+---------------------------------------------------------------------------------
+
+Report Check Netlist: 
++------+------------------+-------+---------+-------+------------------+
+|      |Item              |Errors |Warnings |Status |Description       |
++------+------------------+-------+---------+-------+------------------+
+|1     |multi_driven_nets |      0|        0|Passed |Multi driven nets |
++------+------------------+-------+---------+-------+------------------+
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:07 ; elapsed = 00:00:09 . Memory (MB): peak = 1973.117 ; gain = 312.438 ; free physical = 4569 ; free virtual = 27223
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:07 ; elapsed = 00:00:09 . Memory (MB): peak = 1973.117 ; gain = 312.438 ; free physical = 4569 ; free virtual = 27223
+---------------------------------------------------------------------------------
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 1976.086 ; gain = 0.000 ; free physical = 4562 ; free virtual = 27215
+INFO: [Netlist 29-17] Analyzing 1 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
+INFO: [Project 1-570] Preparing netlist for logic optimization
+
+Processing XDC Constraints
+Initializing timing engine
+Parsing XDC File [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.srcs/constrs_1/new/constraints.xdc]
+Finished Parsing XDC File [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.srcs/constrs_1/new/constraints.xdc]
+Parsing XDC File [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.runs/synth_1/dont_touch.xdc]
+Finished Parsing XDC File [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.runs/synth_1/dont_touch.xdc]
+Completed Processing XDC Constraints
+
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2051.023 ; gain = 0.000 ; free physical = 4489 ; free virtual = 27142
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2051.023 ; gain = 0.000 ; free physical = 4489 ; free virtual = 27142
+---------------------------------------------------------------------------------
+Finished Constraint Validation : Time (s): cpu = 00:00:11 ; elapsed = 00:00:15 . Memory (MB): peak = 2051.023 ; gain = 390.344 ; free physical = 4561 ; free virtual = 27214
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Loading Part and Timing Information
+---------------------------------------------------------------------------------
+Loading part: xc7z020clg484-1
+---------------------------------------------------------------------------------
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:11 ; elapsed = 00:00:15 . Memory (MB): peak = 2051.023 ; gain = 390.344 ; free physical = 4560 ; free virtual = 27213
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Applying 'set_property' XDC Constraints
+---------------------------------------------------------------------------------
+Applied set_property DONT_TOUCH = true for INSTANT_PWR_CALC_1/MULTIPLIER_0. (constraint file  auto generated constraint, line ).
+---------------------------------------------------------------------------------
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:11 ; elapsed = 00:00:15 . Memory (MB): peak = 2051.023 ; gain = 390.344 ; free physical = 4561 ; free virtual = 27215
+---------------------------------------------------------------------------------
+INFO: [Synth 8-5544] ROM "ROM" won't be mapped to Block RAM because address size (2) smaller than threshold (5)
+INFO: [Synth 8-802] inferred FSM for state register 'instant_pwr_calc_present_state_reg' in module 'INSTANT_PWR_CALC'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+              wait_state |                              000 |                              000
+     wait_rom_data_state |                              001 |                              001
+ wait_evaluation_state_1 |                              010 |                              010
+ wait_evaluation_state_2 |                              011 |                              011
+ wait_evaluation_state_3 |                              100 |                              100
+        data_ready_state |                              101 |                              101
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'instant_pwr_calc_present_state_reg' using encoding 'sequential' in module 'INSTANT_PWR_CALC'
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:12 ; elapsed = 00:00:15 . Memory (MB): peak = 2051.023 ; gain = 390.344 ; free physical = 4552 ; free virtual = 27206
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++-+--------------+------------+----------+
+| |RTL Partition |Replication |Instances |
++-+--------------+------------+----------+
++-+--------------+------------+----------+
+---------------------------------------------------------------------------------
+Start RTL Component Statistics 
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished RTL Component Statistics 
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start RTL Hierarchical Component Statistics 
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished RTL Hierarchical Component Statistics
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Part Resource Summary
+---------------------------------------------------------------------------------
+Part Resources:
+DSPs: 220 (col length:60)
+BRAMs: 280 (col length: RAMB18 60 RAMB36 30)
+---------------------------------------------------------------------------------
+Finished Part Resource Summary
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Cross Boundary and Area Optimization
+---------------------------------------------------------------------------------
+Warning: Parallel synthesis criteria is not met 
+WARNING: [Synth 8-3331] design xbip_multadd_v3_0_15_viv has unconnected port PCIN[47]
+WARNING: [Synth 8-3331] design xbip_multadd_v3_0_15_viv has unconnected port PCIN[46]
+WARNING: [Synth 8-3331] design xbip_multadd_v3_0_15_viv has unconnected port PCIN[45]
+WARNING: [Synth 8-3331] design xbip_multadd_v3_0_15_viv has unconnected port PCIN[44]
+WARNING: [Synth 8-3331] design xbip_multadd_v3_0_15_viv has unconnected port PCIN[43]
+WARNING: [Synth 8-3331] design xbip_multadd_v3_0_15_viv has unconnected port PCIN[42]
+WARNING: [Synth 8-3331] design xbip_multadd_v3_0_15_viv has unconnected port PCIN[41]
+WARNING: [Synth 8-3331] design xbip_multadd_v3_0_15_viv has unconnected port PCIN[40]
+WARNING: [Synth 8-3331] design xbip_multadd_v3_0_15_viv has unconnected port PCIN[39]
+WARNING: [Synth 8-3331] design xbip_multadd_v3_0_15_viv has unconnected port PCIN[38]
+WARNING: [Synth 8-3331] design xbip_multadd_v3_0_15_viv has unconnected port PCIN[37]
+WARNING: [Synth 8-3331] design xbip_multadd_v3_0_15_viv has unconnected port PCIN[36]
+WARNING: [Synth 8-3331] design xbip_multadd_v3_0_15_viv has unconnected port PCIN[35]
+WARNING: [Synth 8-3331] design xbip_multadd_v3_0_15_viv has unconnected port PCIN[34]
+WARNING: [Synth 8-3331] design xbip_multadd_v3_0_15_viv has unconnected port PCIN[33]
+WARNING: [Synth 8-3331] design xbip_multadd_v3_0_15_viv has unconnected port PCIN[32]
+WARNING: [Synth 8-3331] design xbip_multadd_v3_0_15_viv has unconnected port PCIN[31]
+WARNING: [Synth 8-3331] design xbip_multadd_v3_0_15_viv has unconnected port PCIN[30]
+WARNING: [Synth 8-3331] design xbip_multadd_v3_0_15_viv has unconnected port PCIN[29]
+WARNING: [Synth 8-3331] design xbip_multadd_v3_0_15_viv has unconnected port PCIN[28]
+WARNING: [Synth 8-3331] design xbip_multadd_v3_0_15_viv has unconnected port PCIN[27]
+WARNING: [Synth 8-3331] design xbip_multadd_v3_0_15_viv has unconnected port PCIN[26]
+WARNING: [Synth 8-3331] design xbip_multadd_v3_0_15_viv has unconnected port PCIN[25]
+WARNING: [Synth 8-3331] design xbip_multadd_v3_0_15_viv has unconnected port PCIN[24]
+WARNING: [Synth 8-3331] design xbip_multadd_v3_0_15_viv has unconnected port PCIN[23]
+WARNING: [Synth 8-3331] design xbip_multadd_v3_0_15_viv has unconnected port PCIN[22]
+WARNING: [Synth 8-3331] design xbip_multadd_v3_0_15_viv has unconnected port PCIN[21]
+WARNING: [Synth 8-3331] design xbip_multadd_v3_0_15_viv has unconnected port PCIN[20]
+WARNING: [Synth 8-3331] design xbip_multadd_v3_0_15_viv has unconnected port PCIN[19]
+INFO: [Common 17-14] Message 'Synth 8-3331' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+---------------------------------------------------------------------------------
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:12 ; elapsed = 00:00:16 . Memory (MB): peak = 2051.023 ; gain = 390.344 ; free physical = 4539 ; free virtual = 27196
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++-+--------------+------------+----------+
+| |RTL Partition |Replication |Instances |
++-+--------------+------------+----------+
++-+--------------+------------+----------+
+---------------------------------------------------------------------------------
+Start Applying XDC Timing Constraints
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:19 ; elapsed = 00:00:24 . Memory (MB): peak = 2051.023 ; gain = 390.344 ; free physical = 4648 ; free virtual = 27254
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Timing Optimization
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Timing Optimization : Time (s): cpu = 00:00:19 ; elapsed = 00:00:24 . Memory (MB): peak = 2056.023 ; gain = 395.344 ; free physical = 4647 ; free virtual = 27253
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++-+--------------+------------+----------+
+| |RTL Partition |Replication |Instances |
++-+--------------+------------+----------+
++-+--------------+------------+----------+
+---------------------------------------------------------------------------------
+Start Technology Mapping
+---------------------------------------------------------------------------------
+WARNING: [Synth 8-3332] Sequential element (INSTANT_PWR_CALC_1/FSM_sequential_instant_pwr_calc_present_state_reg[2]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (INSTANT_PWR_CALC_1/FSM_sequential_instant_pwr_calc_present_state_reg[1]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (INSTANT_PWR_CALC_1/FSM_sequential_instant_pwr_calc_present_state_reg[0]) is unused and will be removed from module top_level.
+---------------------------------------------------------------------------------
+Finished Technology Mapping : Time (s): cpu = 00:00:19 ; elapsed = 00:00:24 . Memory (MB): peak = 2057.031 ; gain = 396.352 ; free physical = 4642 ; free virtual = 27248
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++-+--------------+------------+----------+
+| |RTL Partition |Replication |Instances |
++-+--------------+------------+----------+
++-+--------------+------------+----------+
+---------------------------------------------------------------------------------
+Start IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished IO Insertion : Time (s): cpu = 00:00:22 ; elapsed = 00:00:27 . Memory (MB): peak = 2072.875 ; gain = 412.195 ; free physical = 4486 ; free virtual = 27147
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Instances
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Instances : Time (s): cpu = 00:00:22 ; elapsed = 00:00:27 . Memory (MB): peak = 2072.875 ; gain = 412.195 ; free physical = 4486 ; free virtual = 27147
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++-+--------------+------------+----------+
+| |RTL Partition |Replication |Instances |
++-+--------------+------------+----------+
++-+--------------+------------+----------+
+
+Report Check Netlist: 
++------+------------------+-------+---------+-------+------------------+
+|      |Item              |Errors |Warnings |Status |Description       |
++------+------------------+-------+---------+-------+------------------+
+|1     |multi_driven_nets |      0|        0|Passed |Multi driven nets |
++------+------------------+-------+---------+-------+------------------+
+---------------------------------------------------------------------------------
+Start Rebuilding User Hierarchy
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:22 ; elapsed = 00:00:27 . Memory (MB): peak = 2072.875 ; gain = 412.195 ; free physical = 4485 ; free virtual = 27147
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Ports
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Ports : Time (s): cpu = 00:00:22 ; elapsed = 00:00:27 . Memory (MB): peak = 2072.875 ; gain = 412.195 ; free physical = 4485 ; free virtual = 27147
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:22 ; elapsed = 00:00:27 . Memory (MB): peak = 2072.875 ; gain = 412.195 ; free physical = 4485 ; free virtual = 27147
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Nets
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Nets : Time (s): cpu = 00:00:22 ; elapsed = 00:00:27 . Memory (MB): peak = 2072.875 ; gain = 412.195 ; free physical = 4485 ; free virtual = 27147
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Writing Synthesis Report
+---------------------------------------------------------------------------------
+
+Report BlackBoxes: 
++-+--------------+----------+
+| |BlackBox name |Instances |
++-+--------------+----------+
++-+--------------+----------+
+
+Report Cell Usage: 
++------+--------+------+
+|      |Cell    |Count |
++------+--------+------+
+|1     |BUFG    |     1|
+|2     |DSP48E1 |     1|
+|3     |IBUF    |     1|
++------+--------+------+
+---------------------------------------------------------------------------------
+Finished Writing Synthesis Report : Time (s): cpu = 00:00:22 ; elapsed = 00:00:27 . Memory (MB): peak = 2072.875 ; gain = 412.195 ; free physical = 4484 ; free virtual = 27147
+---------------------------------------------------------------------------------
+Synthesis finished with 0 errors, 0 critical warnings and 51 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:20 ; elapsed = 00:00:25 . Memory (MB): peak = 2072.875 ; gain = 334.289 ; free physical = 4531 ; free virtual = 27205
+Synthesis Optimization Complete : Time (s): cpu = 00:00:22 ; elapsed = 00:00:27 . Memory (MB): peak = 2072.883 ; gain = 412.195 ; free physical = 4531 ; free virtual = 27205
+INFO: [Project 1-571] Translating synthesized netlist
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2072.883 ; gain = 0.000 ; free physical = 4524 ; free virtual = 27199
+INFO: [Netlist 29-17] Analyzing 1 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
+INFO: [Project 1-570] Preparing netlist for logic optimization
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2075.844 ; gain = 0.000 ; free physical = 4504 ; free virtual = 27200
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+INFO: [Common 17-83] Releasing license: Synthesis
+37 Infos, 110 Warnings, 0 Critical Warnings and 0 Errors encountered.
+synth_design completed successfully
+synth_design: Time (s): cpu = 00:00:28 ; elapsed = 00:00:42 . Memory (MB): peak = 2075.844 ; gain = 642.758 ; free physical = 4632 ; free virtual = 27333
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2075.844 ; gain = 0.000 ; free physical = 4632 ; free virtual = 27333
+WARNING: [Constraints 18-5210] No constraints selected for write.
+Resolution: This message can indicate that there are no constraints for the design, or it can indicate that the used_in flags are set such that the constraints are ignored. This later case is used when running synth_design to not write synthesis constraints to the resulting checkpoint. Instead, project constraints are read when the synthesized design is opened.
+INFO: [Common 17-1381] The checkpoint '/home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.runs/synth_1/top_level.dcp' has been generated.
+INFO: [runtcl-4] Executing : report_utilization -file top_level_utilization_synth.rpt -pb top_level_utilization_synth.pb
+INFO: [Common 17-206] Exiting Vivado at Sun Jun 14 23:01:52 2020...
