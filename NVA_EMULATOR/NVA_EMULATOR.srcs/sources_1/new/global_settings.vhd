@@ -36,3 +36,6 @@ package GLOBAL_SETTINGS is
     constant ROM_MAX_NUM_BIT        : integer := 10;
     constant COUNTER_MAX_NUM_BIT    : integer := 10;
 end package GLOBAL_SETTINGS;
+package INTERMITTENCY_PKG is
+    type intermittency_arr_int_type is array (integer range <>) of integer;
+end package INTERMITTENCY_PKG;

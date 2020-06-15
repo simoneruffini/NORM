@@ -33,6 +33,7 @@
     <Option Name="EnableBDX" Val="FALSE"/>
     <Option Name="DSABoardId" Val="zed"/>
     <Option Name="WTXSimLaunchSim" Val="57"/>
+    <Option Name="WTXSimLaunchSim" Val="28"/>
     <Option Name="WTModelSimLaunchSim" Val="0"/>
     <Option Name="WTQuestaLaunchSim" Val="0"/>
     <Option Name="WTIesLaunchSim" Val="0"/>
@@ -62,6 +63,7 @@
     <FileSet Name="sources_1" Type="DesignSrcs" RelSrcDir="$PSRCDIR/sources_1">
       <Filter Type="Srcs"/>
       <File Path="$PSRCDIR/sources_1/ip/xbip_multadd_0/xbip_multadd_0.xci">
+      <File Path="$PSRCDIR/sources_1/new/packages.vhd">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
@@ -88,24 +90,28 @@
         </FileInfo>
       </File>
       <File Path="$PSRCDIR/sources_1/new/POWER_APPROXIMATION.vhd">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PSRCDIR/sources_1/new/PWR_CONSUMPTION_VAL_ROM.vhd">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
       <File Path="$PSRCDIR/sources_1/new/counter.vhd">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
+      <File Path="$PSRCDIR/sources_1/new/PWR_CONSUMPTION_VAL_ROM.vhd">
+      <File Path="$PSRCDIR/sources_1/new/scaler.vhd">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PSRCDIR/sources_1/new/counter.vhd">
+      <File Path="$PSRCDIR/sources_1/new/trace_ROM.vhd">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
       <File Path="$PSRCDIR/sources_1/new/top_level.vhd">
+      <File Path="$PSRCDIR/sources_1/new/INTERMITTENCY_EMULATOR.vhd">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="simulation"/>
@@ -114,6 +120,7 @@
       <Config>
         <Option Name="DesignMode" Val="RTL"/>
         <Option Name="TopModule" Val="top_level"/>
+        <Option Name="TopModule" Val="INTERMITTENCY_EMULATOR"/>
         <Option Name="TopAutoSet" Val="TRUE"/>
       </Config>
     </FileSet>
@@ -132,12 +139,14 @@
     <FileSet Name="sim_1" Type="SimulationSrcs" RelSrcDir="$PSRCDIR/sim_1">
       <Filter Type="Srcs"/>
       <File Path="$PSRCDIR/sim_1/new/INSTANT_PWR_CALC_TESTBENCH.vhd">
+      <File Path="$PSRCDIR/sim_1/new/INTERMITTENCY_EMULATOR_TESTBENCH.vhd">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
       <File Path="$PSRCDIR/sim_1/new/POWER_APPROXIMATION_TESTBENCH.vhd">
+      <File Path="$PSRCDIR/sim_1/new/scaler_testbench.vhd">
         <FileInfo>
           <Attr Name="AutoDisabled" Val="1"/>
           <Attr Name="UsedIn" Val="synthesis"/>
@@ -145,11 +154,13 @@
         </FileInfo>
       </File>
       <File Path="$PSIMDIR/POWER_APPROXIMATION_TESTBENCH_behav.wcfg">
+      <File Path="$PPRDIR/scaler_testbench_behav.wcfg">
         <FileInfo>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
       <File Path="$PPRDIR/INSTANT_PWR_CALC_TESTBENCH_behav.wcfg">
+      <File Path="$PPRDIR/INTERMITTENCY_EMULATOR_TESTBENCH_behav.wcfg">
         <FileInfo>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
@@ -157,6 +168,7 @@
       <Config>
         <Option Name="DesignMode" Val="RTL"/>
         <Option Name="TopModule" Val="INSTANT_PWR_CALC_TESTBENCH"/>
+        <Option Name="TopModule" Val="INTERMITTENCY_EMULATOR_TESTBENCH"/>
         <Option Name="TopLib" Val="xil_defaultlib"/>
         <Option Name="TransportPathDelay" Val="0"/>
         <Option Name="TransportIntDelay" Val="0"/>
@@ -164,6 +176,9 @@
         <Option Name="SrcSet" Val="sources_1"/>
         <Option Name="XSimWcfgFile" Val="$PSIMDIR/POWER_APPROXIMATION_TESTBENCH_behav.wcfg"/>
         <Option Name="XSimWcfgFile" Val="$PPRDIR/INSTANT_PWR_CALC_TESTBENCH_behav.wcfg"/>
+        <Option Name="XSimWcfgFile" Val="$PPRDIR/scaler_testbench_behav.wcfg"/>
+        <Option Name="XSimWcfgFile" Val="$PPRDIR/INTERMITTENCY_EMULATOR_TESTBENCH_behav.wcfg"/>
+        <Option Name="xsim.simulate.runtime" Val="50ms"/>
       </Config>
     </FileSet>
     <FileSet Name="utils_1" Type="Utils" RelSrcDir="$PSRCDIR/utils_1">
