@@ -39,10 +39,10 @@ entity POWER_APPROXIMATION is
     port(
         sys_clk                 : in std_logic; -- system clock
         resetN                  : in std_logic; -- reset active low
-        power_state_en          : in power_state_en_type(NUM_PWR_STATE - 1 downto 0); -- array of power state that are enable
+        power_state_en          : in std_logic_vector(NUM_PWR_STATE - 1 downto 0); -- array of power state that are enable
         power_state_out         : out power_state_out_type(NUM_PWR_STATE - 1 downto 0) := (others => 0); -- array of state counter values
         power_counter_full      : out power_counter_full_type(NUM_PWR_STATE - 1 downto 0) := (others => '0'); -- array of terminal counters 
-        power_counter_resetN    : in power_counter_resetN_type(NUM_PWR_STATE - 1 downto 0) -- array to reset counters
+        power_counter_reset    : in power_counter_resetN_type(NUM_PWR_STATE - 1 downto 0) -- array to reset counters
     );
 end POWER_APPROXIMATION;
 
@@ -78,7 +78,7 @@ begin
             port map(
                 clk         => sys_clk,
                 resetn      => resetN,
-                INIT        => power_counter_resetN(i),
+                INIT        => power_counter_reset(i),
                 CE          => power_state_en(i),
                 TC          => power_counter_full(i),
                 value       => power_state_out(i)

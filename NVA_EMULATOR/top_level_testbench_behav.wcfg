@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="top_level_testbench_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="global_settings" />
+            <top_module name="intermittency_pkg" />
+            <top_module name="power_approximation_pkg" />
+            <top_module name="top_level_testbench" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="0fs"></ZoomStartTime>
+      <ZoomEndTime time="305500001fs"></ZoomEndTime>
+      <Cursor1Time time="71000000fs"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="220"></NameColumnWidth>
+      <ValueColumnWidth column_width="101"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="24" />
+   <wvobject type="logic" fp_name="/top_level_testbench/top_level_1/sys_clk">
+      <obj_property name="ElementShortName">sys_clk</obj_property>
+      <obj_property name="ObjectShortName">sys_clk</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/top_level_testbench/top_level_1/INTERMITTENCY_EMULATOR_1/prescaler_clk">
+      <obj_property name="ElementShortName">prescaler_clk</obj_property>
+      <obj_property name="ObjectShortName">prescaler_clk</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/top_level_testbench/top_level_1/resetN">
+      <obj_property name="ElementShortName">resetN</obj_property>
+      <obj_property name="ObjectShortName">resetN</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/top_level_testbench/top_level_1/power_state_en">
+      <obj_property name="ElementShortName">power_state_en[2:0]</obj_property>
+      <obj_property name="ObjectShortName">power_state_en[2:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/top_level_testbench/top_level_1/power_state_out">
+      <obj_property name="ElementShortName">power_state_out[2:0]</obj_property>
+      <obj_property name="ObjectShortName">power_state_out[2:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/top_level_testbench/top_level_1/power_counter_full">
+      <obj_property name="ElementShortName">power_counter_full[2:0]</obj_property>
+      <obj_property name="ObjectShortName">power_counter_full[2:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/top_level_testbench/top_level_1/power_counter_resetN">
+      <obj_property name="ElementShortName">power_counter_resetN[2:0]</obj_property>
+      <obj_property name="ObjectShortName">power_counter_resetN[2:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/top_level_testbench/top_level_1/start_evaluation">
+      <obj_property name="ElementShortName">start_evaluation</obj_property>
+      <obj_property name="ObjectShortName">start_evaluation</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/top_level_testbench/top_level_1/evaluation_ready">
+      <obj_property name="ElementShortName">evaluation_ready</obj_property>
+      <obj_property name="ObjectShortName">evaluation_ready</obj_property>
+   </wvobject>
+   <wvobject type="other" fp_name="/top_level_testbench/top_level_1/num_state_to_evaluate">
+      <obj_property name="ElementShortName">num_state_to_evaluate</obj_property>
+      <obj_property name="ObjectShortName">num_state_to_evaluate</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/top_level_testbench/top_level_1/input_counter_val">
+      <obj_property name="ElementShortName">input_counter_val[2:0]</obj_property>
+      <obj_property name="ObjectShortName">input_counter_val[2:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/top_level_testbench/top_level_1/evaluate_result">
+      <obj_property name="ElementShortName">evaluate_result[19:0]</obj_property>
+      <obj_property name="ObjectShortName">evaluate_result[19:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/top_level_testbench/top_level_1/reset_emulator">
+      <obj_property name="ElementShortName">reset_emulator</obj_property>
+      <obj_property name="ObjectShortName">reset_emulator</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/top_level_testbench/top_level_1/threshold_value">
+      <obj_property name="ElementShortName">threshold_value[2:0]</obj_property>
+      <obj_property name="ObjectShortName">threshold_value[2:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/top_level_testbench/top_level_1/threshold_compared">
+      <obj_property name="ElementShortName">threshold_compared[2:0]</obj_property>
+      <obj_property name="ObjectShortName">threshold_compared[2:0]</obj_property>
+   </wvobject>
+   <wvobject type="other" fp_name="/top_level_testbench/top_level_1/INTERMITTENCY_EMULATOR_1/ROM_data_out">
+      <obj_property name="ElementShortName">ROM_data_out</obj_property>
+      <obj_property name="ObjectShortName">ROM_data_out</obj_property>
+   </wvobject>
+   <wvobject type="other" fp_name="/top_level_testbench/top_level_1/select_threshold">
+      <obj_property name="ElementShortName">select_threshold</obj_property>
+      <obj_property name="ObjectShortName">select_threshold</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/top_level_testbench/top_level_1/adder_resetN">
+      <obj_property name="ElementShortName">adder_resetN</obj_property>
+      <obj_property name="ObjectShortName">adder_resetN</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/top_level_testbench/top_level_1/adder_prescaler">
+      <obj_property name="ElementShortName">adder_prescaler[2:0]</obj_property>
+      <obj_property name="ObjectShortName">adder_prescaler[2:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/top_level_testbench/top_level_1/BRAM_enb">
+      <obj_property name="ElementShortName">BRAM_enb</obj_property>
+      <obj_property name="ObjectShortName">BRAM_enb</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/top_level_testbench/top_level_1/BRAM_addrb">
+      <obj_property name="ElementShortName">BRAM_addrb[0:0]</obj_property>
+      <obj_property name="ObjectShortName">BRAM_addrb[0:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/top_level_testbench/top_level_1/BRAM_doutb">
+      <obj_property name="ElementShortName">BRAM_doutb[63:0]</obj_property>
+      <obj_property name="ObjectShortName">BRAM_doutb[63:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/top_level_testbench/top_level_1/BRAM_busy">
+      <obj_property name="ElementShortName">BRAM_busy</obj_property>
+      <obj_property name="ObjectShortName">BRAM_busy</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/top_level_testbench/top_level_1/init_val">
+      <obj_property name="ElementShortName">init_val[63:0]</obj_property>
+      <obj_property name="ObjectShortName">init_val[63:0]</obj_property>
+   </wvobject>
+</wave_config>

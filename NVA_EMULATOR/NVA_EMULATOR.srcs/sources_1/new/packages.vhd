@@ -40,6 +40,7 @@ package POWER_APPROXIMATION_PKG is
     type power_counter_full_type is array (integer range <>) of std_logic;
     type power_counter_resetN_type is array (integer range <>) of std_logic;
 end package POWER_APPROXIMATION_PKG;
+
 package INTERMITTENCY_PKG is
     type intermittency_arr_int_type is array (integer range <>) of integer;
 end package INTERMITTENCY_PKG;

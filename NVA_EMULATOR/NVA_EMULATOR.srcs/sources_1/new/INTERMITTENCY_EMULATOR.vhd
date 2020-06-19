@@ -31,21 +31,16 @@ use IEEE.STD_LOGIC_1164.ALL;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 use work.INTERMITTENCY_PKG.all;
+use work.GLOBAL_SETTINGS.all;
 
 entity INTERMITTENCY_EMULATOR is
-    generic(
-        NUM_THRESHOLD       : integer;
-        NUM_ELEMNTS_ROM     : integer;
-        MAX_VAL_ROM_TRACE   : integer;
-        PRESCALER           : integer
-    );
     port(
         sys_clk             : in std_logic;
         resetN              : in std_logic;
         reset_emulator      : out std_logic;
-        threshold_value     : in intermittency_arr_int_type(NUM_THRESHOLD - 1 downto 0);
-        threshold_compared  : out std_logic_vector(NUM_THRESHOLD - 1 downto 0);
-        select_threshold    : in integer range 0 to NUM_THRESHOLD -1
+        threshold_value     : in intermittency_arr_int_type(INTERMITTENCY_NUM_THRESHOLD - 1 downto 0);
+        threshold_compared  : out std_logic_vector(INTERMITTENCY_NUM_THRESHOLD - 1 downto 0);
+        select_threshold    : in integer range 0 to INTERMITTENCY_NUM_THRESHOLD -1
     );
 end INTERMITTENCY_EMULATOR;
 
@@ -88,21 +83,21 @@ architecture Behavioral of INTERMITTENCY_EMULATOR is
         );
     end component;
     
-    signal ROM_addr     : integer range 0 to NUM_ELEMNTS_ROM - 1;
-    signal ROM_data_out : integer range 0 to MAX_VAL_ROM_TRACE -1;
+    signal ROM_addr     : integer range 0 to INTERMITTENCY_NUM_ELEMNTS_ROM - 1;
+    signal ROM_data_out : integer range 0 to INTERMITTENCY_MAX_VAL_ROM_TRACE -1;
     
     signal prescaler_clk    : std_logic;
     
     signal TC_counter   : std_logic;
     
 --    type output_comparator_array_type is array (NUM_THRESHOLD - 1 downto 0) of std_logic;
-    signal output_comparator : std_logic_vector(NUM_THRESHOLD - 1 downto 0);
+    signal output_comparator : std_logic_vector(INTERMITTENCY_NUM_THRESHOLD - 1 downto 0);
 begin
     
     voltage_trace_ROM : trace_ROM
         generic map(
-            NUM_ELEMNTS_ROM => NUM_ELEMNTS_ROM,
-            MAX_VAL         => MAX_VAL_ROM_TRACE
+            NUM_ELEMNTS_ROM => INTERMITTENCY_NUM_ELEMNTS_ROM,
+            MAX_VAL         => INTERMITTENCY_MAX_VAL_ROM_TRACE
         )
         port map(
             clk         => sys_clk,
@@ -111,7 +106,7 @@ begin
         );
     scaler_1 : scaler
         generic map(
-            PRESCALER   => PRESCALER
+            PRESCALER   => INTERMITTENCY_PRESCALER
         )
         port map(
             sys_clk         => sys_clk,
@@ -121,7 +116,7 @@ begin
             
     trace_counter : counter
         generic map(
-            MAX         => NUM_ELEMNTS_ROM - 1,
+            MAX         => INTERMITTENCY_NUM_ELEMNTS_ROM - 1,
             INIT_VALUE  => 0,
             INCREASE_BY => 1
         )
@@ -134,7 +129,7 @@ begin
             value   => ROM_addr
         );
 
-    comparator_generator : for i in NUM_THRESHOLD -1  downto 0 generate
+    comparator_generator : for i in INTERMITTENCY_NUM_THRESHOLD -1  downto 0 generate
         output_comparator(i) <= '0' when ROM_data_out > threshold_value(i) else '1';
     end generate;
     
