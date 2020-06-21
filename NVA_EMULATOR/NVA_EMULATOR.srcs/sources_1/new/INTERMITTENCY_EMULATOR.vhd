@@ -53,7 +53,7 @@ architecture Behavioral of INTERMITTENCY_EMULATOR is
         port(	
             clk       : in	std_logic;
             addr      : in	integer range 0 to NUM_ELEMNTS_ROM - 1;
-            data_out  : out	integer range 0 to MAX_VAL - 1
+            data_out  : out	integer range 0 to MAX_VAL
         );
     end component;
     
@@ -84,7 +84,7 @@ architecture Behavioral of INTERMITTENCY_EMULATOR is
     end component;
     
     signal ROM_addr     : integer range 0 to INTERMITTENCY_NUM_ELEMNTS_ROM - 1;
-    signal ROM_data_out : integer range 0 to INTERMITTENCY_MAX_VAL_ROM_TRACE -1;
+    signal ROM_data_out : integer range 0 to INTERMITTENCY_MAX_VAL_ROM_TRACE;
     
     signal prescaler_clk    : std_logic;
     

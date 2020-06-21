@@ -58,11 +58,11 @@ xbip_multadd_0 your_instance_name (
   .CLK(CLK),            // input wire CLK
   .CE(CE),              // input wire CE
   .SCLR(SCLR),          // input wire SCLR
-  .A(A),                // input wire [9 : 0] A
+  .A(A),                // input wire [30 : 0] A
   .B(B),                // input wire [9 : 0] B
   .C(C),                // input wire [1 : 0] C
   .SUBTRACT(SUBTRACT),  // input wire SUBTRACT
-  .P(P),                // output wire [19 : 0] P
+  .P(P),                // output wire [41 : 0] P
   .PCOUT(PCOUT)        // output wire [47 : 0] PCOUT
 );
 // INST_TAG_END ------ End INSTANTIATION Template ---------

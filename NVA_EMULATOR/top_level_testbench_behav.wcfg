@@ -13,15 +13,15 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="0fs"></ZoomStartTime>
-      <ZoomEndTime time="305500001fs"></ZoomEndTime>
-      <Cursor1Time time="71000000fs"></Cursor1Time>
+      <ZoomStartTime time="999363685fs"></ZoomStartTime>
+      <ZoomEndTime time="1000127263fs"></ZoomEndTime>
+      <Cursor1Time time="1000000000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
-      <NameColumnWidth column_width="220"></NameColumnWidth>
-      <ValueColumnWidth column_width="101"></ValueColumnWidth>
+      <NameColumnWidth column_width="252"></NameColumnWidth>
+      <ValueColumnWidth column_width="119"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="24" />
+   <WVObjectSize size="29" />
    <wvobject type="logic" fp_name="/top_level_testbench/top_level_1/sys_clk">
       <obj_property name="ElementShortName">sys_clk</obj_property>
       <obj_property name="ObjectShortName">sys_clk</obj_property>
@@ -46,10 +46,6 @@
       <obj_property name="ElementShortName">power_counter_full[2:0]</obj_property>
       <obj_property name="ObjectShortName">power_counter_full[2:0]</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/top_level_testbench/top_level_1/power_counter_resetN">
-      <obj_property name="ElementShortName">power_counter_resetN[2:0]</obj_property>
-      <obj_property name="ObjectShortName">power_counter_resetN[2:0]</obj_property>
-   </wvobject>
    <wvobject type="logic" fp_name="/top_level_testbench/top_level_1/start_evaluation">
       <obj_property name="ElementShortName">start_evaluation</obj_property>
       <obj_property name="ObjectShortName">start_evaluation</obj_property>
@@ -67,24 +63,32 @@
       <obj_property name="ObjectShortName">input_counter_val[2:0]</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/top_level_testbench/top_level_1/evaluate_result">
-      <obj_property name="ElementShortName">evaluate_result[19:0]</obj_property>
-      <obj_property name="ObjectShortName">evaluate_result[19:0]</obj_property>
+      <obj_property name="ElementShortName">evaluate_result[41:0]</obj_property>
+      <obj_property name="ObjectShortName">evaluate_result[41:0]</obj_property>
    </wvobject>
    <wvobject type="logic" fp_name="/top_level_testbench/top_level_1/reset_emulator">
       <obj_property name="ElementShortName">reset_emulator</obj_property>
       <obj_property name="ObjectShortName">reset_emulator</obj_property>
    </wvobject>
+   <wvobject type="other" fp_name="/top_level_testbench/top_level_1/reset_counter">
+      <obj_property name="ElementShortName">reset_counter</obj_property>
+      <obj_property name="ObjectShortName">reset_counter</obj_property>
+   </wvobject>
    <wvobject type="array" fp_name="/top_level_testbench/top_level_1/threshold_value">
-      <obj_property name="ElementShortName">threshold_value[2:0]</obj_property>
-      <obj_property name="ObjectShortName">threshold_value[2:0]</obj_property>
+      <obj_property name="ElementShortName">threshold_value[1:0]</obj_property>
+      <obj_property name="ObjectShortName">threshold_value[1:0]</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/top_level_testbench/top_level_1/threshold_compared">
-      <obj_property name="ElementShortName">threshold_compared[2:0]</obj_property>
-      <obj_property name="ObjectShortName">threshold_compared[2:0]</obj_property>
+      <obj_property name="ElementShortName">threshold_compared[1:0]</obj_property>
+      <obj_property name="ObjectShortName">threshold_compared[1:0]</obj_property>
    </wvobject>
    <wvobject type="other" fp_name="/top_level_testbench/top_level_1/INTERMITTENCY_EMULATOR_1/ROM_data_out">
       <obj_property name="ElementShortName">ROM_data_out</obj_property>
       <obj_property name="ObjectShortName">ROM_data_out</obj_property>
+   </wvobject>
+   <wvobject type="other" fp_name="/top_level_testbench/top_level_1/INTERMITTENCY_EMULATOR_1/ROM_addr">
+      <obj_property name="ElementShortName">ROM_addr</obj_property>
+      <obj_property name="ObjectShortName">ROM_addr</obj_property>
    </wvobject>
    <wvobject type="other" fp_name="/top_level_testbench/top_level_1/select_threshold">
       <obj_property name="ElementShortName">select_threshold</obj_property>
@@ -109,6 +113,7 @@
    <wvobject type="array" fp_name="/top_level_testbench/top_level_1/BRAM_doutb">
       <obj_property name="ElementShortName">BRAM_doutb[63:0]</obj_property>
       <obj_property name="ObjectShortName">BRAM_doutb[63:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
    <wvobject type="logic" fp_name="/top_level_testbench/top_level_1/BRAM_busy">
       <obj_property name="ElementShortName">BRAM_busy</obj_property>
@@ -117,5 +122,23 @@
    <wvobject type="array" fp_name="/top_level_testbench/top_level_1/init_val">
       <obj_property name="ElementShortName">init_val[63:0]</obj_property>
       <obj_property name="ObjectShortName">init_val[63:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/top_level_testbench/top_level_1/ADDER_1/dina">
+      <obj_property name="ElementShortName">dina[63:0]</obj_property>
+      <obj_property name="ObjectShortName">dina[63:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/top_level_testbench/top_level_1/ADDER_1/clock_divided">
+      <obj_property name="ElementShortName">clock_divided</obj_property>
+      <obj_property name="ObjectShortName">clock_divided</obj_property>
+   </wvobject>
+   <wvobject type="other" fp_name="/top_level_testbench/top_level_1/ADDER_1/present_state">
+      <obj_property name="ElementShortName">present_state</obj_property>
+      <obj_property name="ObjectShortName">present_state</obj_property>
+   </wvobject>
+   <wvobject type="other" fp_name="/top_level_testbench/top_level_1/ADDER_1/future_state">
+      <obj_property name="ElementShortName">future_state</obj_property>
+      <obj_property name="ObjectShortName">future_state</obj_property>
    </wvobject>
 </wave_config>

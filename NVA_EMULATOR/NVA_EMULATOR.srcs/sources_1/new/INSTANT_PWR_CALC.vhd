@@ -42,7 +42,7 @@ entity INSTANT_PWR_CALC is
         evaluation_ready        : out std_logic; -- evaluation ready singal 
         num_state_to_evaluate   : in integer range 0 to NUM_PWR_STATE; -- number of state to evaluate
         input_counter_val       : in power_state_out_type(NUM_PWR_STATE -1 downto 0); -- array of each state counter
-        evaluate_result         : out std_logic_vector((2*COUNTER_MAX_NUM_BIT)-1 downto 0) -- evaluation result
+        evaluate_result         : out std_logic_vector(41 downto 0) -- evaluation result
     );
 end INSTANT_PWR_CALC;
 
@@ -67,24 +67,24 @@ architecture Behavioral of INSTANT_PWR_CALC is
             CLK         : IN STD_LOGIC;
             CE          : IN STD_LOGIC;
             SCLR        : IN STD_LOGIC;
-            A           : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
+            A           : IN STD_LOGIC_VECTOR(30 DOWNTO 0);
             B           : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
             C           : IN STD_LOGIC_VECTOR(1 DOWNTO 0);
             SUBTRACT    : IN STD_LOGIC;
-            P           : OUT STD_LOGIC_VECTOR(19 DOWNTO 0);
+            P           : OUT STD_LOGIC_VECTOR(41 DOWNTO 0);
             PCOUT       : OUT STD_LOGIC_VECTOR(47 DOWNTO 0)
         );
     END COMPONENT;
 
     --- MULTIPLIER SIGNALS ---
     signal SCLR : std_logic := '0';
-    signal P : std_logic_vector(19 downto 0);
+    signal P : std_logic_vector(41 downto 0);
     signal PCOUT : std_logic_vector(47 downto 0);
     signal CE : std_logic := '0';
     
     --- COUNTER SIGNALS ---
-    signal input_counter_val_std_logic_vector : std_logic_vector(9 downto 0);
-    signal input_counter_val_std_logic_vector_FF : std_logic_vector(9 downto 0);
+    signal input_counter_val_std_logic_vector : std_logic_vector(COUNTER_MAX_NUM_BIT -1 downto 0);
+    signal input_counter_val_std_logic_vector_FF : std_logic_vector(COUNTER_MAX_NUM_BIT -1 downto 0);
     signal sample_input_counter_val_std_logic_vector : std_logic := '0';
     
     --- ROM ---
@@ -107,7 +107,7 @@ architecture Behavioral of INSTANT_PWR_CALC is
 begin
     
     --- DATA-FLOW ---
-    input_counter_val_std_logic_vector <= std_logic_vector(to_unsigned(input_counter_val(num_state_to_evaluate),10));
+    input_counter_val_std_logic_vector <= std_logic_vector(to_unsigned(input_counter_val(num_state_to_evaluate),COUNTER_MAX_NUM_BIT));
     ROM_data_out_std_logic_vector <= std_logic_vector(to_unsigned(ROM_data_out, ROM_MAX_NUM_BIT));
     evaluate_result <= P;
 

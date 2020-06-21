@@ -1,7 +1,7 @@
 onbreak {quit -f}
 onerror {quit -f}
 
-vsim -t 1ps -lib xil_defaultlib xbip_multadd_0_opt
+vsim -lib xil_defaultlib xbip_multadd_0_opt
 
 do {wave.do}
 

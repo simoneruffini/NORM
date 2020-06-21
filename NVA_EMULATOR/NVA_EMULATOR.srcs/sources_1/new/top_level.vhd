@@ -61,7 +61,7 @@ architecture Behavioral of top_level is
             evaluation_ready        : out std_logic; -- evaluation ready singal 
             num_state_to_evaluate   : in integer range 0 to NUM_PWR_STATE; -- number of state to evaluate
             input_counter_val       : in power_state_out_type(NUM_PWR_STATE -1 downto 0); -- array of each state counter
-            evaluate_result         : out std_logic_vector((2*COUNTER_MAX_NUM_BIT)-1 downto 0) -- evaluation result
+            evaluate_result         : out std_logic_vector(41 downto 0) -- evaluation result
         );
     end component;
     
@@ -103,7 +103,7 @@ architecture Behavioral of top_level is
     signal evaluation_ready        : std_logic; 
     signal num_state_to_evaluate   : integer range 0 to NUM_PWR_STATE; 
     signal input_counter_val       : power_state_out_type(NUM_PWR_STATE -1 downto 0); 
-    signal evaluate_result         : std_logic_vector((2*COUNTER_MAX_NUM_BIT)-1 downto 0);
+    signal evaluate_result         : std_logic_vector(41 downto 0);
     
     --- INTERMITTENCY_EMULATOR ---
     signal reset_emulator      : std_logic;
@@ -130,6 +130,8 @@ architecture Behavioral of top_level is
         save_state_3
     );  
     signal present_state :  state_type := wait_state;
+    
+    signal reset_counter : integer := 0; 
 begin
     
     PWR_APPROX_1 : POWER_APPROXIMATION
@@ -176,15 +178,17 @@ begin
         init_val    => init_val
     );
     
-    adder_resetN <= reset_emulator;
+    adder_resetN <= not reset_emulator;
     power_state_en <= adder_prescaler;
     adder_prescaler <= "010";
     
-    threshold_value(0) <= 170;
-    threshold_value(1) <= 190;
-    threshold_value(2) <= 210;    
+    threshold_value(0) <= 300;
+    threshold_value(1) <= 310;
+--    threshold_value(2) <= 210;
+
+    select_threshold <= 0;    
     
-    start_saving <= threshold_compared(2);
+    start_saving <= threshold_compared(1);
     
     saving_process : process(BRAM_clk) begin
         
@@ -210,6 +214,12 @@ begin
         end if;
     end process;
     
-    
+    count_reset_clk : process(sys_clk) begin
+        if rising_edge(sys_clk) then
+            if reset_emulator = '1' then
+                reset_counter <= reset_counter + 1;
+            end if;            
+        end if;
+    end process;
 
 end Behavioral;

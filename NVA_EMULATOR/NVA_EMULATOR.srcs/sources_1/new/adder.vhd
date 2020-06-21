@@ -136,13 +136,11 @@ begin
     clkb <= clock_divided;
     BRAM_clk <= clkb;
     
-    control_fsm_seq : process(clock_divided) begin
-        if rising_edge(clock_divided) then
-            if resetN = '0' then
-                present_state <= reset_state;
-            else
-                present_state <= future_state;
-            end if;
+    control_fsm_seq : process(clock_divided, resetN) begin
+        if resetN = '0' then
+            present_state <= reset_state;
+        elsif rising_edge(clock_divided) then
+            present_state <= future_state;
         end if;    
     end process;
     
