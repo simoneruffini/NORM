@@ -37,7 +37,6 @@ entity scaler is
     );
     port(
         sys_clk         : in std_logic; -- system clock
-        resetn          : in std_logic; -- reset active low
         prescaler_clk   : out std_logic -- output clock
     );
 end scaler;
@@ -51,7 +50,6 @@ architecture Behavioral of scaler is
         );
         Port ( 
             clk         : in STD_LOGIC;
-            resetn      : in STD_LOGIC;
             INIT        : in STD_LOGIC;
             CE          : in STD_LOGIC;
             TC          : out STD_LOGIC;
@@ -71,7 +69,6 @@ begin
         )
         port map(
             clk     => sys_clk,
-            resetN  => resetN,
             INIT    => '0',
             CE      => '1',
             TC      => TC_counter,
@@ -81,10 +78,8 @@ begin
     create_clock : process(sys_clk) begin
         prescaler_clk_signal <= prescaler_clk_signal; -- as default maintain the current state
         if rising_edge(sys_clk) then
-            if resetn = '1' and TC_counter = '1' then
+            if TC_counter = '1' then
                 prescaler_clk_signal <= not prescaler_clk_signal; -- when terminal count goes high, change clock state
-            elsif resetn = '0' then
-                prescaler_clk_signal <= '0'; -- if reset signal is low, clock goes low.
             end if;
         end if;
     end process;

@@ -45,11 +45,10 @@ architecture Behavioral of top_level is
     component POWER_APPROXIMATION is
         port(
             sys_clk                 : in std_logic; -- system clock
-            resetN                  : in std_logic; -- reset active low
             power_state_en          : in std_logic_vector(NUM_PWR_STATE - 1 downto 0); -- array of power state that are enable
             power_state_out         : out power_state_out_type(NUM_PWR_STATE - 1 downto 0) := (others => 0); -- array of state counter values
             power_counter_full      : out power_counter_full_type(NUM_PWR_STATE - 1 downto 0) := (others => '0'); -- array of terminal counters 
-            power_counter_reset    : in power_counter_resetN_type(NUM_PWR_STATE - 1 downto 0) -- array to reset counters
+            power_counter_reset     : in power_counter_resetN_type(NUM_PWR_STATE - 1 downto 0) -- array to reset counters
         );
     end component;
     
@@ -68,7 +67,6 @@ architecture Behavioral of top_level is
     component INTERMITTENCY_EMULATOR is
         port(
             sys_clk             : in std_logic;
-            resetN              : in std_logic;
             reset_emulator      : out std_logic;
             threshold_value     : in intermittency_arr_int_type(INTERMITTENCY_NUM_THRESHOLD - 1 downto 0);
             threshold_compared  : out std_logic_vector(INTERMITTENCY_NUM_THRESHOLD - 1 downto 0);
@@ -137,7 +135,6 @@ begin
     PWR_APPROX_1 : POWER_APPROXIMATION
     port map(
         sys_clk                 => sys_clk,
-        resetN                  => resetN,
         power_state_en          => power_state_en,
         power_state_out         => power_state_out,
         power_counter_full      => power_counter_full,
@@ -158,7 +155,6 @@ begin
     INTERMITTENCY_EMULATOR_1 : INTERMITTENCY_EMULATOR
     port map(
         sys_clk             => sys_clk,
-        resetN              => resetN,
         reset_emulator      => reset_emulator,
         threshold_value     => threshold_value,
         threshold_compared  => threshold_compared,

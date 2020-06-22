@@ -36,7 +36,6 @@ use work.GLOBAL_SETTINGS.all;
 entity INTERMITTENCY_EMULATOR is
     port(
         sys_clk             : in std_logic;
-        resetN              : in std_logic;
         reset_emulator      : out std_logic;
         threshold_value     : in intermittency_arr_int_type(INTERMITTENCY_NUM_THRESHOLD - 1 downto 0);
         threshold_compared  : out std_logic_vector(INTERMITTENCY_NUM_THRESHOLD - 1 downto 0);
@@ -62,7 +61,6 @@ architecture Behavioral of INTERMITTENCY_EMULATOR is
         );
         port(
             sys_clk         : in std_logic;
-            resetn          : in std_logic;
             prescaler_clk   : out std_logic
         );
     end component;
@@ -75,7 +73,6 @@ architecture Behavioral of INTERMITTENCY_EMULATOR is
         );
         Port ( 
             clk         : in STD_LOGIC;
-            resetn      : in STD_LOGIC;
             INIT        : in STD_LOGIC;
             CE          : in STD_LOGIC;
             TC          : out STD_LOGIC;
@@ -110,7 +107,6 @@ begin
         )
         port map(
             sys_clk         => sys_clk,
-            resetn          => resetN,
             prescaler_clk   => prescaler_clk
         );
             
@@ -122,7 +118,6 @@ begin
         )
         port map(
             clk     => prescaler_clk,
-            resetN  => resetN,
             INIT    => '0',
             CE      => '1',
             TC      => TC_counter,
