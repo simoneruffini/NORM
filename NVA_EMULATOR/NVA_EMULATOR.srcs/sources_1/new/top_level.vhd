@@ -125,7 +125,8 @@ architecture Behavioral of top_level is
         wait_state,
         save_state_1,
         save_state_2,
-        save_state_3
+        save_state_3,
+        save_state_4
     );  
     signal present_state :  state_type := wait_state;
     
@@ -201,9 +202,14 @@ begin
                     end if;                                        
                 when save_state_1 =>
                     present_state <= save_state_2;
+                    BRAM_enb <= '1';
                 when save_state_2 =>
                     present_state <= save_state_3; 
+                    BRAM_enb <= '1';
                 when save_state_3 =>
+                    BRAM_enb <= '1';   
+                    present_state <= save_state_4;              
+                when save_state_4 =>
                     init_val <= BRAM_doutb;
                     present_state <= wait_state;                         
             end case;            

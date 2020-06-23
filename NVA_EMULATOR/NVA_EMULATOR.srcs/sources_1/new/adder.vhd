@@ -41,7 +41,6 @@ entity adder is
         BRAM_addrb      : in std_logic_vector(0 downto 0);
         BRAM_doutb      : out std_logic_vector(63 downto 0);
         BRAM_busy       : out std_logic;
---        BRAM_data_ready : out std_logic;
         BRAM_clk        : out std_logic;
         init_val        : in std_logic_vector(63 downto 0)
         
@@ -98,13 +97,7 @@ architecture Behavioral of adder is
         wait_state_3
     );    
     signal present_state, future_state : control_fsm := reset_state;
-    
---    type date_ready_fsm is(
---        data_ready_wait_state,
---        data_ready_wait_state_1,
---        data_ready_state
---    );    
---    signal data_ready_present_state, data_ready_future_state : date_ready_fsm := data_ready_wait_state;
+   
     
 begin
 
@@ -181,31 +174,5 @@ begin
         end case;
     
     end process;
-    
---    data_ready_proc_seq : process(clock_divided) begin
---        if rising_edge(clock_divided) then
---            if resetN = '0' then
---                 data_ready_present_state <= data_ready_wait_state;
---            else
---                 data_ready_present_state <= data_ready_future_state;
---            end if;            
---        end if;
---    end process;
-    
---    data_ready_proc_comb : process(data_ready_present_state) begin
-        
---        data_ready_future_state <= data_ready_present_state;
-    
---        case data_ready_present_state is
---            when data_ready_wait_state =>
---                if BRAM_enb = '1' then
---                    data_ready_future_state <= data_ready_wait_state_1;
---                end if;
---            when data_ready_wait_state_1 =>
---                data_ready_future_state <= data_ready_state;
---            when data_ready_state =>
---                data_ready_future_state <= data_ready_state;
---        end case;        
---    end process;
     
 end Behavioral;
