@@ -1,7 +1,7 @@
 onbreak {quit -force}
 onerror {quit -force}
 
-asim -t 1ps +access +r +m+blk_mem_gen_0 -L xpm -L xil_defaultlib -L unisims_ver -L unimacro_ver -L secureip -O5 xil_defaultlib.blk_mem_gen_0 xil_defaultlib.glbl
+asim -t 1ps +access +r +m+blk_mem_gen_0 -L xil_defaultlib -L secureip -O5 xil_defaultlib.blk_mem_gen_0
 
 do {wave.do}
 

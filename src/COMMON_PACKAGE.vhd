@@ -34,7 +34,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 package COMMON_PACKAGE is
         type PWR_STATES_ARR_TYPE is array(natural range <>) of INTEGER;
         constant NV_PRESCALER   : INTEGER := 4; -- TODO: move this value to the config package
-        constant MASTER_CLK : INTEGER := 100000;
+        constant MASTER_CLK_SPEED : INTEGER := 100000;
         pure function get_prescaler_value(
             input_clk : INTEGER;
             output_clk: INTEGER
@@ -50,7 +50,7 @@ package body COMMON_PACKAGE is
         if(output_clk > input_clk) then 
             return 1;
         else
-            return  input_clk/output_clk;
+            return  (input_clk/output_clk)/2;
         end if;
     end function;
 end package body COMMON_PACKAGE;

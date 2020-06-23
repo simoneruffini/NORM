@@ -52,12 +52,12 @@ architecture Behavioral of nv_reg_emu is
     --      INTERNAL SIGNALS FOR THE SAMPLING DELAY
     ----------------------------------------------------
     signal internal_TC : STD_LOGIC;
-    signal internal_prescaler_max_value : INTEGER;
+    constant internal_prescaler_max_value : INTEGER := get_prescaler_value(input_clk=>MASTER_CLK_SPEED, output_clk=>NV_EMU_MAX_CLK);
     signal internal_CE: STD_LOGIC;
     signal internal_clk_out: STD_LOGIC;
     
 begin
-    internal_prescaler_max_value <= get_prescaler_value(input_clk=>MASTER_CLK, output_clk=>NV_EMU_MAX_CLK);
+    --internal_prescaler_max_value <= get_prescaler_value(input_clk=>MASTER_CLK_SPEED, output_clk=>NV_EMU_MAX_CLK);
     
     --check if the prescaler is on or off
     internal_CE <=  '0' when internal_prescaler_max_value  <= 1 else '1';

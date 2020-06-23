@@ -1,4 +1,1 @@
-xpm_memory.sv,systemverilog,xpm,../../../../../../../../../Xilinx/Vivado/2019.2/data/ip/xpm/xpm_memory/hdl/xpm_memory.sv,
-xpm_VCOMP.vhd,vhdl,xpm,../../../../../../../../../Xilinx/Vivado/2019.2/data/ip/xpm/xpm_VCOMP.vhd,
 blk_mem_gen_0_sim_netlist.vhdl,vhdl,xil_defaultlib,../../../../NVA_EMULATOR.srcs/sources_1/ip/blk_mem_gen_0/blk_mem_gen_0_sim_netlist.vhdl,
-glbl.v,Verilog,xil_defaultlib,glbl.v
