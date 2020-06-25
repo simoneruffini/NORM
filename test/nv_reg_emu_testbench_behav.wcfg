@@ -11,15 +11,15 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="267616609fs"></ZoomStartTime>
-      <ZoomEndTime time="740216155fs"></ZoomEndTime>
-      <Cursor1Time time="1001000000fs"></Cursor1Time>
+      <ZoomStartTime time="2489109794fs"></ZoomStartTime>
+      <ZoomEndTime time="2817155265fs"></ZoomEndTime>
+      <Cursor1Time time="6753155000000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="237"></NameColumnWidth>
-      <ValueColumnWidth column_width="142"></ValueColumnWidth>
+      <ValueColumnWidth column_width="138"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="10" />
+   <WVObjectSize size="11" />
    <wvobject fp_name="/nv_reg_emu_testbench/MASTER_CLK" type="logic">
       <obj_property name="ElementShortName">MASTER_CLK</obj_property>
       <obj_property name="ObjectShortName">MASTER_CLK</obj_property>
@@ -43,6 +43,10 @@
       <obj_property name="ObjectShortName">FRAM_RESET</obj_property>
       <obj_property name="CustomSignalColor">#DCDCDC</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/nv_reg_emu_testbench/FRAM_BUSY" type="logic">
+      <obj_property name="ElementShortName">FRAM_BUSY</obj_property>
+      <obj_property name="ObjectShortName">FRAM_BUSY</obj_property>
    </wvobject>
    <wvobject fp_name="/nv_reg_emu_testbench/fram_enable" type="logic">
       <obj_property name="ElementShortName">fram_enable</obj_property>

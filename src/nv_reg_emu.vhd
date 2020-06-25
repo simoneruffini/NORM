@@ -65,10 +65,10 @@ begin
     -- if the prescaler is off then just use the internal clk
     clk_out <= internal_clk_out when internal_CE = '1' else clk;
    
-    -- if the prescaler is still counting then the fram is busy (NOT internal_TC)
-    -- this is all masked by the internal_CE that tells if the prescaler is on, if not
-    -- the fram is always not busy hence 0
-    busy <= internal_CE AND (NOT internal_TC);
+    -- If the internal_CE (the prescaler) is off then the fram is never busy
+    -- But if it is on and the internal_TC is on (happens 2 times per internal_clk_out) 
+    -- and we are in the down period of the clock then we are not in busy
+    busy <= internal_CE AND (NOT (internal_TC AND (NOT internal_clk_out)));
    
     prescaler : entity work.counter(Behavioral)
     generic map(

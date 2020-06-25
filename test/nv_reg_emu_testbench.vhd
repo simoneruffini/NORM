@@ -53,7 +53,6 @@ architecture Behavioral of nv_reg_emu_testbench is
     
     signal value : INTEGER ;
     signal addr : UNSIGNED (1 DOWNTO 0);
-    signal null_32 : STD_LOGIC_VECTOR (31 DOWNTO 0);
     
     COMPONENT blk_mem_gen_0 IS
       PORT (
@@ -118,7 +117,7 @@ begin
             fram_din    <= (others => '0');
             value       <= 1;
             addr        <= (others => '0');
-            null_32     <= (others => '0');
+            
          else
  
              if(rising_edge(FRAM_CLK)) then

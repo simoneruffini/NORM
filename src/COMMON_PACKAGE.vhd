@@ -35,6 +35,7 @@ package COMMON_PACKAGE is
         type PWR_STATES_ARR_TYPE is array(natural range <>) of INTEGER;
         constant NV_PRESCALER   : INTEGER := 4; -- TODO: move this value to the config package
         constant MASTER_CLK_SPEED : INTEGER := 100000;
+        constant FRAM_MAX_SPEED : INTEGER := MASTER_CLK_SPEED /4; --to be removed
         pure function get_prescaler_value(
             input_clk : INTEGER;
             output_clk: INTEGER
