@@ -45,10 +45,10 @@ architecture Behavioral of top_level is
     component POWER_APPROXIMATION is
         port(
             sys_clk                 : in std_logic; -- system clock
-            power_state_en          : in std_logic_vector(NUM_PWR_STATE - 1 downto 0); -- array of power state that are enable
-            power_state_out         : out power_state_out_type(NUM_PWR_STATE - 1 downto 0) := (others => 0); -- array of state counter values
-            power_counter_full      : out power_counter_full_type(NUM_PWR_STATE - 1 downto 0) := (others => '0'); -- array of terminal counters 
-            power_counter_reset     : in power_counter_resetN_type(NUM_PWR_STATE - 1 downto 0) -- array to reset counters
+            power_state_en          : in std_logic_vector(NUM_PWR_STATES - 1 downto 0); -- array of power state that are enable
+            power_state_out         : out power_state_out_type(NUM_PWR_STATES - 1 downto 0) := (others => 0); -- array of state counter values
+            power_counter_full      : out power_counter_full_type(NUM_PWR_STATES - 1 downto 0) := (others => '0'); -- array of terminal counters 
+            power_counter_reset     : in power_counter_resetN_type(NUM_PWR_STATES - 1 downto 0) -- array to reset counters
         );
     end component;
     
@@ -58,8 +58,8 @@ architecture Behavioral of top_level is
             resetN                  : in std_logic; -- reset active low
             start_evaluation        : in std_logic; -- start evaluation signal 
             evaluation_ready        : out std_logic; -- evaluation ready singal 
-            num_state_to_evaluate   : in integer range 0 to NUM_PWR_STATE; -- number of state to evaluate
-            input_counter_val       : in power_state_out_type(NUM_PWR_STATE -1 downto 0); -- array of each state counter
+            num_state_to_evaluate   : in integer range 0 to NUM_PWR_STATES; -- number of state to evaluate
+            input_counter_val       : in power_state_out_type(NUM_PWR_STATES -1 downto 0); -- array of each state counter
             evaluate_result         : out std_logic_vector(41 downto 0) -- evaluation result
         );
     end component;
@@ -78,7 +78,7 @@ architecture Behavioral of top_level is
         port(
             sys_clk     : in std_logic;
             resetN      : in std_logic;
-            prescaler   : in std_logic_vector(NUM_PWR_STATE - 1 downto 0);
+            prescaler   : in std_logic_vector(NUM_PWR_STATES - 1 downto 0);
             BRAM_enb    : in std_logic;
             BRAM_addrb  : in std_logic_vector(0 downto 0);
             BRAM_doutb  : out std_logic_vector(63 downto 0);
@@ -91,16 +91,16 @@ architecture Behavioral of top_level is
     
     --- POWER APPROXIMATION SIGNALS ---
     signal resetN                   : std_logic := '1';
-    signal power_state_en           : std_logic_vector(NUM_PWR_STATE - 1 downto 0) := (others => '0');
-    signal power_state_out          : power_state_out_type(NUM_PWR_STATE - 1 downto 0);
-    signal power_counter_full       : power_counter_full_type(NUM_PWR_STATE - 1 downto 0) := (others => '0');
-    signal power_counter_reset      : power_counter_resetN_type(NUM_PWR_STATE - 1 downto 0) := (others => '0');
+    signal power_state_en           : std_logic_vector(NUM_PWR_STATES - 1 downto 0) := (others => '0');
+    signal power_state_out          : power_state_out_type(NUM_PWR_STATES - 1 downto 0);
+    signal power_counter_full       : power_counter_full_type(NUM_PWR_STATES - 1 downto 0) := (others => '0');
+    signal power_counter_reset      : power_counter_resetN_type(NUM_PWR_STATES - 1 downto 0) := (others => '0');
     
     --- INSTANT PWR CALC ---
     signal start_evaluation        : std_logic; 
     signal evaluation_ready        : std_logic; 
-    signal num_state_to_evaluate   : integer range 0 to NUM_PWR_STATE; 
-    signal input_counter_val       : power_state_out_type(NUM_PWR_STATE -1 downto 0); 
+    signal num_state_to_evaluate   : integer range 0 to NUM_PWR_STATES; 
+    signal input_counter_val       : power_state_out_type(NUM_PWR_STATES -1 downto 0); 
     signal evaluate_result         : std_logic_vector(41 downto 0);
     
     --- INTERMITTENCY_EMULATOR ---
@@ -111,7 +111,7 @@ architecture Behavioral of top_level is
     
     --- ADDER signals ---
     signal adder_resetN     : std_logic;
-    signal adder_prescaler  : std_logic_vector(NUM_PWR_STATE - 1 downto 0);
+    signal adder_prescaler  : std_logic_vector(NUM_PWR_STATES - 1 downto 0);
     signal BRAM_enb         : std_logic;
     signal BRAM_addrb       : std_logic_vector(0 downto 0);
     signal BRAM_doutb       : std_logic_vector(63 downto 0);

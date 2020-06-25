@@ -37,7 +37,7 @@ entity clock_divider is
     port(
         sys_clk     : in std_logic;
         resetN      : in std_logic;
-        prescaler   : in std_logic_vector(NUM_PWR_STATE - 1 downto 0);
+        prescaler   : in std_logic_vector(NUM_PWR_STATES - 1 downto 0);
         output_clk  : out std_logic 
     );    
 end clock_divider;
@@ -52,7 +52,7 @@ begin
     clock_divider : process(sys_clk) begin
         if rising_edge(sys_clk) then
             counter <= counter + 1;
-            if counter = (unsigned(prescaler(NUM_PWR_STATE - 1 downto 1)) - 1)  then
+            if counter = (unsigned(prescaler(NUM_PWR_STATES - 1 downto 1)) - 1)  then
                 counter <= 0;
                 sig_output_clk <= not sig_output_clk;
             end if;                            

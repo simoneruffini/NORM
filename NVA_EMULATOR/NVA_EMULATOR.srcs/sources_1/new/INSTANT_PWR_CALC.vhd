@@ -37,12 +37,11 @@ use work.GLOBAL_SETTINGS.all;
 entity INSTANT_PWR_CALC is
     port (
         sys_clk                 : in std_logic; -- system clock
-        resetN                  : in std_logic; -- reset active low
         start_evaluation        : in std_logic; -- start evaluation signal 
         evaluation_ready        : out std_logic; -- evaluation ready singal 
-        num_state_to_evaluate   : in integer range 0 to NUM_PWR_STATE; -- number of state to evaluate
-        input_counter_val       : in power_state_out_type(NUM_PWR_STATE -1 downto 0); -- array of each state counter
-        evaluate_result         : out std_logic_vector(41 downto 0) -- evaluation result
+        num_state_to_evaluate   : in integer range 0 to NUM_PWR_STATES; -- number of state to evaluate
+        input_counter_val       : in power_approx_counter_type(NUM_PWR_STATES -1 downto 0); -- array of each state counter
+        output_data             : out std_logic_vector(PWR_APPROX_COUNTER_NUM_BITS + PWR_CONSUMPTION_ROM_BITS downto 0) -- evaluation result
     );
 end INSTANT_PWR_CALC;
 
@@ -67,11 +66,11 @@ architecture Behavioral of INSTANT_PWR_CALC is
             CLK         : IN STD_LOGIC;
             CE          : IN STD_LOGIC;
             SCLR        : IN STD_LOGIC;
-            A           : IN STD_LOGIC_VECTOR(30 DOWNTO 0);
-            B           : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
+            A           : IN STD_LOGIC_VECTOR(PWR_APPROX_COUNTER_NUM_BITS - 1 DOWNTO 0);
+            B           : IN STD_LOGIC_VECTOR(PWR_CONSUMPTION_ROM_BITS - 1 DOWNTO 0);
             C           : IN STD_LOGIC_VECTOR(1 DOWNTO 0);
             SUBTRACT    : IN STD_LOGIC;
-            P           : OUT STD_LOGIC_VECTOR(41 DOWNTO 0);
+            P           : OUT STD_LOGIC_VECTOR(PWR_APPROX_COUNTER_NUM_BITS + PWR_CONSUMPTION_ROM_BITS DOWNTO 0);
             PCOUT       : OUT STD_LOGIC_VECTOR(47 DOWNTO 0)
         );
     END COMPONENT;
@@ -83,15 +82,15 @@ architecture Behavioral of INSTANT_PWR_CALC is
     signal CE : std_logic := '0';
     
     --- COUNTER SIGNALS ---
-    signal input_counter_val_std_logic_vector : std_logic_vector(COUNTER_MAX_NUM_BIT -1 downto 0);
-    signal input_counter_val_std_logic_vector_FF : std_logic_vector(COUNTER_MAX_NUM_BIT -1 downto 0);
+    signal input_counter_val_std_logic_vector : std_logic_vector(PWR_APPROX_COUNTER_NUM_BITS -1 downto 0) := (others => '0');
+    signal input_counter_val_std_logic_vector_FF : std_logic_vector(PWR_APPROX_COUNTER_NUM_BITS -1 downto 0) := (others => '0');
     signal sample_input_counter_val_std_logic_vector : std_logic := '0';
     
     --- ROM ---
-    signal ROM_addr_FF : integer range 0 to NUM_PWR_STATE - 1;
+    signal ROM_addr_FF : integer range 0 to NUM_PWR_STATES - 1;
     signal sample_ROM_addr : std_logic := '0';
-    signal ROM_data_out  : integer range 0 to 2**ROM_MAX_NUM_BIT - 1;
-    signal ROM_data_out_std_logic_vector : std_logic_vector(ROM_MAX_NUM_BIT - 1 downto 0);
+    signal ROM_data_out  : integer range 0 to 2**PWR_CONSUMPTION_ROM_BITS - 1;
+    signal ROM_data_out_std_logic_vector : std_logic_vector(PWR_CONSUMPTION_ROM_BITS - 1 downto 0);
     
     --- FSM SIGNALS --- 
     type instant_pwr_calc_state is(
@@ -107,15 +106,15 @@ architecture Behavioral of INSTANT_PWR_CALC is
 begin
     
     --- DATA-FLOW ---
-    input_counter_val_std_logic_vector <= std_logic_vector(to_unsigned(input_counter_val(num_state_to_evaluate),COUNTER_MAX_NUM_BIT));
-    ROM_data_out_std_logic_vector <= std_logic_vector(to_unsigned(ROM_data_out, ROM_MAX_NUM_BIT));
-    evaluate_result <= P;
+    input_counter_val_std_logic_vector <= std_logic_vector(to_unsigned(input_counter_val(num_state_to_evaluate),PWR_APPROX_COUNTER_NUM_BITS));
+    ROM_data_out_std_logic_vector <= std_logic_vector(to_unsigned(ROM_data_out, PWR_CONSUMPTION_ROM_BITS));
+    output_data <= P;
 
     --- ROM INSTANCE ---
     PWR_CONSUMPTION_VAL_ROM_1 : PWR_CONSUMPTION_VAL_ROM
         generic map(
-            NUM_ELEMENTS_ROM => NUM_PWR_STATE,
-            MAX_VAL => 2**ROM_MAX_NUM_BIT
+            NUM_ELEMENTS_ROM => NUM_PWR_STATES,
+            MAX_VAL => 2**PWR_CONSUMPTION_ROM_BITS
         )
         port map(
             clk => sys_clk,
@@ -140,11 +139,7 @@ begin
     --- SEQUANTIAL FSM ---
     fsm_seq : process(sys_clk) begin
 		if rising_edge(sys_clk) then
-            if resetN = '0' then
-                instant_pwr_calc_present_state <= wait_state;
-            else
-                instant_pwr_calc_present_state <= instant_pwr_calc_future_state; -- change state
-            end if;
+            instant_pwr_calc_present_state <= instant_pwr_calc_future_state; -- change state
 		end if;
 	end process;
 	
@@ -186,16 +181,11 @@ begin
     --- Flip Flop PROCESS ---
     FF_proc : process(sys_clk) begin
         if rising_edge(sys_clk) then
-            if resetN = '0' then
-                input_counter_val_std_logic_vector_FF <= (others => '0');
-                ROM_addr_FF <= 0;
-            else
-                if sample_ROM_addr = '1' then -- sample num_state_to_evaluate val
-                    ROM_addr_FF <= num_state_to_evaluate;
-                end if;
-                if sample_input_counter_val_std_logic_vector = '1' then -- sample input_counter_val_std_logic_vector val
-                    input_counter_val_std_logic_vector_FF <= input_counter_val_std_logic_vector;
-                end if;
+            if sample_ROM_addr = '1' then -- sample num_state_to_evaluate val
+                ROM_addr_FF <= num_state_to_evaluate;
+            end if;
+            if sample_input_counter_val_std_logic_vector = '1' then -- sample input_counter_val_std_logic_vector val
+                input_counter_val_std_logic_vector_FF <= input_counter_val_std_logic_vector;
             end if;
 		end if;
     end process;

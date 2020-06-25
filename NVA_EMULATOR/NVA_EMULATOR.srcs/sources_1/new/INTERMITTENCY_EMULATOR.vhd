@@ -37,9 +37,9 @@ entity INTERMITTENCY_EMULATOR is
     port(
         sys_clk             : in std_logic;
         reset_emulator      : out std_logic;
-        threshold_value     : in intermittency_arr_int_type(INTERMITTENCY_NUM_THRESHOLD - 1 downto 0);
-        threshold_compared  : out std_logic_vector(INTERMITTENCY_NUM_THRESHOLD - 1 downto 0);
-        select_threshold    : in integer range 0 to INTERMITTENCY_NUM_THRESHOLD -1
+        threshold_value     : in intermittency_arr_int_type(INTERMITTENCY_NUM_THRESHOLDS - 1 downto 0);
+        threshold_compared  : out std_logic_vector(INTERMITTENCY_NUM_THRESHOLDS - 1 downto 0);
+        select_threshold    : in integer range 0 to INTERMITTENCY_NUM_THRESHOLDS -1
     );
 end INTERMITTENCY_EMULATOR;
 
@@ -88,7 +88,7 @@ architecture Behavioral of INTERMITTENCY_EMULATOR is
     signal TC_counter   : std_logic;
     
 --    type output_comparator_array_type is array (NUM_THRESHOLD - 1 downto 0) of std_logic;
-    signal output_comparator : std_logic_vector(INTERMITTENCY_NUM_THRESHOLD - 1 downto 0);
+    signal output_comparator : std_logic_vector(INTERMITTENCY_NUM_THRESHOLDS - 1 downto 0);
 begin
     
     voltage_trace_ROM : trace_ROM
@@ -124,7 +124,7 @@ begin
             value   => ROM_addr
         );
 
-    comparator_generator : for i in INTERMITTENCY_NUM_THRESHOLD -1  downto 0 generate
+    comparator_generator : for i in INTERMITTENCY_NUM_THRESHOLDS -1  downto 0 generate
         output_comparator(i) <= '0' when ROM_data_out > threshold_value(i) else '1';
     end generate;
     

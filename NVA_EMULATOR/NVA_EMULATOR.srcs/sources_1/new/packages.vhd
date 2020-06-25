@@ -35,12 +35,18 @@ use work.GLOBAL_SETTINGS.all;
 
 
 package POWER_APPROXIMATION_PKG is
-    type power_state_en_type is array (integer range <>) of std_logic;
-    type power_state_out_type is array (integer range <>) of integer range 0 to 2**COUNTER_MAX_NUM_BIT - 1;
-    type power_counter_full_type is array (integer range <>) of std_logic;
-    type power_counter_resetN_type is array (integer range <>) of std_logic;
+    type power_approx_counter_type is array (integer range <>) of integer range 0 to 2**PWR_APPROX_COUNTER_NUM_BITS - 1;
 end package POWER_APPROXIMATION_PKG;
 
 package INTERMITTENCY_PKG is
     type intermittency_arr_int_type is array (integer range <>) of integer;
 end package INTERMITTENCY_PKG;
+
+package NV_REG_EMULATOR_PKG is
+    type recovery_data_fsm_type is(
+        init_state,
+        data_recovery_start_state,
+        recovery_state,
+        data_recovered_state
+    );
+end package NV_REG_EMULATOR_PKG;

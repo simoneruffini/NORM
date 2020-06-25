@@ -38,10 +38,10 @@ use work.GLOBAL_SETTINGS.all;
 entity POWER_APPROXIMATION is
     port(
         sys_clk                 : in std_logic; -- system clock
-        power_state_en          : in std_logic_vector(NUM_PWR_STATE - 1 downto 0); -- array of power state that are enable
-        power_state_out         : out power_state_out_type(NUM_PWR_STATE - 1 downto 0) := (others => 0); -- array of state counter values
-        power_counter_full      : out power_counter_full_type(NUM_PWR_STATE - 1 downto 0) := (others => '0'); -- array of terminal counters 
-        power_counter_reset     : in power_counter_resetN_type(NUM_PWR_STATE - 1 downto 0) -- array to reset counters
+        power_state_en          : in std_logic_vector(NUM_PWR_STATES - 1 downto 0); -- array of power state that are enable
+        power_counter_val       : out power_approx_counter_type(NUM_PWR_STATES - 1 downto 0) := (others => 0); -- array of state counter values
+        power_counter_full      : out std_logic_vector(NUM_PWR_STATES - 1 downto 0) := (others => '0'); -- array of terminal counters 
+        power_counter_reset     : in std_logic_vector(NUM_PWR_STATES - 1 downto 0) -- array to reset counters
     );
 end POWER_APPROXIMATION;
 
@@ -66,10 +66,10 @@ architecture Behavioral of POWER_APPROXIMATION is
     
 begin
 
-    GEN_COUNTERS : for i in 0 to NUM_PWR_STATE - 1 generate 
+    GEN_COUNTERS : for i in 0 to NUM_PWR_STATES - 1 generate 
         COUTER : counter 
             generic map(
-                MAX         => 2**COUNTER_MAX_NUM_BIT-1,
+                MAX         => 2**COUNTER_MAX_NUM_BITS-1,
                 INIT_VALUE  => 0,
                 INCREASE_BY => 1
             )

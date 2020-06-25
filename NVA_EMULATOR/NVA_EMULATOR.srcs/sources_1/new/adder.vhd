@@ -31,34 +31,26 @@ use IEEE.NUMERIC_STD.ALL;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 use work.GLOBAL_SETTINGS.all;
-
+use work.NV_REG_EMULATOR_PKG.all;
 entity adder is    
     port(
-        sys_clk         : in std_logic;
-        resetN          : in std_logic;
-        prescaler       : in std_logic_vector(NUM_PWR_STATE - 1 downto 0);
-        BRAM_enb        : in std_logic;
-        BRAM_addrb      : in std_logic_vector(0 downto 0);
-        BRAM_doutb      : out std_logic_vector(63 downto 0);
-        BRAM_busy       : out std_logic;
-        BRAM_clk        : out std_logic;
-        init_val        : in std_logic_vector(63 downto 0)
+        sys_clk             : in std_logic;
+        resetN              : in std_logic;
+        BRAM_enb            : in std_logic;
+        BRAM_addrb          : in std_logic_vector(0 downto 0);
+        BRAM_doutb          : out std_logic_vector(63 downto 0);
+        BRAM_busy           : out std_logic;
+        recovery_start_addr : out std_logic_vector(31 downto 0); 
+        recovery_offset     : out integer;
+        recovery_data_en    : in std_logic;
+        recovery_state      : in recovery_data_fsm_type;
+        recovery_data       : in std_logic_vector(63 downto 0);
+        recovery_counter    : in integer
         
     );
 end adder;
 
 architecture Behavioral of adder is
-
-    COMPONENT clock_divider is
-        port(
-            sys_clk     : in std_logic;
-            resetN      : in std_logic;
-            prescaler   : in std_logic_vector(NUM_PWR_STATE - 1 downto 0);
-            output_clk  : out std_logic 
-        );    
-    END COMPONENT;
-    
-    signal clock_divided    : std_logic;
     
     COMPONENT blk_mem_gen_0
         PORT (
@@ -98,16 +90,9 @@ architecture Behavioral of adder is
     );    
     signal present_state, future_state : control_fsm := reset_state;
    
+    constant num_data_to_recover : integer := 1;
     
 begin
-
-    clock_divider_1 : clock_divider
-    port map(
-        sys_clk         => sys_clk,
-        resetn          => resetN,
-        prescaler       => prescaler,
-        output_clk      => clock_divided
-    );
     
     blk_mem_gen_0_1 : blk_mem_gen_0
     PORT MAP (
@@ -125,19 +110,20 @@ begin
         doutb   => BRAM_doutb
     );
     
-    clka <= clock_divided;
-    clkb <= clock_divided;
-    BRAM_clk <= clkb;
+    clka <= sys_clk;
+    clkb <= sys_clk;
+    recovery_offset <= num_data_to_recover;
+    recovery_start_addr <= (others => '0');
     
-    control_fsm_seq : process(clock_divided, resetN) begin
+    control_fsm_seq : process(sys_clk, resetN) begin
         if resetN = '0' then
             present_state <= reset_state;
-        elsif rising_edge(clock_divided) then
+        elsif rising_edge(sys_clk) then
             present_state <= future_state;
         end if;    
     end process;
     
-    control_fsm_comb : process(present_state) begin
+    control_fsm_comb : process(present_state, recovery_counter) begin
         
         ena <= '0';
         wea <= (others => '0'); 
@@ -147,12 +133,19 @@ begin
         
         case present_state is
             when reset_state =>
-                future_state <= loading_state;
+                if recovery_data_en = '1' then
+                    future_state <= loading_state;
+                else
+                    future_state <= read_state;                
+                end if;                
             when loading_state =>
                 ena <= '1';
                 wea <= "1";
-                dina <= init_val;
-                future_state <= read_state;
+                addra <= std_logic_vector(to_unsigned(recovery_counter, num_data_to_recover));
+                dina <= recovery_data;
+                if recovery_data_en = '0' then
+                    future_state <= read_state;
+                end if;                                             
             when read_state =>
                 ena <= '1';
                 future_state <= wait_state_1;

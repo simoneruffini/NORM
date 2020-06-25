@@ -32,15 +32,11 @@ use IEEE.STD_LOGIC_1164.ALL;
 --use UNISIM.VComponents.all;
 
 package GLOBAL_SETTINGS is
-    constant NUM_PWR_STATE          : integer := 3;
-    constant ROM_MAX_NUM_BIT        : integer := 10;
-    constant COUNTER_MAX_NUM_BIT    : integer := 31;
-    constant INTERMITTENCY_NUM_ELEMNTS_ROM  : integer := 1000;
+    constant NUM_PWR_STATES                     : integer := 3;
+    constant PWR_CONSUMPTION_ROM_BITS           : integer := 10;
+    constant PWR_APPROX_COUNTER_NUM_BITS        : integer := 31;
+    constant INTERMITTENCY_NUM_ELEMNTS_ROM      : integer := 1000;
     constant INTERMITTENCY_MAX_VAL_ROM_TRACE    : integer := 330;
     constant INTERMITTENCY_PRESCALER            : integer := 16;
-    constant INTERMITTENCY_NUM_THRESHOLD        : integer := 2;
+    constant INTERMITTENCY_NUM_THRESHOLDS       : integer := 2;
 end package GLOBAL_SETTINGS;
-
-package INTERMITTENCY_PKG is
-    type intermittency_arr_int_type is array (integer range <>) of integer;
-end package INTERMITTENCY_PKG;
