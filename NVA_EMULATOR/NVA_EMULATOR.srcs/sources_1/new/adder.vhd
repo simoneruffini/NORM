@@ -37,16 +37,14 @@ entity adder is
         sys_clk             : in std_logic;
         resetN              : in std_logic;
         BRAM_enb            : in std_logic;
-        BRAM_addrb          : in std_logic_vector(0 downto 0);
+        BRAM_addrb          : in std_logic_vector(15 downto 0);
         BRAM_doutb          : out std_logic_vector(63 downto 0);
-        BRAM_busy           : out std_logic;
-        recovery_start_addr : out std_logic_vector(31 downto 0); 
-        recovery_offset     : out integer;
-        recovery_data_en    : in std_logic;
-        recovery_state      : in recovery_data_fsm_type;
+        recovery_start_addr : out std_logic_vector(15 downto 0); 
+        recovery_num_data   : out integer;
+        recovery_FRAM_state : in recovery_data_fsm_type;
         recovery_data       : in std_logic_vector(63 downto 0);
-        recovery_counter    : in integer
-        
+        recovery_counter    : in std_logic_vector(15 downto 0);
+        recovery_start      : in std_logic  
     );
 end adder;
 
@@ -57,13 +55,13 @@ architecture Behavioral of adder is
             clka    : in std_logic;
             ena     : in std_logic;
             wea     : in std_logic_vector(0 downto 0);
-            addra   : in std_logic_vector(0 downto 0);
+            addra   : in std_logic_vector(15 downto 0);
             dina    : in std_logic_vector(63 downto 0);
             douta   : out std_logic_vector(63 downto 0);
             clkb    : in std_logic;
             enb     : in std_logic;
             web     : in std_logic_vector(0 downto 0);
-            addrb   : in std_logic_vector(0 downto 0);
+            addrb   : in std_logic_vector(15 downto 0);
             dinb    : in std_logic_vector(63 downto 0);
             doutb   : out std_logic_vector(63 downto 0)
         );
@@ -72,7 +70,7 @@ architecture Behavioral of adder is
     signal clka     : std_logic;
     signal ena      : std_logic;
     signal wea      : std_logic_vector(0 downto 0);
-    signal addra    : std_logic_vector(0 downto 0);
+    signal addra    : std_logic_vector(15 downto 0);
     signal dina     : std_logic_vector(63 downto 0);
     signal douta    : std_logic_vector(63 downto 0);
     signal clkb     : std_logic;
@@ -85,12 +83,13 @@ architecture Behavioral of adder is
         read_state,
         wait_state_1,
         add_state,
-        wait_state_2,
-        wait_state_3
+        recovery_fsm_state
     );    
     signal present_state, future_state : control_fsm := reset_state;
    
     constant num_data_to_recover : integer := 1;
+    signal recovery_start_addr_signal : std_logic_vector(15 downto 0) := (others => '0');
+    signal counter : std_logic_vector(63 downto 0) := (others => '0');
     
 begin
     
@@ -112,8 +111,8 @@ begin
     
     clka <= sys_clk;
     clkb <= sys_clk;
-    recovery_offset <= num_data_to_recover;
-    recovery_start_addr <= (others => '0');
+    recovery_num_data <= num_data_to_recover;
+    recovery_start_addr <= recovery_start_addr_signal;
     
     control_fsm_seq : process(sys_clk, resetN) begin
         if resetN = '0' then
@@ -123,49 +122,66 @@ begin
         end if;    
     end process;
     
-    control_fsm_comb : process(present_state, recovery_counter) begin
+    control_fsm_comb : process(present_state, recovery_counter, recovery_start, recovery_FRAM_state, counter) begin
         
         ena <= '0';
         wea <= (others => '0'); 
         addra <= (others => '0');
         dina <= (others => '0');
-        BRAM_busy <= '0';
+        future_state <= present_state;
         
         case present_state is
             when reset_state =>
-                if recovery_data_en = '1' then
-                    future_state <= loading_state;
-                else
-                    future_state <= read_state;                
-                end if;                
+                if recovery_FRAM_state = recovery_state then
+                    future_state <= loading_state;         
+                end if;     
             when loading_state =>
                 ena <= '1';
                 wea <= "1";
-                addra <= std_logic_vector(to_unsigned(recovery_counter, num_data_to_recover));
+                addra <= std_logic_vector(unsigned(recovery_counter) + unsigned(recovery_start_addr_signal));
                 dina <= recovery_data;
-                if recovery_data_en = '0' then
+                if recovery_FRAM_state = data_recovered_state then
                     future_state <= read_state;
-                end if;                                             
+                end if;
             when read_state =>
-                ena <= '1';
-                future_state <= wait_state_1;
+                if recovery_start = '1' then
+                    future_state <= recovery_fsm_state;
+                else
+                    ena <= '1';
+                    future_state <= wait_state_1;
+                end if;
             when wait_state_1 =>
-                ena <= '1';
-                future_state <= add_state;
+                if recovery_start = '1' then
+                    future_state <= recovery_fsm_state;
+                else
+                    ena <= '1';
+                    future_state <= add_state;
+                end if;
             when add_state =>
-                wea <= "1";
-                ena <= '1';
-                BRAM_busy <= '1';
-                dina <= std_logic_vector(unsigned(douta) + 1);
-                future_state <= wait_state_2;
-            when wait_state_2 =>
-                BRAM_busy <= '1';
-                future_state <= wait_state_3;
-            when wait_state_3 =>
-                BRAM_busy <= '1';
-                future_state <= read_state;                    
+                if recovery_start = '1' then
+                    future_state <= recovery_fsm_state;
+                else
+                    wea <= "1";
+                    ena <= '1';
+                    dina <= counter;
+                    future_state <= read_state;
+                end if;                                
+            when recovery_fsm_state =>
+                if recovery_start = '0' then
+                    future_state <= read_state;
+                end if;                                                               
         end case;
     
+    end process;
+    
+    add_process : process(sys_clk, resetN) begin
+        if resetN = '0' then
+            counter <= (others => '0');
+        elsif rising_edge(sys_clk) then
+            if present_state = wait_state_1 then
+                counter <= std_logic_vector(unsigned(douta) + 1);
+            end if;
+        end if;
     end process;
     
 end Behavioral;

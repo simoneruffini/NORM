@@ -45,7 +45,7 @@ end package INTERMITTENCY_PKG;
 package NV_REG_EMULATOR_PKG is
     type recovery_data_fsm_type is(
         init_state,
-        data_recovery_start_state,
+        start_data_recovery_state,
         recovery_state,
         data_recovered_state
     );
