@@ -41,7 +41,7 @@ entity INSTANT_PWR_CALC is
         evaluation_ready        : out std_logic; -- evaluation ready singal 
         num_state_to_evaluate   : in integer range 0 to NUM_PWR_STATES; -- number of state to evaluate
         input_counter_val       : in power_approx_counter_type(NUM_PWR_STATES -1 downto 0); -- array of each state counter
-        output_data             : out std_logic_vector(PWR_APPROX_COUNTER_NUM_BITS + PWR_CONSUMPTION_ROM_BITS downto 0) -- evaluation result
+        output_data             : out std_logic_vector(PWR_APPROX_COUNTER_NUM_BITS + PWR_CONSUMPTION_ROM_BITS downto 0) -- output data
     );
 end INSTANT_PWR_CALC;
 
@@ -99,6 +99,7 @@ architecture Behavioral of INSTANT_PWR_CALC is
         wait_evaluation_state_1,
         wait_evaluation_state_2,
         wait_evaluation_state_3,
+        wait_evaluation_state_4,
         data_ready_state
     );
     signal instant_pwr_calc_present_state, instant_pwr_calc_future_state : instant_pwr_calc_state := wait_state; 
@@ -154,25 +155,35 @@ begin
         case instant_pwr_calc_present_state is
             when wait_state =>
                 if start_evaluation = '1' then
+                    -- if start_evaluation = '1' then change state
                     instant_pwr_calc_future_state <= wait_ROM_data_state;
                     
                     --- start sampling ---
-                    sample_input_counter_val_std_logic_vector <= '1';
-                    sample_ROM_addr <= '1';
+                    sample_input_counter_val_std_logic_vector <= '1'; -- sample counter val
+                    sample_ROM_addr <= '1'; -- sample ROM address ( = number of state to evaluate)
                     
                 end if;
-            when wait_ROM_data_state =>              
+            when wait_ROM_data_state => 
+                -- wait one clock cycle for ROM data             
                 instant_pwr_calc_future_state <= wait_evaluation_state_1;                
             when wait_evaluation_state_1 =>
+                -- wait first clock cycle 
                 CE <= '1';
                 instant_pwr_calc_future_state <= wait_evaluation_state_2;
             when wait_evaluation_state_2 =>
+                -- wait second clock cycle 
                 CE <= '1';
                 instant_pwr_calc_future_state <= wait_evaluation_state_3;
             when wait_evaluation_state_3 =>
+                -- wait third clock cycle 
                 CE <= '1';
-                instant_pwr_calc_future_state <= data_ready_state;
+                instant_pwr_calc_future_state <= wait_evaluation_state_4;
+            when wait_evaluation_state_4 =>
+                -- wait fourth clock cycle 
+                CE <= '1';
+                instant_pwr_calc_future_state <= data_ready_state;            
             when data_ready_state =>
+                -- data ready
                 evaluation_ready <= '1';
                 instant_pwr_calc_future_state <= wait_state;
         end case;

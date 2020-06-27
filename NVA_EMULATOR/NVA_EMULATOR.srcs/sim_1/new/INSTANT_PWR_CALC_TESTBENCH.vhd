@@ -42,48 +42,44 @@ architecture Behavioral of INSTANT_PWR_CALC_TESTBENCH is
 
     component INSTANT_PWR_CALC is
         port (
-            sys_clk                 : in std_logic;
-            resetN                  : in std_logic;
-            start_evaluation        : in std_logic;
-            evaluation_ready        : out std_logic;
-            num_state_to_evaluate   : in integer range 0 to NUM_PWR_STATE;
-            input_counter_val       : in power_state_out_type(NUM_PWR_STATE -1 downto 0);
-            evaluate_result         : out std_logic_vector((2*COUNTER_MAX_NUM_BIT)-1 downto 0)
+            sys_clk                 : in std_logic; -- system clock
+            start_evaluation        : in std_logic; -- start evaluation signal 
+            evaluation_ready        : out std_logic; -- evaluation ready singal 
+            num_state_to_evaluate   : in integer range 0 to NUM_PWR_STATES; -- number of state to evaluate
+            input_counter_val       : in power_approx_counter_type(NUM_PWR_STATES -1 downto 0); -- array of each state counter
+            output_data             : out std_logic_vector(PWR_APPROX_COUNTER_NUM_BITS + PWR_CONSUMPTION_ROM_BITS downto 0) -- evaluation result
         );
     end component;
     
-    constant NUM_PWR_STATE         : integer := 3;
     signal sys_clk                 : std_logic;
-    signal resetN                  : std_logic;
     signal start_evaluation        : std_logic;
     signal evaluation_ready        : std_logic;
-    signal num_state_to_evaluate   : integer range 0 to NUM_PWR_STATE;
-    signal input_counter_val       : power_state_out_type(NUM_PWR_STATE -1 downto 0);
-    signal evaluate_result         : std_logic_vector((2*COUNTER_MAX_NUM_BIT)-1 downto 0);
+    signal num_state_to_evaluate   : integer range 0 to NUM_PWR_STATES;
+    signal input_counter_val       : power_approx_counter_type(NUM_PWR_STATES -1 downto 0);
+    signal output_data             : std_logic_vector(PWR_APPROX_COUNTER_NUM_BITS + PWR_CONSUMPTION_ROM_BITS downto 0);
     
 begin
 
     INSTANT_PWR_CALC_1 : INSTANT_PWR_CALC
         port map(
             sys_clk => sys_clk,
-            resetN => resetN,
             start_evaluation => start_evaluation,
             evaluation_ready => evaluation_ready,
             num_state_to_evaluate => num_state_to_evaluate,
             input_counter_val => input_counter_val,
-            evaluate_result => evaluate_result
+            output_data => output_data
         );
         
     clock_proc : process begin
-        sys_clk <= '0';
-        wait for 5 ns;
         sys_clk <= '1';
+        wait for 5 ns;
+        sys_clk <= '0';
         wait for 5 ns;
     end process;
     
     signal_proc : process begin
+        start_evaluation <= '0';
         wait for 20 ns;
-        resetN <= '1';
         start_evaluation <= '1';
         num_state_to_evaluate <= 1;
         input_counter_val(1) <= 1023;

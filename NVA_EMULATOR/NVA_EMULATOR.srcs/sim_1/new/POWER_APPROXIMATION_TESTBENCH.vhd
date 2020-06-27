@@ -42,30 +42,27 @@ architecture Behavioral of POWER_APPROXIMATION_TESTBENCH is
     component POWER_APPROXIMATION is
         port(
             sys_clk                 : in std_logic;
-            resetN                  : in std_logic;
-            power_state_en          : in power_state_en_type(NUM_PWR_STATE - 1 downto 0);
-            power_state_out         : out power_state_out_type(NUM_PWR_STATE - 1 downto 0) := (others => 0);
-            power_counter_full      : out power_counter_full_type(NUM_PWR_STATE - 1 downto 0) := (others => '0');
-            power_counter_resetN    : in power_counter_resetN_type(NUM_PWR_STATE - 1 downto 0)
+            power_state_en          : in std_logic_vector(NUM_PWR_STATES - 1 downto 0); -- array of power state that are enable
+            power_counter_val       : out power_approx_counter_type(NUM_PWR_STATES - 1 downto 0) := (others => 0); -- array of state counter values
+            power_counter_full      : out std_logic_vector(NUM_PWR_STATES - 1 downto 0) := (others => '0'); -- array of terminal counters 
+            power_counter_reset     : in std_logic_vector(NUM_PWR_STATES - 1 downto 0) -- array to reset counters
         );
     end component;
         
     signal sys_clk                  : std_logic := '0';
-    signal resetN                   : std_logic := '0';
-    signal power_state_en           : power_state_en_type(NUM_PWR_STATE - 1 downto 0) := (others => '0');
-    signal power_state_out          : power_state_out_type(NUM_PWR_STATE - 1 downto 0);
-    signal power_counter_full       : power_counter_full_type(NUM_PWR_STATE - 1 downto 0) := (others => '0');
-    signal power_counter_resetN     : power_counter_resetN_type(NUM_PWR_STATE - 1 downto 0);
+    signal power_state_en           : std_logic_vector(NUM_PWR_STATES - 1 downto 0) := (others => '0');
+    signal power_counter_val        : power_approx_counter_type(NUM_PWR_STATES - 1 downto 0);
+    signal power_counter_full       : std_logic_vector(NUM_PWR_STATES - 1 downto 0);
+    signal power_counter_reset      : std_logic_vector(NUM_PWR_STATES - 1 downto 0) := (others => '0');
 begin
     
     PWR_APPROX_1 : POWER_APPROXIMATION
         port map(
             sys_clk                 => sys_clk,
-            resetN                  => resetN,
             power_state_en          => power_state_en,
-            power_state_out         => power_state_out,
+            power_counter_val       => power_counter_val,
             power_counter_full      => power_counter_full,
-            power_counter_resetN    => power_counter_resetN
+            power_counter_reset     => power_counter_reset
         );
         
     clk_proc : process begin
@@ -75,14 +72,8 @@ begin
         wait for 5 ns;
     end process;
     
-    reset_proc : process begin
-        wait for 50 ns;
-        resetN <= '1';
-        wait;
-    end process;
-    
     power_management : process begin
-        power_counter_resetN <= (others => '0');
+        power_counter_reset <= (others => '0');
         wait for 100 ns;
         power_state_en(0) <= '1';
         wait for 100 ns;

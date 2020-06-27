@@ -65,11 +65,12 @@ architecture Behavioral of POWER_APPROXIMATION is
     end component;
     
 begin
-
+    
+    -- counter generator
     GEN_COUNTERS : for i in 0 to NUM_PWR_STATES - 1 generate 
         COUTER : counter 
             generic map(
-                MAX         => 2**COUNTER_MAX_NUM_BITS-1,
+                MAX         => 2**PWR_APPROX_COUNTER_NUM_BITS-1,
                 INIT_VALUE  => 0,
                 INCREASE_BY => 1
             )
@@ -78,7 +79,7 @@ begin
                 INIT        => power_counter_reset(i),
                 CE          => power_state_en(i),
                 TC          => power_counter_full(i),
-                value       => power_state_out(i)
+                value       => power_counter_val(i)
             );
     end generate;
     

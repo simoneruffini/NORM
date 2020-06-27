@@ -35,10 +35,10 @@ use work.GLOBAL_SETTINGS.all;
 
 entity INTERMITTENCY_EMULATOR is
     port(
-        sys_clk             : in std_logic;
-        reset_emulator      : out std_logic;
+        sys_clk             : in std_logic; 
+        reset_emulator      : out std_logic; 
         threshold_value     : in intermittency_arr_int_type(INTERMITTENCY_NUM_THRESHOLDS - 1 downto 0);
-        threshold_compared  : out std_logic_vector(INTERMITTENCY_NUM_THRESHOLDS - 1 downto 0);
+        threshold_compared  : out std_logic_vector(INTERMITTENCY_NUM_THRESHOLDS - 1 downto 0); 
         select_threshold    : in integer range 0 to INTERMITTENCY_NUM_THRESHOLDS -1
     );
 end INTERMITTENCY_EMULATOR;
@@ -83,11 +83,10 @@ architecture Behavioral of INTERMITTENCY_EMULATOR is
     signal ROM_addr     : integer range 0 to INTERMITTENCY_NUM_ELEMNTS_ROM - 1;
     signal ROM_data_out : integer range 0 to INTERMITTENCY_MAX_VAL_ROM_TRACE;
     
-    signal prescaler_clk    : std_logic;
+    signal prescaler_clk    : std_logic; -- clock after prescaling
     
     signal TC_counter   : std_logic;
     
---    type output_comparator_array_type is array (NUM_THRESHOLD - 1 downto 0) of std_logic;
     signal output_comparator : std_logic_vector(INTERMITTENCY_NUM_THRESHOLDS - 1 downto 0);
 begin
     

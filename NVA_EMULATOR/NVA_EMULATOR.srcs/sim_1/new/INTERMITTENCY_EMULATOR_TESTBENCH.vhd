@@ -32,6 +32,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 --use UNISIM.VComponents.all;
 
 use work.INTERMITTENCY_PKG.all;
+use work.GLOBAL_SETTINGS.all;
 
 entity INTERMITTENCY_EMULATOR_TESTBENCH is
 --  Port ( );
@@ -39,45 +40,28 @@ end INTERMITTENCY_EMULATOR_TESTBENCH;
 
 architecture Behavioral of INTERMITTENCY_EMULATOR_TESTBENCH is
     component INTERMITTENCY_EMULATOR is
-        generic(
-            NUM_THRESHOLD       : integer;
-            NUM_ELEMNTS_ROM     : integer;
-            MAX_VAL_ROM_TRACE   : integer;
-            PRESCALER           : integer
-        );
         port(
-            sys_clk             : in std_logic;
-            resetN              : in std_logic;
-            reset_emulator      : out std_logic;
-            threshold_value     : in intermittency_arr_int_type(NUM_THRESHOLD - 1 downto 0);
-            select_threshold    : in integer range 0 to NUM_THRESHOLD -1
+            sys_clk             : in std_logic; 
+            reset_emulator      : out std_logic; 
+            threshold_value     : in intermittency_arr_int_type(INTERMITTENCY_NUM_THRESHOLDS - 1 downto 0);
+            threshold_compared  : out std_logic_vector(INTERMITTENCY_NUM_THRESHOLDS - 1 downto 0); 
+            select_threshold    : in integer range 0 to INTERMITTENCY_NUM_THRESHOLDS -1
         );
     end component;
     
-    constant NUM_THRESHOLD       : integer := 3; 
-    constant NUM_ELEMNTS_ROM     : integer := 1000;
-    constant MAX_VAL_ROM_TRACE   : integer := 330;
-    constant PRESCALER           : integer := 8;
-    
     signal sys_clk             : std_logic;
-    signal resetN              : std_logic;
     signal reset_emulator      : std_logic;
-    signal threshold_value     : intermittency_arr_int_type(NUM_THRESHOLD - 1 downto 0) := (140, 170, 200);
-    signal select_threshold    : integer range 0 to NUM_THRESHOLD -1;
+    signal threshold_value     : intermittency_arr_int_type(INTERMITTENCY_NUM_THRESHOLDS - 1 downto 0) := (300, 310);
+    signal select_threshold    : integer range 0 to INTERMITTENCY_NUM_THRESHOLDS -1;
+    signal threshold_compared  : std_logic_vector(INTERMITTENCY_NUM_THRESHOLDS - 1 downto 0); 
 begin
     
     INTERMITTENCY_EMULATOR_1 : INTERMITTENCY_EMULATOR
-        generic map(
-            NUM_THRESHOLD       => NUM_THRESHOLD,
-            NUM_ELEMNTS_ROM     => NUM_ELEMNTS_ROM,
-            MAX_VAL_ROM_TRACE   => MAX_VAL_ROM_TRACE,
-            PRESCALER           => PRESCALER
-        )
         port map(
             sys_clk             => sys_clk,
-            resetN              => resetN,
             reset_emulator      => reset_emulator,
             threshold_value     => threshold_value,
+            threshold_compared  => threshold_compared,
             select_threshold    => select_threshold
         );
     
@@ -89,14 +73,9 @@ begin
     end process;
     
     signal_process : process begin
-        resetn <= '0';
         select_threshold <= 0;
-        wait for 100 ns;
-        resetn <= '1';
-        wait for 10 ms;
+        wait for 10 us;
         select_threshold <= 1;
-        wait for 10 ms;
-        select_threshold <= 2;
         wait;
     end process;
 
