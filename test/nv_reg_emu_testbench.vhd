@@ -76,8 +76,7 @@ begin
         port map(
             clk     => MASTER_CLK , 
             rst     => MASTER_RESETN,
-            clk_out => FRAM_CLK,
-            busy    => FRAM_BUSY
+            clk_out => FRAM_CLK
         );
         
      FRAM : blk_mem_gen_0
