@@ -7,8 +7,8 @@
 -- Project Name: NON_VOLATILEPRCEMUL-FPGA
 -- Target Devices: xilinx zynq series
 -- Tool Versions: 
--- Description: this entity handles the emulation of the fram by modifing the way a normal bram is used by
---              the user. The entity does not depend on the particular fram used because it just modifies the speed of 
+-- Description: this entity handles the emulation of the nv_reg by modifing the way a normal bram is used by
+--              the user. The entity does not depend on the particular nv_reg used because it just modifies the speed of 
 --              the bram or the way to access it by introducing a wait signal.
 --
 -- Dependencies: 
@@ -36,7 +36,7 @@ use work.COMMON_PACKAGE.all;
 
 entity nv_reg_emu is
     Generic(
-        NV_EMU_MAX_CLK: INTEGER -- this is the maximum clk that the fram will handle without latency
+        NV_EMU_MAX_CLK: INTEGER -- this is the maximum clk that the nv_reg will handle without latency
     );
     Port ( 
         clk : IN STD_LOGIC;
@@ -47,6 +47,69 @@ entity nv_reg_emu is
 end nv_reg_emu;
 
 architecture Behavioral of nv_reg_emu is
+    ----------------------------------------------------
+    --      INTERNAL SIGNALS FOR THE SAMPLING DELAY
+    ----------------------------------------------------
+    signal internal_TC : STD_LOGIC;
+    constant internal_prescaler_max_value : INTEGER := get_prescaler_value(input_clk=>MASTER_CLK_SPEED, output_clk=>NV_EMU_MAX_CLK);
+    signal internal_CE: STD_LOGIC;
+    signal internal_clk_out: STD_LOGIC;
+    signal busy_out: STD_LOGIC;
+begin
+    --internal_prescaler_max_value <= get_prescaler_value(input_clk=>MASTER_CLK_SPEED, output_clk=>NV_EMU_MAX_CLK);
+    
+    --check if the prescaler is on or off
+    internal_CE <=  '0' when internal_prescaler_max_value  <= 1 else '1';
+    
+    -- if the prescaler is off then just use the internal clk
+    clk_out <= internal_clk_out when internal_CE = '1' else clk;
+   
+    
+    prescaler : entity work.counter(Behavioral)
+    generic map(
+        MAX => internal_prescaler_max_value-1,
+        INIT_VALUE => 0,
+        INCREASE_BY => 1
+    )
+    port map(
+        clk => clk,
+        resetn => rst,
+        INIT => '0', --never init the counter
+        CE => internal_CE,
+        TC => internal_TC
+        --value=> internal_value
+    );
+    
+    BUSY_SIG: entity work.counter(Behavioral) 
+     generic map(
+        MAX => (internal_prescaler_max_value*2)-1,
+        INIT_VALUE => 0,
+        INCREASE_BY => 1
+    )
+    port map(
+        clk => clk,
+        resetn => rst,
+        INIT => '0', --never init the counter
+        CE => internal_CE,
+        TC => busy_out
+        --value=> internal_value
+    );
+    
+    process (clk,rst) begin
+        if(rst='0') then
+            internal_clk_out <= '1';
+        elsif(rising_edge(clk) AND internal_TC = '1') then
+            internal_clk_out <= not internal_clk_out;
+        end if;
+    end process;
+    
+    -- If the internal_CE (the prescaler) is off then the nv_reg is never busy
+    busy<= internal_CE AND (not busy_out);
+    
+    
+end Behavioral;
+
+architecture Behavioral1 of nv_reg_emu is
 
     ----------------------------------------------------
     --      INTERNAL SIGNALS FOR THE SAMPLING DELAY
@@ -65,7 +128,7 @@ begin
     -- if the prescaler is off then just use the internal clk
     clk_out <= internal_clk_out when internal_CE = '1' else clk;
    
-    -- If the internal_CE (the prescaler) is off then the fram is never busy
+    -- If the internal_CE (the prescaler) is off then the nv_reg is never busy
     -- But if it is on and the internal_TC is on (happens 2 times per internal_clk_out) 
     -- and we are in the down period of the clock then we are not in busy
     busy <= internal_CE AND (NOT (internal_TC AND (NOT internal_clk_out)));
@@ -92,4 +155,4 @@ begin
         end if;
     end process;
     
-end Behavioral;
+end Behavioral1;
