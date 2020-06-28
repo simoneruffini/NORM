@@ -41,6 +41,7 @@ entity nv_reg is
         addr    : in STD_LOGIC_VECTOR(31 DOWNTO 0);
         din     : in STD_LOGIC_VECTOR(31 DOWNTO 0);
         dout    : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+        real_clk: out STD_LOGIC;
         busy    : out STD_LOGIC
     );
 end nv_reg;
@@ -74,8 +75,7 @@ begin
         port map(
             clk     => clk , 
             rst     => resetN,
-            clk_out => bram_clk,
-            busy    => nv_reg_emu_busy
+            clk_out => bram_clk
         );
         
      FRAM : blk_mem_gen_0
@@ -90,7 +90,8 @@ begin
         rsta_busy   => rsta_busy
      );
      
-     busy <= nv_reg_emu_busy OR rsta_busy;
+     real_clk <= bram_clk;
+     busy <= rsta_busy;
      bram_rst <= not resetN;
      
 end Behavioral;
