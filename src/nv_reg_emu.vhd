@@ -41,8 +41,7 @@ entity nv_reg_emu is
     Port ( 
         clk : IN STD_LOGIC;
         rst : IN STD_LOGIC; 
-        clk_out: OUT STD_LOGIC;
-        busy : OUT STD_LOGIC
+        clk_out: OUT STD_LOGIC
     );
 end nv_reg_emu;
 
@@ -54,7 +53,6 @@ architecture Behavioral of nv_reg_emu is
     constant internal_prescaler_max_value : INTEGER := get_prescaler_value(input_clk=>MASTER_CLK_SPEED, output_clk=>NV_EMU_MAX_CLK);
     signal internal_CE: STD_LOGIC;
     signal internal_clk_out: STD_LOGIC;
-    signal busy_out: STD_LOGIC;
 begin
     --internal_prescaler_max_value <= get_prescaler_value(input_clk=>MASTER_CLK_SPEED, output_clk=>NV_EMU_MAX_CLK);
     
@@ -80,32 +78,13 @@ begin
         --value=> internal_value
     );
     
-    BUSY_SIG: entity work.counter(Behavioral) 
-     generic map(
-        MAX => (internal_prescaler_max_value*2)-1,
-        INIT_VALUE => 0,
-        INCREASE_BY => 1
-    )
-    port map(
-        clk => clk,
-        resetn => rst,
-        INIT => '0', --never init the counter
-        CE => internal_CE,
-        TC => busy_out
-        --value=> internal_value
-    );
-    
     process (clk,rst) begin
         if(rst='0') then
-            internal_clk_out <= '1';
+            internal_clk_out <= '0';
         elsif(rising_edge(clk) AND internal_TC = '1') then
             internal_clk_out <= not internal_clk_out;
         end if;
     end process;
-    
-    -- If the internal_CE (the prescaler) is off then the nv_reg is never busy
-    busy<= internal_CE AND (not busy_out);
-    
     
 end Behavioral;
 
@@ -118,6 +97,7 @@ architecture Behavioral1 of nv_reg_emu is
     constant internal_prescaler_max_value : INTEGER := get_prescaler_value(input_clk=>MASTER_CLK_SPEED, output_clk=>NV_EMU_MAX_CLK);
     signal internal_CE: STD_LOGIC;
     signal internal_clk_out: STD_LOGIC;
+    signal busy: STD_LOGIC;
     
 begin
     --internal_prescaler_max_value <= get_prescaler_value(input_clk=>MASTER_CLK_SPEED, output_clk=>NV_EMU_MAX_CLK);

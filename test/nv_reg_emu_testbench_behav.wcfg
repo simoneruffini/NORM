@@ -3,79 +3,74 @@
    <wave_state>
    </wave_state>
    <db_ref_list>
-      <db_ref path="adder_testbench_behav.wdb" id="1">
+      <db_ref path="nv_reg_emu_testbench_behav.wdb" id="1">
          <top_modules>
-            <top_module name="adder_testbench" />
             <top_module name="common_package" />
+            <top_module name="nv_reg_emu_testbench" />
          </top_modules>
       </db_ref>
    </db_ref_list>
    <zoom_setting>
       <ZoomStartTime time="0fs"></ZoomStartTime>
-      <ZoomEndTime time="540848203fs"></ZoomEndTime>
-      <Cursor1Time time="50000000fs"></Cursor1Time>
+      <ZoomEndTime time="667515255fs"></ZoomEndTime>
+      <Cursor1Time time="145000000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="237"></NameColumnWidth>
-      <ValueColumnWidth column_width="134"></ValueColumnWidth>
+      <ValueColumnWidth column_width="130"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="9" />
-   <wvobject fp_name="/adder_testbench/MASTER_CLK" type="logic">
+   <WVObjectSize size="12" />
+   <wvobject fp_name="/nv_reg_emu_testbench/MASTER_CLK" type="logic">
       <obj_property name="ElementShortName">MASTER_CLK</obj_property>
       <obj_property name="ObjectShortName">MASTER_CLK</obj_property>
    </wvobject>
-   <wvobject fp_name="/adder_testbench/MASTER_RESETN" type="logic">
+   <wvobject fp_name="/nv_reg_emu_testbench/MASTER_RESETN" type="logic">
       <obj_property name="ElementShortName">MASTER_RESETN</obj_property>
       <obj_property name="ObjectShortName">MASTER_RESETN</obj_property>
    </wvobject>
-   <wvobject fp_name="group30" type="group">
-      <obj_property name="label">NV_REG</obj_property>
-      <obj_property name="DisplayName">label</obj_property>
-      <obj_property name="isExpanded"></obj_property>
-      <wvobject fp_name="/adder_testbench/nv_reg_busy" type="logic">
-         <obj_property name="ElementShortName">nv_reg_busy</obj_property>
-         <obj_property name="ObjectShortName">nv_reg_busy</obj_property>
-      </wvobject>
-      <wvobject fp_name="/adder_testbench/nv_reg_we" type="array">
-         <obj_property name="ElementShortName">nv_reg_we[3:0]</obj_property>
-         <obj_property name="ObjectShortName">nv_reg_we[3:0]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/adder_testbench/nv_reg_addr" type="array">
-         <obj_property name="ElementShortName">nv_reg_addr[31:0]</obj_property>
-         <obj_property name="ObjectShortName">nv_reg_addr[31:0]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/adder_testbench/nv_reg_din" type="array">
-         <obj_property name="ElementShortName">nv_reg_din[31:0]</obj_property>
-         <obj_property name="ObjectShortName">nv_reg_din[31:0]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/adder_testbench/nv_reg_dout" type="array">
-         <obj_property name="ElementShortName">nv_reg_dout[31:0]</obj_property>
-         <obj_property name="ObjectShortName">nv_reg_dout[31:0]</obj_property>
-      </wvobject>
+   <wvobject fp_name="/nv_reg_emu_testbench/FRAM_CLK" type="logic">
+      <obj_property name="ElementShortName">FRAM_CLK</obj_property>
+      <obj_property name="ObjectShortName">FRAM_CLK</obj_property>
    </wvobject>
-   <wvobject fp_name="/adder_testbench/thresh" type="array">
-      <obj_property name="ElementShortName">thresh[1:0]</obj_property>
-      <obj_property name="ObjectShortName">thresh[1:0]</obj_property>
+   <wvobject fp_name="/nv_reg_emu_testbench/FRAM_RESET" type="logic">
+      <obj_property name="ElementShortName">FRAM_RESET</obj_property>
+      <obj_property name="ObjectShortName">FRAM_RESET</obj_property>
+   </wvobject>
+   <wvobject fp_name="/nv_reg_emu_testbench/fram_enable" type="logic">
+      <obj_property name="ElementShortName">fram_enable</obj_property>
+      <obj_property name="ObjectShortName">fram_enable</obj_property>
+   </wvobject>
+   <wvobject fp_name="/nv_reg_emu_testbench/fram_rst_busy" type="logic">
+      <obj_property name="ElementShortName">fram_rst_busy</obj_property>
+      <obj_property name="ObjectShortName">fram_rst_busy</obj_property>
+   </wvobject>
+   <wvobject fp_name="/nv_reg_emu_testbench/fram_wrt_en" type="array">
+      <obj_property name="ElementShortName">fram_wrt_en[3:0]</obj_property>
+      <obj_property name="ObjectShortName">fram_wrt_en[3:0]</obj_property>
       <obj_property name="Radix">BINARYRADIX</obj_property>
    </wvobject>
-   <wvobject fp_name="/adder_testbench/FSM/value" type="other">
+   <wvobject fp_name="/nv_reg_emu_testbench/fram_addr" type="array">
+      <obj_property name="ElementShortName">fram_addr[31:0]</obj_property>
+      <obj_property name="ObjectShortName">fram_addr[31:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/nv_reg_emu_testbench/fram_din" type="array">
+      <obj_property name="ElementShortName">fram_din[31:0]</obj_property>
+      <obj_property name="ObjectShortName">fram_din[31:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/nv_reg_emu_testbench/fram_dout" type="array">
+      <obj_property name="ElementShortName">fram_dout[31:0]</obj_property>
+      <obj_property name="ObjectShortName">fram_dout[31:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/nv_reg_emu_testbench/value" type="other">
       <obj_property name="ElementShortName">value</obj_property>
       <obj_property name="ObjectShortName">value</obj_property>
    </wvobject>
-   <wvobject fp_name="/adder_testbench/FSM/is_data_retrived" type="logic">
-      <obj_property name="ElementShortName">is_data_retrived</obj_property>
-      <obj_property name="ObjectShortName">is_data_retrived</obj_property>
-   </wvobject>
-   <wvobject fp_name="/adder_testbench/FSM/is_data_saved" type="logic">
-      <obj_property name="ElementShortName">is_data_saved</obj_property>
-      <obj_property name="ObjectShortName">is_data_saved</obj_property>
-   </wvobject>
-   <wvobject fp_name="/adder_testbench/FSM/present_state" type="other">
-      <obj_property name="ElementShortName">present_state</obj_property>
-      <obj_property name="ObjectShortName">present_state</obj_property>
-   </wvobject>
-   <wvobject fp_name="/adder_testbench/FSM/future_state" type="other">
-      <obj_property name="ElementShortName">future_state</obj_property>
-      <obj_property name="ObjectShortName">future_state</obj_property>
+   <wvobject fp_name="/nv_reg_emu_testbench/addr" type="array">
+      <obj_property name="ElementShortName">addr[1:0]</obj_property>
+      <obj_property name="ObjectShortName">addr[1:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
 </wave_config>
