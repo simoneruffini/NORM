@@ -39,7 +39,7 @@ package COMMON_PACKAGE is
         constant MASTER_CLK_SPEED : INTEGER := 100000;
         constant MASTER_CLK_PERIOD_NS : INTEGER := (1e9/MASTER_CLK_SPEED);
 
-        constant FRAM_MAX_DELAY : INTEGER := MASTER_CLK_PERIOD_NS *4;
+        constant FRAM_MAX_DELAY_NS : INTEGER := MASTER_CLK_PERIOD_NS *4;
         
         pure function get_busy_counter_end_value(
             input_clk_period : INTEGER;  --in nannoseconds
