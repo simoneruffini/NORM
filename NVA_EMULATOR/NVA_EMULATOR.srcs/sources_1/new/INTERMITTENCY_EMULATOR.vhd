@@ -33,6 +33,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 use work.INTERMITTENCY_PKG.all;
 use work.GLOBAL_SETTINGS.all;
 
+
 entity INTERMITTENCY_EMULATOR is
     port(
         sys_clk             : in std_logic; 
@@ -83,7 +84,9 @@ architecture Behavioral of INTERMITTENCY_EMULATOR is
     signal ROM_addr     : integer range 0 to INTERMITTENCY_NUM_ELEMNTS_ROM - 1;
     signal ROM_data_out : integer range 0 to INTERMITTENCY_MAX_VAL_ROM_TRACE;
     
-    signal prescaler_clk    : std_logic; -- clock after prescaling
+    signal prescaler_clk        : std_logic; -- clock after prescaling
+    signal prescaler_clk_FF     : std_logic := '0';
+    signal counter_en           : std_logic := '0';
     
     signal TC_counter   : std_logic;
     
@@ -116,9 +119,9 @@ begin
             INCREASE_BY => 1
         )
         port map(
-            clk     => prescaler_clk,
+            clk     => sys_clk,
             INIT    => '0',
-            CE      => '1',
+            CE      => counter_en,
             TC      => TC_counter,
             value   => ROM_addr
         );
@@ -130,5 +133,18 @@ begin
     reset_emulator <= output_comparator(select_threshold);
     
     threshold_compared <= output_comparator;
+    
+    clk_sync : process(sys_clk) begin
+        if rising_edge(sys_clk) then
+            if (prescaler_clk /= prescaler_clk_FF) then
+                prescaler_clk_FF <= prescaler_clk;
+                if prescaler_clk = '1' then
+                    counter_en <= '1';
+                end if;
+            else
+                counter_en <= '0';
+            end if;
+        end if;
+    end process;
 
 end Behavioral;

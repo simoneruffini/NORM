@@ -1,7 +1,7 @@
 // Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
 // Tool Version: Vivado v.2020.1 (lin64) Build 2902540 Wed May 27 19:54:35 MDT 2020
-// Date        : Sun Jun 21 21:26:37 2020
+// Date        : Mon Jun 29 18:37:23 2020
 // Host        : luca-pc running 64-bit Manjaro Linux
 // Command     : write_verilog -force -mode synth_stub
 //               /home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.srcs/sources_1/ip/xbip_multadd_0/xbip_multadd_0_stub.v

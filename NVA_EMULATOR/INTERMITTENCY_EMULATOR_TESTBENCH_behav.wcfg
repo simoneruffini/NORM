@@ -12,15 +12,15 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="0fs"></ZoomStartTime>
-      <ZoomEndTime time="23140001fs"></ZoomEndTime>
-      <Cursor1Time time="13300000fs"></Cursor1Time>
+      <ZoomStartTime time="35750fs"></ZoomStartTime>
+      <ZoomEndTime time="331251fs"></ZoomEndTime>
+      <Cursor1Time time="85000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="285"></NameColumnWidth>
-      <ValueColumnWidth column_width="127"></ValueColumnWidth>
+      <ValueColumnWidth column_width="123"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="9" />
+   <WVObjectSize size="11" />
    <wvobject type="logic" fp_name="/INTERMITTENCY_EMULATOR_TESTBENCH/INTERMITTENCY_EMULATOR_1/sys_clk">
       <obj_property name="ElementShortName">sys_clk</obj_property>
       <obj_property name="ObjectShortName">sys_clk</obj_property>
@@ -61,5 +61,13 @@
    <wvobject type="logic" fp_name="/INTERMITTENCY_EMULATOR_TESTBENCH/INTERMITTENCY_EMULATOR_1/TC_counter">
       <obj_property name="ElementShortName">TC_counter</obj_property>
       <obj_property name="ObjectShortName">TC_counter</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/INTERMITTENCY_EMULATOR_TESTBENCH/INTERMITTENCY_EMULATOR_1/prescaler_clk_FF">
+      <obj_property name="ElementShortName">prescaler_clk_FF</obj_property>
+      <obj_property name="ObjectShortName">prescaler_clk_FF</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/INTERMITTENCY_EMULATOR_TESTBENCH/INTERMITTENCY_EMULATOR_1/counter_en">
+      <obj_property name="ElementShortName">counter_en</obj_property>
+      <obj_property name="ObjectShortName">counter_en</obj_property>
    </wvobject>
 </wave_config>

@@ -3,13 +3,13 @@
 # 
 # Vivado(TM)
 # runme.sh: a Vivado-generated Runs Script for UNIX
-# Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
+# Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 # 
 
 if [ -z "$PATH" ]; then
-  PATH=/home/luca/Software/Xilinx/Vivado/2019.2/ids_lite/ISE/bin/lin64:/home/luca/Software/Xilinx/Vivado/2019.2/bin
+  PATH=/opt/Xilinx/Vivado/2020.1/ids_lite/ISE/bin/lin64:/opt/Xilinx/Vivado/2020.1/bin
 else
-  PATH=/home/luca/Software/Xilinx/Vivado/2019.2/ids_lite/ISE/bin/lin64:/home/luca/Software/Xilinx/Vivado/2019.2/bin:$PATH
+  PATH=/opt/Xilinx/Vivado/2020.1/ids_lite/ISE/bin/lin64:/opt/Xilinx/Vivado/2020.1/bin:$PATH
 fi
 export PATH
 
