@@ -43,104 +43,117 @@ architecture Behavioral of nv_reg_emu_testbench is
 
     signal MASTER_CLK,MASTER_RESETN: STD_LOGIC;
     
-    signal FRAM_CLK, FRAM_RESET, FRAM_BUSY : STD_LOGIC;
-    
-    signal fram_enable,fram_rst_busy: STD_LOGIC;
-    signal fram_wrt_en : STD_LOGIC_VECTOR(3 DOWNTO 0);
-    signal fram_addr, fram_din, fram_dout : STD_LOGIC_VECTOR(31 DOWNTO 0);
-    
-    constant master_clk_period_t : time := (1e9/MASTER_CLK_SPEED) * 1 ns;
-    
-    signal value : INTEGER ;
-    signal addr : UNSIGNED (1 DOWNTO 0);
-    
-    COMPONENT blk_mem_gen_0 IS
-      PORT (
-        clka : IN STD_LOGIC;
-        rsta : IN STD_LOGIC;
-        ena : IN STD_LOGIC;
-        wea : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
-        addra : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-        dina : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-        douta : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
-        rsta_busy : OUT STD_LOGIC
-      );
-    END COMPONENT blk_mem_gen_0 ;
-    
+    signal busy_1,busy_sig_1,load_en_1: STD_LOGIC;
+    signal busy_2,busy_sig_2,load_en_2: STD_LOGIC;
+    signal busy_3,busy_sig_3,load_en_3: STD_LOGIC;
+      
+    constant em1_delay: INTEGER := FRAM_MAX_DELAY_NS;  
+    constant em2_delay: INTEGER := MASTER_CLK_PERIOD_NS*2;  
+    constant em3_delay: INTEGER := MASTER_CLK_PERIOD_NS;  
+
 begin
     
-    NV_REG_EMULATOR: entity work.nv_reg_emu(Behavioral)
+    NV_REG_EMULATOR_1: entity work.nv_reg_emu(Behavioral)
         generic map (
-            NV_EMU_MAX_CLK => MASTER_CLK_SPEED/4
+            MAX_DELAY => em1_delay
         )
         port map(
             clk     => MASTER_CLK , 
-            rst     => MASTER_RESETN,
-            clk_out => FRAM_CLK
+            resetN  => MASTER_RESETN,
+            load_en => load_en_1,
+            busy_sig=> busy_sig_1,
+            busy    => busy_1
         );
-        
-     FRAM : blk_mem_gen_0
-     port map(
-        clka        => FRAM_CLK,
-        rsta        => FRAM_RESET,
-        ena         => fram_enable, 
-        wea         => fram_wrt_en,
-        addra       => fram_addr,
-        dina        => fram_din,
-        douta       => fram_dout,
-        rsta_busy   => fram_rst_busy
-     );
+     NV_REG_EMULATOR_2: entity work.nv_reg_emu(Behavioral)
+        generic map (
+            MAX_DELAY => em2_delay
+        )
+        port map(
+            clk     => MASTER_CLK , 
+            resetN  => MASTER_RESETN,
+            load_en => load_en_2,
+            busy_sig=> busy_sig_2,
+            busy    => busy_2
+        );
+      NV_REG_EMULATOR_3: entity work.nv_reg_emu(Behavioral)
+        generic map (
+            MAX_DELAY => em3_delay
+        )
+        port map(
+            clk     => MASTER_CLK , 
+            resetN  => MASTER_RESETN,
+            load_en => load_en_3,
+            busy_sig=> busy_sig_3,
+            busy    => busy_3
+        );
+     
 
     CLK: process begin
         MASTER_CLK <= '0';
-        wait for master_clk_period_t/2;
+        wait for MASTER_CLK_PERIOD_NS/2 * 1ns;
         MASTER_CLK <= '1';
-        wait for master_clk_period_t/2;
+        wait for MASTER_CLK_PERIOD_NS/2 * 1ns;
     end process;
     
     RESET: process begin
         MASTER_RESETN <= '0';
-        wait for 5 * master_clk_period_t;
+        wait for 5 * MASTER_CLK_PERIOD_NS * 1ns;
         MASTER_RESETN <= '1';
         wait;
     end process;
     
-    FRAM_RESET <= NOT MASTER_RESETN;
+    TEST_1: process (MASTER_RESETN,MASTER_CLK) is
+    variable i: integer;
+    begin
+        if(MASTER_RESETN='0') then
+            i := 0;
+            load_en_1 <= '0';
+        elsif(rising_edge(MASTER_CLK)) then 
+            load_en_1 <= '0';
+            if(i > 3) then
+                load_en_1 <= '1';
+            elsif((busy_sig_1 = '0' and i < 4 and load_en_1 = '0' )or i=0) then
+                i := i +1;                
+                load_en_1 <= '1';
+            end if;
+         
+        end if;
+   end process;      
+   
+   TEST_2: process (MASTER_RESETN,MASTER_CLK) is
+    variable i: integer;
+    begin
+        if(MASTER_RESETN='0') then
+            i := 0;
+            load_en_2 <= '0';
+        elsif(rising_edge(MASTER_CLK)) then 
+            load_en_2 <= '0';
+            if(i > 3) then
+                load_en_2 <= '1';
+            elsif((busy_sig_2 = '0' and i < 4 and load_en_2 = '0' )or i=0) then
+                i := i +1;                
+                load_en_2 <= '1';
+            end if;
+         
+        end if;
+   end process;  
     
-    
-    TEST: process (MASTER_CLK, MASTER_RESETN, FRAM_CLK) begin
-        if(MASTER_RESETN = '0') then
-            fram_enable <= '0';
-            fram_wrt_en <= (others => '1');
-            fram_addr   <= (others => '0');
-            fram_din    <= (others => '0');
-            value       <= 1;
-            addr        <= (others => '0');
-            
-         else
- 
-             if(rising_edge(FRAM_CLK)) then
-                fram_enable <= '1';
-             end if;
- 
-             if(fram_rst_busy /= '1') then
-                
-                fram_wrt_en <= (others => '1');
-                if(falling_edge(FRAM_CLK)) then                
-                    fram_din <= std_logic_vector(to_unsigned(value,32));
-                    addr <= addr + 1;
-                    fram_addr <=  std_logic_vector(resize(addr,32));
-                 end if;
-                 
-                 if(rising_edge(MASTER_CLK)) then
-                    value <= value + 1;
-                 end if;
-            
-             else
-                fram_wrt_en <= (others => '0');
-             end if;
-  
-         end if;
-    end process;
+    TEST_3: process (MASTER_RESETN,MASTER_CLK) is
+    variable i: integer;
+    begin
+        if(MASTER_RESETN='0') then
+            i := 0;
+            load_en_3 <= '0';
+        elsif(rising_edge(MASTER_CLK)) then 
+            load_en_3 <= '0';
+            if(i > 3) then
+                load_en_3 <= '1';
+            elsif((busy_sig_3 = '0' and i < 4 and load_en_3 = '0' )or i=0) then
+                i := i +1;                
+                load_en_3 <= '1';
+            end if;
+         
+        end if;
+   end process;  
     
 end Behavioral;
