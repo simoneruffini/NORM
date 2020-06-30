@@ -21,6 +21,7 @@
 
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
+use ieee.math_real.all;
 
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
@@ -33,25 +34,31 @@ use IEEE.STD_LOGIC_1164.ALL;
 
 package COMMON_PACKAGE is
         type PWR_STATES_ARR_TYPE is array(natural range <>) of INTEGER;
-        constant NV_PRESCALER   : INTEGER := 4; -- TODO: move this value to the config package
+       
+        constant NV_REG_WIDTH: INTEGER := 4;
         constant MASTER_CLK_SPEED : INTEGER := 100000;
-        constant FRAM_MAX_SPEED : INTEGER := MASTER_CLK_SPEED /4; --to be removed
-        pure function get_prescaler_value(
-            input_clk : INTEGER;
-            output_clk: INTEGER
+        constant MASTER_CLK_PERIOD_NS : INTEGER := (1e9/MASTER_CLK_SPEED);
+
+        constant FRAM_MAX_DELAY_NS : INTEGER := MASTER_CLK_PERIOD_NS *4;
+        
+        pure function get_busy_counter_end_value(
+            input_clk_period : INTEGER;  --in nannoseconds
+            max_delay_time: INTEGER  --in nannoseconds
         ) return INTEGER;
 end package;
 
 package body COMMON_PACKAGE is 
-    pure function get_prescaler_value(
-            input_clk : INTEGER;
-            output_clk: INTEGER
+    pure function get_busy_counter_end_value(
+            input_clk_period : INTEGER;
+            max_delay_time: INTEGER 
         ) return INTEGER is
     begin
-        if(output_clk > input_clk) then 
-            return 1;
+        assert (max_delay_time > 0)
+            report "nv_reg dealy time = 0" severity Failure;
+        if(max_delay_time <= input_clk_period) then--if the fram is as fast as the clk or faster 
+            return 0; --then nothing to do 
         else
-            return  (input_clk/output_clk)/2;
+            return  integer(ceil(real(max_delay_time)/real(input_clk_period))) - 1; --return the uper bound if the delay is grather then the clk period
         end if;
     end function;
 end package body COMMON_PACKAGE;
