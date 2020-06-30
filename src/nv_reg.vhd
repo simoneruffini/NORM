@@ -57,7 +57,6 @@ architecture Behavioral of nv_reg is
     signal rstn: STD_LOGIC;
     ------------------------------------------------------------------------------------------------
     ------------------------------------BRAM_SIGNALS------------------------------------------------
-    signal bram_clk        :STD_LOGIC;
     signal bram_en         :STD_LOGIC;                     
     signal bram_we         :STD_LOGIC_VECTOR(3 DOWNTO 0);  
     signal bram_addr      :STD_LOGIC_VECTOR(31 DOWNTO 0); 
@@ -86,7 +85,7 @@ begin
 
     BRAM: blk_mem_gen_0
     Port map (
-        clka        =>bram_clk,
+        clka        =>clk,
         ena         =>bram_en,
         wea         =>bram_we,
         addra       =>bram_addr,
@@ -106,31 +105,25 @@ begin
         busy    =>busy
     );
     
-    PWR_RSTN: process(power_resetN,resetN) is
-    begin
-        if(resetN ='0') then
-            rstN <= '0';
-            bram_en <= bram_en_rst;
-            bram_we <= bram_we_rst;
-            bram_addr <= bram_addr_rst;
-            bram_din <=bram_din_rst;
-            dout <= bram_dout;
-        elsif(power_resetN = '0') then
-            rstN <= '0';
-            bram_en <= '0';
-            bram_we <= (OTHERS => '0');
-            bram_addr <= (OTHERS => '0');
-            bram_din <=(OTHERS => '0');
-            dout <= (OTHERS => '0');
-        else
-            rstN <= resetN; 
-            bram_en <= en;
-            bram_we <= we;
-            bram_addr <= addr;
-            bram_din <= din;
-            dout <= bram_dout;       
-        end if;
-    end process;
+    
+    rstN <= '0' when resetN = '0' else
+            '0' when power_resetN = '0' else
+            resetN;
+    bram_en <= bram_en_rst when resetN = '0' else
+            '0' when power_resetN = '0' else
+            en;
+    bram_we <= bram_we_rst when resetN = '0' else
+            (OTHERS => '0') when power_resetN = '0' else
+            we;
+    bram_addr <= bram_addr_rst when resetN = '0' else
+            (OTHERS => '0') when power_resetN = '0' else
+            addr;
+    bram_din <= bram_din_rst when resetN = '0' else
+            (OTHERS => '0') when power_resetN = '0' else
+            din;
+    dout <= bram_dout when resetN = '0' else
+            (OTHERS => '0') when power_resetN = '0' else
+            bram_dout;
     
     RST_BRAM: process(clk) is --the reset is syncronous
     variable counter : INTEGER RANGE 0 TO (NV_REG_WIDTH -1);
@@ -139,9 +132,9 @@ begin
             if(resetN = '0') then
                 bram_en_rst <= '1';
                 bram_we_rst <= (OTHERS => '1');
-                bram_addr_rst <= std_logic_vector(to_unsigned(counter - 1,32));
+                bram_addr_rst <= std_logic_vector(to_unsigned(counter,32));
                 bram_din_rst <= (OTHERS => '0');
-                if(counter < NV_REG_WIDTH) then
+                if(counter < NV_REG_WIDTH -1) then
                     counter := counter +1;
                 end if;
             else
