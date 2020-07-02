@@ -32,7 +32,7 @@ use IEEE.NUMERIC_STD.ALL;
 --use UNISIM.VComponents.all;
 
 use work.COMMON_PACKAGE.all;
-use work.ARCHITECTURE_PACKAGE.all;
+use work.TEST_MODULE_PACKAGE.all;
 
 entity fsm_nv_reg is
     port ( 

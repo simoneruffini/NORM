@@ -74,7 +74,7 @@ architecture Behavioral of nv_reg is
     signal bram_din_rst        :STD_LOGIC_VECTOR(31 DOWNTO 0):= (OTHERS => '0'); 
     ------------------------------------------------------------------------------------------------
 
-    COMPONENT blk_mem_gen_0 IS
+    COMPONENT blk_mem_gen_1 IS
     PORT (
         clka : IN STD_LOGIC;
         ena : IN STD_LOGIC;
@@ -83,11 +83,11 @@ architecture Behavioral of nv_reg is
         dina : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
         douta : OUT STD_LOGIC_VECTOR(31 DOWNTO 0)
       );
-    END COMPONENT blk_mem_gen_0;
+    END COMPONENT blk_mem_gen_1;
     
 begin
 
-    BRAM: blk_mem_gen_0
+    BRAM: blk_mem_gen_1
     Port map (
         clka        =>clk,
         ena         =>bram_en,

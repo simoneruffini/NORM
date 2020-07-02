@@ -26,25 +26,31 @@ use IEEE.STD_LOGIC_1164.ALL;
 -- arithmetic functions with Signed or Unsigned values
 use IEEE.NUMERIC_STD.ALL;
 
+use IEEE.MATH_REAL.ALL;
 -- Uncomment the following library declaration if instantiating
 -- any Xilinx leaf cells in this code.
 --library UNISIM;
 --use UNISIM.VComponents.all;
+
 use work.GLOBAL_SETTINGS.all;
 use work.NV_REG_EMULATOR_PKG.all;
+use work.COMMON_PACKAGE.all;
+use work.TEST_MODULE_PACKAGE.all;
+
 entity adder is    
     port(
         sys_clk             : in std_logic;
         resetN              : in std_logic;
-        BRAM_enb            : in std_logic;
-        BRAM_addrb          : in std_logic_vector(15 downto 0);
-        BRAM_doutb          : out std_logic_vector(63 downto 0);
-        recovery_start_addr : out std_logic_vector(15 downto 0); 
-        recovery_num_data   : out integer;
-        recovery_FRAM_state : in recovery_data_fsm_type;
-        recovery_data       : in std_logic_vector(63 downto 0);
-        recovery_counter    : in std_logic_vector(15 downto 0);
-        recovery_start      : in std_logic  
+        fsm_status          : in fsm_nv_reg_state_t;
+        task_status         : out STD_LOGIC;
+        nv_reg_en           : out STD_LOGIC;
+        nv_reg_busy         : in STD_LOGIC;
+        nv_reg_busy_sig     : in STD_LOGIC; 
+        nv_reg_we           : out STD_LOGIC_VECTOR( 0 DOWNTO 0);  
+        nv_reg_addr         : out STD_LOGIC_VECTOR(nv_reg_addr_width_bit-1 DOWNTO 0);
+        nv_reg_din          : out STD_LOGIC_VECTOR( 31 DOWNTO 0);
+        nv_reg_dout         : in STD_LOGIC_VECTOR( 31 DOWNTO 0);       
+        recovery_start      : in std_logic  --da togliere
     );
 end adder;
 
@@ -56,27 +62,32 @@ architecture Behavioral of adder is
             ena     : in std_logic;
             wea     : in std_logic_vector(0 downto 0);
             addra   : in std_logic_vector(15 downto 0);
-            dina    : in std_logic_vector(63 downto 0);
-            douta   : out std_logic_vector(63 downto 0);
+            dina    : in std_logic_vector(31 downto 0);
+            douta   : out std_logic_vector(31 downto 0);
             clkb    : in std_logic;
             enb     : in std_logic;
             web     : in std_logic_vector(0 downto 0);
             addrb   : in std_logic_vector(15 downto 0);
-            dinb    : in std_logic_vector(63 downto 0);
-            doutb   : out std_logic_vector(63 downto 0)
+            dinb    : in std_logic_vector(31 downto 0);
+            doutb   : out std_logic_vector(31 downto 0)
         );
     END COMPONENT;
     
+    -------------------------------BRAM_SIGNALS--------------------------------------------
     signal clka     : std_logic;
     signal ena      : std_logic;
     signal wea      : std_logic_vector(0 downto 0);
     signal addra    : std_logic_vector(15 downto 0);
-    signal dina     : std_logic_vector(63 downto 0);
-    signal douta    : std_logic_vector(63 downto 0);
+    signal dina     : std_logic_vector(31 downto 0);
+    signal douta    : std_logic_vector(31 downto 0);
     signal clkb     : std_logic;
+    signal enb      : std_logic;
     signal web      : std_logic_vector(0 downto 0) := "0";
-    signal dinb     : std_logic_vector(63 downto 0) := (others =>'0');
-    
+    signal addrb    : std_logic_vector(15 downto 0);
+    signal dinb     : std_logic_vector(31 downto 0) := (others =>'0');
+    signal doutb    : std_logic_vector(31 downto 0);
+    --------------------------------------------------------------------------------------
+    -------------------------------ADDR_SIGNALS-------------------------------------------
     type control_fsm is(
         reset_state,
         loading_state,
@@ -86,11 +97,37 @@ architecture Behavioral of adder is
         recovery_fsm_state
     );    
     signal present_state, future_state : control_fsm := reset_state;
-   
-    constant num_data_to_recover : integer := 1;
-    signal recovery_start_addr_signal : std_logic_vector(15 downto 0) := (others => '0');
-    signal counter : std_logic_vector(63 downto 0) := (others => '0');
-    
+    --------------------------------------------------------------------------------------
+    -------------------------------ADDER_SIGNALS------------------------------------------
+    signal adder_value : std_logic_vector(63 downto 0) := (others => '0');
+--    constant bram_addr_width_bit : INTEGER := 16;
+--    constant BRAM_WIDTH: INTEGER := 65536; --2**bram_addr_width
+    --------------------------------------------------------------------------------------
+    -------------------------------DATA_REC_SIGNALS---------------------------------------  
+    signal data_rec_busy: STD_LOGIC;
+    signal data_rec_nv_reg_en: STD_LOGIC;  
+    signal data_rec_nv_reg_we: STD_LOGIC_VECTOR( 0 DOWNTO 0);  
+    signal data_rec_nv_reg_din: STD_LOGIC_VECTOR( 31 DOWNTO 0);
+    signal data_rec_nv_reg_addr : STD_LOGIC_VECTOR(nv_reg_addr_width_bit-1 DOWNTO 0);    
+    --------------------------------------------------------------------------------------
+    -------------------------------SAVE_SIGNALS------------------------------------------- 
+    signal data_save_busy: STD_LOGIC;
+    signal data_save_nv_reg_en: STD_LOGIC;
+    signal data_save_nv_reg_we: STD_LOGIC_VECTOR( 0 DOWNTO 0);
+    signal data_save_nv_reg_din: STD_LOGIC_VECTOR( 31 DOWNTO 0);
+    signal data_save_nv_reg_addr : STD_LOGIC_VECTOR(nv_reg_addr_width_bit-1 DOWNTO 0);   
+    --------------------------------------------------------------------------------------
+--------------------------------------------------DATA_REC_PROC-------------------------------------------------------------------
+    signal data_rec_nv_reg_start_addr: STD_LOGIC_VECTOR(nv_reg_addr_width_bit-1 DOWNTO 0);
+    signal data_rec_offset: INTEGER RANGE 0 TO NV_REG_WIDTH-1;
+    signal data_rec_recovered_data : STD_LOGIC_VECTOR( 31 DOWNTO 0);
+    signal data_rec_recovered_offset: INTEGER RANGE 0 TO NV_REG_WIDTH -1;
+    -------------------------------COUNTER_SIGNALS----------------------------------------
+    signal var_cntr_clk,var_cntr_init,var_cntr_ce,var_cntr_tc: STD_LOGIC;
+    signal var_cntr_value, var_cntr_end_value: INTEGER;
+    --------------------------------------------------------------------------------------   
+--------------------------------------------------DATA_SAVE_PROC-------------------------------------------------------------------
+  
 begin
     
     blk_mem_gen_0_1 : blk_mem_gen_0
@@ -102,19 +139,18 @@ begin
         dina    => dina,
         douta   => douta,
         clkb    => clkb,
-        enb     => BRAM_enb,
+        enb     => enb,
         web     => web,
-        addrb   => BRAM_addrb,
+        addrb   => addrb,
         dinb    => dinb,
-        doutb   => BRAM_doutb
+        doutb   => doutb
     );
     
     clka <= sys_clk;
     clkb <= sys_clk;
-    recovery_num_data <= num_data_to_recover;
-    recovery_start_addr <= recovery_start_addr_signal;
     
-    control_fsm_seq : process(sys_clk, resetN) begin
+    
+    ADDR_FSM_SEQ : process(sys_clk, resetN) begin
         if resetN = '0' then
             present_state <= reset_state;
         elsif rising_edge(sys_clk) then
@@ -122,7 +158,7 @@ begin
         end if;    
     end process;
     
-    control_fsm_comb : process(present_state, recovery_counter, recovery_start, recovery_FRAM_state, counter) begin
+    ADDR_FSM_CMB : process(present_state, data_rec_recovered_offset, recovery_start, fsm_status, adder_value) begin
         
         ena <= '0';
         wea <= (others => '0'); 
@@ -132,15 +168,15 @@ begin
         
         case present_state is
             when reset_state =>
-                if recovery_FRAM_state = recovery_state then
+                if fsm_status = recovery_state then
                     future_state <= loading_state;         
                 end if;     
             when loading_state =>
                 ena <= '1';
                 wea <= "1";
-                addra <= std_logic_vector(unsigned(recovery_counter) + unsigned(recovery_start_addr_signal));
-                dina <= recovery_data;
-                if recovery_FRAM_state = data_recovered_state then
+                addra <= std_logic_vector(unsigned(data_rec_recovered_offset) + unsigned(data_rec_nv_reg_start_addr));
+                dina <= data_rec_recovered_data;
+                if fsm_status = data_recovered_state then
                     future_state <= read_state;
                 end if;
             when read_state =>
@@ -163,7 +199,7 @@ begin
                 else
                     wea <= "1";
                     ena <= '1';
-                    dina <= counter;
+                    dina <= adder_value;
                     future_state <= read_state;
                 end if;                                
             when recovery_fsm_state =>
@@ -176,12 +212,120 @@ begin
     
     add_process : process(sys_clk, resetN) begin
         if resetN = '0' then
-            counter <= (others => '0');
+            adder_value <= (others => '0');
         elsif rising_edge(sys_clk) then
             if present_state = wait_state_1 then
-                counter <= std_logic_vector(unsigned(douta) + 1);
+                adder_value <= std_logic_vector(unsigned(douta) + 1);
             end if;
         end if;
     end process;
+    
+    nv_reg_en   <=  data_rec_nv_reg_en      when data_rec_busy = '1'    else
+                    data_save_nv_reg_en     when data_save_busy = '1'   else
+                    '0';
+    nv_reg_we   <=  data_rec_nv_reg_we      when data_rec_busy = '1'    else
+                    data_save_nv_reg_we     when data_save_busy = '1'   else
+                    (others => '0');
+    nv_reg_addr <=  data_rec_nv_reg_addr    when data_rec_busy = '1'    else
+                    data_save_nv_reg_addr   when data_save_busy = '1'   else
+                    (others => '0');
+                    
+    nv_reg_din  <=  data_rec_nv_reg_din     when data_rec_busy = '1'    else
+                    data_save_nv_reg_din    when data_save_busy = '1'   else
+                    (others => '0');
+      
+    TASK_STATUS_CNTRL: process (data_rec_busy,data_save_busy) is
+    begin
+         if(data_rec_busy = '0' AND data_save_busy = '0') then
+            task_status <= '0';
+         else
+            task_status <= '1';
+         end if;
+    end process;
+------------------------------------------------DATA_REC-------------------------------------------------------------------
+
+    -- Default values    
+    data_rec_nv_reg_we <= (OTHERS => '0');
+    data_rec_nv_reg_din <= (OTHERS => '0');
+    -----------------
+    
+    DATA_REC: process(resetN,sys_clk) is
+    begin
+        if(resetN = '0') then
+            data_rec_busy <= '0';
+            data_rec_nv_reg_en <= '0';
+            
+        elsif(rising_edge(sys_clk)) then
+            if(fsm_status = start_data_recovery_s) then
+                data_rec_busy <= '1';
+                data_rec_nv_reg_en <= '1';  
+            elsif(var_cntr_tc = '1') then
+                data_rec_busy <= '0';
+                data_rec_nv_reg_en <= '0';
+            end if; 
+        end if;
+    end process DATA_REC;
+    
+    var_cntr_ce <= data_rec_busy;
+    var_cntr_init <= not data_rec_busy;
+    
+    DATA_REC_OUT_CNTRL: process(var_cntr_value,data_rec_busy) is
+        variable offset_last : INTEGER RANGE 0 TO NV_REG_WIDTH-1;
+        variable recovered_data_last: STD_LOGIC_VECTOR(31 DOWNTO 0);
+    begin
+        if(data_rec_busy = '1') then
+            if(var_cntr_value <= data_rec_offset) then 
+                data_rec_nv_reg_addr <= std_logic_vector(   unsigned(data_rec_nv_reg_start_addr) 
+                                                            + to_unsigned(var_cntr_value,nv_reg_addr_width_bit)
+                                                         ); 
+                data_rec_recovered_offset <= offset_last;
+                data_rec_recovered_data <= nv_reg_dout;
+--                data_rec_recovered_data <= recovered_data_last;
+                offset_last :=var_cntr_value;
+--                recovered_data_last := nv_reg_dout;
+            end if;
+        else
+            offset_last := 0;
+            recovered_data_last := (OTHERS => '0');
+            data_rec_nv_reg_addr <= data_rec_nv_reg_start_addr;
+            data_rec_recovered_offset <= 0;
+            data_rec_recovered_data <= (OTHERS => '0');
+        end if;
+    end process DATA_REC_OUT_CNTRL;
+    
+    
+    
+    var_cntr_end_value <= data_rec_offset +1; -- the plus one is dependent on the ram (our Bram has a 1 clk delay)
+    VAR_CNTR_CLK_GEN: process(sys_clk,data_rec_nv_reg_en) is
+    begin
+        if(data_rec_nv_reg_en = '0') then
+            var_cntr_clk <= '1';
+        elsif(rising_edge(sys_clk)) then
+            var_cntr_clk <= '0';
+            if(nv_reg_busy_sig = '0' and var_cntr_clk /='1' ) then
+                var_cntr_clk <= '1';
+            end if;
+        end if;
+    end process VAR_CNTR_CLK_GEN;
+    
+    VAR_CNTR: entity work.variable_counter(Behavioral) 
+    Generic map(
+        MAX         => NV_REG_WIDTH+2,
+        INIT_VALUE  => NV_REG_WIDTH+2,
+        INCREASE_BY => 1
+    )              
+    Port map(          
+        clk         => var_cntr_clk,
+        resetn      => resetN,
+        INIT        => var_cntr_init,
+        CE          => var_cntr_ce,
+        end_value   => var_cntr_end_value, 
+        TC          => var_cntr_tc,
+        value       => var_cntr_value
+    );
+    --------------------------------------------------D_SAVE-------------------------------------------------------------------
+    
+    data_save_busy <='0';
+    
     
 end Behavioral;

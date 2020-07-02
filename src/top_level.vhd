@@ -36,7 +36,7 @@ use work.INTERMITTENCY_PKG.all;
 use work.GLOBAL_SETTINGS.all;
 use work.NV_REG_EMULATOR_PKG.all;
 use work.COMMON_PACKAGE.all;
-use work.ARCHITECTURE_PACKAGE.all;
+use work.TEST_MODULE_PACKAGE.all;
 
 entity top_level is
     port(
@@ -105,6 +105,10 @@ architecture Behavioral of top_level is
     end component;
     
     component nv_reg is
+        generic(
+            MAX_DELAY_NS: INTEGER;
+            NV_REG_WIDTH: INTEGER
+        );
         port ( 
             clk         : in STD_LOGIC;
             resetN      : in STD_LOGIC;
@@ -233,9 +237,12 @@ begin
         status          => fsm_nv_reg_status,
         status_sig      => fsm_nv_reg_status_sig
     );
-    
-    
-    NV_REG_1 : nv_reg 
+
+    NV_REG_1 : nv_reg
+    generic map(
+        MAX_DELAY_NS => FRAM_MAX_DELAY_NS,
+        NV_REG_WIDTH => NV_REG_WIDTH
+    ) 
     port map(
         clk             => sys_clk,
         resetN          => resetN,

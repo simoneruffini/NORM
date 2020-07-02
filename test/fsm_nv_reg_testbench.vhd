@@ -31,7 +31,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 use work.COMMON_PACKAGE.all;
-use work.ARCHITECTURE_PACKAGE.all;
+use work.TEST_MODULE_PACKAGE.all;
 
 entity fsm_nv_reg_testbench is
 --  Port ( );

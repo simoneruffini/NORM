@@ -51,36 +51,8 @@ package NV_REG_EMULATOR_PKG is
     );
 end package NV_REG_EMULATOR_PKG;
 
-package ARCHITECTURE_PACKAGE is
-    type fsm_nv_reg_state_t is(
-        shutdown_s,
-        init_s,
-        start_data_recovery_s,
-        recovery_s,
-        data_recovered_s,
-        do_operation_s,
-        start_data_save_s,
-        data_save_s,
-        data_saved_s
-        );
-        
-    type threshold_t is(
-        hazard,
-        waring,
-        nothing
-    );
-    
-end package;
-
 package COMMON_PACKAGE is
         type PWR_STATES_ARR_TYPE is array(natural range <>) of INTEGER;
-       
-        constant NV_REG_WIDTH: INTEGER := 4;
-        constant MASTER_CLK_SPEED : INTEGER := 100000;
-        constant MASTER_CLK_PERIOD_NS : INTEGER := (1e9/MASTER_CLK_SPEED);
-
-        constant FRAM_MAX_DELAY_NS : INTEGER := MASTER_CLK_PERIOD_NS *4;
-        
         pure function get_busy_counter_end_value(
             input_clk_period : INTEGER;  --in nannoseconds
             max_delay_time: INTEGER  --in nannoseconds
