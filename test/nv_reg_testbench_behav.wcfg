@@ -11,13 +11,13 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="341000000fs"></ZoomStartTime>
-      <ZoomEndTime time="521000001fs"></ZoomEndTime>
-      <Cursor1Time time="425000000fs"></Cursor1Time>
+      <ZoomStartTime time="994333333fs"></ZoomStartTime>
+      <ZoomEndTime time="1332333334fs"></ZoomEndTime>
+      <Cursor1Time time="1135000100fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="237"></NameColumnWidth>
-      <ValueColumnWidth column_width="122"></ValueColumnWidth>
+      <ValueColumnWidth column_width="118"></ValueColumnWidth>
    </column_width_setting>
    <WVObjectSize size="10" />
    <wvobject fp_name="/nv_reg_testbench/MASTER_CLK" type="logic">
@@ -55,12 +55,13 @@
          <obj_property name="ObjectShortName">bram_en</obj_property>
       </wvobject>
       <wvobject fp_name="/nv_reg_testbench/NV_REG_1/bram_we" type="array">
-         <obj_property name="ElementShortName">bram_we[3:0]</obj_property>
-         <obj_property name="ObjectShortName">bram_we[3:0]</obj_property>
+         <obj_property name="ElementShortName">bram_we[0:0]</obj_property>
+         <obj_property name="ObjectShortName">bram_we[0:0]</obj_property>
       </wvobject>
       <wvobject fp_name="/nv_reg_testbench/NV_REG_1/bram_addr" type="array">
-         <obj_property name="ElementShortName">bram_addr[31:0]</obj_property>
-         <obj_property name="ObjectShortName">bram_addr[31:0]</obj_property>
+         <obj_property name="ElementShortName">bram_addr[3:0]</obj_property>
+         <obj_property name="ObjectShortName">bram_addr[3:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       </wvobject>
       <wvobject fp_name="/nv_reg_testbench/NV_REG_1/bram_din" type="array">
          <obj_property name="ElementShortName">bram_din[31:0]</obj_property>
@@ -79,12 +80,12 @@
          <obj_property name="ObjectShortName">bram_en_rst</obj_property>
       </wvobject>
       <wvobject fp_name="/nv_reg_testbench/NV_REG_1/bram_we_rst" type="array">
-         <obj_property name="ElementShortName">bram_we_rst[3:0]</obj_property>
-         <obj_property name="ObjectShortName">bram_we_rst[3:0]</obj_property>
+         <obj_property name="ElementShortName">bram_we_rst[0:0]</obj_property>
+         <obj_property name="ObjectShortName">bram_we_rst[0:0]</obj_property>
       </wvobject>
       <wvobject fp_name="/nv_reg_testbench/NV_REG_1/bram_addr_rst" type="array">
-         <obj_property name="ElementShortName">bram_addr_rst[31:0]</obj_property>
-         <obj_property name="ObjectShortName">bram_addr_rst[31:0]</obj_property>
+         <obj_property name="ElementShortName">bram_addr_rst[3:0]</obj_property>
+         <obj_property name="ObjectShortName">bram_addr_rst[3:0]</obj_property>
       </wvobject>
       <wvobject fp_name="/nv_reg_testbench/NV_REG_1/bram_din_rst" type="array">
          <obj_property name="ElementShortName">bram_din_rst[31:0]</obj_property>
