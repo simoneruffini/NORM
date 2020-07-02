@@ -35,7 +35,7 @@ use ieee.math_real.all;
 package COMMON_PACKAGE is
         type PWR_STATES_ARR_TYPE is array(natural range <>) of INTEGER;
        
-        constant NV_REG_WIDTH: INTEGER := 4;
+        constant NV_REG_WIDTH: INTEGER := 16;
         constant MASTER_CLK_SPEED : INTEGER := 100000;
         constant MASTER_CLK_PERIOD_NS : INTEGER := (1e9/MASTER_CLK_SPEED);
 

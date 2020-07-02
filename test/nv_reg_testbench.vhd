@@ -21,16 +21,19 @@
 
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
-use work.COMMON_PACKAGE.all;
 
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
 use IEEE.NUMERIC_STD.ALL;
 
+use IEEE.math_real.all;
+
 -- Uncomment the following library declaration if instantiating
 -- any Xilinx leaf cells in this code.
 --library UNISIM;
 --use UNISIM.VComponents.all;
+use work.COMMON_PACKAGE.all;
+
 
 entity nv_reg_testbench is
 --  Port ( );
@@ -39,27 +42,31 @@ end nv_reg_testbench;
 architecture Behavioral of nv_reg_testbench is
     signal MASTER_CLK,MASTER_RESETN,power_resetN: STD_LOGIC;
     
+    ------------------------------------NV_REG_CNST-------------------------------------------------
+    constant bram_addr_width_bit : INTEGER := integer(ceil(log2(real(NV_REG_WIDTH))));
+    ------------------------------------------------------------------------------------------------
     ------------------------------------NV_REG_SIGNALS----------------------------------------------
-    signal busy,busy_sig,load_en: STD_LOGIC;
-    signal nv_reg_en         :STD_LOGIC;                     
-    signal nv_reg_we         :STD_LOGIC_VECTOR(3 DOWNTO 0);  
-    signal nv_reg_addr      :STD_LOGIC_VECTOR(31 DOWNTO 0); 
-    signal nv_reg_din        :STD_LOGIC_VECTOR(31 DOWNTO 0); 
-    signal nv_reg_dout       :STD_LOGIC_VECTOR(31 DOWNTO 0);  
-    constant bram_width : INTEGER := 4;
+    signal busy,busy_sig    :STD_LOGIC;
+    signal load_en          :STD_LOGIC := '0';
+    signal nv_reg_en        :STD_LOGIC := '0';                     
+    signal nv_reg_we        :STD_LOGIC_VECTOR(0 DOWNTO 0) := (OTHERS => '0');  
+    signal nv_reg_addr      :STD_LOGIC_VECTOR(bram_addr_width_bit-1 DOWNTO 0) ; 
+    signal nv_reg_din       :STD_LOGIC_VECTOR(31 DOWNTO 0); 
+    signal nv_reg_dout      :STD_LOGIC_VECTOR(31 DOWNTO 0);  
+    constant bram_width     : INTEGER := NV_REG_WIDTH;
     ------------------------------------------------------------------------------------------------
     ------------------------------------CNTR_1_SIGNALS----------------------------------------------
-    signal cntr_ce, cntr_clk, cntr_init,cntr_tc : STD_LOGIC;
+    signal cntr_ce, cntr_init : STD_LOGIC := '0';
+    signal cntr_clk, cntr_tc : STD_LOGIC;
     signal cntr_value: INTEGER;
     constant cntr_max_val : INTEGER := 20;
-    
     ------------------------------------------------------------------------------------------------
 
 begin
     NV_REG_1: entity work.nv_reg(Behavioral) 
     Generic map(
         MAX_DELAY   => FRAM_MAX_DELAY_NS,
-        NV_REG_WIDTH=> bram_width
+        NV_REG_WIDTH=> NV_REG_WIDTH
     )
     Port map(       
         clk         => MASTER_CLK,
@@ -86,11 +93,11 @@ begin
     RESET: process begin
         MASTER_RESETN <= '0';
         power_resetN <= '0';
-        wait for 10 * MASTER_CLK_PERIOD_NS * 1ns;
+        wait for 20 * MASTER_CLK_PERIOD_NS * 1ns;
         power_resetN <='1';
         MASTER_RESETN <= '1';
         wait for 10 * MASTER_CLK_PERIOD_NS * 1ns;
-        --power_resetN <='0';
+        power_resetN <='0';
         wait for 5 * MASTER_CLK_PERIOD_NS * 1ns;
         power_resetN <= '1';
         wait;
@@ -127,7 +134,7 @@ begin
         end if;
     end process; 
     
-    nv_reg_addr <= std_logic_vector(to_unsigned(cntr_value mod bram_width,32));  
+    nv_reg_addr <= std_logic_vector(to_unsigned(cntr_value mod bram_width,bram_addr_width_bit));  
     nv_reg_din <= std_logic_vector(to_unsigned(cntr_value +1 ,32));
     
     cntr_clk <= not busy;

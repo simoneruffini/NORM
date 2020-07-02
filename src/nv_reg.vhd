@@ -26,6 +26,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 -- arithmetic functions with Signed or Unsigned values
 use IEEE.NUMERIC_STD.ALL;
 
+use IEEE.math_real.all;
 -- Uncomment the following library declaration if instantiating
 -- any Xilinx leaf cells in this code.
 --library UNISIM;
@@ -45,8 +46,8 @@ entity nv_reg is
         busy        : out STD_LOGIC;
         --------------------------- 
         en          : in STD_LOGIC;
-        we          : in STD_LOGIC_VECTOR(3 DOWNTO 0);
-        addr        : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+        we          : in STD_LOGIC_VECTOR(0 DOWNTO 0);
+        addr        : in STD_LOGIC_VECTOR(3 DOWNTO 0);
         din         : in STD_LOGIC_VECTOR(31 DOWNTO 0);
         dout        : out STD_LOGIC_VECTOR(31 DOWNTO 0)
     );
@@ -56,26 +57,29 @@ architecture Behavioral of nv_reg is
     ------------------------------------NV_REG_EMU_SIGNALS------------------------------------------
     signal rstn: STD_LOGIC;
     ------------------------------------------------------------------------------------------------
-    ------------------------------------BRAM_SIGNALS------------------------------------------------
-    signal bram_en         :STD_LOGIC;                     
-    signal bram_we         :STD_LOGIC_VECTOR(3 DOWNTO 0);  
-    signal bram_addr      :STD_LOGIC_VECTOR(31 DOWNTO 0); 
-    signal bram_din        :STD_LOGIC_VECTOR(31 DOWNTO 0); 
-    signal bram_dout       :STD_LOGIC_VECTOR(31 DOWNTO 0);                
+    ------------------------------------NV_REG_CNST-------------------------------------------------
+    constant bram_addr_width_bit : INTEGER := integer(ceil(log2(real(NV_REG_WIDTH))));
     ------------------------------------------------------------------------------------------------
-    ------------------------------------RESET_SIGNALS------------------------------------------------
-    signal bram_en_rst         :STD_LOGIC;                     
-    signal bram_we_rst         :STD_LOGIC_VECTOR(3 DOWNTO 0);  
-    signal bram_addr_rst       :STD_LOGIC_VECTOR(31 DOWNTO 0); 
-    signal bram_din_rst        :STD_LOGIC_VECTOR(31 DOWNTO 0); 
+    ------------------------------------BRAM_SIGNALS------------------------------------------------
+    signal bram_en  :STD_LOGIC;                     
+    signal bram_we  :STD_LOGIC_VECTOR(0 DOWNTO 0);  
+    signal bram_addr:STD_LOGIC_VECTOR(bram_addr_width_bit-1 DOWNTO 0); 
+    signal bram_din :STD_LOGIC_VECTOR(31 DOWNTO 0); 
+    signal bram_dout:STD_LOGIC_VECTOR(31 DOWNTO 0);                
+    ------------------------------------------------------------------------------------------------   
+    ------------------------------------RESET_SIGNALS-----------------------------------------------
+    signal bram_en_rst         :STD_LOGIC := '0';                     
+    signal bram_we_rst         :STD_LOGIC_VECTOR(0 DOWNTO 0) := (OTHERS => '0');  
+    signal bram_addr_rst       :STD_LOGIC_VECTOR(bram_addr_width_bit-1 DOWNTO 0) := (OTHERS => '0'); 
+    signal bram_din_rst        :STD_LOGIC_VECTOR(31 DOWNTO 0):= (OTHERS => '0'); 
     ------------------------------------------------------------------------------------------------
 
     COMPONENT blk_mem_gen_0 IS
     PORT (
         clka : IN STD_LOGIC;
         ena : IN STD_LOGIC;
-        wea : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
-        addra : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+        wea : IN STD_LOGIC_VECTOR(0 DOWNTO 0);
+        addra : IN STD_LOGIC_VECTOR(bram_addr_width_bit-1 DOWNTO 0);
         dina : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
         douta : OUT STD_LOGIC_VECTOR(31 DOWNTO 0)
       );
@@ -140,7 +144,7 @@ begin
                     bram_we_rst <= (OTHERS => '0');
                     bram_en_rst <= '0';
                 end if;
-                bram_addr_rst <= std_logic_vector(to_unsigned(counter-1,32));
+                bram_addr_rst <= std_logic_vector(to_unsigned(counter-1,bram_addr_width_bit));
             else
                 bram_we_rst <= (OTHERS => '0');
                 counter := 0;
