@@ -91,6 +91,33 @@ architecture Behavioral of top_level is
         );
     end component;
     
+    component fsm_nv_reg is
+        port ( 
+            clk                     : in STD_LOGIC;
+            resetN                  : in STD_LOGIC;
+            thresh_stats            : in threshold_t;
+            task_status             : in STD_LOGIC;
+            status                  : out fsm_nv_reg_state_t;
+            status_sig              : out fsm_nv_reg_state_t --used with care (it is the future state of the machine, and it is combinatory so it is prone to glitces)
+        );
+    end component;
+    
+    component nv_reg is
+        port ( 
+            clk         : in STD_LOGIC;
+            resetN      : in STD_LOGIC;
+            power_resetN: in STD_LOGIC;
+            busy_sig    : out STD_LOGIC;
+            busy        : out STD_LOGIC;
+            --------------------------- 
+            en          : in STD_LOGIC;
+            we          : in STD_LOGIC_VECTOR(3 DOWNTO 0);
+            addr        : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+            din         : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+            dout        : out STD_LOGIC_VECTOR(31 DOWNTO 0)
+        );
+    end component;
+    
     --- POWER APPROXIMATION SIGNALS ---
     signal power_state_en           : std_logic_vector(NUM_PWR_STATES - 1 downto 0) := (others => '0');
     signal power_counter_val        : power_approx_counter_type(NUM_PWR_STATES - 1 downto 0);
@@ -121,6 +148,24 @@ architecture Behavioral of top_level is
     signal recovery_data        : std_logic_vector(63 downto 0);
     signal recovery_counter     : std_logic_vector(15 downto 0);
     signal recovery_start       : std_logic;
+    
+    --- FSM NV REG ---
+    signal fsm_nv_reg_resetN               : STD_LOGIC;
+    signal fsm_nv_reg_thresh_stats         : threshold_t;
+    signal fsm_nv_reg_task_status          : STD_LOGIC;
+    signal fsm_nv_reg_status               : fsm_nv_reg_state_t;
+    signal fsm_nv_reg_status_sig           : fsm_nv_reg_state_t;
+    
+    --- NV REG ---
+    signal nv_reg_power_resetN: STD_LOGIC;
+    signal nv_reg_busy_sig    : STD_LOGIC;
+    signal nv_reg_busy        : STD_LOGIC;
+    signal nv_reg_en          : STD_LOGIC;
+    signal nv_reg_we          : STD_LOGIC_VECTOR(3 DOWNTO 0);
+    signal nv_reg_addr        : STD_LOGIC_VECTOR(31 DOWNTO 0);
+    signal nv_reg_din         : STD_LOGIC_VECTOR(31 DOWNTO 0);
+    signal nv_reg_dout        : STD_LOGIC_VECTOR(31 DOWNTO 0);
+    
     
     signal start_saving     : std_logic;
     type state_type is(
@@ -177,6 +222,32 @@ begin
         recovery_counter    => recovery_counter,
         recovery_start      => recovery_start
     );
+    
+    FSM_NV_REG_1 : fsm_nv_reg
+    port map(
+        clk             => sys_clk,
+        resetN          => resetN,
+        thresh_stats    => fsm_nv_reg_thresh_stats,
+        task_status     => fsm_nv_reg_task_status,       
+        status          => fsm_nv_reg_status,
+        status_sig      => fsm_nv_reg_status_sig
+    );
+    
+    
+    NV_REG_1 : nv_reg 
+    port map(
+        clk             => sys_clk,
+        resetN          => resetN,
+        power_resetN    => nv_reg_power_resetN,
+        busy_sig        => nv_reg_busy_sig,
+        busy            => nv_reg_busy,
+        en              => nv_reg_en,
+        we              => nv_reg_we,
+        addr            => nv_reg_addr,
+        din             => nv_reg_din,
+        dout            => nv_reg_dout
+    );
+    
     
     resetN <= not reset_emulator;
     power_state_en <= (others => '0');
