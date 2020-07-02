@@ -49,7 +49,7 @@ entity variable_counter is
 end variable_counter;
 
 architecture Behavioral of variable_counter is
-    signal counter : INTEGER RANGE 0 TO MAX := INIT_VALUE;
+    signal counter : INTEGER RANGE 0 TO MAX;
 begin
      -----------------------------------------------------------------------
     --                          Constraints                              --
@@ -57,17 +57,17 @@ begin
     value <= counter;
     TC <= '1' when counter = end_value else '0';
     
-    COUNT:process(clk,resetn) is
+    COUNT:process(clk,INIT,resetn) is
     begin
         if resetn = '0' then
             counter <= 0;
 --            TC <= '0';
+        elsif(INIT = '1') then
+            counter <= INIT_VALUE;
         elsif rising_edge(clk) then
 --            TC <= '0';
-            if INIT = '1' then
-                counter <= INIT_VALUE;
-            elsif CE = '1' then
-                if(counter = end_value ) then
+            if CE = '1' then
+                if(counter >= end_value ) then
                     counter <= 0;
                 else
                     counter <= counter + INCREASE_BY;

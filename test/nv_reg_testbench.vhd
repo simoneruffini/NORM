@@ -128,7 +128,7 @@ begin
     nv_reg_din <= std_logic_vector(to_unsigned(cntr_value ,32));
     
     cntr_clk <= not busy;
-    
+   
     CNTR_1: entity work.counter(Behavioral)
     Generic map(
         MAX         => cntr_max_val,

@@ -61,22 +61,22 @@ begin
     
     CLK: process begin
         MASTER_CLK <= '0';
-        wait for MASTER_CLK_PERIOD/2;
+        wait for MASTER_CLK_PERIOD_NS/2 *1ns;
         MASTER_CLK <= '1';
-        wait for MASTER_CLK_PERIOD/2;
+        wait for MASTER_CLK_PERIOD_NS/2 *1ns;
     end process;
     
 
     POWER_THRESH_SIM: process begin
         power_resetN <= '0';
         thresh <= nothing;
-        wait for 10*MASTER_CLK_PERIOD;
+        wait for 10*MASTER_CLK_PERIOD_NS *1ns;
         power_resetN <= '1';
-        wait for 10*MASTER_CLK_PERIOD;
+        wait for 10*MASTER_CLK_PERIOD_NS *1ns;
         thresh <= hazard;
-        wait for 5 * MASTER_CLK_PERIOD;
+        wait for 5 * MASTER_CLK_PERIOD_NS *1ns;
         power_resetN <='0';
-        wait for 5 * MASTER_CLK_PERIOD;
+        wait for 5 *MASTER_CLK_PERIOD_NS *1ns;
         power_resetN <='1';
         thresh <= nothing;
         wait; 

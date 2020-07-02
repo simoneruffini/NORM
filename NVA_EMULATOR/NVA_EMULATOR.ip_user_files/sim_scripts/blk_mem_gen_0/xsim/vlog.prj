@@ -1,6 +1,0 @@
-sv xpm  \
-"C:/Xilinx/Vivado/2020.1/data/ip/xpm/xpm_memory/hdl/xpm_memory.sv" \
-
-verilog xil_defaultlib "glbl.v"
-
-nosort

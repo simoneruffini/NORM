@@ -37,238 +37,269 @@ entity adder_testbench is
 --  Port ( );
 end adder_testbench;
 
-
 architecture Behavioral of adder_testbench is
-    signal MASTER_CLK,MASTER_RESETN: STD_LOGIC;
+    signal MASTER_CLK,MASTER_RESETN,power_resetN,power_resetN_2: STD_LOGIC;
     
-    signal power_resetN,power_resetN_2: STD_LOGIC;
-    ----------------------------INTERNAL SIGNALS-----------------------------------------
-    signal nv_reg_en, nv_reg_busy,nv_reg_clk: STD_LOGIC; 
+    ----------------------------NV_REG_SIGNALS--------------------------------------------
+    signal nv_reg_en,nv_reg_busy,nv_reg_busy_sig,nv_reg_load_en: STD_LOGIC; 
     signal nv_reg_we: STD_LOGIC_VECTOR( 3 DOWNTO 0);  
-    signal nv_reg_addr,nv_reg_din,nv_reg_dout,d_rec_nv_reg_start_addr,d_recovered : STD_LOGIC_VECTOR( 31 DOWNTO 0);
-    signal d_rec_offset, d_recovered_offset: INTEGER;
+    signal nv_reg_addr,nv_reg_din,nv_reg_dout: STD_LOGIC_VECTOR( 31 DOWNTO 0);
+    constant NV_REG_WIDTH : INTEGER := 4;
     --------------------------------------------------------------------------------------
     -----------------------------FSM_NV_REG_SIGNALS---------------------------------------
     signal thresh : threshold_t;
     signal task_status : STD_LOGIC;
     signal fsm_status : fsm_nv_reg_state_t;
     --------------------------------------------------------------------------------------
-    -----------------------------FSM_D_REC_SIGNALS----------------------------------------
-    signal clk,resetN:STD_LOGIC;
-    type fsm_d_rec_states is(
-        wait_state,
-        cycle_start_state,
-        cycle_state
-    );
-    signal present_state_d_rec, future_state_d_rec : fsm_d_rec_states;
+    -------------------------------DATA_FILLER_SIGNALS------------------------------------
+    signal data_fill_load_en: STD_LOGIC;
+    signal data_fill_busy: STD_LOGIC;
+    signal data_fill_nv_reg_en: STD_LOGIC;
+    signal data_fill_nv_reg_we: STD_LOGIC_VECTOR( 3 DOWNTO 0);
+    signal data_fill_nv_reg_din: STD_LOGIC_VECTOR( 31 DOWNTO 0);  
+    signal data_fill_nv_reg_addr: STD_LOGIC_VECTOR( 31 DOWNTO 0);
     --------------------------------------------------------------------------------------
-    ----------------------------FILLING SIGNALS-------------------------------------------
-    signal filling_signal: STD_LOGIC;
-    signal nv_reg_we_fill: STD_LOGIC_VECTOR( 3 DOWNTO 0);  
-    signal nv_reg_addr_fill: STD_LOGIC_VECTOR( 31 DOWNTO 0);
-    --------------------------------------------------------------------------------------
-
     -------------------------------DATA_REC_SIGNALS---------------------------------------
-    signal nv_reg_addr_d_rec : STD_LOGIC_VECTOR( 31 DOWNTO 0);
-    signal d_recovered_offset_d_rec: INTEGER;
-    signal data_recovery_busy: STD_LOGIC;
-    signal nv_reg_we_rec: STD_LOGIC_VECTOR( 3 DOWNTO 0);  
-    signal nv_reg_addr_rec: STD_LOGIC_VECTOR( 31 DOWNTO 0);
-    --------------------------------------------------------------------------------------
-    --------------------------------COUNTER_SIGNALS---------------------------------------
-    signal init,ce,tc: STD_LOGIC;
-    signal i, end_value: INTEGER;
+    signal data_rec_load_en: STD_LOGIC;    
+    signal data_rec_busy: STD_LOGIC;
+    signal data_rec_nv_reg_en: STD_LOGIC;  
+    signal data_rec_nv_reg_we: STD_LOGIC_VECTOR( 3 DOWNTO 0);  
+    signal data_rec_nv_reg_din: STD_LOGIC_VECTOR( 31 DOWNTO 0);
+    signal data_rec_nv_reg_addr : STD_LOGIC_VECTOR( 31 DOWNTO 0);
+    
     --------------------------------------------------------------------------------------
     -------------------------------SAVE_SIGNALS-------------------------------------------
+    signal data_save_load_en: STD_LOGIC;    
     signal data_save_busy: STD_LOGIC;
-    signal nv_reg_addr_save : STD_LOGIC_VECTOR( 31 DOWNTO 0);
-    signal nv_reg_we_save: STD_LOGIC_VECTOR( 3 DOWNTO 0);  
+    signal data_save_nv_reg_en: STD_LOGIC;
+    signal data_save_nv_reg_we: STD_LOGIC_VECTOR( 3 DOWNTO 0);
+    signal data_save_nv_reg_din: STD_LOGIC_VECTOR( 31 DOWNTO 0);
+    signal data_save_nv_reg_addr : STD_LOGIC_VECTOR( 31 DOWNTO 0);   
     --------------------------------------------------------------------------------------
-
-   
+    
+--------------------------------------------------DATA_REC_PROC-------------------------------------------------------------------
+    signal clk,resetN: STD_LOGIC;
+    signal data_rec_nv_reg_start_addr: STD_LOGIC_VECTOR( 31 DOWNTO 0);
+    signal data_rec_offset: INTEGER;
+    signal data_rec_recovered_data : STD_LOGIC_VECTOR( 31 DOWNTO 0);
+    signal data_rec_recovered_offset: INTEGER;
+    --------------------------------COUNTER_SIGNALS---------------------------------------
+    signal var_cntr_clk,var_cntr_init,var_cntr_ce,var_cntr_tc: STD_LOGIC;
+    signal var_cntr_value, var_cntr_end_value: INTEGER;
+    -------------------------------------------------------------------------------------- 
 
 begin
-    FRAM: entity work.nv_reg(Behavioral)
+
+    M_CLK: process begin
+        MASTER_CLK <= '0';
+        wait for MASTER_CLK_PERIOD_NS/2 * 1ns;
+        MASTER_CLK <= '1';
+        wait for MASTER_CLK_PERIOD_NS/2* 1ns;
+    end process;
+     
+    NV_REG: entity work.nv_reg(Behavioral)
+    generic map(
+        MAX_DELAY    => FRAM_MAX_DELAY_NS,
+        NV_REG_WIDTH => NV_REG_WIDTH
+    )
     port map(
-        clk     => MASTER_CLK,
-        resetN  => power_resetN,
-        en      => nv_reg_en,
-        we      => nv_reg_we,
-        addr    => nv_reg_addr,
-        din     => nv_reg_din,
-        dout    => nv_reg_dout,
-        real_clk=> nv_reg_clk,
-        busy    => nv_reg_busy
+        clk         => MASTER_CLK,
+        resetN      => MASTER_RESETN,
+        power_resetN=> power_resetN_2,
+        load_en     => nv_reg_load_en,
+        busy_sig    => nv_reg_busy_sig,
+        busy        => nv_reg_busy,
+        en          => nv_reg_en,
+        we          => nv_reg_we,
+        addr        => nv_reg_addr,
+        din         => nv_reg_din,
+        dout        => nv_reg_dout
     );
     
-    NV_REG_PORTS_CONTROLLER: process (filling_signal,data_recovery_busy,data_save_busy) is
-    begin
-        if(filling_signal = '1') then
-            nv_reg_we <= nv_reg_we_fill;
-            nv_reg_addr <=nv_reg_addr_fill;
-        elsif(data_recovery_busy = '1') then
-            nv_reg_we <= nv_reg_we_rec;
-            nv_reg_addr <=nv_reg_addr_rec;
-        elsif(data_save_busy = '1') then
-            nv_reg_we <= nv_reg_we_save;
-            nv_reg_addr <=nv_reg_addr_save;
-        end if;
-    end process;
+    nv_reg_en   <=  data_fill_nv_reg_en     when data_fill_busy = '1'   else
+                    data_rec_nv_reg_en      when data_rec_busy = '1'    else
+                    data_save_nv_reg_en     when data_save_busy = '1'   else
+                    '1';
+    nv_reg_we   <=  data_fill_nv_reg_we     when data_fill_busy = '1'   else
+                    data_rec_nv_reg_we      when data_rec_busy = '1'    else
+                    data_save_nv_reg_we     when data_save_busy = '1'   else
+                    (others => '0');
+    nv_reg_addr <=  data_fill_nv_reg_addr   when data_fill_busy = '1'   else
+                    data_rec_nv_reg_addr    when data_rec_busy = '1'    else
+                    data_save_nv_reg_addr   when data_save_busy = '1'   else
+                    (others => '0');
+                    
+    nv_reg_din  <=  data_fill_nv_reg_din    when data_fill_busy = '1'   else
+                    data_rec_nv_reg_din     when data_rec_busy = '1'    else
+                    data_save_nv_reg_din    when data_save_busy = '1'   else
+                    (others => '0');
+    nv_reg_load_en<=data_fill_load_en       when data_fill_busy = '1'   else
+                    data_rec_load_en        when data_rec_busy = '1'    else
+                    data_save_load_en       when data_save_busy = '1'   else
+                    '0';
     
-    FSM_NV_REG_p: entity work.fsm_nv_reg(Behavioral)
+    FSM_NV_REG: entity work.fsm_nv_reg(Behavioral)
     port map( 
         clk                 => MASTER_CLK,
-        resetN              => power_resetN_2,
+        resetN              => power_resetN,
         thresh_stats        => thresh,
         task_status         => task_status,
-        status              => fsm_status 
+        status              => fsm_status
+--        status_sig              => 
     );
     
-    TASK_STATUS_CNTRL: process (data_recovery_busy,data_save_busy) is
+    TASK_STATUS_CNTRL: process (data_rec_busy,data_save_busy) is
     begin
-         if(data_recovery_busy = '0' AND data_save_busy = '0') then
+         if(data_rec_busy = '0' AND data_save_busy = '0') then
             task_status <= '0';
          else
             task_status <= '1';
          end if;
     end process;
-    
-    M_CLK: process begin
-        MASTER_CLK <= '0';
-        wait for MASTER_CLK_PERIOD/2;
-        MASTER_CLK <= '1';
-        wait for MASTER_CLK_PERIOD/2;
-    end process;
-    
-    
-    FILL_NV_REG: process begin
-        filling_signal <='0';
-        wait for 15 * MASTER_CLK_PERIOD;
-        if(nv_reg_busy /= '1') then
-            filling_signal <= '1';
-            for j in 0 to 2 loop
-                nv_reg_we_fill <= (OTHERS => '1');
-                nv_reg_addr_fill <= std_logic_vector(to_unsigned(j,32));
-                wait for MASTER_CLK_PERIOD * NV_PRESCALER;
-            end loop;
-            wait for MASTER_CLK_PERIOD * NV_PRESCALER;
-            filling_signal <='0';
-        end if;
-        wait;
-    end process FILL_NV_REG;
-    
-    TEST_FSM_NV_REG_COMPLETE: process begin
-            power_resetN<= '0';
-            power_resetN_2<= '0';
-            thresh <= hazard;
-            d_rec_nv_reg_start_addr <= std_logic_vector(to_unsigned(1,32));
-            d_rec_offset <= 2;
-            nv_reg_en <= '1';
-            power_resetN <= '0';
-        wait for 10 * MASTER_CLK_PERIOD;
-            power_resetN <= '1'; --filling time
-        wait for 20 * MASTER_CLK_PERIOD;
-            power_resetN_2 <='1'; --fsm starts
-            thresh <=  nothing;
-        wait for 20 * MASTER_CLK_PERIOD;
-            thresh <= hazard;
-        wait for 4 * MASTER_CLK_PERIOD;
-            power_resetN_2 <='0';
-        wait for 4 * MASTER_CLK_PERIOD;
-            power_resetN_2 <= '1';
-            thresh <= nothing;
-        wait;
-    end process;
-    
-    --------------------------------------------------D_REC-------------------------------------------------------------------
-    clk <= MASTER_CLK;
-    resetN <= power_resetN_2;
-    
-    FSM_D_REC_SEQ: process (clk,resetN) is 
-    begin
-        if resetN = '0' then
-            present_state_d_rec <= wait_state;
-        elsif rising_edge(clk) then
-            present_state_d_rec <= future_state_d_rec;
-        end if;  
-    end process;
-    
-    FSM_D_REC_FUT: process(present_state_d_rec,fsm_status,tc) is
-    begin
-        future_state_d_rec <= present_state_d_rec;
-        case present_state_d_rec is
-            when wait_state =>
-                if(fsm_status=start_data_recovery_s) then
-                    future_state_d_rec <= cycle_start_state;
-                end if;
-            when cycle_start_state =>
-                future_state_d_rec <= cycle_state;
-            when cycle_state =>
-                if(tc ='1') then
-                    future_state_d_rec <= wait_state;
-                end if;
-            when others =>
-        end case FSM_D_REC_FUT;
         
-    end process;
-    
-    
-    d_recovered <= nv_reg_dout when data_recovery_busy = '1' else (OTHERS => '0');
-    
-    d_recovered_offset  <= d_recovered_offset_d_rec;
-           
-    
-    FSM_D_REC_OUT: process(present_state_d_rec,i,nv_reg_busy) is 
+    RST_CNTRL: process is
     begin
-        ---------------DEFAULT------------------
-        data_recovery_busy <= '0';
-        nv_reg_addr_d_rec <=nv_reg_addr_d_rec;
-        d_recovered_offset_d_rec <= d_recovered_offset_d_rec;
-        init <= '0';
-        ce<='0';
-        ---------------------------------------- 
-        case present_state_d_rec is
-            when wait_state =>
-                nv_reg_addr_d_rec <= d_rec_nv_reg_start_addr;
-                d_recovered_offset_d_rec <= 0;
-                init <= '1';
-            when cycle_start_state =>
-                data_recovery_busy<='1';
-            when cycle_state =>
-                if(nv_reg_busy = '0') then
-                    ce<='1';
-                    data_recovery_busy<='1';
-                    if( i <= d_rec_offset) then 
-                        nv_reg_addr_d_rec <= std_logic_vector(unsigned(d_rec_nv_reg_start_addr) + to_unsigned(i,32));
-                    end if;
-                    if(i > 2) then
-                        d_recovered_offset_d_rec <= i-2;
-                    end if;
-                end if;
-            when others =>
-        end case;
-    end process FSM_D_REC_OUT;
+        MASTER_RESETN <= '0';
+        wait for 10 *MASTER_CLK_PERIOD_NS * 1ns;
+        MASTER_RESETN <= '1';
+        wait;
+    end process;
+    PWR_CNTRL: process is 
+    begin
+        power_resetN <= '0';
+        wait for 25 *MASTER_CLK_PERIOD_NS * 1ns;
+        power_resetN <='1';
+        wait for 20 *MASTER_CLK_PERIOD_NS * 1ns;
+        power_resetN <='0';
+        wait for 2 *MASTER_CLK_PERIOD_NS * 1ns;
+        power_resetN <='1';
+        wait;
+    end process;
+    power_resetN_2 <= power_resetN when (data_fill_busy = '0') else '1'; --just to trigger the filler once
+    --------------------------------------------------DATA_FILLER----------------------------------------------------------------
+       
+    DATA_FILLER: process(MASTER_CLK,MASTER_RESETN,power_resetN) is
+    variable counter : INTEGER;
+    variable one_time: STD_LOGIC := '0';
+    begin
+        if(MASTER_RESETN = '0' OR power_resetN = '1' OR one_time ='1') then
+            data_fill_nv_reg_en <= '0';
+            data_fill_busy <='0';
+            data_fill_load_en <= '0';
+            data_fill_nv_reg_we <= (OTHERS => '0');
+            data_fill_nv_reg_din <= (OTHERS => '0');
+            data_fill_nv_reg_addr <= (OTHERS => '0');
+            counter := 0;
+        elsif(rising_edge(master_clk)) then
+            
+            if(counter < 3) then
+                data_fill_nv_reg_en <= '1';
+                data_fill_busy <='1';
+                data_fill_nv_reg_we <= (OTHERS => '1');
+                data_fill_load_en <= '1';
+                data_fill_nv_reg_addr <= std_logic_vector(to_unsigned(counter mod NV_REG_WIDTH,32));  
+                data_fill_nv_reg_din <= std_logic_vector(to_unsigned(counter ,32));
+                
+            elsif( counter = 3) then
+                data_fill_nv_reg_we <= (OTHERS => '0');
+                data_fill_nv_reg_addr <= (OTHERS => '0');
+            elsif( counter > 7) then
+                data_fill_nv_reg_we <= (OTHERS => '0');
+                data_fill_busy <='0';
+                one_time := '1';
+            end if;
+            counter := counter +1;
+        end if; 
+    end process DATA_FILLER;
     
     
-    end_value <= d_rec_offset +2; -- the plus one is dependent on the ram (our Bram has a 1 clk delay)
-    COUNTER: entity work.variable_counter(Behavioral) 
+    --------------------------------------------------DATA_REC-------------------------------------------------------------------
+    clk <= MASTER_CLK;
+    resetN <= power_resetN;
+    
+    
+    data_rec_nv_reg_start_addr <=  std_logic_vector(to_unsigned(1,32));
+    data_rec_offset <= 2;
+    
+    -- Default values
+    data_rec_nv_reg_en <= '1';
+    data_rec_nv_reg_we <= (OTHERS => '0');
+    data_rec_nv_reg_din <= (OTHERS => '0');
+    -----------------
+    
+    DATA_REC: process(resetN,clk) is
+    begin
+        if(resetN = '0') then
+            data_rec_busy <= '0';
+            data_rec_load_en <= '0';
+        elsif(rising_edge(clk)) then
+            if(fsm_status = start_data_recovery_s) then
+                data_rec_busy <= '1';
+                data_rec_load_en <= '1';      
+            elsif(var_cntr_tc = '1') then
+                data_rec_busy <= '0';
+                data_rec_load_en <= '0';
+            end if; 
+        end if;
+    end process DATA_REC;
+    
+    var_cntr_ce <= data_rec_busy;
+    var_cntr_init <= not data_rec_busy;
+    
+    DATA_REC_OUT_CNTRL: process(var_cntr_value,data_rec_busy) is
+        variable offset_last : INTEGER RANGE 0 TO NV_REG_WIDTH-1;
+        variable recovered_data_last: STD_LOGIC_VECTOR(31 DOWNTO 0);
+    begin
+        if(data_rec_busy = '1') then
+            if(var_cntr_value <= data_rec_offset) then 
+                data_rec_nv_reg_addr <= std_logic_vector(unsigned(data_rec_nv_reg_start_addr) + to_unsigned(var_cntr_value,32));
+                
+                data_rec_recovered_offset <= offset_last;
+                data_rec_recovered_data <= recovered_data_last;
+                offset_last :=var_cntr_value;
+                recovered_data_last := nv_reg_dout;
+            end if;
+        else
+            offset_last := 0;
+            recovered_data_last := (OTHERS => '0');
+            data_rec_nv_reg_addr <= std_logic_vector(unsigned(data_rec_nv_reg_start_addr));
+            data_rec_recovered_offset <= 0;
+            data_rec_recovered_data <= (OTHERS => '0');
+        end if;
+    end process DATA_REC_OUT_CNTRL;
+    
+    
+    
+    var_cntr_end_value <= data_rec_offset +2; -- the plus one is dependent on the ram (our Bram has a 1 clk delay)
+    VAR_CNTR_CLK_GEN: process(clk,data_rec_load_en) is
+    begin
+        if(data_rec_load_en = '0') then
+            var_cntr_clk <= '1';
+        elsif(rising_edge(clk)) then
+            var_cntr_clk <= '0';
+            if(nv_reg_busy_sig = '0' and var_cntr_clk /='1' ) then
+                var_cntr_clk <= '1';
+            end if;
+        end if;
+    end process VAR_CNTR_CLK_GEN;
+    
+    VAR_CNTR: entity work.variable_counter(Behavioral) 
     Generic map(
         MAX         => NV_REG_WIDTH+2,
-        INIT_VALUE  => 0,
+        INIT_VALUE  => NV_REG_WIDTH+2,
         INCREASE_BY => 1
     )              
     Port map(          
-        clk         => nv_reg_clk,
+        clk         => var_cntr_clk,
         resetn      => resetN,
-        INIT        => init,
-        CE          => ce,
-        end_value   => end_value, 
-        TC          => tc,
-        value       => i
+        INIT        => var_cntr_init,
+        CE          => var_cntr_ce,
+        end_value   => var_cntr_end_value, 
+        TC          => var_cntr_tc,
+        value       => var_cntr_value
     );
     --------------------------------------------------D_SAVE-------------------------------------------------------------------
-
+    
     data_save_busy <='0';
-
     
 end architecture Behavioral;
