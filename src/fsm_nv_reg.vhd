@@ -100,6 +100,26 @@ begin
     
     status <= present_state;
     status_sig <= future_state;
+    FSM_NV_REG_OUT: process (present_state) is
+        
+    begin
+    ---------------DEFAULT------------------
+        
+        
+    ----------------------------------------          
+        case present_state is
+            when init_s =>
+                
+            when start_data_recovery_s =>
+                
+            when recovery_s =>
+                
+            when data_recovered_s =>
+               
+            
+            when others =>
+        end case;
+    end process FSM_NV_REG_OUT;
     
 end Behavioral;
 -------------------------------------------------------------------------------------------------------------------------------------
