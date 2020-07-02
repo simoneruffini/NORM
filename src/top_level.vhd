@@ -35,6 +35,8 @@ use work.POWER_APPROXIMATION_PKG.all;
 use work.INTERMITTENCY_PKG.all;
 use work.GLOBAL_SETTINGS.all;
 use work.NV_REG_EMULATOR_PKG.all;
+use work.COMMON_PACKAGE.all;
+use work.ARCHITECTURE_PACKAGE.all;
 
 entity top_level is
     port(
@@ -150,7 +152,6 @@ architecture Behavioral of top_level is
     signal recovery_start       : std_logic;
     
     --- FSM NV REG ---
-    signal fsm_nv_reg_resetN               : STD_LOGIC;
     signal fsm_nv_reg_thresh_stats         : threshold_t;
     signal fsm_nv_reg_task_status          : STD_LOGIC;
     signal fsm_nv_reg_status               : fsm_nv_reg_state_t;
@@ -259,42 +260,5 @@ begin
     select_threshold <= 0;    
     
     start_saving <= threshold_compared(1);
-    
---    saving_process : process(sys_clk) begin
-        
---        if rising_edge(sys_clk) then
---            present_state <= present_state;
---            BRAM_enb <= '0';
---            init_val <= init_val;
---            case present_state is
---                when wait_state =>
---                    if start_saving = '1' and BRAM_busy = '0' then
---                        present_state <= save_state_1;
---                        BRAM_enb <= '1';
---                        BRAM_addrb <= (others => '0');
---                    end if;                                        
---                when save_state_1 =>
---                    present_state <= save_state_2;
---                    BRAM_enb <= '1';
---                when save_state_2 =>
---                    present_state <= save_state_3; 
---                    BRAM_enb <= '1';
---                when save_state_3 =>
---                    BRAM_enb <= '1';   
---                    present_state <= save_state_4;              
---                when save_state_4 =>
---                    init_val <= BRAM_doutb;
---                    present_state <= wait_state;                         
---            end case;            
---        end if;
---    end process;
-    
---    count_reset_clk : process(sys_clk) begin
---        if rising_edge(sys_clk) then
---            if reset_emulator = '1' then
---                reset_counter <= reset_counter + 1;
---            end if;            
---        end if;
---    end process;
 
 end Behavioral;
