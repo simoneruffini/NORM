@@ -36,7 +36,7 @@ use work.COMMON_PACKAGE.all;
 
 entity nv_reg_emu is
     Generic(
-        MAX_DELAY: INTEGER -- this is the maximum delay that the nv_reg uses to process data
+        MAX_DELAY_NS: INTEGER -- this is the maximum delay that the nv_reg uses to process data
     );
     Port ( 
         clk     : IN STD_LOGIC;
@@ -51,7 +51,7 @@ architecture Behavioral of nv_reg_emu is
     ----------------------------------------------------
     --      INTERNAL SIGNALS FOR THE SAMPLING DELAY
     ----------------------------------------------------
-    constant counter_end_value : INTEGER := get_busy_counter_end_value(MASTER_CLK_PERIOD_NS, MAX_DELAY);
+    constant counter_end_value : INTEGER := get_busy_counter_end_value(MASTER_CLK_PERIOD_NS, MAX_DELAY_NS);
     
     signal counter : INTEGER RANGE 0 TO counter_end_value;
     
@@ -86,12 +86,4 @@ begin
             end if;
         end if;
     end process;
-    
-    
-    
-
-    
-   
-
-    
 end Behavioral;
