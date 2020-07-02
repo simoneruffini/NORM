@@ -161,69 +161,70 @@
     </FileSet>
     <FileSet Name="sim_1" Type="SimulationSrcs" RelSrcDir="$PSRCDIR/sim_1">
       <Filter Type="Srcs"/>
-      <File Path="$PSRCDIR/sim_1/new/top_level_testbench.vhd">
+      <File Path="$PPRDIR/../test/INSTANT_PWR_CALC_TESTBENCH.vhd">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PSRCDIR/sim_1/new/INTERMITTENCY_EMULATOR_TESTBENCH.vhd">
+      <File Path="$PPRDIR/../test/top_level_testbench.vhd">
         <FileInfo>
           <Attr Name="AutoDisabled" Val="1"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PSRCDIR/sim_1/new/POWER_APPROXIMATION_TESTBENCH.vhd">
+      <File Path="$PPRDIR/../test/INTERMITTENCY_EMULATOR_TESTBENCH.vhd">
         <FileInfo>
           <Attr Name="AutoDisabled" Val="1"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PSRCDIR/sim_1/new/INSTANT_PWR_CALC_TESTBENCH.vhd">
+      <File Path="$PPRDIR/../test/POWER_APPROXIMATION_TESTBENCH.vhd">
         <FileInfo>
           <Attr Name="AutoDisabled" Val="1"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PSRCDIR/sim_1/new/adder_testbench.vhd">
+      <File Path="$PPRDIR/../test/adder_testbench.vhd">
         <FileInfo>
           <Attr Name="AutoDisabled" Val="1"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PSIMDIR/POWER_APPROXIMATION_TESTBENCH_behav.wcfg">
+      <File Path="$PPRDIR/../test/POWER_APPROXIMATION_TESTBENCH_behav.wcfg">
         <FileInfo>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PPRDIR/INSTANT_PWR_CALC_TESTBENCH_behav.wcfg">
+      <File Path="$PPRDIR/../test/INSTANT_PWR_CALC_TESTBENCH_behav.wcfg">
         <FileInfo>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PPRDIR/top_level_testbench_behav.wcfg">
+      <File Path="$PPRDIR/../test/top_level_testbench_behav.wcfg">
         <FileInfo>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PPRDIR/adder_testbench_behav.wcfg">
+      <File Path="$PPRDIR/../test/adder_testbench_behav.wcfg">
         <FileInfo>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PPRDIR/INTERMITTENCY_EMULATOR_TESTBENCH_behav.wcfg">
+      <File Path="$PPRDIR/../test/INTERMITTENCY_EMULATOR_TESTBENCH_behav.wcfg">
         <FileInfo>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
       <Config>
         <Option Name="DesignMode" Val="RTL"/>
-        <Option Name="TopModule" Val="top_level_testbench"/>
+        <Option Name="TopModule" Val="INSTANT_PWR_CALC_TESTBENCH"/>
         <Option Name="TopLib" Val="xil_defaultlib"/>
+        <Option Name="TopAutoSet" Val="TRUE"/>
         <Option Name="TransportPathDelay" Val="0"/>
         <Option Name="TransportIntDelay" Val="0"/>
         <Option Name="SelectedSimModel" Val="rtl"/>
