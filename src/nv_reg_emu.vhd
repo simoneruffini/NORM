@@ -33,6 +33,7 @@ use IEEE.NUMERIC_STD.ALL;
 --use UNISIM.VComponents.all;
 
 use work.COMMON_PACKAGE.all;
+use work.GLOBAL_SETTINGS.all;
 
 entity nv_reg_emu is
     Generic(

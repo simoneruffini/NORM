@@ -25,7 +25,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
 --use IEEE.NUMERIC_STD.ALL;
-
+use IEEE.math_real.all;
 -- Uncomment the following library declaration if instantiating
 -- any Xilinx leaf cells in this code.
 --library UNISIM;
@@ -80,15 +80,15 @@ architecture Behavioral of top_level is
         port(
             sys_clk             : in std_logic;
             resetN              : in std_logic;
-            BRAM_enb            : in std_logic;
-            BRAM_addrb          : in std_logic_vector(15 downto 0);
-            BRAM_doutb          : out std_logic_vector(63 downto 0);
-            recovery_start_addr : out std_logic_vector(15 downto 0); 
-            recovery_num_data   : out integer;
-            recovery_FRAM_state : in recovery_data_fsm_type;
-            recovery_data       : in std_logic_vector(63 downto 0);
-            recovery_counter    : in std_logic_vector(15 downto 0);
-            recovery_start      : in std_logic  
+            fsm_status          : in fsm_nv_reg_state_t;
+            task_status         : out STD_LOGIC;
+            nv_reg_en           : out STD_LOGIC;
+            nv_reg_busy         : in STD_LOGIC;
+            nv_reg_busy_sig     : in STD_LOGIC; 
+            nv_reg_we           : out STD_LOGIC_VECTOR( 0 DOWNTO 0);  
+            nv_reg_addr         : out STD_LOGIC_VECTOR(nv_reg_addr_width_bit-1 DOWNTO 0);
+            nv_reg_din          : out STD_LOGIC_VECTOR( 31 DOWNTO 0);
+            nv_reg_dout         : in STD_LOGIC_VECTOR( 31 DOWNTO 0)  
             
         );
     end component;
@@ -117,8 +117,8 @@ architecture Behavioral of top_level is
             busy        : out STD_LOGIC;
             --------------------------- 
             en          : in STD_LOGIC;
-            we          : in STD_LOGIC_VECTOR(3 DOWNTO 0);
-            addr        : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+            we          : in STD_LOGIC_VECTOR(0 DOWNTO 0);
+            addr        : in STD_LOGIC_VECTOR(integer(ceil(log2(real(NV_REG_WIDTH))))-1 DOWNTO 0);
             din         : in STD_LOGIC_VECTOR(31 DOWNTO 0);
             dout        : out STD_LOGIC_VECTOR(31 DOWNTO 0)
         );
@@ -144,16 +144,9 @@ architecture Behavioral of top_level is
     signal select_threshold    : integer range 0 to INTERMITTENCY_NUM_THRESHOLDS -1;
     
     --- ADDER signals ---
-    signal resetN               : std_logic := '1';
-    signal BRAM_enb             : std_logic;
-    signal BRAM_addrb           : std_logic_vector(15 downto 0);
-    signal BRAM_doutb           : std_logic_vector(63 downto 0);
-    signal recovery_start_addr  : std_logic_vector(15 downto 0); 
-    signal recovery_num_data    : integer;
-    signal recovery_FRAM_state  : recovery_data_fsm_type;
-    signal recovery_data        : std_logic_vector(63 downto 0);
-    signal recovery_counter     : std_logic_vector(15 downto 0);
-    signal recovery_start       : std_logic;
+    signal resetN              : std_logic := '1';
+    signal fsm_status          : fsm_nv_reg_state_t;
+    signal task_status         : STD_LOGIC;
     
     --- FSM NV REG ---
     signal fsm_nv_reg_thresh_stats         : threshold_t;
@@ -166,8 +159,8 @@ architecture Behavioral of top_level is
     signal nv_reg_busy_sig    : STD_LOGIC;
     signal nv_reg_busy        : STD_LOGIC;
     signal nv_reg_en          : STD_LOGIC;
-    signal nv_reg_we          : STD_LOGIC_VECTOR(3 DOWNTO 0);
-    signal nv_reg_addr        : STD_LOGIC_VECTOR(31 DOWNTO 0);
+    signal nv_reg_we          : STD_LOGIC_VECTOR(0 DOWNTO 0);
+    signal nv_reg_addr        : STD_LOGIC_VECTOR(integer(ceil(log2(real(NV_REG_WIDTH))))-1 DOWNTO 0);
     signal nv_reg_din         : STD_LOGIC_VECTOR(31 DOWNTO 0);
     signal nv_reg_dout        : STD_LOGIC_VECTOR(31 DOWNTO 0);
     
@@ -217,15 +210,15 @@ begin
     port map(
         sys_clk             => sys_clk,
         resetN              => resetN,
-        BRAM_enb            => BRAM_enb,
-        BRAM_addrb          => BRAM_addrb,
-        BRAM_doutb          => BRAM_doutb,
-        recovery_start_addr => recovery_start_addr,
-        recovery_num_data   => recovery_num_data,
-        recovery_FRAM_state => recovery_FRAM_state,
-        recovery_data       => recovery_data,
-        recovery_counter    => recovery_counter,
-        recovery_start      => recovery_start
+        fsm_status          => fsm_status,
+        task_status         => task_status,
+        nv_reg_en           => nv_reg_en,
+        nv_reg_busy         => nv_reg_busy,
+        nv_reg_busy_sig     => nv_reg_busy_sig,
+        nv_reg_we           => nv_reg_we,
+        nv_reg_addr         => nv_reg_addr,
+        nv_reg_din          => nv_reg_din,
+        nv_reg_dout         => nv_reg_dout
     );
     
     FSM_NV_REG_1 : fsm_nv_reg
@@ -267,5 +260,11 @@ begin
     select_threshold <= 0;    
     
     start_saving <= threshold_compared(1);
+    
+    fsm_status <= fsm_nv_reg_status;
+    fsm_nv_reg_task_status <= task_status;
+    
+    fsm_nv_reg_thresh_stats <= hazard when threshold_compared(1) = '1' else nothing; -- TODO: controllare se va bene
+                               
 
 end Behavioral;

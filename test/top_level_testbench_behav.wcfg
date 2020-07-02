@@ -5,23 +5,26 @@
    <db_ref_list>
       <db_ref path="top_level_testbench_behav.wdb" id="1">
          <top_modules>
+            <top_module name="common_package" />
             <top_module name="global_settings" />
             <top_module name="intermittency_pkg" />
+            <top_module name="nv_reg_emulator_pkg" />
             <top_module name="power_approximation_pkg" />
+            <top_module name="test_module_package" />
             <top_module name="top_level_testbench" />
          </top_modules>
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="987930000fs"></ZoomStartTime>
-      <ZoomEndTime time="994330001fs"></ZoomEndTime>
-      <Cursor1Time time="999425000fs"></Cursor1Time>
+      <ZoomStartTime time="83974700fs"></ZoomStartTime>
+      <ZoomEndTime time="84065401fs"></ZoomEndTime>
+      <Cursor1Time time="83995000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="252"></NameColumnWidth>
-      <ValueColumnWidth column_width="107"></ValueColumnWidth>
+      <ValueColumnWidth column_width="99"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="33" />
+   <WVObjectSize size="62" />
    <wvobject type="logic" fp_name="/top_level_testbench/top_level_1/sys_clk">
       <obj_property name="ElementShortName">sys_clk</obj_property>
       <obj_property name="ObjectShortName">sys_clk</obj_property>
@@ -37,10 +40,6 @@
    <wvobject type="array" fp_name="/top_level_testbench/top_level_1/power_state_en">
       <obj_property name="ElementShortName">power_state_en[2:0]</obj_property>
       <obj_property name="ObjectShortName">power_state_en[2:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/top_level_testbench/top_level_1/power_state_out">
-      <obj_property name="ElementShortName">power_state_out[2:0]</obj_property>
-      <obj_property name="ObjectShortName">power_state_out[2:0]</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/top_level_testbench/top_level_1/power_counter_full">
       <obj_property name="ElementShortName">power_counter_full[2:0]</obj_property>
@@ -61,10 +60,6 @@
    <wvobject type="array" fp_name="/top_level_testbench/top_level_1/input_counter_val">
       <obj_property name="ElementShortName">input_counter_val[2:0]</obj_property>
       <obj_property name="ObjectShortName">input_counter_val[2:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/top_level_testbench/top_level_1/evaluate_result">
-      <obj_property name="ElementShortName">evaluate_result[41:0]</obj_property>
-      <obj_property name="ObjectShortName">evaluate_result[41:0]</obj_property>
    </wvobject>
    <wvobject type="logic" fp_name="/top_level_testbench/top_level_1/reset_emulator">
       <obj_property name="ElementShortName">reset_emulator</obj_property>
@@ -96,14 +91,6 @@
       <obj_property name="ElementShortName">select_threshold</obj_property>
       <obj_property name="ObjectShortName">select_threshold</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/top_level_testbench/top_level_1/adder_resetN">
-      <obj_property name="ElementShortName">adder_resetN</obj_property>
-      <obj_property name="ObjectShortName">adder_resetN</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/top_level_testbench/top_level_1/adder_prescaler">
-      <obj_property name="ElementShortName">adder_prescaler[2:0]</obj_property>
-      <obj_property name="ObjectShortName">adder_prescaler[2:0]</obj_property>
-   </wvobject>
    <wvobject type="logic" fp_name="/top_level_testbench/top_level_1/ADDER_1/ena">
       <obj_property name="ElementShortName">ena</obj_property>
       <obj_property name="ObjectShortName">ena</obj_property>
@@ -113,39 +100,13 @@
       <obj_property name="ObjectShortName">wea[0:0]</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/top_level_testbench/top_level_1/ADDER_1/addra">
-      <obj_property name="ElementShortName">addra[0:0]</obj_property>
-      <obj_property name="ObjectShortName">addra[0:0]</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/top_level_testbench/top_level_1/BRAM_enb">
-      <obj_property name="ElementShortName">BRAM_enb</obj_property>
-      <obj_property name="ObjectShortName">BRAM_enb</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/top_level_testbench/top_level_1/BRAM_addrb">
-      <obj_property name="ElementShortName">BRAM_addrb[0:0]</obj_property>
-      <obj_property name="ObjectShortName">BRAM_addrb[0:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/top_level_testbench/top_level_1/BRAM_doutb">
-      <obj_property name="ElementShortName">BRAM_doutb[63:0]</obj_property>
-      <obj_property name="ObjectShortName">BRAM_doutb[63:0]</obj_property>
-      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/top_level_testbench/top_level_1/BRAM_busy">
-      <obj_property name="ElementShortName">BRAM_busy</obj_property>
-      <obj_property name="ObjectShortName">BRAM_busy</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/top_level_testbench/top_level_1/init_val">
-      <obj_property name="ElementShortName">init_val[63:0]</obj_property>
-      <obj_property name="ObjectShortName">init_val[63:0]</obj_property>
-      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      <obj_property name="ElementShortName">addra[15:0]</obj_property>
+      <obj_property name="ObjectShortName">addra[15:0]</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/top_level_testbench/top_level_1/ADDER_1/dina">
-      <obj_property name="ElementShortName">dina[63:0]</obj_property>
-      <obj_property name="ObjectShortName">dina[63:0]</obj_property>
+      <obj_property name="ElementShortName">dina[31:0]</obj_property>
+      <obj_property name="ObjectShortName">dina[31:0]</obj_property>
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/top_level_testbench/top_level_1/ADDER_1/clock_divided">
-      <obj_property name="ElementShortName">clock_divided</obj_property>
-      <obj_property name="ObjectShortName">clock_divided</obj_property>
    </wvobject>
    <wvobject type="other" fp_name="/top_level_testbench/top_level_1/ADDER_1/present_state">
       <obj_property name="ElementShortName">present_state</obj_property>
@@ -158,5 +119,235 @@
    <wvobject type="other" fp_name="/top_level_testbench/top_level_1/present_state">
       <obj_property name="ElementShortName">present_state</obj_property>
       <obj_property name="ObjectShortName">present_state</obj_property>
+   </wvobject>
+   <wvobject type="other" fp_name="/top_level_testbench/top_level_1/FSM_NV_REG_1/thresh_stats">
+      <obj_property name="ElementShortName">thresh_stats</obj_property>
+      <obj_property name="ObjectShortName">thresh_stats</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/top_level_testbench/top_level_1/FSM_NV_REG_1/task_status">
+      <obj_property name="ElementShortName">task_status</obj_property>
+      <obj_property name="ObjectShortName">task_status</obj_property>
+      <obj_property name="CustomSignalColor">#FFFFFF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject type="other" fp_name="/top_level_testbench/top_level_1/FSM_NV_REG_1/status">
+      <obj_property name="ElementShortName">status</obj_property>
+      <obj_property name="ObjectShortName">status</obj_property>
+      <obj_property name="CustomSignalColor">#FFFFFF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject type="other" fp_name="/top_level_testbench/top_level_1/FSM_NV_REG_1/status_sig">
+      <obj_property name="ElementShortName">status_sig</obj_property>
+      <obj_property name="ObjectShortName">status_sig</obj_property>
+      <obj_property name="CustomSignalColor">#FFFFFF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject type="other" fp_name="/top_level_testbench/top_level_1/FSM_NV_REG_1/present_state">
+      <obj_property name="ElementShortName">present_state</obj_property>
+      <obj_property name="ObjectShortName">present_state</obj_property>
+      <obj_property name="CustomSignalColor">#FFFFFF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject type="other" fp_name="/top_level_testbench/top_level_1/FSM_NV_REG_1/future_state">
+      <obj_property name="ElementShortName">future_state</obj_property>
+      <obj_property name="ObjectShortName">future_state</obj_property>
+      <obj_property name="CustomSignalColor">#FFFFFF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/top_level_testbench/top_level_1/NV_REG_1/busy_sig">
+      <obj_property name="ElementShortName">busy_sig</obj_property>
+      <obj_property name="ObjectShortName">busy_sig</obj_property>
+      <obj_property name="CustomSignalColor">#FF00FF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/top_level_testbench/top_level_1/NV_REG_1/busy">
+      <obj_property name="ElementShortName">busy</obj_property>
+      <obj_property name="ObjectShortName">busy</obj_property>
+      <obj_property name="CustomSignalColor">#FF00FF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/top_level_testbench/top_level_1/NV_REG_1/en">
+      <obj_property name="ElementShortName">en</obj_property>
+      <obj_property name="ObjectShortName">en</obj_property>
+      <obj_property name="CustomSignalColor">#FF00FF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/top_level_testbench/top_level_1/NV_REG_1/we">
+      <obj_property name="ElementShortName">we[0:0]</obj_property>
+      <obj_property name="ObjectShortName">we[0:0]</obj_property>
+      <obj_property name="CustomSignalColor">#FF00FF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/top_level_testbench/top_level_1/NV_REG_1/addr">
+      <obj_property name="ElementShortName">addr[3:0]</obj_property>
+      <obj_property name="ObjectShortName">addr[3:0]</obj_property>
+      <obj_property name="CustomSignalColor">#FF00FF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/top_level_testbench/top_level_1/NV_REG_1/din">
+      <obj_property name="ElementShortName">din[31:0]</obj_property>
+      <obj_property name="ObjectShortName">din[31:0]</obj_property>
+      <obj_property name="CustomSignalColor">#FF00FF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/top_level_testbench/top_level_1/NV_REG_1/dout">
+      <obj_property name="ElementShortName">dout[31:0]</obj_property>
+      <obj_property name="ObjectShortName">dout[31:0]</obj_property>
+      <obj_property name="CustomSignalColor">#FF00FF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/top_level_testbench/top_level_1/NV_REG_1/rstn">
+      <obj_property name="ElementShortName">rstn</obj_property>
+      <obj_property name="ObjectShortName">rstn</obj_property>
+      <obj_property name="CustomSignalColor">#FF00FF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/top_level_testbench/top_level_1/NV_REG_1/busy_internal">
+      <obj_property name="ElementShortName">busy_internal</obj_property>
+      <obj_property name="ObjectShortName">busy_internal</obj_property>
+      <obj_property name="CustomSignalColor">#FF00FF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/top_level_testbench/top_level_1/NV_REG_1/bram_en">
+      <obj_property name="ElementShortName">bram_en</obj_property>
+      <obj_property name="ObjectShortName">bram_en</obj_property>
+      <obj_property name="CustomSignalColor">#FF00FF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/top_level_testbench/top_level_1/NV_REG_1/bram_we">
+      <obj_property name="ElementShortName">bram_we[0:0]</obj_property>
+      <obj_property name="ObjectShortName">bram_we[0:0]</obj_property>
+      <obj_property name="CustomSignalColor">#FF00FF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/top_level_testbench/top_level_1/NV_REG_1/bram_addr">
+      <obj_property name="ElementShortName">bram_addr[3:0]</obj_property>
+      <obj_property name="ObjectShortName">bram_addr[3:0]</obj_property>
+      <obj_property name="CustomSignalColor">#FF00FF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/top_level_testbench/top_level_1/NV_REG_1/bram_din">
+      <obj_property name="ElementShortName">bram_din[31:0]</obj_property>
+      <obj_property name="ObjectShortName">bram_din[31:0]</obj_property>
+      <obj_property name="CustomSignalColor">#FF00FF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/top_level_testbench/top_level_1/NV_REG_1/bram_dout">
+      <obj_property name="ElementShortName">bram_dout[31:0]</obj_property>
+      <obj_property name="ObjectShortName">bram_dout[31:0]</obj_property>
+      <obj_property name="CustomSignalColor">#FF00FF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/top_level_testbench/top_level_1/NV_REG_1/bram_en_rst">
+      <obj_property name="ElementShortName">bram_en_rst</obj_property>
+      <obj_property name="ObjectShortName">bram_en_rst</obj_property>
+      <obj_property name="CustomSignalColor">#FF00FF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/top_level_testbench/top_level_1/NV_REG_1/bram_we_rst">
+      <obj_property name="ElementShortName">bram_we_rst[0:0]</obj_property>
+      <obj_property name="ObjectShortName">bram_we_rst[0:0]</obj_property>
+      <obj_property name="CustomSignalColor">#FF00FF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/top_level_testbench/top_level_1/NV_REG_1/bram_addr_rst">
+      <obj_property name="ElementShortName">bram_addr_rst[3:0]</obj_property>
+      <obj_property name="ObjectShortName">bram_addr_rst[3:0]</obj_property>
+      <obj_property name="CustomSignalColor">#FF00FF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/top_level_testbench/top_level_1/NV_REG_1/bram_din_rst">
+      <obj_property name="ElementShortName">bram_din_rst[31:0]</obj_property>
+      <obj_property name="ObjectShortName">bram_din_rst[31:0]</obj_property>
+      <obj_property name="CustomSignalColor">#FF00FF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject type="other" fp_name="/top_level_testbench/top_level_1/NV_REG_1/MAX_DELAY_NS">
+      <obj_property name="ElementShortName">MAX_DELAY_NS</obj_property>
+      <obj_property name="ObjectShortName">MAX_DELAY_NS</obj_property>
+      <obj_property name="CustomSignalColor">#FF00FF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject type="other" fp_name="/top_level_testbench/top_level_1/NV_REG_1/NV_REG_WIDTH">
+      <obj_property name="ElementShortName">NV_REG_WIDTH</obj_property>
+      <obj_property name="ObjectShortName">NV_REG_WIDTH</obj_property>
+      <obj_property name="CustomSignalColor">#FF00FF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject type="other" fp_name="/top_level_testbench/top_level_1/NV_REG_1/bram_addr_width_bit">
+      <obj_property name="ElementShortName">bram_addr_width_bit</obj_property>
+      <obj_property name="ObjectShortName">bram_addr_width_bit</obj_property>
+      <obj_property name="CustomSignalColor">#FF00FF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject type="other" fp_name="/top_level_testbench/top_level_1/ADDER_1/fsm_status">
+      <obj_property name="ElementShortName">fsm_status</obj_property>
+      <obj_property name="ObjectShortName">fsm_status</obj_property>
+      <obj_property name="CustomSignalColor">#FFFFFF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/top_level_testbench/top_level_1/ADDER_1/task_status">
+      <obj_property name="ElementShortName">task_status</obj_property>
+      <obj_property name="ObjectShortName">task_status</obj_property>
+      <obj_property name="CustomSignalColor">#FFFFFF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/top_level_testbench/top_level_1/ADDER_1/nv_reg_en">
+      <obj_property name="ElementShortName">nv_reg_en</obj_property>
+      <obj_property name="ObjectShortName">nv_reg_en</obj_property>
+      <obj_property name="CustomSignalColor">#FFFFFF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/top_level_testbench/top_level_1/ADDER_1/nv_reg_busy">
+      <obj_property name="ElementShortName">nv_reg_busy</obj_property>
+      <obj_property name="ObjectShortName">nv_reg_busy</obj_property>
+      <obj_property name="CustomSignalColor">#FFFFFF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/top_level_testbench/top_level_1/ADDER_1/nv_reg_busy_sig">
+      <obj_property name="ElementShortName">nv_reg_busy_sig</obj_property>
+      <obj_property name="ObjectShortName">nv_reg_busy_sig</obj_property>
+      <obj_property name="CustomSignalColor">#FFFFFF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/top_level_testbench/top_level_1/ADDER_1/nv_reg_we">
+      <obj_property name="ElementShortName">nv_reg_we[0:0]</obj_property>
+      <obj_property name="ObjectShortName">nv_reg_we[0:0]</obj_property>
+      <obj_property name="CustomSignalColor">#FFFFFF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/top_level_testbench/top_level_1/ADDER_1/nv_reg_addr">
+      <obj_property name="ElementShortName">nv_reg_addr[3:0]</obj_property>
+      <obj_property name="ObjectShortName">nv_reg_addr[3:0]</obj_property>
+      <obj_property name="CustomSignalColor">#FFFFFF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/top_level_testbench/top_level_1/ADDER_1/nv_reg_din">
+      <obj_property name="ElementShortName">nv_reg_din[31:0]</obj_property>
+      <obj_property name="ObjectShortName">nv_reg_din[31:0]</obj_property>
+      <obj_property name="CustomSignalColor">#FFFFFF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/top_level_testbench/top_level_1/ADDER_1/nv_reg_dout">
+      <obj_property name="ElementShortName">nv_reg_dout[31:0]</obj_property>
+      <obj_property name="ObjectShortName">nv_reg_dout[31:0]</obj_property>
+      <obj_property name="CustomSignalColor">#FFFFFF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject type="other" fp_name="/top_level_testbench/top_level_1/ADDER_1/present_state">
+      <obj_property name="ElementShortName">present_state</obj_property>
+      <obj_property name="ObjectShortName">present_state</obj_property>
+      <obj_property name="CustomSignalColor">#FFFFFF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject type="other" fp_name="/top_level_testbench/top_level_1/ADDER_1/future_state">
+      <obj_property name="ElementShortName">future_state</obj_property>
+      <obj_property name="ObjectShortName">future_state</obj_property>
+      <obj_property name="CustomSignalColor">#FFFFFF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/top_level_testbench/top_level_1/ADDER_1/adder_value">
+      <obj_property name="ElementShortName">adder_value[31:0]</obj_property>
+      <obj_property name="ObjectShortName">adder_value[31:0]</obj_property>
    </wvobject>
 </wave_config>

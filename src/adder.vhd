@@ -49,8 +49,7 @@ entity adder is
         nv_reg_we           : out STD_LOGIC_VECTOR( 0 DOWNTO 0);  
         nv_reg_addr         : out STD_LOGIC_VECTOR(nv_reg_addr_width_bit-1 DOWNTO 0);
         nv_reg_din          : out STD_LOGIC_VECTOR( 31 DOWNTO 0);
-        nv_reg_dout         : in STD_LOGIC_VECTOR( 31 DOWNTO 0);       
-        recovery_start      : in std_logic  --da togliere
+        nv_reg_dout         : in STD_LOGIC_VECTOR( 31 DOWNTO 0)
     );
 end adder;
 
@@ -72,6 +71,23 @@ architecture Behavioral of adder is
             doutb   : out std_logic_vector(31 downto 0)
         );
     END COMPONENT;
+    
+    component variable_counter is
+        Generic(
+            MAX         : INTEGER;
+            INIT_VALUE  : INTEGER;
+            INCREASE_BY : INTEGER
+        );
+        Port ( 
+            clk         : in STD_LOGIC;
+            resetn      : in STD_LOGIC;
+            INIT        : in STD_LOGIC;
+            CE          : in STD_LOGIC;
+            end_value   : in INTEGER RANGE 0 TO MAX;
+            TC          : out STD_LOGIC;
+            value       : out INTEGER RANGE 0 TO MAX
+        );
+    end component;
     
     -------------------------------BRAM_SIGNALS--------------------------------------------
     signal clka     : std_logic;
@@ -99,7 +115,7 @@ architecture Behavioral of adder is
     signal present_state, future_state : control_fsm := reset_state;
     --------------------------------------------------------------------------------------
     -------------------------------ADDER_SIGNALS------------------------------------------
-    signal adder_value : std_logic_vector(63 downto 0) := (others => '0');
+    signal adder_value : std_logic_vector(31 downto 0) := (others => '0');
 --    constant bram_addr_width_bit : INTEGER := 16;
 --    constant BRAM_WIDTH: INTEGER := 65536; --2**bram_addr_width
     --------------------------------------------------------------------------------------
@@ -158,7 +174,7 @@ begin
         end if;    
     end process;
     
-    ADDR_FSM_CMB : process(present_state, data_rec_recovered_offset, recovery_start, fsm_status, adder_value) begin
+    ADDR_FSM_CMB : process(present_state, data_rec_recovered_offset, fsm_status, adder_value) begin
         
         ena <= '0';
         wea <= (others => '0'); 
@@ -168,33 +184,33 @@ begin
         
         case present_state is
             when reset_state =>
-                if fsm_status = recovery_state then
+                if fsm_status = recovery_s then
                     future_state <= loading_state;         
                 end if;     
             when loading_state =>
                 ena <= '1';
                 wea <= "1";
-                addra <= std_logic_vector(unsigned(data_rec_recovered_offset) + unsigned(data_rec_nv_reg_start_addr));
+                addra <= std_logic_vector(to_unsigned(data_rec_recovered_offset + to_integer(unsigned(data_rec_nv_reg_start_addr)),16));
                 dina <= data_rec_recovered_data;
-                if fsm_status = data_recovered_state then
+                if fsm_status = data_recovered_s then
                     future_state <= read_state;
                 end if;
             when read_state =>
-                if recovery_start = '1' then
+                if (fsm_status /= do_operation_s) and (fsm_status /= start_data_save_s) then
                     future_state <= recovery_fsm_state;
                 else
                     ena <= '1';
                     future_state <= wait_state_1;
                 end if;
             when wait_state_1 =>
-                if recovery_start = '1' then
+                if (fsm_status /= do_operation_s) and (fsm_status /= start_data_save_s) then
                     future_state <= recovery_fsm_state;
                 else
                     ena <= '1';
                     future_state <= add_state;
                 end if;
             when add_state =>
-                if recovery_start = '1' then
+                if (fsm_status /= do_operation_s) and (fsm_status /= start_data_save_s) then
                     future_state <= recovery_fsm_state;
                 else
                     wea <= "1";
@@ -203,7 +219,7 @@ begin
                     future_state <= read_state;
                 end if;                                
             when recovery_fsm_state =>
-                if recovery_start = '0' then
+                if (fsm_status /= do_operation_s) and (fsm_status /= start_data_save_s) then
                     future_state <= read_state;
                 end if;                                                               
         end case;
@@ -308,7 +324,7 @@ begin
         end if;
     end process VAR_CNTR_CLK_GEN;
     
-    VAR_CNTR: entity work.variable_counter(Behavioral) 
+    VAR_CNTR: variable_counter
     Generic map(
         MAX         => NV_REG_WIDTH+2,
         INIT_VALUE  => NV_REG_WIDTH+2,

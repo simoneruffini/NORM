@@ -46,7 +46,7 @@ entity nv_reg is
         --------------------------- 
         en          : in STD_LOGIC;
         we          : in STD_LOGIC_VECTOR(0 DOWNTO 0);
-        addr        : in STD_LOGIC_VECTOR(3 DOWNTO 0);
+        addr        : in STD_LOGIC_VECTOR(integer(ceil(log2(real(NV_REG_WIDTH))))-1 DOWNTO 0);
         din         : in STD_LOGIC_VECTOR(31 DOWNTO 0);
         dout        : out STD_LOGIC_VECTOR(31 DOWNTO 0)
     );
@@ -85,6 +85,19 @@ architecture Behavioral of nv_reg is
       );
     END COMPONENT blk_mem_gen_1;
     
+    COMPONENT nv_reg_emu is
+        Generic(
+            MAX_DELAY_NS: INTEGER -- this is the maximum delay that the nv_reg uses to process data
+        );
+        Port ( 
+            clk     : IN STD_LOGIC;
+            resetN  : IN STD_LOGIC;
+            load_en : IN STD_LOGIC; 
+            busy_sig: OUT STD_LOGIC;
+            busy    : OUT STD_LOGIC
+        );
+    end COMPONENT;
+    
 begin
 
     BRAM: blk_mem_gen_1
@@ -97,7 +110,7 @@ begin
         douta       =>bram_dout    
     );
     
-    EMU: entity work.nv_reg_emu(Behavioral)
+    EMU: nv_reg_emu
     Generic map(
         MAX_DELAY_NS => MAX_DELAY_NS
     )
