@@ -90,7 +90,7 @@ begin
         power_resetN <='1';
         MASTER_RESETN <= '1';
         wait for 10 * MASTER_CLK_PERIOD_NS * 1ns;
-        power_resetN <='0';
+        --power_resetN <='0';
         wait for 5 * MASTER_CLK_PERIOD_NS * 1ns;
         power_resetN <= '1';
         wait;
@@ -104,30 +104,34 @@ begin
         if(power_resetN='0') then
             i := 0;
             cntr_ce <= '0';
-            cntr_init <= '0';
             load_en <= '0';
             nv_reg_en <= '0'; 
             nv_reg_we <= (OTHERS => '0'); 
             load_en <= '0';
         elsif(rising_edge(MASTER_CLK)) then 
-                load_en <='0';
+            load_en <= '0';
+            cntr_ce <= '1';
+            nv_reg_en <= '0';
+            nv_reg_we <= (OTHERS => '0');
+            if(cntr_value <bram_width) then
+                load_en <= '1';
                 nv_reg_en <= '1';
-                nv_reg_we <= (OTHERS => '0');
-            if(i<20) then
-                cntr_ce <='1';
-                if(busy_sig = '0') then
-                    load_en <= '1';
-                    nv_reg_we <= (OTHERS => '1');     
-                end if;
+                nv_reg_we <= (OTHERS => '1');
+            else
+                load_en <= '1';
+                if(cntr_value > bram_width +2) then
+                    nv_reg_en <= '1';
+                end if; 
             end if;
             i:=i+1;       
         end if;
     end process; 
     
     nv_reg_addr <= std_logic_vector(to_unsigned(cntr_value mod bram_width,32));  
-    nv_reg_din <= std_logic_vector(to_unsigned(cntr_value ,32));
+    nv_reg_din <= std_logic_vector(to_unsigned(cntr_value +1 ,32));
     
     cntr_clk <= not busy;
+    cntr_init <= '0';
     
     CNTR_1: entity work.counter(Behavioral)
     Generic map(

@@ -132,12 +132,17 @@ begin
             if(resetN = '0') then
                 bram_en_rst <= '1';
                 bram_we_rst <= (OTHERS => '1');
-                bram_addr_rst <= std_logic_vector(to_unsigned(counter,32));
+                
                 bram_din_rst <= (OTHERS => '0');
-                if(counter < NV_REG_WIDTH -1) then
+                if(counter < NV_REG_WIDTH ) then
                     counter := counter +1;
+                elsif(counter = NV_REG_WIDTH ) then
+                    bram_we_rst <= (OTHERS => '0');
+                    bram_en_rst <= '0';
                 end if;
+                bram_addr_rst <= std_logic_vector(to_unsigned(counter-1,32));
             else
+                bram_we_rst <= (OTHERS => '0');
                 counter := 0;
             end if;
 
