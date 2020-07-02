@@ -47,7 +47,6 @@ architecture Behavioral of nv_reg_testbench is
     ------------------------------------------------------------------------------------------------
     ------------------------------------NV_REG_SIGNALS----------------------------------------------
     signal busy,busy_sig    :STD_LOGIC;
-    signal load_en          :STD_LOGIC := '0';
     signal nv_reg_en        :STD_LOGIC := '0';                     
     signal nv_reg_we        :STD_LOGIC_VECTOR(0 DOWNTO 0) := (OTHERS => '0');  
     signal nv_reg_addr      :STD_LOGIC_VECTOR(bram_addr_width_bit-1 DOWNTO 0) ; 
@@ -59,20 +58,19 @@ architecture Behavioral of nv_reg_testbench is
     signal cntr_ce, cntr_init : STD_LOGIC := '0';
     signal cntr_clk, cntr_tc : STD_LOGIC;
     signal cntr_value: INTEGER;
-    constant cntr_max_val : INTEGER := 20;
+    constant cntr_max_val : INTEGER := 70;
     ------------------------------------------------------------------------------------------------
 
 begin
     NV_REG_1: entity work.nv_reg(Behavioral) 
     Generic map(
-        MAX_DELAY   => FRAM_MAX_DELAY_NS,
+        MAX_DELAY_NS=> FRAM_MAX_DELAY_NS,
         NV_REG_WIDTH=> NV_REG_WIDTH
     )
     Port map(       
         clk         => MASTER_CLK,
         resetN      => MASTER_RESETN,
         power_resetN=> power_resetN,
-        load_en     => load_en,
         busy_sig    => busy_sig,
         busy        => busy,
         ------------
@@ -106,31 +104,24 @@ begin
     
     
     TEST_1: process (power_resetN,MASTER_CLK) is
-    variable i: integer;
     begin
         if(power_resetN='0') then
-            i := 0;
+
             cntr_ce <= '0';
-            load_en <= '0';
             nv_reg_en <= '0'; 
             nv_reg_we <= (OTHERS => '0'); 
-            load_en <= '0';
+
         elsif(rising_edge(MASTER_CLK)) then 
-            load_en <= '0';
+
             cntr_ce <= '1';
-            nv_reg_en <= '0';
+            nv_reg_en <= '1';
             nv_reg_we <= (OTHERS => '0');
             if(cntr_value <bram_width) then
-                load_en <= '1';
-                nv_reg_en <= '1';
                 nv_reg_we <= (OTHERS => '1');
-            else
-                load_en <= '1';
-                if(cntr_value > bram_width +2) then
-                    nv_reg_en <= '1';
-                end if; 
             end if;
-            i:=i+1;       
+            if((cntr_value = bram_width -1) and (busy_sig ='0') AND (busy ='1')) then
+                nv_reg_we <= (others => '0');
+            end if;
         end if;
     end process; 
     

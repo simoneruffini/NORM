@@ -34,14 +34,13 @@ use IEEE.math_real.all;
 
 entity nv_reg is
     Generic(
-        MAX_DELAY   : INTEGER;
+        MAX_DELAY_NS: INTEGER;
         NV_REG_WIDTH: INTEGER
     );
     Port ( 
         clk         : in STD_LOGIC;
         resetN      : in STD_LOGIC;
         power_resetN: in STD_LOGIC;
-        load_en     : in STD_LOGIC;
         busy_sig    : out STD_LOGIC;
         busy        : out STD_LOGIC;
         --------------------------- 
@@ -56,6 +55,7 @@ end nv_reg;
 architecture Behavioral of nv_reg is
     ------------------------------------NV_REG_EMU_SIGNALS------------------------------------------
     signal rstn: STD_LOGIC;
+    signal busy_internal: STD_LOGIC;
     ------------------------------------------------------------------------------------------------
     ------------------------------------NV_REG_CNST-------------------------------------------------
     constant bram_addr_width_bit : INTEGER := integer(ceil(log2(real(NV_REG_WIDTH))));
@@ -99,23 +99,24 @@ begin
     
     EMU: entity work.nv_reg_emu(Behavioral)
     Generic map(
-        MAX_DELAY => MAX_DELAY
+        MAX_DELAY_NS => MAX_DELAY_NS
     )
     Port map( 
         clk     =>clk,
         resetN  =>rstN,
-        load_en =>load_en,
+        load_en =>bram_en,
         busy_sig=>busy_sig,
-        busy    =>busy
+        busy    =>busy_internal
     );
     
+    busy<=busy_internal;
     
     rstN <= '0' when resetN = '0' else
             '0' when power_resetN = '0' else
             resetN;
     bram_en <= bram_en_rst when resetN = '0' else
             '0' when power_resetN = '0' else
-            en;
+            (en or busy_internal);              --IMPORTANT keeps the bram active even if the signal was deactivated "feature enable hold"
     bram_we <= bram_we_rst when resetN = '0' else
             (OTHERS => '0') when power_resetN = '0' else
             we;
