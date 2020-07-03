@@ -6,89 +6,52 @@
       <db_ref path="adder_testbench_behav.wdb" id="1">
          <top_modules>
             <top_module name="adder_testbench" />
-            <top_module name="architecture_package" />
             <top_module name="common_package" />
+            <top_module name="global_settings" />
+            <top_module name="nv_reg_emulator_pkg" />
+            <top_module name="test_module_package" />
          </top_modules>
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="0fs"></ZoomStartTime>
-      <ZoomEndTime time="175800001fs"></ZoomEndTime>
-      <Cursor1Time time="1000000fs"></Cursor1Time>
+      <ZoomStartTime time="941400000fs"></ZoomStartTime>
+      <ZoomEndTime time="1139000001fs"></ZoomEndTime>
+      <Cursor1Time time="1055000000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
-      <NameColumnWidth column_width="237"></NameColumnWidth>
-      <ValueColumnWidth column_width="118"></ValueColumnWidth>
+      <NameColumnWidth column_width="293"></NameColumnWidth>
+      <ValueColumnWidth column_width="114"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="6" />
-   <wvobject fp_name="group52" type="group">
-      <obj_property name="label">data_filler</obj_property>
-      <obj_property name="DisplayName">label</obj_property>
-      <wvobject fp_name="/adder_testbench/data_fill_nv_reg_en" type="logic">
-         <obj_property name="ElementShortName">data_fill_nv_reg_en</obj_property>
-         <obj_property name="ObjectShortName">data_fill_nv_reg_en</obj_property>
-         <obj_property name="CustomSignalColor">#FFFFFF</obj_property>
-         <obj_property name="UseCustomSignalColor">true</obj_property>
-      </wvobject>
-      <wvobject fp_name="/adder_testbench/data_fill_busy" type="logic">
-         <obj_property name="ElementShortName">data_fill_busy</obj_property>
-         <obj_property name="ObjectShortName">data_fill_busy</obj_property>
-      </wvobject>
-      <wvobject fp_name="/adder_testbench/data_fill_nv_reg_we" type="array">
-         <obj_property name="ElementShortName">data_fill_nv_reg_we[0:0]</obj_property>
-         <obj_property name="ObjectShortName">data_fill_nv_reg_we[0:0]</obj_property>
-         <obj_property name="Radix">HEXRADIX</obj_property>
-      </wvobject>
-      <wvobject fp_name="/adder_testbench/data_fill_nv_reg_addr" type="array">
-         <obj_property name="ElementShortName">data_fill_nv_reg_addr[3:0]</obj_property>
-         <obj_property name="ObjectShortName">data_fill_nv_reg_addr[3:0]</obj_property>
-         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-      </wvobject>
-      <wvobject fp_name="/adder_testbench/data_fill_nv_reg_din" type="array">
-         <obj_property name="ElementShortName">data_fill_nv_reg_din[31:0]</obj_property>
-         <obj_property name="ObjectShortName">data_fill_nv_reg_din[31:0]</obj_property>
-         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-      </wvobject>
-      <wvobject fp_name="/adder_testbench/nv_reg_dout" type="array">
-         <obj_property name="ElementShortName">nv_reg_dout[31:0]</obj_property>
-         <obj_property name="ObjectShortName">nv_reg_dout[31:0]</obj_property>
-      </wvobject>
-   </wvobject>
-   <wvobject fp_name="group46" type="group">
-      <obj_property name="label">bram</obj_property>
-      <obj_property name="DisplayName">label</obj_property>
-      <wvobject fp_name="/adder_testbench/NV_REG/BRAM/clka" type="logic">
-         <obj_property name="ElementShortName">clka</obj_property>
-         <obj_property name="ObjectShortName">clka</obj_property>
-      </wvobject>
-      <wvobject fp_name="/adder_testbench/NV_REG/BRAM/ena" type="logic">
-         <obj_property name="ElementShortName">ena</obj_property>
-         <obj_property name="ObjectShortName">ena</obj_property>
-      </wvobject>
-      <wvobject fp_name="/adder_testbench/NV_REG/BRAM/wea" type="array">
-         <obj_property name="ElementShortName">wea[0:0]</obj_property>
-         <obj_property name="ObjectShortName">wea[0:0]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/adder_testbench/NV_REG/BRAM/addra" type="array">
-         <obj_property name="ElementShortName">addra[3:0]</obj_property>
-         <obj_property name="ObjectShortName">addra[3:0]</obj_property>
-         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-      </wvobject>
-      <wvobject fp_name="/adder_testbench/NV_REG/BRAM/dina" type="array">
-         <obj_property name="ElementShortName">dina[31:0]</obj_property>
-         <obj_property name="ObjectShortName">dina[31:0]</obj_property>
-         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-      </wvobject>
-      <wvobject fp_name="/adder_testbench/NV_REG/BRAM/douta" type="array">
-         <obj_property name="ElementShortName">douta[31:0]</obj_property>
-         <obj_property name="ObjectShortName">douta[31:0]</obj_property>
-         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-      </wvobject>
-   </wvobject>
+   <WVObjectSize size="9" />
    <wvobject fp_name="group44" type="group">
       <obj_property name="label">nv_reg</obj_property>
       <obj_property name="DisplayName">label</obj_property>
-      <obj_property name="isExpanded"></obj_property>
+      <wvobject fp_name="group46" type="group">
+         <obj_property name="label">nv_reg_bram</obj_property>
+         <obj_property name="DisplayName">label</obj_property>
+         <wvobject fp_name="/adder_testbench/NV_REG_E/BRAM/ena" type="logic">
+            <obj_property name="ElementShortName">ena</obj_property>
+            <obj_property name="ObjectShortName">ena</obj_property>
+         </wvobject>
+         <wvobject fp_name="/adder_testbench/NV_REG_E/BRAM/wea" type="array">
+            <obj_property name="ElementShortName">wea[0:0]</obj_property>
+            <obj_property name="ObjectShortName">wea[0:0]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/adder_testbench/NV_REG_E/BRAM/addra" type="array">
+            <obj_property name="ElementShortName">addra[3:0]</obj_property>
+            <obj_property name="ObjectShortName">addra[3:0]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/adder_testbench/NV_REG_E/BRAM/dina" type="array">
+            <obj_property name="ElementShortName">dina[31:0]</obj_property>
+            <obj_property name="ObjectShortName">dina[31:0]</obj_property>
+            <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+         </wvobject>
+         <wvobject fp_name="/adder_testbench/NV_REG_E/BRAM/douta" type="array">
+            <obj_property name="ElementShortName">douta[31:0]</obj_property>
+            <obj_property name="ObjectShortName">douta[31:0]</obj_property>
+            <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+         </wvobject>
+      </wvobject>
       <wvobject fp_name="/adder_testbench/nv_reg_en" type="logic">
          <obj_property name="ElementShortName">nv_reg_en</obj_property>
          <obj_property name="ObjectShortName">nv_reg_en</obj_property>
@@ -122,64 +85,38 @@
          <obj_property name="ObjectShortName">nv_reg_din[31:0]</obj_property>
          <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       </wvobject>
-      <wvobject fp_name="/adder_testbench/nv_reg_dout" type="array">
-         <obj_property name="ElementShortName">nv_reg_dout[31:0]</obj_property>
-         <obj_property name="ObjectShortName">nv_reg_dout[31:0]</obj_property>
-         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-      </wvobject>
    </wvobject>
    <wvobject fp_name="group47" type="group">
       <obj_property name="label">fsm_nv_reg</obj_property>
       <obj_property name="DisplayName">label</obj_property>
-      <wvobject fp_name="/adder_testbench/thresh" type="other">
-         <obj_property name="ElementShortName">thresh</obj_property>
-         <obj_property name="ObjectShortName">thresh</obj_property>
-      </wvobject>
-      <wvobject fp_name="/adder_testbench/task_status" type="logic">
-         <obj_property name="ElementShortName">task_status</obj_property>
-         <obj_property name="ObjectShortName">task_status</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject fp_name="/adder_testbench/thresh_stats" type="other">
+         <obj_property name="ElementShortName">thresh_stats</obj_property>
+         <obj_property name="ObjectShortName">thresh_stats</obj_property>
       </wvobject>
       <wvobject fp_name="/adder_testbench/fsm_status" type="other">
          <obj_property name="ElementShortName">fsm_status</obj_property>
          <obj_property name="ObjectShortName">fsm_status</obj_property>
       </wvobject>
-      <wvobject fp_name="group54" type="group">
-         <obj_property name="label">busy</obj_property>
-         <obj_property name="DisplayName">label</obj_property>
-         <wvobject fp_name="/adder_testbench/data_fill_busy" type="logic">
-            <obj_property name="ElementShortName">data_fill_busy</obj_property>
-            <obj_property name="ObjectShortName">data_fill_busy</obj_property>
-            <obj_property name="CustomSignalColor">#FFFFFF</obj_property>
-            <obj_property name="UseCustomSignalColor">true</obj_property>
-         </wvobject>
-         <wvobject fp_name="/adder_testbench/data_rec_busy" type="logic">
-            <obj_property name="ElementShortName">data_rec_busy</obj_property>
-            <obj_property name="ObjectShortName">data_rec_busy</obj_property>
-            <obj_property name="CustomSignalColor">#FFFFFF</obj_property>
-            <obj_property name="UseCustomSignalColor">true</obj_property>
-         </wvobject>
-         <wvobject fp_name="/adder_testbench/data_save_busy" type="logic">
-            <obj_property name="ElementShortName">data_save_busy</obj_property>
-            <obj_property name="ObjectShortName">data_save_busy</obj_property>
-            <obj_property name="CustomSignalColor">#FFFFFF</obj_property>
-            <obj_property name="UseCustomSignalColor">true</obj_property>
-         </wvobject>
+      <wvobject fp_name="/adder_testbench/task_status" type="logic">
+         <obj_property name="ElementShortName">task_status</obj_property>
+         <obj_property name="ObjectShortName">task_status</obj_property>
       </wvobject>
    </wvobject>
    <wvobject fp_name="group48" type="group">
       <obj_property name="label">MAIN_SIG</obj_property>
       <obj_property name="DisplayName">label</obj_property>
       <obj_property name="isExpanded"></obj_property>
-      <wvobject fp_name="/adder_testbench/MASTER_CLK" type="logic">
-         <obj_property name="ElementShortName">MASTER_CLK</obj_property>
-         <obj_property name="ObjectShortName">MASTER_CLK</obj_property>
-         <obj_property name="CustomSignalColor">#FFD700</obj_property>
+      <wvobject fp_name="/adder_testbench/sys_clk" type="logic">
+         <obj_property name="ElementShortName">sys_clk</obj_property>
+         <obj_property name="ObjectShortName">sys_clk</obj_property>
+         <obj_property name="CustomSignalColor">#FFA500</obj_property>
          <obj_property name="UseCustomSignalColor">true</obj_property>
       </wvobject>
-      <wvobject fp_name="/adder_testbench/MASTER_RESETN" type="logic">
-         <obj_property name="ElementShortName">MASTER_RESETN</obj_property>
-         <obj_property name="ObjectShortName">MASTER_RESETN</obj_property>
-         <obj_property name="CustomSignalColor">#FF00FF</obj_property>
+      <wvobject fp_name="/adder_testbench/resetN" type="logic">
+         <obj_property name="ElementShortName">resetN</obj_property>
+         <obj_property name="ObjectShortName">resetN</obj_property>
+         <obj_property name="CustomSignalColor">#008080</obj_property>
          <obj_property name="UseCustomSignalColor">true</obj_property>
       </wvobject>
       <wvobject fp_name="/adder_testbench/power_resetN" type="logic">
@@ -188,27 +125,188 @@
          <obj_property name="CustomSignalColor">#00FFFF</obj_property>
          <obj_property name="UseCustomSignalColor">true</obj_property>
       </wvobject>
-      <wvobject fp_name="/adder_testbench/power_resetN_2" type="logic">
-         <obj_property name="ElementShortName">power_resetN_2</obj_property>
-         <obj_property name="ObjectShortName">power_resetN_2</obj_property>
-         <obj_property name="CustomSignalColor">#008080</obj_property>
+   </wvobject>
+   <wvobject fp_name="group68" type="group">
+      <obj_property name="label">var_cntr</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/adder_testbench/ADDR_E/var_cntr_clk" type="logic">
+         <obj_property name="ElementShortName">var_cntr_clk</obj_property>
+         <obj_property name="ObjectShortName">var_cntr_clk</obj_property>
+         <obj_property name="CustomSignalColor">#FFD700</obj_property>
          <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/adder_testbench/ADDR_E/var_cntr_init" type="logic">
+         <obj_property name="ElementShortName">var_cntr_init</obj_property>
+         <obj_property name="ObjectShortName">var_cntr_init</obj_property>
+      </wvobject>
+      <wvobject fp_name="/adder_testbench/ADDR_E/var_cntr_ce" type="logic">
+         <obj_property name="ElementShortName">var_cntr_ce</obj_property>
+         <obj_property name="ObjectShortName">var_cntr_ce</obj_property>
+      </wvobject>
+      <wvobject fp_name="/adder_testbench/ADDR_E/var_cntr_tc" type="logic">
+         <obj_property name="ElementShortName">var_cntr_tc</obj_property>
+         <obj_property name="ObjectShortName">var_cntr_tc</obj_property>
+      </wvobject>
+      <wvobject fp_name="/adder_testbench/ADDR_E/var_cntr_value" type="other">
+         <obj_property name="ElementShortName">var_cntr_value</obj_property>
+         <obj_property name="ObjectShortName">var_cntr_value</obj_property>
+      </wvobject>
+      <wvobject fp_name="/adder_testbench/ADDR_E/var_cntr_end_value" type="other">
+         <obj_property name="ElementShortName">var_cntr_end_value</obj_property>
+         <obj_property name="ObjectShortName">var_cntr_end_value</obj_property>
       </wvobject>
    </wvobject>
    <wvobject fp_name="group58" type="group">
       <obj_property name="label">data_rec</obj_property>
       <obj_property name="DisplayName">label</obj_property>
       <obj_property name="isExpanded"></obj_property>
-      <wvobject fp_name="/adder_testbench/data_rec_nv_reg_en" type="logic">
-         <obj_property name="ElementShortName">data_rec_nv_reg_en</obj_property>
-         <obj_property name="ObjectShortName">data_rec_nv_reg_en</obj_property>
-         <obj_property name="CustomSignalColor">#FFFFFF</obj_property>
-         <obj_property name="UseCustomSignalColor">true</obj_property>
-      </wvobject>
-      <wvobject fp_name="/adder_testbench/data_rec_busy" type="logic">
+      <wvobject fp_name="/adder_testbench/ADDR_E/data_rec_busy" type="logic">
          <obj_property name="ElementShortName">data_rec_busy</obj_property>
          <obj_property name="ObjectShortName">data_rec_busy</obj_property>
       </wvobject>
+      <wvobject fp_name="/adder_testbench/ADDR_E/data_rec_offset" type="other">
+         <obj_property name="ElementShortName">data_rec_offset</obj_property>
+         <obj_property name="ObjectShortName">data_rec_offset</obj_property>
+      </wvobject>
+      <wvobject fp_name="/adder_testbench/ADDR_E/data_rec_recovered_data" type="array">
+         <obj_property name="ElementShortName">data_rec_recovered_data[31:0]</obj_property>
+         <obj_property name="ObjectShortName">data_rec_recovered_data[31:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="group194" type="group">
+         <obj_property name="label">data_rec_nv_reg</obj_property>
+         <obj_property name="DisplayName">label</obj_property>
+         <wvobject fp_name="/adder_testbench/ADDR_E/data_rec_nv_reg_en" type="logic">
+            <obj_property name="ElementShortName">data_rec_nv_reg_en</obj_property>
+            <obj_property name="ObjectShortName">data_rec_nv_reg_en</obj_property>
+         </wvobject>
+         <wvobject fp_name="/adder_testbench/ADDR_E/data_rec_nv_reg_we" type="array">
+            <obj_property name="ElementShortName">data_rec_nv_reg_we[0:0]</obj_property>
+            <obj_property name="ObjectShortName">data_rec_nv_reg_we[0:0]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/adder_testbench/ADDR_E/data_rec_nv_reg_din" type="array">
+            <obj_property name="ElementShortName">data_rec_nv_reg_din[31:0]</obj_property>
+            <obj_property name="ObjectShortName">data_rec_nv_reg_din[31:0]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/adder_testbench/ADDR_E/data_rec_nv_reg_addr" type="array">
+            <obj_property name="ElementShortName">data_rec_nv_reg_addr[3:0]</obj_property>
+            <obj_property name="ObjectShortName">data_rec_nv_reg_addr[3:0]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/adder_testbench/nv_reg_dout" type="array">
+            <obj_property name="ElementShortName">nv_reg_dout[31:0]</obj_property>
+            <obj_property name="ObjectShortName">nv_reg_dout[31:0]</obj_property>
+            <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+         </wvobject>
+      </wvobject>
+      <wvobject fp_name="group68" type="group">
+         <obj_property name="label">var_cntr</obj_property>
+         <obj_property name="DisplayName">label</obj_property>
+         <wvobject fp_name="/adder_testbench/ADDR_E/var_cntr_clk" type="logic">
+            <obj_property name="ElementShortName">var_cntr_clk</obj_property>
+            <obj_property name="ObjectShortName">var_cntr_clk</obj_property>
+         </wvobject>
+         <wvobject fp_name="/adder_testbench/ADDR_E/data_rec_var_cntr_ce" type="logic">
+            <obj_property name="ElementShortName">data_rec_var_cntr_ce</obj_property>
+            <obj_property name="ObjectShortName">data_rec_var_cntr_ce</obj_property>
+         </wvobject>
+         <wvobject fp_name="/adder_testbench/ADDR_E/data_rec_var_cntr_init" type="logic">
+            <obj_property name="ElementShortName">data_rec_var_cntr_init</obj_property>
+            <obj_property name="ObjectShortName">data_rec_var_cntr_init</obj_property>
+         </wvobject>
+         <wvobject fp_name="/adder_testbench/ADDR_E/var_cntr_tc" type="logic">
+            <obj_property name="ElementShortName">var_cntr_tc</obj_property>
+            <obj_property name="ObjectShortName">var_cntr_tc</obj_property>
+         </wvobject>
+         <wvobject fp_name="/adder_testbench/ADDR_E/var_cntr_value" type="other">
+            <obj_property name="ElementShortName">var_cntr_value</obj_property>
+            <obj_property name="ObjectShortName">var_cntr_value</obj_property>
+         </wvobject>
+         <wvobject fp_name="/adder_testbench/ADDR_E/var_cntr_end_value" type="other">
+            <obj_property name="ElementShortName">var_cntr_end_value</obj_property>
+            <obj_property name="ObjectShortName">var_cntr_end_value</obj_property>
+         </wvobject>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group157" type="group">
+      <obj_property name="label">data_save</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/adder_testbench/ADDR_E/data_save_busy" type="logic">
+         <obj_property name="ElementShortName">data_save_busy</obj_property>
+         <obj_property name="ObjectShortName">data_save_busy</obj_property>
+      </wvobject>
+      <wvobject fp_name="/adder_testbench/ADDR_E/enb" type="logic">
+         <obj_property name="ElementShortName">enb</obj_property>
+         <obj_property name="ObjectShortName">enb</obj_property>
+      </wvobject>
+      <wvobject fp_name="/adder_testbench/ADDR_E/addrb" type="array">
+         <obj_property name="ElementShortName">addrb[15:0]</obj_property>
+         <obj_property name="ObjectShortName">addrb[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/adder_testbench/ADDR_E/doutb" type="array">
+         <obj_property name="ElementShortName">doutb[31:0]</obj_property>
+         <obj_property name="ObjectShortName">doutb[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="group173" type="group">
+         <obj_property name="label">data_save_nv_reg</obj_property>
+         <obj_property name="DisplayName">label</obj_property>
+         <wvobject fp_name="/adder_testbench/ADDR_E/data_save_nv_reg_en" type="logic">
+            <obj_property name="ElementShortName">data_save_nv_reg_en</obj_property>
+            <obj_property name="ObjectShortName">data_save_nv_reg_en</obj_property>
+         </wvobject>
+         <wvobject fp_name="/adder_testbench/ADDR_E/data_save_nv_reg_we" type="array">
+            <obj_property name="ElementShortName">data_save_nv_reg_we[0:0]</obj_property>
+            <obj_property name="ObjectShortName">data_save_nv_reg_we[0:0]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/adder_testbench/ADDR_E/data_save_nv_reg_addr" type="array">
+            <obj_property name="ElementShortName">data_save_nv_reg_addr[3:0]</obj_property>
+            <obj_property name="ObjectShortName">data_save_nv_reg_addr[3:0]</obj_property>
+            <obj_property name="CustomSignalColor">#FF0000</obj_property>
+            <obj_property name="UseCustomSignalColor">true</obj_property>
+         </wvobject>
+         <wvobject fp_name="/adder_testbench/ADDR_E/data_save_nv_reg_din" type="array">
+            <obj_property name="ElementShortName">data_save_nv_reg_din[31:0]</obj_property>
+            <obj_property name="ObjectShortName">data_save_nv_reg_din[31:0]</obj_property>
+            <obj_property name="CustomSignalColor">#800080</obj_property>
+            <obj_property name="UseCustomSignalColor">true</obj_property>
+         </wvobject>
+         <wvobject fp_name="/adder_testbench/nv_reg_dout" type="array">
+            <obj_property name="ElementShortName">nv_reg_dout[31:0]</obj_property>
+            <obj_property name="ObjectShortName">nv_reg_dout[31:0]</obj_property>
+            <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+         </wvobject>
+      </wvobject>
+      <wvobject fp_name="group68" type="group">
+         <obj_property name="label">var_cntr</obj_property>
+         <obj_property name="DisplayName">label</obj_property>
+         <wvobject fp_name="/adder_testbench/ADDR_E/var_cntr_clk" type="logic">
+            <obj_property name="ElementShortName">var_cntr_clk</obj_property>
+            <obj_property name="ObjectShortName">var_cntr_clk</obj_property>
+         </wvobject>
+         <wvobject fp_name="/adder_testbench/ADDR_E/data_save_var_cntr_ce" type="logic">
+            <obj_property name="ElementShortName">data_save_var_cntr_ce</obj_property>
+            <obj_property name="ObjectShortName">data_save_var_cntr_ce</obj_property>
+         </wvobject>
+         <wvobject fp_name="/adder_testbench/ADDR_E/data_save_var_cntr_init" type="logic">
+            <obj_property name="ElementShortName">data_save_var_cntr_init</obj_property>
+            <obj_property name="ObjectShortName">data_save_var_cntr_init</obj_property>
+         </wvobject>
+         <wvobject fp_name="/adder_testbench/ADDR_E/var_cntr_tc" type="logic">
+            <obj_property name="ElementShortName">var_cntr_tc</obj_property>
+            <obj_property name="ObjectShortName">var_cntr_tc</obj_property>
+         </wvobject>
+         <wvobject fp_name="/adder_testbench/ADDR_E/var_cntr_value" type="other">
+            <obj_property name="ElementShortName">var_cntr_value</obj_property>
+            <obj_property name="ObjectShortName">var_cntr_value</obj_property>
+         </wvobject>
+         <wvobject fp_name="/adder_testbench/ADDR_E/var_cntr_end_value" type="other">
+            <obj_property name="ElementShortName">var_cntr_end_value</obj_property>
+            <obj_property name="ObjectShortName">var_cntr_end_value</obj_property>
+         </wvobject>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group54" type="group">
+      <obj_property name="label">busy</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
       <wvobject fp_name="/adder_testbench/nv_reg_busy" type="logic">
          <obj_property name="ElementShortName">nv_reg_busy</obj_property>
          <obj_property name="ObjectShortName">nv_reg_busy</obj_property>
@@ -221,42 +319,41 @@
          <obj_property name="CustomSignalColor">#808080</obj_property>
          <obj_property name="UseCustomSignalColor">true</obj_property>
       </wvobject>
-      <wvobject fp_name="/adder_testbench/data_rec_nv_reg_addr" type="array">
-         <obj_property name="ElementShortName">data_rec_nv_reg_addr[3:0]</obj_property>
-         <obj_property name="ObjectShortName">data_rec_nv_reg_addr[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="group212" type="group">
+      <obj_property name="label">adder_fsm</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject fp_name="/adder_testbench/ADDR_E/present_state" type="other">
+         <obj_property name="ElementShortName">present_state</obj_property>
+         <obj_property name="ObjectShortName">present_state</obj_property>
       </wvobject>
-      <wvobject fp_name="/adder_testbench/data_rec_recovered_offset" type="other">
-         <obj_property name="ElementShortName">data_rec_recovered_offset</obj_property>
-         <obj_property name="ObjectShortName">data_rec_recovered_offset</obj_property>
+   </wvobject>
+   <wvobject fp_name="group216" type="group">
+      <obj_property name="label">adder</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject fp_name="/adder_testbench/ADDR_E/blk_mem_gen_0_1/ena" type="logic">
+         <obj_property name="ElementShortName">ena</obj_property>
+         <obj_property name="ObjectShortName">ena</obj_property>
       </wvobject>
-      <wvobject fp_name="/adder_testbench/data_rec_recovered_data" type="array">
-         <obj_property name="ElementShortName">data_rec_recovered_data[31:0]</obj_property>
-         <obj_property name="ObjectShortName">data_rec_recovered_data[31:0]</obj_property>
+      <wvobject fp_name="/adder_testbench/ADDR_E/blk_mem_gen_0_1/wea" type="array">
+         <obj_property name="ElementShortName">wea[0:0]</obj_property>
+         <obj_property name="ObjectShortName">wea[0:0]</obj_property>
       </wvobject>
-      <wvobject fp_name="group68" type="group">
-         <obj_property name="label">var_cntr</obj_property>
-         <obj_property name="DisplayName">label</obj_property>
-         <obj_property name="isExpanded"></obj_property>
-         <wvobject fp_name="/adder_testbench/var_cntr_clk" type="logic">
-            <obj_property name="ElementShortName">var_cntr_clk</obj_property>
-            <obj_property name="ObjectShortName">var_cntr_clk</obj_property>
-         </wvobject>
-         <wvobject fp_name="/adder_testbench/var_cntr_init" type="logic">
-            <obj_property name="ElementShortName">var_cntr_init</obj_property>
-            <obj_property name="ObjectShortName">var_cntr_init</obj_property>
-         </wvobject>
-         <wvobject fp_name="/adder_testbench/var_cntr_ce" type="logic">
-            <obj_property name="ElementShortName">var_cntr_ce</obj_property>
-            <obj_property name="ObjectShortName">var_cntr_ce</obj_property>
-         </wvobject>
-         <wvobject fp_name="/adder_testbench/var_cntr_tc" type="logic">
-            <obj_property name="ElementShortName">var_cntr_tc</obj_property>
-            <obj_property name="ObjectShortName">var_cntr_tc</obj_property>
-         </wvobject>
-         <wvobject fp_name="/adder_testbench/var_cntr_value" type="other">
-            <obj_property name="ElementShortName">var_cntr_value</obj_property>
-            <obj_property name="ObjectShortName">var_cntr_value</obj_property>
-         </wvobject>
+      <wvobject fp_name="/adder_testbench/ADDR_E/blk_mem_gen_0_1/addra" type="array">
+         <obj_property name="ElementShortName">addra[15:0]</obj_property>
+         <obj_property name="ObjectShortName">addra[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/adder_testbench/ADDR_E/blk_mem_gen_0_1/dina" type="array">
+         <obj_property name="ElementShortName">dina[31:0]</obj_property>
+         <obj_property name="ObjectShortName">dina[31:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/adder_testbench/ADDR_E/blk_mem_gen_0_1/douta" type="array">
+         <obj_property name="ElementShortName">douta[31:0]</obj_property>
+         <obj_property name="ObjectShortName">douta[31:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       </wvobject>
    </wvobject>
 </wave_config>

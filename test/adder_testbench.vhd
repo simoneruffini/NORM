@@ -33,98 +33,164 @@ use IEEE.math_real.all;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 use work.NV_REG_EMULATOR_PKG.all;
+use work.TEST_MODULE_PACKAGE.all;
+use work.GLOBAL_SETTINGS.ALL;
 
 entity adder_testbench is
 --  Port ( );
 end adder_testbench;
 
 architecture Behavioral of adder_testbench is
+    -------------------------------TESTB_INTERNAL_SIGNALS---------------------------------
+    signal sys_clk      : STD_LOGIC;
+    signal power_resetN : STD_LOGIC;       
+    signal resetN       : STD_LOGIC;
+    --------------------------------------------------------------------------------------    
+    -------------------------------ADDER_SIGNALS------------------------------------------
+    signal task_status         : STD_LOGIC;
+    signal nv_reg_en           : STD_LOGIC;
+    signal nv_reg_busy         : STD_LOGIC;
+    signal nv_reg_busy_sig     : STD_LOGIC; 
+    signal nv_reg_we           : STD_LOGIC_VECTOR( 0 DOWNTO 0);  
+    signal nv_reg_addr         : STD_LOGIC_VECTOR(nv_reg_addr_width_bit-1 DOWNTO 0);
+    signal nv_reg_din          : STD_LOGIC_VECTOR( 31 DOWNTO 0);
+    signal nv_reg_dout         : STD_LOGIC_VECTOR( 31 DOWNTO 0);
+    --------------------------------------------------------------------------------------
+    -------------------------------FSM_NV_REG_SIGNALS-------------------------------------
+    signal thresh_stats         : threshold_t;
+    signal fsm_status           : fsm_nv_reg_state_t;    
+    signal fsm_status_sig       : fsm_nv_reg_state_t;
+
+    --------------------------------------------------------------------------------------
+
+    
+    
     component adder is    
     port(
-        sys_clk             : in std_logic;
-        resetN              : in std_logic;
-        BRAM_enb            : in std_logic;
-        BRAM_addrb          : in std_logic_vector(15 downto 0);
-        BRAM_doutb          : out std_logic_vector(63 downto 0);
-        recovery_start_addr : out std_logic_vector(15 downto 0); 
-        recovery_num_data   : out integer;
-        recovery_FRAM_state : in recovery_data_fsm_type;
-        recovery_data       : in std_logic_vector(63 downto 0);
-        recovery_counter    : in std_logic_vector(15 downto 0);
-        recovery_start      : in std_logic  
+        sys_clk             : in STD_LOGIC;
+        resetN              : in STD_LOGIC;
+        fsm_status          : in fsm_nv_reg_state_t;
+        task_status         : out STD_LOGIC;
+        nv_reg_en           : out STD_LOGIC;
+        nv_reg_busy         : in STD_LOGIC;
+        nv_reg_busy_sig     : in STD_LOGIC; 
+        nv_reg_we           : out STD_LOGIC_VECTOR( 0 DOWNTO 0);  
+        nv_reg_addr         : out STD_LOGIC_VECTOR(nv_reg_addr_width_bit-1 DOWNTO 0);
+        nv_reg_din          : out STD_LOGIC_VECTOR( 31 DOWNTO 0);
+        nv_reg_dout         : in STD_LOGIC_VECTOR( 31 DOWNTO 0)
     );
     end component;
     
-    signal sys_clk             : std_logic;
-    signal resetN              : std_logic;
-    signal BRAM_enb            : std_logic;
-    signal BRAM_addrb          : std_logic_vector(15 downto 0);
-    signal BRAM_doutb          : std_logic_vector(63 downto 0);
-    signal recovery_start_addr : std_logic_vector(15 downto 0); 
-    signal recovery_num_data   : integer;
-    signal recovery_FRAM_state : recovery_data_fsm_type;
-    signal recovery_data       : std_logic_vector(63 downto 0);
-    signal recovery_counter    : std_logic_vector(15 downto 0);
-    signal recovery_start      : std_logic;
-begin
-
-    adder_1 : adder
-    port map(
-        sys_clk             => sys_clk,
-        resetN              => resetN,
-        BRAM_enb            => BRAM_enb,
-        BRAM_addrb          => BRAM_addrb,
-        BRAM_doutb          => BRAM_doutb,
-        recovery_start_addr => recovery_start_addr,
-        recovery_num_data   => recovery_num_data,
-        recovery_FRAM_state => recovery_FRAM_state,
-        recovery_data       => recovery_data,
-        recovery_counter    => recovery_counter,
-        recovery_start      => recovery_start
-        
+    component fsm_nv_reg is
+    port ( 
+        clk                     : in STD_LOGIC;
+        resetN                  : in STD_LOGIC;
+        thresh_stats            : in threshold_t;
+        task_status             : in STD_LOGIC;
+        status                  : out fsm_nv_reg_state_t;
+        status_sig              : out fsm_nv_reg_state_t --used with care (it is the future state of the machine, and it is combinatory so it is prone to glitces)
     );
+    end component;
     
-    clk_proc : process begin
+    component nv_reg is
+    Generic(
+        MAX_DELAY_NS: INTEGER;
+        NV_REG_WIDTH: INTEGER
+    );
+    Port ( 
+        clk         : in STD_LOGIC;
+        resetN      : in STD_LOGIC;
+        power_resetN: in STD_LOGIC;
+        busy_sig    : out STD_LOGIC;
+        busy        : out STD_LOGIC;
+        --------------------------- 
+        en          : in STD_LOGIC;
+        we          : in STD_LOGIC_VECTOR(0 DOWNTO 0);
+        addr        : in STD_LOGIC_VECTOR(integer(ceil(log2(real(NV_REG_WIDTH))))-1 DOWNTO 0);
+        din         : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+        dout        : out STD_LOGIC_VECTOR(31 DOWNTO 0)
+    );
+    end component;
+    
+begin
+    
+    ADDR_E: adder
+    port map(                           
+        sys_clk             => sys_clk,
+        resetN              => power_resetN,
+        fsm_status          => fsm_status,
+        task_status         => task_status,
+        nv_reg_en           => nv_reg_en,
+        nv_reg_busy         => nv_reg_busy,
+        nv_reg_busy_sig     => nv_reg_busy_sig,
+        nv_reg_we           => nv_reg_we,
+        nv_reg_addr         => nv_reg_addr,
+        nv_reg_din          => nv_reg_din,
+        nv_reg_dout         => nv_reg_dout
+    );                      
+    FSM_NV_REG_E: fsm_nv_reg
+    port map( 
+        clk             =>sys_clk, 
+        resetN          =>power_resetN, 
+        thresh_stats    =>thresh_stats, 
+        task_status     =>task_status, 
+        status          =>fsm_status
+--        status_sig      =>,
+    );
+   
+    
+    NV_REG_E: nv_reg
+    Generic map(
+        MAX_DELAY_NS=> FRAM_MAX_DELAY_NS,
+        NV_REG_WIDTH=> NV_REG_WIDTH
+    )
+    Port map( 
+        clk         =>sys_clk,
+        resetN      =>resetN,
+        power_resetN=>power_resetN,
+        busy_sig    =>nv_reg_busy_sig,
+        busy        =>nv_reg_busy,
+        --------------------------- 
+        en          =>nv_reg_en,
+        we          =>nv_reg_we,
+        addr        =>nv_reg_addr,
+        din         =>nv_reg_din,
+        dout        =>nv_reg_dout
+    );
+                     
+    
+    CLK : process begin
         sys_clk <= '0';
-        wait for 5 ns;
+        wait for MASTER_CLK_PERIOD_NS/2 * 1ns;
         sys_clk <= '1';
-        wait for 5 ns;
+        wait for MASTER_CLK_PERIOD_NS/2 * 1ns;
     end process;
-
-    signal_proc : process begin
-        resetN <= '1';
-        recovery_start <= '0';
-        wait for 50 ns;
-        recovery_FRAM_state <= init_state;
-        wait for 10 ns;
-        recovery_FRAM_state <= start_data_recovery_state; 
-        wait for 10 ns;
-        recovery_FRAM_state <= recovery_state;
-        recovery_data <= (0 => '1',
-                         others => '0');
-        recovery_counter <= (others => '0');
-        wait for 10 ns;
-        recovery_FRAM_state <= data_recovered_state;
-        wait for 400 ns;
-        recovery_start <= '1';
-        wait for 20 ns;
+    
+    RST: process is
+    begin
         resetN <= '0';
-        recovery_start <= '0';
-        wait for 100 ns;
+        wait for (NV_REG_WIDTH+1)*MASTER_CLK_PERIOD_NS * 1ns; 
         resetN <= '1';
-        wait for 50 ns;
-        recovery_FRAM_state <= init_state;
-        wait for 10 ns;
-        recovery_FRAM_state <= start_data_recovery_state; 
-        wait for 10 ns;
-        recovery_FRAM_state <= recovery_state;
-        recovery_data <= (0 => '1',
-                          1 => '1',
-                          2 => '1',
-                          3 => '1',
-                          others => '0');
-        wait for 10 ns;
-        recovery_FRAM_state <= data_recovered_state;                      
-        wait;                     
-    end process;
+        wait;
+    end process RST;
+    
+    TEST: process is
+    begin
+        power_resetN <= '0';
+        thresh_stats <= hazard;
+        wait for (NV_REG_WIDTH+5)*MASTER_CLK_PERIOD_NS * 1ns; 
+        power_resetN <= '1';
+        wait for (NV_REG_WIDTH+5)*MASTER_CLK_PERIOD_NS * 1ns;
+        thresh_stats <= nothing;
+        wait for (30)*MASTER_CLK_PERIOD_NS * 1ns;
+        thresh_stats <= hazard;
+        wait for (20)*MASTER_CLK_PERIOD_NS * 1ns;
+        power_resetN <= '0';
+        wait for (2)*MASTER_CLK_PERIOD_NS * 1ns;
+        power_resetN <= '1';
+        wait for (10)*MASTER_CLK_PERIOD_NS * 1ns;
+        thresh_stats <= nothing;
+        wait;
+    end process TEST;
+    
 end Behavioral;
