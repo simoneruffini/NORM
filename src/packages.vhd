@@ -72,7 +72,7 @@ package body COMMON_PACKAGE is
         if(max_delay_time <= input_clk_period) then--if the fram is as fast as the clk or faster 
             return 0; --then nothing to do 
         else
-            return  integer(ceil(real(max_delay_time)/real(input_clk_period))) - 1; --return the uper bound if the delay is grather then the clk period
+            return  integer(ceil(real(max_delay_time)/real(input_clk_period))) - 1; --return the upper bound if the delay is greater then the clk period
         end if;
     end function;
 end package body COMMON_PACKAGE;

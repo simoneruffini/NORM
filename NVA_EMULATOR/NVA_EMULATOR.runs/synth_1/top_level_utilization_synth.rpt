@@ -1,7 +1,7 @@
 Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 -------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2020.1 (lin64) Build 2902540 Wed May 27 19:54:35 MDT 2020
-| Date         : Mon Jun 29 18:47:36 2020
+| Date         : Fri Jul  3 10:54:17 2020
 | Host         : luca-pc running 64-bit Manjaro Linux
 | Command      : report_utilization -file top_level_utilization_synth.rpt -pb top_level_utilization_synth.pb
 | Design       : top_level
@@ -30,12 +30,12 @@ Table of Contents
 +-------------------------+------+-------+-----------+-------+
 |        Site Type        | Used | Fixed | Available | Util% |
 +-------------------------+------+-------+-----------+-------+
-| Slice LUTs*             |   58 |     0 |     53200 |  0.11 |
-|   LUT as Logic          |   58 |     0 |     53200 |  0.11 |
+| Slice LUTs*             |  124 |     0 |     53200 |  0.23 |
+|   LUT as Logic          |  124 |     0 |     53200 |  0.23 |
 |   LUT as Memory         |    0 |     0 |     17400 |  0.00 |
-| Slice Registers         |   96 |     0 |    106400 |  0.09 |
-|   Register as Flip Flop |   96 |     0 |    106400 |  0.09 |
-|   Register as Latch     |    0 |     0 |    106400 |  0.00 |
+| Slice Registers         |  124 |     0 |    106400 |  0.12 |
+|   Register as Flip Flop |   87 |     0 |    106400 |  0.08 |
+|   Register as Latch     |   37 |     0 |    106400 |  0.03 |
 | F7 Muxes                |    0 |     0 |     26600 |  0.00 |
 | F8 Muxes                |    0 |     0 |     13300 |  0.00 |
 +-------------------------+------+-------+-----------+-------+
@@ -54,10 +54,10 @@ Table of Contents
 | 0     |            _ |         Set |            - |
 | 0     |            _ |       Reset |            - |
 | 0     |          Yes |           - |            - |
-| 0     |          Yes |           - |          Set |
-| 67    |          Yes |           - |        Reset |
+| 3     |          Yes |           - |          Set |
+| 82    |          Yes |           - |        Reset |
 | 0     |          Yes |         Set |            - |
-| 29    |          Yes |       Reset |            - |
+| 39    |          Yes |       Reset |            - |
 +-------+--------------+-------------+--------------+
 
 
@@ -91,7 +91,7 @@ Table of Contents
 +-----------------------------+------+-------+-----------+-------+
 |          Site Type          | Used | Fixed | Available | Util% |
 +-----------------------------+------+-------+-----------+-------+
-| Bonded IOB                  |    1 |     0 |       200 |  0.50 |
+| Bonded IOB                  |   33 |     0 |       200 | 16.50 |
 | Bonded IPADs                |    0 |     0 |         2 |  0.00 |
 | Bonded IOPADs               |    0 |     0 |       130 |  0.00 |
 | PHY_CONTROL                 |    0 |     0 |         4 |  0.00 |
@@ -114,7 +114,7 @@ Table of Contents
 +------------+------+-------+-----------+-------+
 |  Site Type | Used | Fixed | Available | Util% |
 +------------+------+-------+-----------+-------+
-| BUFGCTRL   |    1 |     0 |        32 |  3.13 |
+| BUFGCTRL   |    2 |     0 |        32 |  6.25 |
 | BUFIO      |    0 |     0 |        16 |  0.00 |
 | MMCME2_ADV |    0 |     0 |         4 |  0.00 |
 | PLLE2_ADV  |    0 |     0 |         4 |  0.00 |
@@ -147,18 +147,21 @@ Table of Contents
 +----------+------+---------------------+
 | Ref Name | Used | Functional Category |
 +----------+------+---------------------+
-| LUT4     |   68 |                 LUT |
-| FDCE     |   67 |        Flop & Latch |
-| FDRE     |   29 |        Flop & Latch |
-| CARRY4   |   16 |          CarryLogic |
-| LUT3     |   12 |                 LUT |
+| LUT6     |   91 |                 LUT |
+| FDCE     |   45 |        Flop & Latch |
+| FDRE     |   39 |        Flop & Latch |
+| LDCE     |   37 |        Flop & Latch |
+| OBUF     |   32 |                  IO |
+| LUT4     |   15 |                 LUT |
+| LUT5     |   13 |                 LUT |
+| LUT3     |   10 |                 LUT |
+| CARRY4   |    8 |          CarryLogic |
 | LUT2     |    7 |                 LUT |
-| LUT6     |    6 |                 LUT |
-| LUT5     |    3 |                 LUT |
-| LUT1     |    3 |                 LUT |
+| LUT1     |    6 |                 LUT |
+| FDPE     |    3 |        Flop & Latch |
+| BUFG     |    2 |               Clock |
 | RAMB18E1 |    1 |        Block Memory |
 | IBUF     |    1 |                  IO |
-| BUFG     |    1 |               Clock |
 +----------+------+---------------------+
 
 
@@ -169,6 +172,7 @@ Table of Contents
 |    Ref Name    | Used |
 +----------------+------+
 | xbip_multadd_0 |    1 |
+| blk_mem_gen_1  |    1 |
 | blk_mem_gen_0  |    1 |
 +----------------+------+
 

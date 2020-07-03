@@ -49,7 +49,8 @@ entity adder is
         nv_reg_we           : out STD_LOGIC_VECTOR( 0 DOWNTO 0);  
         nv_reg_addr         : out STD_LOGIC_VECTOR(nv_reg_addr_width_bit-1 DOWNTO 0);
         nv_reg_din          : out STD_LOGIC_VECTOR( 31 DOWNTO 0);
-        nv_reg_dout         : in STD_LOGIC_VECTOR( 31 DOWNTO 0)
+        nv_reg_dout         : in STD_LOGIC_VECTOR( 31 DOWNTO 0);
+        adder_val_port      : out std_logic_vector(31 downto 0)
     );
 end adder;
 
@@ -97,9 +98,9 @@ architecture Behavioral of adder is
     signal dina     : std_logic_vector(31 downto 0);
     signal douta    : std_logic_vector(31 downto 0);
     signal clkb     : std_logic;
-    signal enb      : std_logic;
+    signal enb      : std_logic := '0';
     signal web      : std_logic_vector(0 downto 0) := "0";
-    signal addrb    : std_logic_vector(15 downto 0);
+    signal addrb    : std_logic_vector(15 downto 0) := (others => '0');
     signal dinb     : std_logic_vector(31 downto 0) := (others =>'0');
     signal doutb    : std_logic_vector(31 downto 0);
     --------------------------------------------------------------------------------------
@@ -164,7 +165,7 @@ begin
     
     clka <= sys_clk;
     clkb <= sys_clk;
-    
+    adder_val_port <= adder_value;
     
     ADDR_FSM_SEQ : process(sys_clk, resetN) begin
         if resetN = '0' then

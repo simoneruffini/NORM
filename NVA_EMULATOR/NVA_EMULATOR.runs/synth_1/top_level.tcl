@@ -89,18 +89,26 @@ set_property ip_cache_permissions {read write} [current_project]
 OPTRACE "Creating in-memory project" END { }
 OPTRACE "Adding files" START { }
 read_vhdl -library xil_defaultlib {
-  /home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.srcs/sources_1/new/global_settings.vhd
-  /home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.srcs/sources_1/new/packages.vhd
-  /home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.srcs/sources_1/new/INSTANT_PWR_CALC.vhd
-  /home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.srcs/sources_1/new/INTERMITTENCY_EMULATOR.vhd
-  /home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.srcs/sources_1/new/POWER_APPROXIMATION.vhd
-  /home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.srcs/sources_1/new/PWR_CONSUMPTION_VAL_ROM.vhd
-  /home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.srcs/sources_1/new/adder.vhd
-  /home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.srcs/sources_1/new/counter.vhd
-  /home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.srcs/sources_1/new/scaler.vhd
-  /home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.srcs/sources_1/new/trace_ROM.vhd
-  /home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.srcs/sources_1/new/top_level.vhd
+  /home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/global_settings.vhd
+  /home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/packages.vhd
+  /home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/INSTANT_PWR_CALC.vhd
+  /home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/INTERMITTENCY_EMULATOR.vhd
+  /home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/POWER_APPROXIMATION.vhd
+  /home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/PWR_CONSUMPTION_VAL_ROM.vhd
+  /home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/TEST_MODULE_PACKAGE.vhd
+  /home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/adder.vhd
+  /home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/counter.vhd
+  /home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/fsm_nv_reg.vhd
+  /home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/nv_reg.vhd
+  /home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/nv_reg_emu.vhd
+  /home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/scaler.vhd
+  /home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/trace_ROM.vhd
+  /home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/variable_counter.vhd
+  /home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/top_level.vhd
 }
+read_ip -quiet /home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.srcs/sources_1/ip/blk_mem_gen_1/blk_mem_gen_1.xci
+set_property used_in_implementation false [get_files -all /home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.srcs/sources_1/ip/blk_mem_gen_1/blk_mem_gen_1_ooc.xdc]
+
 read_ip -quiet /home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.srcs/sources_1/ip/blk_mem_gen_0/blk_mem_gen_0.xci
 set_property used_in_implementation false [get_files -all /home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.srcs/sources_1/ip/blk_mem_gen_0/blk_mem_gen_0_ooc.xdc]
 
@@ -119,6 +127,8 @@ foreach dcp [get_files -quiet -all -filter file_type=="Design\ Checkpoint"] {
 read_xdc /home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.srcs/constrs_1/new/constraints.xdc
 set_property used_in_implementation false [get_files /home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.srcs/constrs_1/new/constraints.xdc]
 
+read_xdc dont_touch.xdc
+set_property used_in_implementation false [get_files dont_touch.xdc]
 set_param ips.enableIPCacheLiteLoad 1
 close [open __synthesis_is_running__ w]
 
