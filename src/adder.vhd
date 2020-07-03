@@ -39,8 +39,8 @@ use work.TEST_MODULE_PACKAGE.all;
 
 entity adder is    
     port(
-        sys_clk             : in std_logic;
-        resetN              : in std_logic;
+        sys_clk             : in STD_LOGIC;
+        resetN              : in STD_LOGIC;
         fsm_status          : in fsm_nv_reg_state_t;
         task_status         : out STD_LOGIC;
         nv_reg_en           : out STD_LOGIC;
@@ -174,6 +174,13 @@ begin
     clka <= sys_clk;
     clkb <= sys_clk;
     
+    -- Default values for adder
+    data_rec_nv_reg_start_addr  <= (OTHERS => '0');
+    data_rec_offset             <= 0;
+    data_save_nv_reg_start_addr <= data_rec_nv_reg_start_addr;
+    data_save_bram_start_addr   <= (OTHERS => '0');
+    data_save_bram_offset       <= data_rec_offset;
+    -----------------    
     
     ADDR_FSM_SEQ : process(sys_clk, resetN) begin
         if resetN = '0' then
@@ -183,7 +190,7 @@ begin
         end if;    
     end process;
     
-    ADDR_FSM_CMB : process(present_state, data_rec_recovered_offset, fsm_status, adder_value) begin
+    ADDR_FSM_CMB : process(present_state, data_rec_recovered_offset, fsm_status, adder_value,data_rec_recovered_data,data_rec_busy) begin
         
         ena <= '0';
         wea <= (others => '0'); 
@@ -197,29 +204,30 @@ begin
                     future_state <= loading_state;         
                 end if;     
             when loading_state =>
-                ena <= '1';
-                wea <= "1";
-                addra <= std_logic_vector(to_unsigned(data_rec_recovered_offset + to_integer(unsigned(data_rec_nv_reg_start_addr)),16));
-                dina <= data_rec_recovered_data;
-                if fsm_status = data_recovered_s then
+                if data_rec_busy = '0' then
                     future_state <= read_state;
+                else
+                    ena <= '1';
+                    wea <= "1";
+                    addra <= std_logic_vector(to_unsigned(data_rec_recovered_offset + to_integer(unsigned(data_rec_nv_reg_start_addr)),bram_addr_width_bit));
+                    dina <= data_rec_recovered_data;
                 end if;
             when read_state =>
-                if (fsm_status /= do_operation_s) and (fsm_status /= start_data_save_s) then
+                if (fsm_status /= do_operation_s) then
                     future_state <= recovery_fsm_state;
                 else
                     ena <= '1';
                     future_state <= wait_state_1;
                 end if;
             when wait_state_1 =>
-                if (fsm_status /= do_operation_s) and (fsm_status /= start_data_save_s) then
+                if (fsm_status /= do_operation_s) then
                     future_state <= recovery_fsm_state;
                 else
                     ena <= '1';
                     future_state <= add_state;
                 end if;
             when add_state =>
-                if (fsm_status /= do_operation_s) and (fsm_status /= start_data_save_s) then
+                if (fsm_status /= do_operation_s) then
                     future_state <= recovery_fsm_state;
                 else
                     wea <= "1";
@@ -228,7 +236,7 @@ begin
                     future_state <= read_state;
                 end if;                                
             when recovery_fsm_state =>
-                if (fsm_status /= do_operation_s) and (fsm_status /= start_data_save_s) then
+                if (fsm_status = do_operation_s) then
                     future_state <= read_state;
                 end if;                                                               
         end case;
@@ -262,14 +270,15 @@ begin
       
     var_cntr_init       <=  data_rec_var_cntr_init          when data_rec_busy = '1'    else
                             data_save_var_cntr_init         when data_save_busy = '1'   else
-                            '0';
+                            '1';
     var_cntr_ce         <=  data_rec_var_cntr_ce            when data_rec_busy = '1'    else
                             data_save_var_cntr_ce           when data_save_busy = '1'   else
                             '0';
-    var_cntr_end_value  <=  data_rec_var_cntr_end_value    when data_rec_busy = '1'    else
-                            data_save_var_cntr_end_value   when data_save_busy = '1'   else
+    var_cntr_end_value  <=  data_rec_var_cntr_end_value     when data_rec_busy = '1'    else
+                            data_save_var_cntr_end_value    when data_save_busy = '1'   else
                             1;
-     task_status <= task_status_internal;                     
+    
+    task_status <= task_status_internal;                     
     TASK_STATUS_CNTRL: process (data_rec_busy,data_save_busy) is
     begin
          if(data_rec_busy = '0' AND data_save_busy = '0') then
@@ -315,10 +324,13 @@ begin
                                                             + to_unsigned(var_cntr_value,nv_reg_addr_width_bit)
                                                          ); 
                 data_rec_recovered_offset <= offset_last;
-                data_rec_recovered_data <= nv_reg_dout;
+--                data_rec_recovered_data <= nv_reg_dout;
 --                data_rec_recovered_data <= recovered_data_last;
                 offset_last :=var_cntr_value;
 --                recovered_data_last := nv_reg_dout;
+            end if;
+            if(var_cntr_value <= data_rec_offset + 1) then
+                data_rec_recovered_data <= nv_reg_dout;
             end if;
         else
             offset_last := 0;
@@ -364,10 +376,12 @@ begin
                 addrb <= std_logic_vector(  unsigned(data_save_bram_start_addr)
                                             +to_unsigned(var_cntr_value,bram_addr_width_bit -1)
                                           );
-
                 data_save_nv_reg_addr <= std_logic_vector( unsigned(data_save_nv_reg_start_addr)
                                                            + to_unsigned(var_cntr_value_last,nv_reg_addr_width_bit)  
                                                           );
+            end if;
+            if(var_cntr_value <= data_save_bram_offset +1) then
+                
                 data_save_nv_reg_din <= doutb;
                 var_cntr_value_last := var_cntr_value;
             end if;
@@ -381,8 +395,8 @@ begin
     
 ------------------------------------------------------------------------------------------------------------------------------
     
-    data_rec_var_cntr_end_value <= data_rec_offset +1; -- the plus one is dependent on the ram (our Bram has a 1 clk delay)
-    data_save_var_cntr_end_value <= data_save_bram_offset +2; -- the plus one is dependent on the ram (our Bram has a 1 clk delay)
+    data_rec_var_cntr_end_value <= data_rec_offset +2; -- the plus one is dependent on the ram (our Bram has a 1 clk delay)
+    data_save_var_cntr_end_value <= data_save_bram_offset +2; -- the plus two is because the nv_reg sees the data delaied by one clk
 
     
     VAR_CNTR_CLK_GEN: process(sys_clk,task_status_internal) is
