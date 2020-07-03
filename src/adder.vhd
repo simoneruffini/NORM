@@ -217,7 +217,7 @@ begin
             when read_state =>
                 if (fsm_status /= do_operation_s) then
                     future_state <= recovery_fsm_state;
-                else
+                elsif fsm_status /= recovery_s then
                     ena <= '1';
                     future_state <= wait_state_1;
                 end if;

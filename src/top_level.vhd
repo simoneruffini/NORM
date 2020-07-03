@@ -40,8 +40,9 @@ use work.TEST_MODULE_PACKAGE.all;
 
 entity top_level is
     port(
-        sys_clk : in std_logic;
-        val     : out std_logic_vector(31 downto 0)
+        sys_clk         : in std_logic;
+        global_resetN   : std_logic;
+        val             : out std_logic_vector(31 downto 0)
     );
 end top_level;
 
@@ -157,7 +158,6 @@ architecture Behavioral of top_level is
     signal fsm_nv_reg_status_sig           : fsm_nv_reg_state_t;
     
     --- NV REG ---
-    signal nv_reg_power_resetN: STD_LOGIC;
     signal nv_reg_busy_sig    : STD_LOGIC;
     signal nv_reg_busy        : STD_LOGIC;
     signal nv_reg_en          : STD_LOGIC;
@@ -167,7 +167,7 @@ architecture Behavioral of top_level is
     signal nv_reg_dout        : STD_LOGIC_VECTOR(31 DOWNTO 0);
     
     
-    signal start_saving     : std_logic;
+    signal warning_signal     : std_logic := '0';
     type state_type is(
         wait_state,
         save_state_1,
@@ -241,8 +241,8 @@ begin
     ) 
     port map(
         clk             => sys_clk,
-        resetN          => resetN,
-        power_resetN    => nv_reg_power_resetN,
+        resetN          => global_resetN,
+        power_resetN    => resetN,
         busy_sig        => nv_reg_busy_sig,
         busy            => nv_reg_busy,
         en              => nv_reg_en,
@@ -254,7 +254,9 @@ begin
     
     
     resetN <= not reset_emulator;
-    power_state_en <= (others => '0');
+    power_state_en(0) <= '1';
+    power_state_en(2) <= warning_signal;
+    power_state_en(1) <= reset_emulator;
     
     threshold_value(0) <= 300;
     threshold_value(1) <= 310;
@@ -262,7 +264,7 @@ begin
 
     select_threshold <= 0;    
     
-    start_saving <= threshold_compared(1);
+    warning_signal <= threshold_compared(1);
     
     fsm_status <= fsm_nv_reg_status;
     fsm_nv_reg_task_status <= task_status;

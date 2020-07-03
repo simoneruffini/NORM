@@ -38,18 +38,31 @@ end top_level_testbench;
 architecture Behavioral of top_level_testbench is
     component top_level is
     port(
-        sys_clk : in std_logic
+        sys_clk         : in std_logic;
+        global_resetN   : std_logic;
+        val             : out std_logic_vector(31 downto 0)
     );
     end component;
     
     signal sys_clk : std_logic;
+    signal global_resetN    : std_logic;
+    signal val     : std_logic_vector(31 downto 0);
 begin
 
     top_level_1 : top_level
     port map(
-        sys_clk => sys_clk
+        sys_clk => sys_clk,
+        global_resetN => global_resetN,
+        val     => val
     );    
     
+    reset_proc : process begin
+        global_resetN <= '0';
+        wait for 100 ns;
+        global_resetN <= '1';
+        wait;
+    end process;
+
     clock_proc : process begin
         sys_clk <= '0';
         wait for 5 ns;
