@@ -60,13 +60,13 @@ architecture Behavioral of adder is
             clka    : in std_logic;
             ena     : in std_logic;
             wea     : in std_logic_vector(0 downto 0);
-            addra   : in std_logic_vector(15 downto 0);
+            addra   : in std_logic_vector(bram_addr_width_bit-1 downto 0);
             dina    : in std_logic_vector(31 downto 0);
             douta   : out std_logic_vector(31 downto 0);
             clkb    : in std_logic;
             enb     : in std_logic;
             web     : in std_logic_vector(0 downto 0);
-            addrb   : in std_logic_vector(15 downto 0);
+            addrb   : in std_logic_vector(bram_addr_width_bit-1 downto 0);
             dinb    : in std_logic_vector(31 downto 0);
             doutb   : out std_logic_vector(31 downto 0)
         );
@@ -88,18 +88,20 @@ architecture Behavioral of adder is
             value       : out INTEGER RANGE 0 TO MAX
         );
     end component;
-    
+    -------------------------------INTERNAL_SIGNALS---------------------------------------
+    signal task_status_internal: STD_LOGIC;
+    --------------------------------------------------------------------------------------
     -------------------------------BRAM_SIGNALS--------------------------------------------
     signal clka     : std_logic;
     signal ena      : std_logic;
     signal wea      : std_logic_vector(0 downto 0);
-    signal addra    : std_logic_vector(15 downto 0);
+    signal addra    : std_logic_vector(bram_addr_width_bit-1 downto 0);
     signal dina     : std_logic_vector(31 downto 0);
     signal douta    : std_logic_vector(31 downto 0);
     signal clkb     : std_logic;
     signal enb      : std_logic;
     signal web      : std_logic_vector(0 downto 0) := "0";
-    signal addrb    : std_logic_vector(15 downto 0);
+    signal addrb    : std_logic_vector(bram_addr_width_bit-1 downto 0);
     signal dinb     : std_logic_vector(31 downto 0) := (others =>'0');
     signal doutb    : std_logic_vector(31 downto 0);
     --------------------------------------------------------------------------------------
@@ -116,22 +118,26 @@ architecture Behavioral of adder is
     --------------------------------------------------------------------------------------
     -------------------------------ADDER_SIGNALS------------------------------------------
     signal adder_value : std_logic_vector(31 downto 0) := (others => '0');
---    constant bram_addr_width_bit : INTEGER := 16;
---    constant BRAM_WIDTH: INTEGER := 65536; --2**bram_addr_width
     --------------------------------------------------------------------------------------
     -------------------------------DATA_REC_SIGNALS---------------------------------------  
     signal data_rec_busy: STD_LOGIC;
     signal data_rec_nv_reg_en: STD_LOGIC;  
     signal data_rec_nv_reg_we: STD_LOGIC_VECTOR( 0 DOWNTO 0);  
     signal data_rec_nv_reg_din: STD_LOGIC_VECTOR( 31 DOWNTO 0);
-    signal data_rec_nv_reg_addr : STD_LOGIC_VECTOR(nv_reg_addr_width_bit-1 DOWNTO 0);    
+    signal data_rec_nv_reg_addr : STD_LOGIC_VECTOR(nv_reg_addr_width_bit-1 DOWNTO 0);
+    signal data_rec_var_cntr_init :STD_LOGIC;
+    signal data_rec_var_cntr_ce: STD_LOGIC;
+    signal data_rec_var_cntr_end_value : INTEGER;   
     --------------------------------------------------------------------------------------
     -------------------------------SAVE_SIGNALS------------------------------------------- 
     signal data_save_busy: STD_LOGIC;
     signal data_save_nv_reg_en: STD_LOGIC;
     signal data_save_nv_reg_we: STD_LOGIC_VECTOR( 0 DOWNTO 0);
     signal data_save_nv_reg_din: STD_LOGIC_VECTOR( 31 DOWNTO 0);
-    signal data_save_nv_reg_addr : STD_LOGIC_VECTOR(nv_reg_addr_width_bit-1 DOWNTO 0);   
+    signal data_save_nv_reg_addr : STD_LOGIC_VECTOR(nv_reg_addr_width_bit-1 DOWNTO 0);
+    signal data_save_var_cntr_init :STD_LOGIC;
+    signal data_save_var_cntr_ce: STD_LOGIC;
+    signal data_save_var_cntr_end_value : INTEGER;    
     --------------------------------------------------------------------------------------
 --------------------------------------------------DATA_REC_PROC-------------------------------------------------------------------
     signal data_rec_nv_reg_start_addr: STD_LOGIC_VECTOR(nv_reg_addr_width_bit-1 DOWNTO 0);
@@ -143,7 +149,10 @@ architecture Behavioral of adder is
     signal var_cntr_value, var_cntr_end_value: INTEGER;
     --------------------------------------------------------------------------------------   
 --------------------------------------------------DATA_SAVE_PROC-------------------------------------------------------------------
-  
+     signal data_save_nv_reg_start_addr: STD_LOGIC_VECTOR(nv_reg_addr_width_bit-1 DOWNTO 0);
+     signal data_save_bram_start_addr: STD_LOGIC_VECTOR(bram_addr_width_bit-1 DOWNTO 0);
+     signal data_save_bram_offset : INTEGER RANGE 0 TO BRAM_WIDTH -1;
+     
 begin
     
     blk_mem_gen_0_1 : blk_mem_gen_0
@@ -249,13 +258,24 @@ begin
     nv_reg_din  <=  data_rec_nv_reg_din     when data_rec_busy = '1'    else
                     data_save_nv_reg_din    when data_save_busy = '1'   else
                     (others => '0');
+                    
       
+    var_cntr_init       <=  data_rec_var_cntr_init          when data_rec_busy = '1'    else
+                            data_save_var_cntr_init         when data_save_busy = '1'   else
+                            '0';
+    var_cntr_ce         <=  data_rec_var_cntr_ce            when data_rec_busy = '1'    else
+                            data_save_var_cntr_ce           when data_save_busy = '1'   else
+                            '0';
+    var_cntr_end_value  <=  data_rec_var_cntr_end_value    when data_rec_busy = '1'    else
+                            data_save_var_cntr_end_value   when data_save_busy = '1'   else
+                            1;
+     task_status <= task_status_internal;                     
     TASK_STATUS_CNTRL: process (data_rec_busy,data_save_busy) is
     begin
          if(data_rec_busy = '0' AND data_save_busy = '0') then
-            task_status <= '0';
+            task_status_internal <= '0';
          else
-            task_status <= '1';
+            task_status_internal <= '1';
          end if;
     end process;
 ------------------------------------------------DATA_REC-------------------------------------------------------------------
@@ -282,12 +302,12 @@ begin
         end if;
     end process DATA_REC;
     
-    var_cntr_ce <= data_rec_busy;
-    var_cntr_init <= not data_rec_busy;
+    data_rec_var_cntr_ce <= data_rec_busy;
+    data_rec_var_cntr_init <= not data_rec_busy;
     
     DATA_REC_OUT_CNTRL: process(var_cntr_value,data_rec_busy) is
         variable offset_last : INTEGER RANGE 0 TO NV_REG_WIDTH-1;
-        variable recovered_data_last: STD_LOGIC_VECTOR(31 DOWNTO 0);
+--        variable recovered_data_last: STD_LOGIC_VECTOR(31 DOWNTO 0);
     begin
         if(data_rec_busy = '1') then
             if(var_cntr_value <= data_rec_offset) then 
@@ -302,19 +322,72 @@ begin
             end if;
         else
             offset_last := 0;
-            recovered_data_last := (OTHERS => '0');
+--            recovered_data_last := (OTHERS => '0');
             data_rec_nv_reg_addr <= data_rec_nv_reg_start_addr;
             data_rec_recovered_offset <= 0;
             data_rec_recovered_data <= (OTHERS => '0');
         end if;
     end process DATA_REC_OUT_CNTRL;
     
+--------------------------------------------------DATA_SAVE-------------------------------------------------------------------
     
-    
-    var_cntr_end_value <= data_rec_offset +1; -- the plus one is dependent on the ram (our Bram has a 1 clk delay)
-    VAR_CNTR_CLK_GEN: process(sys_clk,data_rec_nv_reg_en) is
+    -- Default values         
+    web <= (OTHERS => '0');      
+    -----------------
+
+    DATA_SAVE: process(resetN,sys_clk) is
     begin
-        if(data_rec_nv_reg_en = '0') then
+        if(resetN = '0') then
+            data_save_busy <= '0';
+            enb <= '0';
+        elsif(rising_edge(sys_clk)) then
+            if(fsm_status = start_data_save_s) then
+                data_save_busy <= '1';
+                enb <= '1';  
+            elsif(var_cntr_tc = '1') then
+                enb <= '0';
+                data_save_busy <= '0';
+            end if; 
+        end if;
+    end process DATA_SAVE;
+    
+    data_save_var_cntr_ce <= data_save_busy;
+    data_save_var_cntr_init <= not data_save_busy;
+    data_save_nv_reg_en <= not var_cntr_tc;
+    data_save_nv_reg_we <= (OTHERS => '1') when data_save_busy ='1' and var_cntr_tc = '0' else (OTHERS => '0');
+    
+    DATA_SAVE_OUT_CNTRL: process(var_cntr_value,data_save_busy) is
+        variable var_cntr_value_last : INTEGER;
+    begin
+        if(data_save_busy = '1') then
+            if(var_cntr_value <= data_save_bram_offset) then
+                addrb <= std_logic_vector(  unsigned(data_save_bram_start_addr)
+                                            +to_unsigned(var_cntr_value,bram_addr_width_bit -1)
+                                          );
+
+                data_save_nv_reg_addr <= std_logic_vector( unsigned(data_save_nv_reg_start_addr)
+                                                           + to_unsigned(var_cntr_value_last,nv_reg_addr_width_bit)  
+                                                          );
+                data_save_nv_reg_din <= doutb;
+                var_cntr_value_last := var_cntr_value;
+            end if;
+        else
+            addrb <= data_save_bram_start_addr;
+            data_save_nv_reg_addr <= data_save_nv_reg_start_addr;
+            data_save_nv_reg_din <= (OTHERS => '0');
+            var_cntr_value_last := 0;
+        end if;
+    end process DATA_SAVE_OUT_CNTRL;
+    
+------------------------------------------------------------------------------------------------------------------------------
+    
+    data_rec_var_cntr_end_value <= data_rec_offset +1; -- the plus one is dependent on the ram (our Bram has a 1 clk delay)
+    data_save_var_cntr_end_value <= data_save_bram_offset +2; -- the plus one is dependent on the ram (our Bram has a 1 clk delay)
+
+    
+    VAR_CNTR_CLK_GEN: process(sys_clk,task_status_internal) is
+    begin
+        if(task_status_internal = '0') then
             var_cntr_clk <= '1';
         elsif(rising_edge(sys_clk)) then
             var_cntr_clk <= '0';
@@ -323,11 +396,12 @@ begin
             end if;
         end if;
     end process VAR_CNTR_CLK_GEN;
-    
+        
     VAR_CNTR: variable_counter
     Generic map(
         MAX         => NV_REG_WIDTH+2,
-        INIT_VALUE  => NV_REG_WIDTH+2,
+--        INIT_VALUE  => NV_REG_WIDTH+2,
+        INIT_VALUE  => 0,
         INCREASE_BY => 1
     )              
     Port map(          
@@ -339,9 +413,4 @@ begin
         TC          => var_cntr_tc,
         value       => var_cntr_value
     );
-    --------------------------------------------------D_SAVE-------------------------------------------------------------------
-    
-    data_save_busy <='0';
-    
-    
 end Behavioral;
