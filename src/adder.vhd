@@ -50,7 +50,7 @@ entity adder is
         nv_reg_addr         : out STD_LOGIC_VECTOR(nv_reg_addr_width_bit-1 DOWNTO 0);
         nv_reg_din          : out STD_LOGIC_VECTOR( 31 DOWNTO 0);
         nv_reg_dout         : in STD_LOGIC_VECTOR( 31 DOWNTO 0);
-        adder_val_port      : out std_logic_vector(31 downto 0)
+        adder_value         : out std_logic_vector(31 downto 0)
     );
 end adder;
 
@@ -118,7 +118,7 @@ architecture Behavioral of adder is
     signal present_state, future_state : control_fsm := reset_state;
     --------------------------------------------------------------------------------------
     -------------------------------ADDER_SIGNALS------------------------------------------
-    signal adder_value : std_logic_vector(31 downto 0) := (others => '0');
+    signal adder_value_signal : std_logic_vector(31 downto 0) := (others => '0');
     --------------------------------------------------------------------------------------
     -------------------------------DATA_REC_SIGNALS---------------------------------------  
     signal data_rec_busy: STD_LOGIC;
@@ -174,7 +174,7 @@ begin
     
     clka <= sys_clk;
     clkb <= sys_clk;
-    adder_val_port <= adder_value;
+    adder_value <= adder_value_signal;
     
     -- Default values for adder
     data_rec_nv_reg_start_addr  <= (OTHERS => '0');
@@ -192,7 +192,7 @@ begin
         end if;    
     end process;
     
-    ADDR_FSM_CMB : process(present_state, data_rec_recovered_offset, fsm_status, adder_value,data_rec_recovered_data,data_rec_busy) begin
+    ADDR_FSM_CMB : process(present_state, data_rec_recovered_offset, fsm_status, adder_value_signal,data_rec_recovered_data,data_rec_busy) begin
         
         ena <= '0';
         wea <= (others => '0'); 
@@ -234,7 +234,7 @@ begin
                 else
                     wea <= "1";
                     ena <= '1';
-                    dina <= adder_value;
+                    dina <= adder_value_signal;
                     future_state <= read_state;
                 end if;                                
             when recovery_fsm_state =>
@@ -247,10 +247,10 @@ begin
     
     add_process : process(sys_clk, resetN) begin
         if resetN = '0' then
-            adder_value <= (others => '0');
+            adder_value_signal <= (others => '0');
         elsif rising_edge(sys_clk) then
             if present_state = wait_state_1 then
-                adder_value <= std_logic_vector(unsigned(douta) + 1);
+                adder_value_signal <= std_logic_vector(unsigned(douta) + 1);
             end if;
         end if;
     end process;

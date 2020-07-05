@@ -91,7 +91,7 @@ architecture Behavioral of top_level is
             nv_reg_addr         : out STD_LOGIC_VECTOR(nv_reg_addr_width_bit-1 DOWNTO 0);
             nv_reg_din          : out STD_LOGIC_VECTOR( 31 DOWNTO 0);
             nv_reg_dout         : in STD_LOGIC_VECTOR( 31 DOWNTO 0);
-            adder_val_port      : out std_logic_vector(31 downto 0)  
+            adder_value         : out std_logic_vector(31 downto 0)  
             
         );
     end component;
@@ -221,7 +221,7 @@ begin
         nv_reg_addr         => nv_reg_addr,
         nv_reg_din          => nv_reg_din,
         nv_reg_dout         => nv_reg_dout,
-        adder_val_port      => val
+        adder_value         => val
     );
     
     FSM_NV_REG_1 : fsm_nv_reg
