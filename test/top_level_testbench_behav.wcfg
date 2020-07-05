@@ -16,13 +16,13 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="0fs"></ZoomStartTime>
-      <ZoomEndTime time="130300001fs"></ZoomEndTime>
-      <Cursor1Time time="100000000fs"></Cursor1Time>
+      <ZoomStartTime time="34894800fs"></ZoomStartTime>
+      <ZoomEndTime time="35129001fs"></ZoomEndTime>
+      <Cursor1Time time="34985000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
-      <NameColumnWidth column_width="236"></NameColumnWidth>
-      <ValueColumnWidth column_width="99"></ValueColumnWidth>
+      <NameColumnWidth column_width="270"></NameColumnWidth>
+      <ValueColumnWidth column_width="128"></ValueColumnWidth>
    </column_width_setting>
    <WVObjectSize size="10" />
    <wvobject type="logic" fp_name="/top_level_testbench/sys_clk">
@@ -85,6 +85,42 @@
       <obj_property name="label">ADDER</obj_property>
       <obj_property name="DisplayName">label</obj_property>
       <obj_property name="isExpanded"></obj_property>
+      <wvobject type="array" fp_name="/top_level_testbench/top_level_1/ADDER_1/adder_array">
+         <obj_property name="ElementShortName">adder_array[0:2][31:0]</obj_property>
+         <obj_property name="ObjectShortName">adder_array[0:2][31:0]</obj_property>
+         <obj_property name="isExpanded"></obj_property>
+         <wvobject type="array" fp_name="/top_level_testbench/top_level_1/ADDER_1/adder_array[0]">
+            <obj_property name="ElementShortName">[0][31:0]</obj_property>
+            <obj_property name="ObjectShortName">[0][31:0]</obj_property>
+            <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/top_level_testbench/top_level_1/ADDER_1/adder_array[1]">
+            <obj_property name="ElementShortName">[1][31:0]</obj_property>
+            <obj_property name="ObjectShortName">[1][31:0]</obj_property>
+            <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/top_level_testbench/top_level_1/ADDER_1/adder_array[2]">
+            <obj_property name="ElementShortName">[2][31:0]</obj_property>
+            <obj_property name="ObjectShortName">[2][31:0]</obj_property>
+            <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/top_level_testbench/top_level_1/ADDER_1/adder_array[0]">
+            <obj_property name="ElementShortName">[0][31:0]</obj_property>
+            <obj_property name="ObjectShortName">[0][31:0]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/top_level_testbench/top_level_1/ADDER_1/adder_array[1]">
+            <obj_property name="ElementShortName">[1][31:0]</obj_property>
+            <obj_property name="ObjectShortName">[1][31:0]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/top_level_testbench/top_level_1/ADDER_1/adder_array[2]">
+            <obj_property name="ElementShortName">[2][31:0]</obj_property>
+            <obj_property name="ObjectShortName">[2][31:0]</obj_property>
+         </wvobject>
+      </wvobject>
+      <wvobject type="other" fp_name="/top_level_testbench/top_level_1/ADDER_1/count_adder">
+         <obj_property name="ElementShortName">count_adder</obj_property>
+         <obj_property name="ObjectShortName">count_adder</obj_property>
+      </wvobject>
       <wvobject type="group" fp_name="group692">
          <obj_property name="label">adder_fsm</obj_property>
          <obj_property name="DisplayName">label</obj_property>
@@ -93,6 +129,10 @@
             <obj_property name="ElementShortName">present_state</obj_property>
             <obj_property name="ObjectShortName">present_state</obj_property>
          </wvobject>
+         <wvobject type="array" fp_name="/top_level_testbench/top_level_1/ADDER_1/wea">
+            <obj_property name="ElementShortName">wea[0:0]</obj_property>
+            <obj_property name="ObjectShortName">wea[0:0]</obj_property>
+         </wvobject>
          <wvobject type="logic" fp_name="/top_level_testbench/top_level_1/ADDER_1/ena">
             <obj_property name="ElementShortName">ena</obj_property>
             <obj_property name="ObjectShortName">ena</obj_property>
@@ -100,6 +140,11 @@
          <wvobject type="array" fp_name="/top_level_testbench/top_level_1/ADDER_1/addra">
             <obj_property name="ElementShortName">addra[15:0]</obj_property>
             <obj_property name="ObjectShortName">addra[15:0]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/top_level_testbench/top_level_1/ADDER_1/douta">
+            <obj_property name="ElementShortName">douta[31:0]</obj_property>
+            <obj_property name="ObjectShortName">douta[31:0]</obj_property>
+            <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
          </wvobject>
          <wvobject type="array" fp_name="/top_level_testbench/top_level_1/ADDER_1/dina">
             <obj_property name="ElementShortName">dina[31:0]</obj_property>
@@ -162,10 +207,6 @@
          <wvobject type="array" fp_name="/top_level_testbench/top_level_1/ADDER_1/nv_reg_dout">
             <obj_property name="ElementShortName">nv_reg_dout[31:0]</obj_property>
             <obj_property name="ObjectShortName">nv_reg_dout[31:0]</obj_property>
-         </wvobject>
-         <wvobject type="array" fp_name="/top_level_testbench/top_level_1/ADDER_1/adder_val_port">
-            <obj_property name="ElementShortName">adder_val_port[31:0]</obj_property>
-            <obj_property name="ObjectShortName">adder_val_port[31:0]</obj_property>
          </wvobject>
          <wvobject type="array" fp_name="/top_level_testbench/top_level_1/ADDER_1/douta">
             <obj_property name="ElementShortName">douta[31:0]</obj_property>
@@ -296,6 +337,7 @@
    <wvobject type="group" fp_name="group667">
       <obj_property name="label">NV_REG</obj_property>
       <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
       <wvobject type="logic" fp_name="/top_level_testbench/top_level_1/NV_REG_1/power_resetN">
          <obj_property name="ElementShortName">power_resetN</obj_property>
          <obj_property name="ObjectShortName">power_resetN</obj_property>
@@ -331,10 +373,12 @@
       <wvobject type="array" fp_name="/top_level_testbench/top_level_1/NV_REG_1/bram_din">
          <obj_property name="ElementShortName">bram_din[31:0]</obj_property>
          <obj_property name="ObjectShortName">bram_din[31:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       </wvobject>
       <wvobject type="array" fp_name="/top_level_testbench/top_level_1/NV_REG_1/bram_dout">
          <obj_property name="ElementShortName">bram_dout[31:0]</obj_property>
          <obj_property name="ObjectShortName">bram_dout[31:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       </wvobject>
       <wvobject type="logic" fp_name="/top_level_testbench/top_level_1/NV_REG_1/bram_en_rst">
          <obj_property name="ElementShortName">bram_en_rst</obj_property>
@@ -356,7 +400,6 @@
    <wvobject type="group" fp_name="group583">
       <obj_property name="label">PWR_APPROX</obj_property>
       <obj_property name="DisplayName">label</obj_property>
-      <obj_property name="isExpanded"></obj_property>
       <wvobject type="array" fp_name="/top_level_testbench/top_level_1/PWR_APPROX_1/power_state_en">
          <obj_property name="ElementShortName">power_state_en[2:0]</obj_property>
          <obj_property name="ObjectShortName">power_state_en[2:0]</obj_property>

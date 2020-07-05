@@ -78,7 +78,7 @@ architecture Behavioral of top_level is
         );
     end component;
     
-    component adder is    
+    component multiple_adder is    
         port(
             sys_clk             : in std_logic;
             resetN              : in std_logic;
@@ -208,7 +208,7 @@ begin
         select_threshold    => select_threshold
     );
     
-    ADDER_1 : adder
+    ADDER_1 : multiple_adder
     port map(
         sys_clk             => sys_clk,
         resetN              => resetN,
