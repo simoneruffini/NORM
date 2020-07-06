@@ -78,6 +78,7 @@ architecture Behavioral of top_level is
         );
     end component;
     
+--    component adder is    
     component multiple_adder is    
         port(
             sys_clk             : in std_logic;
@@ -113,19 +114,21 @@ architecture Behavioral of top_level is
             NV_REG_WIDTH: INTEGER
         );
         port ( 
-            clk         : in STD_LOGIC;
-            resetN      : in STD_LOGIC;
-            power_resetN: in STD_LOGIC;
-            busy_sig    : out STD_LOGIC;
-            busy        : out STD_LOGIC;
+            clk             : in STD_LOGIC;
+            global_resetN   : in STD_LOGIC;
+            resetN_emulator : in STD_LOGIC;
+            busy_sig        : out STD_LOGIC;
+            busy            : out STD_LOGIC;
             --------------------------- 
-            en          : in STD_LOGIC;
-            we          : in STD_LOGIC_VECTOR(0 DOWNTO 0);
-            addr        : in STD_LOGIC_VECTOR(integer(ceil(log2(real(NV_REG_WIDTH))))-1 DOWNTO 0);
-            din         : in STD_LOGIC_VECTOR(31 DOWNTO 0);
-            dout        : out STD_LOGIC_VECTOR(31 DOWNTO 0)
+            en              : in STD_LOGIC;
+            we              : in STD_LOGIC_VECTOR(0 DOWNTO 0);
+            addr            : in STD_LOGIC_VECTOR(integer(ceil(log2(real(NV_REG_WIDTH))))-1 DOWNTO 0);
+            din             : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+            dout            : out STD_LOGIC_VECTOR(31 DOWNTO 0)
         );
     end component;
+    
+    signal resetN_emulator  : std_logic := '1';
     
     --- POWER APPROXIMATION SIGNALS ---
     signal power_state_en           : std_logic_vector(NUM_PWR_STATES - 1 downto 0) := (others => '0');
@@ -147,7 +150,6 @@ architecture Behavioral of top_level is
     signal select_threshold    : integer range 0 to INTERMITTENCY_NUM_THRESHOLDS -1;
     
     --- ADDER signals ---
-    signal resetN              : std_logic := '1';
     signal fsm_status          : fsm_nv_reg_state_t;
     signal task_status         : STD_LOGIC;
     
@@ -208,10 +210,11 @@ begin
         select_threshold    => select_threshold
     );
     
+--    ADDER_1 : adder
     ADDER_1 : multiple_adder
     port map(
         sys_clk             => sys_clk,
-        resetN              => resetN,
+        resetN              => resetN_emulator,
         fsm_status          => fsm_status,
         task_status         => task_status,
         nv_reg_en           => nv_reg_en,
@@ -227,7 +230,7 @@ begin
     FSM_NV_REG_1 : fsm_nv_reg
     port map(
         clk             => sys_clk,
-        resetN          => resetN,
+        resetN          => resetN_emulator,
         thresh_stats    => fsm_nv_reg_thresh_stats,
         task_status     => fsm_nv_reg_task_status,       
         status          => fsm_nv_reg_status,
@@ -241,8 +244,8 @@ begin
     ) 
     port map(
         clk             => sys_clk,
-        resetN          => global_resetN,
-        power_resetN    => resetN,
+        global_resetN   => global_resetN,
+        resetN_emulator => resetN_emulator,
         busy_sig        => nv_reg_busy_sig,
         busy            => nv_reg_busy,
         en              => nv_reg_en,
@@ -253,7 +256,7 @@ begin
     );
     
     
-    resetN <= not reset_emulator;
+    resetN_emulator <= not reset_emulator;
     power_state_en(0) <= '1';
     power_state_en(2) <= warning_signal;
     power_state_en(1) <= reset_emulator;

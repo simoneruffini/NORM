@@ -38,17 +38,17 @@ entity nv_reg is
         NV_REG_WIDTH: INTEGER
     );
     Port ( 
-        clk         : in STD_LOGIC;
-        resetN      : in STD_LOGIC;
-        power_resetN: in STD_LOGIC;
-        busy_sig    : out STD_LOGIC;
-        busy        : out STD_LOGIC;
+        clk             : in STD_LOGIC;
+        global_resetN   : in STD_LOGIC; -- TODO globalresetN
+        resetN_emaultor : in STD_LOGIC;
+        busy_sig        : out STD_LOGIC;
+        busy            : out STD_LOGIC;
         --------------------------- 
-        en          : in STD_LOGIC;
-        we          : in STD_LOGIC_VECTOR(0 DOWNTO 0);
-        addr        : in STD_LOGIC_VECTOR(integer(ceil(log2(real(NV_REG_WIDTH))))-1 DOWNTO 0);
-        din         : in STD_LOGIC_VECTOR(31 DOWNTO 0);
-        dout        : out STD_LOGIC_VECTOR(31 DOWNTO 0)
+        en              : in STD_LOGIC;
+        we              : in STD_LOGIC_VECTOR(0 DOWNTO 0);
+        addr            : in STD_LOGIC_VECTOR(integer(ceil(log2(real(NV_REG_WIDTH))))-1 DOWNTO 0);
+        din             : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+        dout            : out STD_LOGIC_VECTOR(31 DOWNTO 0)
     );
 end nv_reg;
 
@@ -124,30 +124,30 @@ begin
     
     busy<=busy_internal;
     
-    rstN <= '0' when resetN = '0' else
-            '0' when power_resetN = '0' else
-            resetN;
-    bram_en <= bram_en_rst when resetN = '0' else
-            '0' when power_resetN = '0' else
+    rstN <= '0' when global_resetN = '0' else
+            '0' when resetN_emaultor = '0' else
+            global_resetN;
+    bram_en <= bram_en_rst when global_resetN = '0' else
+            '0' when resetN_emaultor = '0' else
             (en or busy_internal);              --IMPORTANT keeps the bram active even if the signal was deactivated "feature enable hold"
-    bram_we <= bram_we_rst when resetN = '0' else
-            (OTHERS => '0') when power_resetN = '0' else
+    bram_we <= bram_we_rst when global_resetN = '0' else
+            (OTHERS => '0') when resetN_emaultor = '0' else
             we;
-    bram_addr <= bram_addr_rst when resetN = '0' else
-            (OTHERS => '0') when power_resetN = '0' else
+    bram_addr <= bram_addr_rst when global_resetN = '0' else
+            (OTHERS => '0') when resetN_emaultor = '0' else
             addr;
-    bram_din <= bram_din_rst when resetN = '0' else
-            (OTHERS => '0') when power_resetN = '0' else
+    bram_din <= bram_din_rst when global_resetN = '0' else
+            (OTHERS => '0') when resetN_emaultor = '0' else
             din;
-    dout <= bram_dout when resetN = '0' else
-            (OTHERS => '0') when power_resetN = '0' else
+    dout <= bram_dout when global_resetN = '0' else
+            (OTHERS => '0') when resetN_emaultor = '0' else
             bram_dout;
     
     RST_BRAM: process(clk) is --the reset is syncronous
     variable counter : INTEGER RANGE 0 TO (NV_REG_WIDTH -1);
     begin
         if(rising_edge(clk)) then
-            if(resetN = '0') then
+            if(global_resetN = '0') then
                 bram_en_rst <= '1';
                 bram_we_rst <= (OTHERS => '1');
                 

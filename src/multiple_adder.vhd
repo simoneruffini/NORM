@@ -119,9 +119,9 @@ architecture Behavioral of multiple_adder is
     signal present_state, future_state : control_fsm := reset_state;
     --------------------------------------------------------------------------------------
     -------------------------------ADDER_SIGNALS------------------------------------------
-    constant num_adder : integer := 3;
+    constant num_adder : integer := 2;
     signal count_adder : integer := 0;
-    type std_logic_vector_array is array (0 to num_adder -1) of std_logic_vector(31 downto 0);
+    type std_logic_vector_array is array (0 to num_adder) of std_logic_vector(31 downto 0);
     signal adder_array : std_logic_vector_array := (others => (others => '0'));
 --    signal adder_value_signal_1   : std_logic_vector(31 downto 0) := (others => '0');
 --    signal adder_value_signal_2 : std_logic_vector(31 downto 0) := (others => '0');
@@ -185,7 +185,7 @@ begin
     
     -- Default values for adder
     data_rec_nv_reg_start_addr  <= (OTHERS => '0');
-    data_rec_offset             <= num_adder;
+    data_rec_offset             <= 0; -- number of adder
     data_save_nv_reg_start_addr <= data_rec_nv_reg_start_addr;
     data_save_bram_start_addr   <= (OTHERS => '0');
     data_save_bram_offset       <= data_rec_offset;
@@ -278,7 +278,7 @@ begin
                 end if;
             end if;
             if present_state = add_state then
-                if count_adder = num_adder - 1 then
+                if count_adder = num_adder then
                     count_adder <= 0; 
                 else                
                     count_adder <= count_adder + 1;
@@ -357,13 +357,16 @@ begin
                 data_rec_nv_reg_addr <= std_logic_vector(   unsigned(data_rec_nv_reg_start_addr) 
                                                             + to_unsigned(var_cntr_value,nv_reg_addr_width_bit)
                                                          ); 
+                
+            end if;
+            if(var_cntr_value <= data_rec_offset + 1) then
+            
                 data_rec_recovered_offset <= offset_last;
 --                data_rec_recovered_data <= nv_reg_dout;
 --                data_rec_recovered_data <= recovered_data_last;
                 offset_last :=var_cntr_value;
 --                recovered_data_last := nv_reg_dout;
-            end if;
-            if(var_cntr_value <= data_rec_offset + 1) then
+                
                 data_rec_recovered_data <= nv_reg_dout;
             end if;
         else
@@ -410,11 +413,13 @@ begin
                 addrb <= std_logic_vector(  unsigned(data_save_bram_start_addr)
                                             +to_unsigned(var_cntr_value,bram_addr_width_bit -1)
                                           );
+                
+            end if;
+            if(var_cntr_value <= data_save_bram_offset +1) then
+                
                 data_save_nv_reg_addr <= std_logic_vector( unsigned(data_save_nv_reg_start_addr)
                                                            + to_unsigned(var_cntr_value_last,nv_reg_addr_width_bit)  
                                                           );
-            end if;
-            if(var_cntr_value <= data_save_bram_offset +1) then
                 
                 data_save_nv_reg_din <= doutb;
                 var_cntr_value_last := var_cntr_value;
@@ -429,8 +434,8 @@ begin
     
 ------------------------------------------------------------------------------------------------------------------------------
     
-    data_rec_var_cntr_end_value <= data_rec_offset; -- the plus one is dependent on the ram (our Bram has a 1 clk delay)
-    data_save_var_cntr_end_value <= data_save_bram_offset +1; -- the plus two is because the nv_reg sees the data delaied by one clk
+    data_rec_var_cntr_end_value <= data_rec_offset + 2; -- the plus one is dependent on the ram (our Bram has a 1 clk delay)
+    data_save_var_cntr_end_value <= data_save_bram_offset + 2; -- the plus two is because the nv_reg sees the data delaied by one clk
 
     
     VAR_CNTR_CLK_GEN: process(sys_clk,task_status_internal) is

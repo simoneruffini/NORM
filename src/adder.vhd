@@ -177,10 +177,12 @@ begin
     adder_value <= adder_value_signal;
     
     -- Default values for adder
-    data_rec_nv_reg_start_addr  <= (OTHERS => '0');
+    data_rec_nv_reg_start_addr  <= (0 => '1',
+                                    others => '0');
     data_rec_offset             <= 0;
     data_save_nv_reg_start_addr <= data_rec_nv_reg_start_addr;
-    data_save_bram_start_addr   <= (OTHERS => '0');
+    data_save_bram_start_addr   <= (0 => '1',
+                                    others => '0');
     data_save_bram_offset       <= data_rec_offset;
     -----------------    
     
@@ -219,12 +221,14 @@ begin
                     future_state <= recovery_fsm_state;
                 elsif fsm_status /= recovery_s then
                     ena <= '1';
+                    addra(3 downto 0) <= data_rec_nv_reg_start_addr;
                     future_state <= wait_state_1;
                 end if;
             when wait_state_1 =>
                 if (fsm_status /= do_operation_s) then
                     future_state <= recovery_fsm_state;
                 else
+                    addra(3 downto 0)  <= data_rec_nv_reg_start_addr;
                     ena <= '1';
                     future_state <= add_state;
                 end if;
@@ -232,6 +236,7 @@ begin
                 if (fsm_status /= do_operation_s) then
                     future_state <= recovery_fsm_state;
                 else
+                    addra(3 downto 0)  <= data_rec_nv_reg_start_addr;                    
                     wea <= "1";
                     ena <= '1';
                     dina <= adder_value_signal;
@@ -368,7 +373,7 @@ begin
     data_save_var_cntr_ce <= data_save_busy;
     data_save_var_cntr_init <= not data_save_busy;
     data_save_nv_reg_en <= not var_cntr_tc;
-    data_save_nv_reg_we <= (OTHERS => '1') when data_save_busy ='1' and var_cntr_tc = '0' else (OTHERS => '0');
+    data_save_nv_reg_we <= (OTHERS => '1') when data_save_busy ='1' and var_cntr_tc = '0' and var_cntr_value > 0 else (OTHERS => '0');
     
     DATA_SAVE_OUT_CNTRL: process(var_cntr_value,data_save_busy) is
         variable var_cntr_value_last : INTEGER;
@@ -397,8 +402,10 @@ begin
     
 ------------------------------------------------------------------------------------------------------------------------------
     
-    data_rec_var_cntr_end_value <= data_rec_offset +2; -- the plus one is dependent on the ram (our Bram has a 1 clk delay)
-    data_save_var_cntr_end_value <= data_save_bram_offset +2; -- the plus two is because the nv_reg sees the data delaied by one clk
+--    data_rec_var_cntr_end_value <= data_rec_offset +2; -- the plus one is dependent on the ram (our Bram has a 1 clk delay)
+--    data_save_var_cntr_end_value <= data_save_bram_offset +2; -- the plus two is because the nv_reg sees the data delaied by one clk
+    data_rec_var_cntr_end_value <= data_rec_offset + 2; -- the plus one is dependent on the ram (our Bram has a 1 clk delay)
+    data_save_var_cntr_end_value <= data_save_bram_offset + 2; -- the plus two is because the nv_reg sees the data delaied by one clk
 
     
     VAR_CNTR_CLK_GEN: process(sys_clk,task_status_internal) is

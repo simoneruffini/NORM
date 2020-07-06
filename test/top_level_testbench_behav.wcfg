@@ -16,13 +16,13 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="34894800fs"></ZoomStartTime>
-      <ZoomEndTime time="35129001fs"></ZoomEndTime>
-      <Cursor1Time time="34985000fs"></Cursor1Time>
+      <ZoomStartTime time="31093900fs"></ZoomStartTime>
+      <ZoomEndTime time="31330501fs"></ZoomEndTime>
+      <Cursor1Time time="31175000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="270"></NameColumnWidth>
-      <ValueColumnWidth column_width="128"></ValueColumnWidth>
+      <ValueColumnWidth column_width="116"></ValueColumnWidth>
    </column_width_setting>
    <WVObjectSize size="10" />
    <wvobject type="logic" fp_name="/top_level_testbench/sys_clk">
@@ -103,18 +103,6 @@
             <obj_property name="ElementShortName">[2][31:0]</obj_property>
             <obj_property name="ObjectShortName">[2][31:0]</obj_property>
             <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-         </wvobject>
-         <wvobject type="array" fp_name="/top_level_testbench/top_level_1/ADDER_1/adder_array[0]">
-            <obj_property name="ElementShortName">[0][31:0]</obj_property>
-            <obj_property name="ObjectShortName">[0][31:0]</obj_property>
-         </wvobject>
-         <wvobject type="array" fp_name="/top_level_testbench/top_level_1/ADDER_1/adder_array[1]">
-            <obj_property name="ElementShortName">[1][31:0]</obj_property>
-            <obj_property name="ObjectShortName">[1][31:0]</obj_property>
-         </wvobject>
-         <wvobject type="array" fp_name="/top_level_testbench/top_level_1/ADDER_1/adder_array[2]">
-            <obj_property name="ElementShortName">[2][31:0]</obj_property>
-            <obj_property name="ObjectShortName">[2][31:0]</obj_property>
          </wvobject>
       </wvobject>
       <wvobject type="other" fp_name="/top_level_testbench/top_level_1/ADDER_1/count_adder">
@@ -361,6 +349,14 @@
       <wvobject type="logic" fp_name="/top_level_testbench/top_level_1/NV_REG_1/bram_en">
          <obj_property name="ElementShortName">bram_en</obj_property>
          <obj_property name="ObjectShortName">bram_en</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/top_level_testbench/top_level_1/ADDER_1/var_cntr_tc">
+         <obj_property name="ElementShortName">var_cntr_tc</obj_property>
+         <obj_property name="ObjectShortName">var_cntr_tc</obj_property>
+      </wvobject>
+      <wvobject type="other" fp_name="/top_level_testbench/top_level_1/ADDER_1/var_cntr_value">
+         <obj_property name="ElementShortName">var_cntr_value</obj_property>
+         <obj_property name="ObjectShortName">var_cntr_value</obj_property>
       </wvobject>
       <wvobject type="array" fp_name="/top_level_testbench/top_level_1/NV_REG_1/bram_we">
          <obj_property name="ElementShortName">bram_we[0:0]</obj_property>
