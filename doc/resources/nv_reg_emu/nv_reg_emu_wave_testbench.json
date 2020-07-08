@@ -1,0 +1,27 @@
+{signal: [
+  {name: "clk", wave :"p..............."},
+  {name: "resetN", wave:"01.............", phase: -0.3},
+  ['t_delay_1',
+   {name: "load_en", 	wave :"0.10..10..1....."},
+    {name: "busy", 		wave :"0..1..01..01..01", node:"...a...b"},
+    {name: "busy_sig", 	wave :"0..1.0.1.0.1.0.1"},
+    {}
+  ],
+  ['t_delay_2',
+  	{name: "load_en", 	wave :"0.101010..1....."},
+    {name: "busy", 		wave :"0..101010..10101", node:"...c.d.."},
+    {name: "busy_sig", 	wave :"0..............."},
+   {}
+  ],
+  ['t_delay_3',
+  	{name: "load_en", 	wave :"0.101010..1....."},
+    {name: "busy", 		wave :"0..............."},
+    {name: "busy_sig", 	wave :"0..............."}
+  ]
+],
+  edge:[
+    `a<->b t_delay_1`,`c<->d t_delay_2`
+  ]
+ //config: {skin: 'narrow'}
+ //config: {hscale: 2}
+}

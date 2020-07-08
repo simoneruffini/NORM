@@ -33,7 +33,8 @@ use IEEE.NUMERIC_STD.ALL;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
-use work.COMMON_PACKAGE.ALL;
+use work.TEST_MODULE_PACKAGE.ALL;
+use work.GLOBAL_SETTINGS.ALL;
 
 entity nv_reg_emu_testbench is
 --  Port ( );
@@ -55,7 +56,7 @@ begin
     
     NV_REG_EMULATOR_1: entity work.nv_reg_emu(Behavioral)
         generic map (
-            MAX_DELAY => em1_delay
+            MAX_DELAY_NS => em1_delay
         )
         port map(
             clk     => MASTER_CLK , 
@@ -66,7 +67,7 @@ begin
         );
      NV_REG_EMULATOR_2: entity work.nv_reg_emu(Behavioral)
         generic map (
-            MAX_DELAY => em2_delay
+            MAX_DELAY_NS => em2_delay
         )
         port map(
             clk     => MASTER_CLK , 
@@ -77,7 +78,7 @@ begin
         );
       NV_REG_EMULATOR_3: entity work.nv_reg_emu(Behavioral)
         generic map (
-            MAX_DELAY => em3_delay
+            MAX_DELAY_NS => em3_delay
         )
         port map(
             clk     => MASTER_CLK , 
