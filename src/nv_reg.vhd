@@ -40,7 +40,7 @@ entity nv_reg is
     Port ( 
         clk             : in STD_LOGIC;
         global_resetN   : in STD_LOGIC; -- TODO globalresetN
-        resetN_emaultor : in STD_LOGIC;
+        resetN_emulator : in STD_LOGIC;
         busy_sig        : out STD_LOGIC;
         busy            : out STD_LOGIC;
         --------------------------- 
@@ -125,22 +125,22 @@ begin
     busy<=busy_internal;
     
     rstN <= '0' when global_resetN = '0' else
-            '0' when resetN_emaultor = '0' else
+            '0' when resetN_emulator = '0' else
             global_resetN;
     bram_en <= bram_en_rst when global_resetN = '0' else
-            '0' when resetN_emaultor = '0' else
+            '0' when resetN_emulator = '0' else
             (en or busy_internal);              --IMPORTANT keeps the bram active even if the signal was deactivated "feature enable hold"
     bram_we <= bram_we_rst when global_resetN = '0' else
-            (OTHERS => '0') when resetN_emaultor = '0' else
+            (OTHERS => '0') when resetN_emulator = '0' else
             we;
     bram_addr <= bram_addr_rst when global_resetN = '0' else
-            (OTHERS => '0') when resetN_emaultor = '0' else
+            (OTHERS => '0') when resetN_emulator = '0' else
             addr;
     bram_din <= bram_din_rst when global_resetN = '0' else
-            (OTHERS => '0') when resetN_emaultor = '0' else
+            (OTHERS => '0') when resetN_emulator = '0' else
             din;
     dout <= bram_dout when global_resetN = '0' else
-            (OTHERS => '0') when resetN_emaultor = '0' else
+            (OTHERS => '0') when resetN_emulator = '0' else
             bram_dout;
     
     RST_BRAM: process(clk) is --the reset is syncronous

@@ -2,8 +2,8 @@
 # Vivado v2020.1 (64-bit)
 # SW Build 2902540 on Wed May 27 19:54:35 MDT 2020
 # IP Build 2902112 on Wed May 27 22:43:36 MDT 2020
-# Start of session at: Fri Jul  3 10:53:44 2020
-# Process ID: 39303
+# Start of session at: Tue Jul  7 16:56:41 2020
+# Process ID: 35706
 # Current directory: /home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.runs/synth_1
 # Command line: vivado -log top_level.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source top_level.tcl
 # Log file: /home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.runs/synth_1/top_level.vds
@@ -17,12 +17,12 @@ INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7z020
 INFO: [Device 21-403] Loading part xc7z020clg484-1
 INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 4 processes.
 INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
-INFO: [Synth 8-7075] Helper process launched with PID 39334
+INFO: [Synth 8-7075] Helper process launched with PID 35759
 ---------------------------------------------------------------------------------
-Starting RTL Elaboration : Time (s): cpu = 00:00:03 ; elapsed = 00:00:04 . Memory (MB): peak = 2086.234 ; gain = 0.000 ; free physical = 1589 ; free virtual = 26937
+Starting RTL Elaboration : Time (s): cpu = 00:00:03 ; elapsed = 00:00:04 . Memory (MB): peak = 2086.234 ; gain = 0.000 ; free physical = 3932 ; free virtual = 26420
 ---------------------------------------------------------------------------------
-INFO: [Synth 8-638] synthesizing module 'top_level' [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/top_level.vhd:48]
-INFO: [Synth 8-3491] module 'POWER_APPROXIMATION' declared at '/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/POWER_APPROXIMATION.vhd:38' bound to instance 'PWR_APPROX_1' of component 'POWER_APPROXIMATION' [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/top_level.vhd:183]
+INFO: [Synth 8-638] synthesizing module 'top_level' [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/top_level.vhd:49]
+INFO: [Synth 8-3491] module 'POWER_APPROXIMATION' declared at '/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/POWER_APPROXIMATION.vhd:38' bound to instance 'PWR_APPROX_1' of component 'POWER_APPROXIMATION' [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/top_level.vhd:184]
 INFO: [Synth 8-638] synthesizing module 'POWER_APPROXIMATION' [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/POWER_APPROXIMATION.vhd:48]
 	Parameter MAX bound to: 2147483647 - type: integer 
 	Parameter INIT_VALUE bound to: 0 - type: integer 
@@ -42,7 +42,7 @@ INFO: [Synth 8-3491] module 'counter' declared at '/home/luca/Documents/git/NonV
 	Parameter INCREASE_BY bound to: 1 - type: integer 
 INFO: [Synth 8-3491] module 'counter' declared at '/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/counter.vhd:34' bound to instance 'COUTER' of component 'counter' [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/POWER_APPROXIMATION.vhd:71]
 INFO: [Synth 8-256] done synthesizing module 'POWER_APPROXIMATION' (2#1) [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/POWER_APPROXIMATION.vhd:48]
-INFO: [Synth 8-3491] module 'INSTANT_PWR_CALC' declared at '/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/INSTANT_PWR_CALC.vhd:37' bound to instance 'INSTANT_PWR_CALC_1' of component 'INSTANT_PWR_CALC' [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/top_level.vhd:192]
+INFO: [Synth 8-3491] module 'INSTANT_PWR_CALC' declared at '/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/INSTANT_PWR_CALC.vhd:37' bound to instance 'INSTANT_PWR_CALC_1' of component 'INSTANT_PWR_CALC' [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/top_level.vhd:193]
 INFO: [Synth 8-638] synthesizing module 'INSTANT_PWR_CALC' [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/INSTANT_PWR_CALC.vhd:48]
 	Parameter NUM_ELEMENTS_ROM bound to: 3 - type: integer 
 	Parameter MAX_VAL bound to: 1024 - type: integer 
@@ -51,10 +51,10 @@ INFO: [Synth 8-638] synthesizing module 'PWR_CONSUMPTION_VAL_ROM' [/home/luca/Do
 	Parameter NUM_ELEMENTS_ROM bound to: 3 - type: integer 
 	Parameter MAX_VAL bound to: 1024 - type: integer 
 INFO: [Synth 8-256] done synthesizing module 'PWR_CONSUMPTION_VAL_ROM' (3#1) [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/PWR_CONSUMPTION_VAL_ROM.vhd:46]
-INFO: [Synth 8-3491] module 'xbip_multadd_0' declared at '/home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.runs/synth_1/.Xil/Vivado-39303-luca-pc/realtime/xbip_multadd_0_stub.vhdl:5' bound to instance 'MULTIPLIER_0' of component 'xbip_multadd_0' [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/INSTANT_PWR_CALC.vhd:127]
-INFO: [Synth 8-638] synthesizing module 'xbip_multadd_0' [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.runs/synth_1/.Xil/Vivado-39303-luca-pc/realtime/xbip_multadd_0_stub.vhdl:20]
+INFO: [Synth 8-3491] module 'xbip_multadd_0' declared at '/home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.runs/synth_1/.Xil/Vivado-35706-luca-pc/realtime/xbip_multadd_0_stub.vhdl:5' bound to instance 'MULTIPLIER_0' of component 'xbip_multadd_0' [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/INSTANT_PWR_CALC.vhd:127]
+INFO: [Synth 8-638] synthesizing module 'xbip_multadd_0' [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.runs/synth_1/.Xil/Vivado-35706-luca-pc/realtime/xbip_multadd_0_stub.vhdl:20]
 INFO: [Synth 8-256] done synthesizing module 'INSTANT_PWR_CALC' (4#1) [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/INSTANT_PWR_CALC.vhd:48]
-INFO: [Synth 8-3491] module 'INTERMITTENCY_EMULATOR' declared at '/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/INTERMITTENCY_EMULATOR.vhd:37' bound to instance 'INTERMITTENCY_EMULATOR_1' of component 'INTERMITTENCY_EMULATOR' [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/top_level.vhd:202]
+INFO: [Synth 8-3491] module 'INTERMITTENCY_EMULATOR' declared at '/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/INTERMITTENCY_EMULATOR.vhd:37' bound to instance 'INTERMITTENCY_EMULATOR_1' of component 'INTERMITTENCY_EMULATOR' [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/top_level.vhd:203]
 INFO: [Synth 8-638] synthesizing module 'INTERMITTENCY_EMULATOR' [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/INTERMITTENCY_EMULATOR.vhd:47]
 	Parameter NUM_ELEMNTS_ROM bound to: 1000 - type: integer 
 	Parameter MAX_VAL bound to: 330 - type: integer 
@@ -76,7 +76,6 @@ INFO: [Synth 8-638] synthesizing module 'counter__parameterized2' [/home/luca/Do
 	Parameter INIT_VALUE bound to: 0 - type: integer 
 	Parameter INCREASE_BY bound to: 1 - type: integer 
 INFO: [Synth 8-256] done synthesizing module 'counter__parameterized2' (5#1) [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/counter.vhd:49]
-WARNING: [Synth 8-614] signal 'prescaler_clk_signal' is read in the process but is not in the sensitivity list [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/scaler.vhd:78]
 INFO: [Synth 8-256] done synthesizing module 'scaler' (6#1) [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/scaler.vhd:44]
 	Parameter MAX bound to: 999 - type: integer 
 	Parameter INIT_VALUE bound to: 0 - type: integer 
@@ -88,57 +87,59 @@ INFO: [Synth 8-638] synthesizing module 'counter__parameterized4' [/home/luca/Do
 	Parameter INCREASE_BY bound to: 1 - type: integer 
 INFO: [Synth 8-256] done synthesizing module 'counter__parameterized4' (6#1) [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/counter.vhd:49]
 INFO: [Synth 8-256] done synthesizing module 'INTERMITTENCY_EMULATOR' (7#1) [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/INTERMITTENCY_EMULATOR.vhd:47]
-INFO: [Synth 8-3491] module 'adder' declared at '/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/adder.vhd:40' bound to instance 'ADDER_1' of component 'adder' [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/top_level.vhd:211]
+INFO: [Synth 8-3491] module 'adder' declared at '/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/adder.vhd:40' bound to instance 'ADDER_1' of component 'adder' [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/top_level.vhd:212]
 INFO: [Synth 8-638] synthesizing module 'adder' [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/adder.vhd:57]
-INFO: [Synth 8-3491] module 'blk_mem_gen_0' declared at '/home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.runs/synth_1/.Xil/Vivado-39303-luca-pc/realtime/blk_mem_gen_0_stub.vhdl:5' bound to instance 'blk_mem_gen_0_1' of component 'blk_mem_gen_0' [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/adder.vhd:150]
-INFO: [Synth 8-638] synthesizing module 'blk_mem_gen_0' [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.runs/synth_1/.Xil/Vivado-39303-luca-pc/realtime/blk_mem_gen_0_stub.vhdl:23]
-WARNING: [Synth 8-614] signal 'data_rec_nv_reg_start_addr' is read in the process but is not in the sensitivity list [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/adder.vhd:178]
-WARNING: [Synth 8-614] signal 'data_rec_recovered_data' is read in the process but is not in the sensitivity list [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/adder.vhd:178]
-WARNING: [Synth 8-614] signal 'data_rec_offset' is read in the process but is not in the sensitivity list [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/adder.vhd:289]
-WARNING: [Synth 8-614] signal 'data_rec_nv_reg_start_addr' is read in the process but is not in the sensitivity list [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/adder.vhd:289]
-WARNING: [Synth 8-614] signal 'nv_reg_dout' is read in the process but is not in the sensitivity list [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/adder.vhd:289]
+INFO: [Synth 8-3491] module 'blk_mem_gen_0' declared at '/home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.runs/synth_1/.Xil/Vivado-35706-luca-pc/realtime/blk_mem_gen_0_stub.vhdl:5' bound to instance 'blk_mem_gen_0_1' of component 'blk_mem_gen_0' [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/adder.vhd:159]
+INFO: [Synth 8-638] synthesizing module 'blk_mem_gen_0' [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.runs/synth_1/.Xil/Vivado-35706-luca-pc/realtime/blk_mem_gen_0_stub.vhdl:23]
+WARNING: [Synth 8-614] signal 'data_rec_nv_reg_start_addr' is read in the process but is not in the sensitivity list [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/adder.vhd:197]
+WARNING: [Synth 8-614] signal 'data_rec_offset' is read in the process but is not in the sensitivity list [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/adder.vhd:324]
+WARNING: [Synth 8-614] signal 'data_rec_nv_reg_start_addr' is read in the process but is not in the sensitivity list [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/adder.vhd:324]
+WARNING: [Synth 8-614] signal 'nv_reg_dout' is read in the process but is not in the sensitivity list [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/adder.vhd:324]
+WARNING: [Synth 8-614] signal 'data_save_bram_offset' is read in the process but is not in the sensitivity list [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/adder.vhd:381]
+WARNING: [Synth 8-614] signal 'data_save_bram_start_addr' is read in the process but is not in the sensitivity list [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/adder.vhd:381]
+WARNING: [Synth 8-614] signal 'data_save_nv_reg_start_addr' is read in the process but is not in the sensitivity list [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/adder.vhd:381]
+WARNING: [Synth 8-614] signal 'doutb' is read in the process but is not in the sensitivity list [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/adder.vhd:381]
 	Parameter MAX bound to: 18 - type: integer 
-	Parameter INIT_VALUE bound to: 18 - type: integer 
+	Parameter INIT_VALUE bound to: 0 - type: integer 
 	Parameter INCREASE_BY bound to: 1 - type: integer 
-INFO: [Synth 8-3491] module 'variable_counter' declared at '/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/variable_counter.vhd:34' bound to instance 'VAR_CNTR' of component 'variable_counter' [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/adder.vhd:328]
+INFO: [Synth 8-3491] module 'variable_counter' declared at '/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/variable_counter.vhd:34' bound to instance 'VAR_CNTR' of component 'variable_counter' [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/adder.vhd:427]
 INFO: [Synth 8-638] synthesizing module 'variable_counter' [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/variable_counter.vhd:51]
 	Parameter MAX bound to: 18 - type: integer 
-	Parameter INIT_VALUE bound to: 18 - type: integer 
+	Parameter INIT_VALUE bound to: 0 - type: integer 
 	Parameter INCREASE_BY bound to: 1 - type: integer 
 INFO: [Synth 8-256] done synthesizing module 'variable_counter' (8#1) [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/variable_counter.vhd:51]
-WARNING: [Synth 8-7043] port width mismatch for port 'value': port width = 5, actual width = 32 (integer) [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/adder.vhd:341]
 INFO: [Synth 8-256] done synthesizing module 'adder' (9#1) [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/adder.vhd:57]
-INFO: [Synth 8-3491] module 'fsm_nv_reg' declared at '/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/fsm_nv_reg.vhd:37' bound to instance 'FSM_NV_REG_1' of component 'fsm_nv_reg' [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/top_level.vhd:227]
+INFO: [Synth 8-3491] module 'fsm_nv_reg' declared at '/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/fsm_nv_reg.vhd:37' bound to instance 'FSM_NV_REG_1' of component 'fsm_nv_reg' [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/top_level.vhd:229]
 INFO: [Synth 8-638] synthesizing module 'fsm_nv_reg' [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/fsm_nv_reg.vhd:48]
 INFO: [Synth 8-256] done synthesizing module 'fsm_nv_reg' (10#1) [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/fsm_nv_reg.vhd:48]
-	Parameter MAX_DELAY_NS bound to: 40000 - type: integer 
+	Parameter MAX_DELAY_NS bound to: 40 - type: integer 
 	Parameter NV_REG_WIDTH bound to: 16 - type: integer 
-INFO: [Synth 8-3491] module 'nv_reg' declared at '/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/nv_reg.vhd:35' bound to instance 'NV_REG_1' of component 'nv_reg' [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/top_level.vhd:237]
+INFO: [Synth 8-3491] module 'nv_reg' declared at '/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/nv_reg.vhd:35' bound to instance 'NV_REG_1' of component 'nv_reg' [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/top_level.vhd:239]
 INFO: [Synth 8-638] synthesizing module 'nv_reg' [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/nv_reg.vhd:55]
-	Parameter MAX_DELAY_NS bound to: 40000 - type: integer 
+	Parameter MAX_DELAY_NS bound to: 40 - type: integer 
 	Parameter NV_REG_WIDTH bound to: 16 - type: integer 
-INFO: [Synth 8-3491] module 'blk_mem_gen_1' declared at '/home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.runs/synth_1/.Xil/Vivado-39303-luca-pc/realtime/blk_mem_gen_1_stub.vhdl:5' bound to instance 'BRAM' of component 'blk_mem_gen_1' [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/nv_reg.vhd:103]
-INFO: [Synth 8-638] synthesizing module 'blk_mem_gen_1' [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.runs/synth_1/.Xil/Vivado-39303-luca-pc/realtime/blk_mem_gen_1_stub.vhdl:17]
-	Parameter MAX_DELAY_NS bound to: 40000 - type: integer 
+INFO: [Synth 8-3491] module 'blk_mem_gen_1' declared at '/home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.runs/synth_1/.Xil/Vivado-35706-luca-pc/realtime/blk_mem_gen_1_stub.vhdl:5' bound to instance 'BRAM' of component 'blk_mem_gen_1' [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/nv_reg.vhd:103]
+INFO: [Synth 8-638] synthesizing module 'blk_mem_gen_1' [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.runs/synth_1/.Xil/Vivado-35706-luca-pc/realtime/blk_mem_gen_1_stub.vhdl:17]
+	Parameter MAX_DELAY_NS bound to: 40 - type: integer 
 INFO: [Synth 8-3491] module 'nv_reg_emu' declared at '/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/nv_reg_emu.vhd:38' bound to instance 'EMU' of component 'nv_reg_emu' [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/nv_reg.vhd:113]
 INFO: [Synth 8-638] synthesizing module 'nv_reg_emu' [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/nv_reg_emu.vhd:51]
-	Parameter MAX_DELAY_NS bound to: 40000 - type: integer 
+	Parameter MAX_DELAY_NS bound to: 40 - type: integer 
 INFO: [Synth 8-256] done synthesizing module 'nv_reg_emu' (11#1) [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/nv_reg_emu.vhd:51]
 INFO: [Synth 8-256] done synthesizing module 'nv_reg' (12#1) [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/nv_reg.vhd:55]
-INFO: [Synth 8-256] done synthesizing module 'top_level' (13#1) [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/top_level.vhd:48]
+INFO: [Synth 8-256] done synthesizing module 'top_level' (13#1) [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/top_level.vhd:49]
 ---------------------------------------------------------------------------------
-Finished RTL Elaboration : Time (s): cpu = 00:00:04 ; elapsed = 00:00:05 . Memory (MB): peak = 2086.234 ; gain = 0.000 ; free physical = 1697 ; free virtual = 27046
+Finished RTL Elaboration : Time (s): cpu = 00:00:04 ; elapsed = 00:00:05 . Memory (MB): peak = 2086.234 ; gain = 0.000 ; free physical = 4019 ; free virtual = 26507
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Handling Custom Attributes
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:00:04 ; elapsed = 00:00:05 . Memory (MB): peak = 2086.234 ; gain = 0.000 ; free physical = 1692 ; free virtual = 27041
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:04 ; elapsed = 00:00:06 . Memory (MB): peak = 2086.234 ; gain = 0.000 ; free physical = 4048 ; free virtual = 26523
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:04 ; elapsed = 00:00:05 . Memory (MB): peak = 2086.234 ; gain = 0.000 ; free physical = 1692 ; free virtual = 27041
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:04 ; elapsed = 00:00:06 . Memory (MB): peak = 2086.234 ; gain = 0.000 ; free physical = 4048 ; free virtual = 26523
 ---------------------------------------------------------------------------------
-Netlist sorting complete. Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00.01 . Memory (MB): peak = 2086.234 ; gain = 0.000 ; free physical = 1687 ; free virtual = 27036
+Netlist sorting complete. Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00.01 . Memory (MB): peak = 2086.234 ; gain = 0.000 ; free physical = 4041 ; free virtual = 26516
 INFO: [Project 1-570] Preparing netlist for logic optimization
 
 Processing XDC Constraints
@@ -157,22 +158,22 @@ Parsing XDC File [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR
 Finished Parsing XDC File [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.runs/synth_1/dont_touch.xdc]
 Completed Processing XDC Constraints
 
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2208.715 ; gain = 0.000 ; free physical = 1599 ; free virtual = 26948
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2212.652 ; gain = 0.000 ; free physical = 3962 ; free virtual = 26436
 INFO: [Project 1-111] Unisim Transformation Summary:
 No Unisim elements were transformed.
 
-Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2208.715 ; gain = 0.000 ; free physical = 1599 ; free virtual = 26948
+Constraint Validation Runtime : Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00 . Memory (MB): peak = 2212.652 ; gain = 0.000 ; free physical = 3962 ; free virtual = 26436
 WARNING: [Timing 38-316] Clock period '20.000' specified during out-of-context synthesis of instance 'ADDER_1/blk_mem_gen_0_1' at clock pin 'clka' is different from the actual clock period '10.000', this can lead to different synthesis results.
 WARNING: [Timing 38-316] Clock period '20.000' specified during out-of-context synthesis of instance 'NV_REG_1/BRAM' at clock pin 'clka' is different from the actual clock period '10.000', this can lead to different synthesis results.
 ---------------------------------------------------------------------------------
-Finished Constraint Validation : Time (s): cpu = 00:00:09 ; elapsed = 00:00:11 . Memory (MB): peak = 2211.684 ; gain = 125.449 ; free physical = 1668 ; free virtual = 27017
+Finished Constraint Validation : Time (s): cpu = 00:00:09 ; elapsed = 00:00:11 . Memory (MB): peak = 2215.621 ; gain = 129.387 ; free physical = 4026 ; free virtual = 26495
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Loading Part and Timing Information
 ---------------------------------------------------------------------------------
 Loading part: xc7z020clg484-1
 ---------------------------------------------------------------------------------
-Finished Loading Part and Timing Information : Time (s): cpu = 00:00:09 ; elapsed = 00:00:11 . Memory (MB): peak = 2211.684 ; gain = 125.449 ; free physical = 1668 ; free virtual = 27017
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:09 ; elapsed = 00:00:11 . Memory (MB): peak = 2215.621 ; gain = 129.387 ; free physical = 4026 ; free virtual = 26495
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Applying 'set_property' XDC Constraints
@@ -181,7 +182,7 @@ Applied set_property DONT_TOUCH = true for NV_REG_1/BRAM. (constraint file  auto
 Applied set_property DONT_TOUCH = true for ADDER_1/blk_mem_gen_0_1. (constraint file  auto generated constraint, line ).
 Applied set_property DONT_TOUCH = true for INSTANT_PWR_CALC_1/MULTIPLIER_0. (constraint file  auto generated constraint, line ).
 ---------------------------------------------------------------------------------
-Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:09 ; elapsed = 00:00:11 . Memory (MB): peak = 2211.684 ; gain = 125.449 ; free physical = 1668 ; free virtual = 27017
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:09 ; elapsed = 00:00:11 . Memory (MB): peak = 2215.621 ; gain = 129.387 ; free physical = 4026 ; free virtual = 26495
 ---------------------------------------------------------------------------------
 INFO: [Synth 8-802] inferred FSM for state register 'instant_pwr_calc_present_state_reg' in module 'INSTANT_PWR_CALC'
 INFO: [Synth 8-802] inferred FSM for state register 'present_state_reg' in module 'adder'
@@ -209,26 +210,30 @@ INFO: [Synth 8-3354] encoded FSM with state register 'instant_pwr_calc_present_s
       recovery_fsm_state |                              101 |                              101
 ---------------------------------------------------------------------------------------------------
 INFO: [Synth 8-3354] encoded FSM with state register 'present_state_reg' using encoding 'sequential' in module 'adder'
-WARNING: [Synth 8-327] inferring latch for variable 'data_rec_nv_reg_addr_reg' [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/adder.vhd:295]
-WARNING: [Synth 8-327] inferring latch for variable 'data_rec_recovered_data_reg' [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/adder.vhd:299]
-WARNING: [Synth 8-327] inferring latch for variable 'data_rec_recovered_offset_reg' [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/adder.vhd:298]
-WARNING: [Synth 8-327] inferring latch for variable 'offset_last_reg' [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/adder.vhd:298]
+WARNING: [Synth 8-327] inferring latch for variable 'data_save_nv_reg_addr_reg' [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/adder.vhd:392]
+WARNING: [Synth 8-327] inferring latch for variable 'data_rec_nv_reg_addr_reg' [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/adder.vhd:330]
+WARNING: [Synth 8-327] inferring latch for variable 'data_save_nv_reg_din_reg' [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/adder.vhd:396]
+WARNING: [Synth 8-327] inferring latch for variable 'data_rec_recovered_data_reg' [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/adder.vhd:343]
+WARNING: [Synth 8-327] inferring latch for variable 'data_rec_recovered_offset_reg' [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/adder.vhd:337]
+WARNING: [Synth 8-327] inferring latch for variable 'var_cntr_value_last_reg' [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/adder.vhd:393]
+WARNING: [Synth 8-327] inferring latch for variable 'offset_last_reg' [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/adder.vhd:337]
+WARNING: [Synth 8-327] inferring latch for variable 'addrb_reg' [/home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/adder.vhd:170]
 ---------------------------------------------------------------------------------------------------
                    State |                     New Encoding |                Previous Encoding 
 ---------------------------------------------------------------------------------------------------
-              shutdown_s |                        000000001 |                             0000
-                  init_s |                        000000010 |                             0001
-   start_data_recovery_s |                        000000100 |                             0010
-              recovery_s |                        000001000 |                             0011
-        data_recovered_s |                        000010000 |                             0100
-          do_operation_s |                        000100000 |                             0101
-       start_data_save_s |                        001000000 |                             0110
-             data_save_s |                        010000000 |                             0111
-            data_saved_s |                        100000000 |                             1000
+              shutdown_s |                             0000 |                             0000
+                  init_s |                             0001 |                             0001
+   start_data_recovery_s |                             0010 |                             0010
+              recovery_s |                             0011 |                             0011
+        data_recovered_s |                             0100 |                             0100
+          do_operation_s |                             0101 |                             0101
+       start_data_save_s |                             0110 |                             0110
+             data_save_s |                             0111 |                             0111
+            data_saved_s |                             1000 |                             1000
 ---------------------------------------------------------------------------------------------------
-INFO: [Synth 8-3354] encoded FSM with state register 'present_state_reg' using encoding 'one-hot' in module 'fsm_nv_reg'
+INFO: [Synth 8-3354] encoded FSM with state register 'present_state_reg' using encoding 'sequential' in module 'fsm_nv_reg'
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:09 ; elapsed = 00:00:11 . Memory (MB): peak = 2211.684 ; gain = 125.449 ; free physical = 1660 ; free virtual = 27009
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:10 ; elapsed = 00:00:12 . Memory (MB): peak = 2215.621 ; gain = 129.387 ; free physical = 4019 ; free virtual = 26487
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start RTL Component Statistics 
@@ -238,8 +243,9 @@ Detailed RTL Component Info :
 	   2 Input   32 Bit       Adders := 1     
 	   2 Input   31 Bit       Adders := 3     
 	   2 Input   10 Bit       Adders := 1     
-	   2 Input    5 Bit       Adders := 3     
-	   2 Input    4 Bit       Adders := 2     
+	   2 Input    6 Bit       Adders := 1     
+	   2 Input    5 Bit       Adders := 2     
+	   2 Input    4 Bit       Adders := 4     
 	   2 Input    3 Bit       Adders := 1     
 	   2 Input    2 Bit       Adders := 1     
 +---Registers : 
@@ -248,32 +254,31 @@ Detailed RTL Component Info :
 	               10 Bit    Registers := 2     
 	                9 Bit    Registers := 1     
 	                5 Bit    Registers := 1     
-	                4 Bit    Registers := 2     
+	                4 Bit    Registers := 3     
 	                3 Bit    Registers := 1     
 	                2 Bit    Registers := 2     
-	                1 Bit    Registers := 8     
+	                1 Bit    Registers := 9     
 +---ROMs : 
 	                    ROMs := 1     
 +---Muxes : 
-	   2 Input   32 Bit        Muxes := 5     
+	   2 Input   32 Bit        Muxes := 8     
 	   6 Input   32 Bit        Muxes := 1     
 	   2 Input   31 Bit        Muxes := 3     
 	   3 Input   31 Bit        Muxes := 1     
 	   6 Input   16 Bit        Muxes := 1     
 	   4 Input   10 Bit        Muxes := 1     
 	   2 Input   10 Bit        Muxes := 1     
-	   9 Input    9 Bit        Muxes := 1     
-	   2 Input    9 Bit        Muxes := 5     
-	   3 Input    5 Bit        Muxes := 2     
-	   2 Input    5 Bit        Muxes := 1     
-	   2 Input    4 Bit        Muxes := 9     
+	   2 Input    5 Bit        Muxes := 2     
+	   3 Input    5 Bit        Muxes := 1     
+	   2 Input    4 Bit        Muxes := 10    
 	   9 Input    4 Bit        Muxes := 2     
+	  16 Input    4 Bit        Muxes := 1     
 	   7 Input    3 Bit        Muxes := 1     
-	   2 Input    3 Bit        Muxes := 4     
+	   2 Input    3 Bit        Muxes := 5     
 	   6 Input    3 Bit        Muxes := 1     
 	   2 Input    2 Bit        Muxes := 2     
 	   7 Input    1 Bit        Muxes := 4     
-	   2 Input    1 Bit        Muxes := 13    
+	   2 Input    1 Bit        Muxes := 20    
 	   6 Input    1 Bit        Muxes := 3     
 ---------------------------------------------------------------------------------
 Finished RTL Component Statistics 
@@ -292,7 +297,7 @@ Start Cross Boundary and Area Optimization
 ---------------------------------------------------------------------------------
 WARNING: [Synth 8-6040] Register INTERMITTENCY_EMULATOR_1/trace_counter/counter_reg_rep driving address of a ROM cannot be packed in BRAM/URAM because of presence of initial value.
 ---------------------------------------------------------------------------------
-Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:10 ; elapsed = 00:00:13 . Memory (MB): peak = 2211.684 ; gain = 125.449 ; free physical = 1646 ; free virtual = 26999
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:11 ; elapsed = 00:00:13 . Memory (MB): peak = 2215.621 ; gain = 129.387 ; free physical = 4007 ; free virtual = 26475
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start ROM, RAM, DSP and Shift Register Reporting
@@ -312,20 +317,20 @@ Finished ROM, RAM, DSP and Shift Register Reporting
 Start Applying XDC Timing Constraints
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:15 ; elapsed = 00:00:18 . Memory (MB): peak = 2211.684 ; gain = 125.449 ; free physical = 1522 ; free virtual = 26875
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:16 ; elapsed = 00:00:19 . Memory (MB): peak = 2215.621 ; gain = 129.387 ; free physical = 3865 ; free virtual = 26357
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Timing Optimization
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Timing Optimization : Time (s): cpu = 00:00:15 ; elapsed = 00:00:18 . Memory (MB): peak = 2211.684 ; gain = 125.449 ; free physical = 1518 ; free virtual = 26871
+Finished Timing Optimization : Time (s): cpu = 00:00:17 ; elapsed = 00:00:20 . Memory (MB): peak = 2215.621 ; gain = 129.387 ; free physical = 3869 ; free virtual = 26349
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Technology Mapping
 ---------------------------------------------------------------------------------
 INFO: [Synth 8-7052] The timing for the instance INTERMITTENCY_EMULATOR_1/voltage_trace_ROM/data_out_reg (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
 ---------------------------------------------------------------------------------
-Finished Technology Mapping : Time (s): cpu = 00:00:15 ; elapsed = 00:00:18 . Memory (MB): peak = 2211.684 ; gain = 125.449 ; free physical = 1511 ; free virtual = 26865
+Finished Technology Mapping : Time (s): cpu = 00:00:17 ; elapsed = 00:00:20 . Memory (MB): peak = 2215.621 ; gain = 129.387 ; free physical = 3868 ; free virtual = 26348
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start IO Insertion
@@ -343,37 +348,37 @@ Start Final Netlist Cleanup
 Finished Final Netlist Cleanup
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished IO Insertion : Time (s): cpu = 00:00:18 ; elapsed = 00:00:20 . Memory (MB): peak = 2211.684 ; gain = 125.449 ; free physical = 1516 ; free virtual = 26870
+Finished IO Insertion : Time (s): cpu = 00:00:19 ; elapsed = 00:00:22 . Memory (MB): peak = 2215.621 ; gain = 129.387 ; free physical = 3874 ; free virtual = 26351
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Instances
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Instances : Time (s): cpu = 00:00:18 ; elapsed = 00:00:20 . Memory (MB): peak = 2211.684 ; gain = 125.449 ; free physical = 1516 ; free virtual = 26870
+Finished Renaming Generated Instances : Time (s): cpu = 00:00:19 ; elapsed = 00:00:22 . Memory (MB): peak = 2215.621 ; gain = 129.387 ; free physical = 3874 ; free virtual = 26351
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Rebuilding User Hierarchy
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:18 ; elapsed = 00:00:20 . Memory (MB): peak = 2211.684 ; gain = 125.449 ; free physical = 1516 ; free virtual = 26870
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:19 ; elapsed = 00:00:22 . Memory (MB): peak = 2215.621 ; gain = 129.387 ; free physical = 3874 ; free virtual = 26351
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Ports
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Ports : Time (s): cpu = 00:00:18 ; elapsed = 00:00:20 . Memory (MB): peak = 2211.684 ; gain = 125.449 ; free physical = 1516 ; free virtual = 26870
+Finished Renaming Generated Ports : Time (s): cpu = 00:00:19 ; elapsed = 00:00:22 . Memory (MB): peak = 2215.621 ; gain = 129.387 ; free physical = 3874 ; free virtual = 26351
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Handling Custom Attributes
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:00:18 ; elapsed = 00:00:21 . Memory (MB): peak = 2211.684 ; gain = 125.449 ; free physical = 1516 ; free virtual = 26870
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:19 ; elapsed = 00:00:22 . Memory (MB): peak = 2215.621 ; gain = 129.387 ; free physical = 3874 ; free virtual = 26351
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Nets
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Nets : Time (s): cpu = 00:00:18 ; elapsed = 00:00:21 . Memory (MB): peak = 2211.684 ; gain = 125.449 ; free physical = 1516 ; free virtual = 26870
+Finished Renaming Generated Nets : Time (s): cpu = 00:00:19 ; elapsed = 00:00:22 . Memory (MB): peak = 2215.621 ; gain = 129.387 ; free physical = 3874 ; free virtual = 26351
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Writing Synthesis Report
@@ -395,43 +400,47 @@ Report Cell Usage:
 |1     |blk_mem_gen_0_bbox  |     1|
 |2     |blk_mem_gen_1_bbox  |     1|
 |3     |xbip_multadd_0_bbox |     1|
-|4     |BUFG                |     2|
+|4     |BUFG                |     1|
 |5     |CARRY4              |     8|
-|6     |LUT1                |     6|
-|7     |LUT2                |     7|
-|8     |LUT3                |    10|
-|9     |LUT4                |    15|
-|10    |LUT5                |    13|
-|11    |LUT6                |    91|
+|6     |LUT1                |    12|
+|7     |LUT2                |    13|
+|8     |LUT3                |    44|
+|9     |LUT4                |    85|
+|10    |LUT5                |    16|
+|11    |LUT6                |    21|
 |12    |RAMB18E1            |     1|
-|13    |FDCE                |    45|
+|13    |FDCE                |    48|
 |14    |FDPE                |     3|
 |15    |FDRE                |    39|
-|16    |LDC                 |    37|
-|17    |IBUF                |     1|
-|18    |OBUF                |    32|
+|16    |LDC                 |    72|
+|17    |LDP                 |     3|
+|18    |IBUF                |     2|
+|19    |OBUF                |    32|
 +------+--------------------+------+
 ---------------------------------------------------------------------------------
-Finished Writing Synthesis Report : Time (s): cpu = 00:00:18 ; elapsed = 00:00:21 . Memory (MB): peak = 2211.684 ; gain = 125.449 ; free physical = 1516 ; free virtual = 26870
+Finished Writing Synthesis Report : Time (s): cpu = 00:00:19 ; elapsed = 00:00:22 . Memory (MB): peak = 2215.621 ; gain = 129.387 ; free physical = 3874 ; free virtual = 26350
 ---------------------------------------------------------------------------------
-Synthesis finished with 0 errors, 0 critical warnings and 5 warnings.
-Synthesis Optimization Runtime : Time (s): cpu = 00:00:16 ; elapsed = 00:00:19 . Memory (MB): peak = 2211.684 ; gain = 0.000 ; free physical = 1571 ; free virtual = 26924
-Synthesis Optimization Complete : Time (s): cpu = 00:00:18 ; elapsed = 00:00:21 . Memory (MB): peak = 2211.684 ; gain = 125.449 ; free physical = 1571 ; free virtual = 26924
+Synthesis finished with 0 errors, 0 critical warnings and 9 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:17 ; elapsed = 00:00:20 . Memory (MB): peak = 2215.621 ; gain = 0.000 ; free physical = 3929 ; free virtual = 26406
+Synthesis Optimization Complete : Time (s): cpu = 00:00:19 ; elapsed = 00:00:22 . Memory (MB): peak = 2215.621 ; gain = 129.387 ; free physical = 3929 ; free virtual = 26406
 INFO: [Project 1-571] Translating synthesized netlist
-Netlist sorting complete. Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00.01 . Memory (MB): peak = 2211.684 ; gain = 0.000 ; free physical = 1644 ; free virtual = 26997
-INFO: [Netlist 29-17] Analyzing 46 Unisim elements for replacement
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.01 . Memory (MB): peak = 2215.621 ; gain = 0.000 ; free physical = 4002 ; free virtual = 26479
+INFO: [Netlist 29-17] Analyzing 84 Unisim elements for replacement
 INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
 INFO: [Project 1-570] Preparing netlist for logic optimization
-INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2211.684 ; gain = 0.000 ; free physical = 1587 ; free virtual = 26940
+INFO: [Opt 31-138] Pushed 1 inverter(s) to 69 load pin(s).
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2215.621 ; gain = 0.000 ; free physical = 3944 ; free virtual = 26421
 INFO: [Project 1-111] Unisim Transformation Summary:
-  A total of 37 instances were transformed.
-  LDC => LDCE: 37 instances
+  A total of 75 instances were transformed.
+  LDC => LDCE: 4 instances
+  LDC => LDCE (inverted pins: G): 68 instances
+  LDP => LDPE: 2 instances
+  LDP => LDPE (inverted pins: G): 1 instance 
 
 INFO: [Common 17-83] Releasing license: Synthesis
-74 Infos, 14 Warnings, 0 Critical Warnings and 0 Errors encountered.
+74 Infos, 19 Warnings, 0 Critical Warnings and 0 Errors encountered.
 synth_design completed successfully
-synth_design: Time (s): cpu = 00:00:25 ; elapsed = 00:00:26 . Memory (MB): peak = 2211.684 ; gain = 125.812 ; free physical = 1726 ; free virtual = 27079
+synth_design: Time (s): cpu = 00:00:27 ; elapsed = 00:00:28 . Memory (MB): peak = 2215.621 ; gain = 129.750 ; free physical = 4083 ; free virtual = 26560
 INFO: [Common 17-1381] The checkpoint '/home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.runs/synth_1/top_level.dcp' has been generated.
 INFO: [runtcl-4] Executing : report_utilization -file top_level_utilization_synth.rpt -pb top_level_utilization_synth.pb
-INFO: [Common 17-206] Exiting Vivado at Fri Jul  3 10:54:17 2020...
+INFO: [Common 17-206] Exiting Vivado at Tue Jul  7 16:57:16 2020...

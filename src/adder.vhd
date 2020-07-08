@@ -147,7 +147,7 @@ architecture Behavioral of adder is
     signal data_rec_recovered_offset: INTEGER RANGE 0 TO NV_REG_WIDTH -1;
     -------------------------------COUNTER_SIGNALS----------------------------------------
     signal var_cntr_clk,var_cntr_init,var_cntr_ce,var_cntr_tc: STD_LOGIC;
-    signal var_cntr_value, var_cntr_end_value: INTEGER;
+    signal var_cntr_value, var_cntr_end_value: INTEGER range 0 to NV_REG_WIDTH+2;
     --------------------------------------------------------------------------------------   
 --------------------------------------------------DATA_SAVE_PROC-------------------------------------------------------------------
      signal data_save_nv_reg_start_addr: STD_LOGIC_VECTOR(nv_reg_addr_width_bit-1 DOWNTO 0);
@@ -330,13 +330,16 @@ begin
                 data_rec_nv_reg_addr <= std_logic_vector(   unsigned(data_rec_nv_reg_start_addr) 
                                                             + to_unsigned(var_cntr_value,nv_reg_addr_width_bit)
                                                          ); 
+                
+            end if;
+            if(var_cntr_value <= data_rec_offset + 1) then
+            
                 data_rec_recovered_offset <= offset_last;
 --                data_rec_recovered_data <= nv_reg_dout;
 --                data_rec_recovered_data <= recovered_data_last;
                 offset_last :=var_cntr_value;
 --                recovered_data_last := nv_reg_dout;
-            end if;
-            if(var_cntr_value <= data_rec_offset + 1) then
+            
                 data_rec_recovered_data <= nv_reg_dout;
             end if;
         else
@@ -382,12 +385,13 @@ begin
             if(var_cntr_value <= data_save_bram_offset) then
                 addrb <= std_logic_vector(  unsigned(data_save_bram_start_addr)
                                             +to_unsigned(var_cntr_value,bram_addr_width_bit -1)
-                                          );
+                                          );              
+            end if;
+            if(var_cntr_value <= data_save_bram_offset +1) then
+                
                 data_save_nv_reg_addr <= std_logic_vector( unsigned(data_save_nv_reg_start_addr)
                                                            + to_unsigned(var_cntr_value_last,nv_reg_addr_width_bit)  
                                                           );
-            end if;
-            if(var_cntr_value <= data_save_bram_offset +1) then
                 
                 data_save_nv_reg_din <= doutb;
                 var_cntr_value_last := var_cntr_value;

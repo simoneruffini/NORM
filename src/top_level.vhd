@@ -78,8 +78,8 @@ architecture Behavioral of top_level is
         );
     end component;
     
---    component adder is    
-    component multiple_adder is    
+    component adder is    
+--    component multiple_adder is    
         port(
             sys_clk             : in std_logic;
             resetN              : in std_logic;
@@ -179,7 +179,6 @@ architecture Behavioral of top_level is
     );  
     signal present_state :  state_type := wait_state;
     
-    signal reset_counter : integer := 0; 
 begin
     
     PWR_APPROX_1 : POWER_APPROXIMATION
@@ -210,8 +209,8 @@ begin
         select_threshold    => select_threshold
     );
     
---    ADDER_1 : adder
-    ADDER_1 : multiple_adder
+    ADDER_1 : adder
+--    ADDER_1 : multiple_adder
     port map(
         sys_clk             => sys_clk,
         resetN              => resetN_emulator,
@@ -264,6 +263,8 @@ begin
     threshold_value(0) <= 300;
     threshold_value(1) <= 310;
 --    threshold_value(2) <= 210;
+
+    power_counter_reset <= (others => '1') when global_resetN = '0' else (others => '0');
 
     select_threshold <= 0;    
     
