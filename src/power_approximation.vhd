@@ -35,7 +35,7 @@ use work.POWER_APPROXIMATION_PKG.all;
 use work.GLOBAL_SETTINGS.all;
 
 
-entity POWER_APPROXIMATION is
+entity power_approximation is
     port(
         sys_clk                 : in std_logic; -- system clock
         power_state_en          : in std_logic_vector(NUM_PWR_STATES - 1 downto 0); -- array of power state that are enable
@@ -43,9 +43,9 @@ entity POWER_APPROXIMATION is
         power_counter_full      : out std_logic_vector(NUM_PWR_STATES - 1 downto 0) := (others => '0'); -- array of terminal counters 
         power_counter_reset     : in std_logic_vector(NUM_PWR_STATES - 1 downto 0) -- array to reset counters
     );
-end POWER_APPROXIMATION;
+end power_approximation;
 
-architecture Behavioral of POWER_APPROXIMATION is
+architecture Behavioral of power_approximation is
 
     component counter is
         Generic(

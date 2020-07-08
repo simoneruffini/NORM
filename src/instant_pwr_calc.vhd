@@ -34,7 +34,7 @@ use IEEE.NUMERIC_STD.ALL;
 use work.POWER_APPROXIMATION_PKG.all;
 use work.GLOBAL_SETTINGS.all;
 
-entity INSTANT_PWR_CALC is
+entity instant_pwr_calc is
     port (
         sys_clk                 : in std_logic; -- system clock
         start_evaluation        : in std_logic; -- start evaluation signal 
@@ -43,9 +43,9 @@ entity INSTANT_PWR_CALC is
         input_counter_val       : in power_approx_counter_type(NUM_PWR_STATES -1 downto 0); -- array of each state counter
         output_data             : out std_logic_vector(PWR_APPROX_COUNTER_NUM_BITS + PWR_CONSUMPTION_ROM_BITS downto 0) -- output data
     );
-end INSTANT_PWR_CALC;
+end instant_pwr_calc;
 
-architecture Behavioral of INSTANT_PWR_CALC is
+architecture Behavioral of instant_pwr_calc is
 
     --- ROM component declaration ---
     component PWR_CONSUMPTION_VAL_ROM is
