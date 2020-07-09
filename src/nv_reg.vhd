@@ -39,16 +39,17 @@ entity nv_reg is
     );
     Port ( 
         clk             : in STD_LOGIC;
-        global_resetN   : in STD_LOGIC; -- TODO globalresetN
-        resetN_emaultor : in STD_LOGIC;
+        resetN          : in STD_LOGIC; 
+        power_resetN : in STD_LOGIC;
         busy_sig        : out STD_LOGIC;
         busy            : out STD_LOGIC;
-        --------------------------- 
+        -------------chage from here-------------- 
         en              : in STD_LOGIC;
         we              : in STD_LOGIC_VECTOR(0 DOWNTO 0);
         addr            : in STD_LOGIC_VECTOR(integer(ceil(log2(real(NV_REG_WIDTH))))-1 DOWNTO 0);
         din             : in STD_LOGIC_VECTOR(31 DOWNTO 0);
         dout            : out STD_LOGIC_VECTOR(31 DOWNTO 0)
+        -------------chage to here---------------- 
     );
 end nv_reg;
 
@@ -74,6 +75,8 @@ architecture Behavioral of nv_reg is
     signal bram_din_rst        :STD_LOGIC_VECTOR(31 DOWNTO 0):= (OTHERS => '0'); 
     ------------------------------------------------------------------------------------------------
 
+    --to use a different bram memory as primitive for the nv_reg
+    --------------------place here new memory component--------------------
     COMPONENT blk_mem_gen_1 IS
     PORT (
         clka : IN STD_LOGIC;
@@ -84,6 +87,7 @@ architecture Behavioral of nv_reg is
         douta : OUT STD_LOGIC_VECTOR(31 DOWNTO 0)
       );
     END COMPONENT blk_mem_gen_1;
+    -----------------------------------------------------------------------
     
     COMPONENT nv_reg_emu is
         Generic(
@@ -99,7 +103,9 @@ architecture Behavioral of nv_reg is
     end COMPONENT;
     
 begin
-
+	
+    --to use a different bram memory as primitive for the nv_reg
+    -----------------instantiate here new memory component------------------
     BRAM: blk_mem_gen_1
     Port map (
         clka        =>clk,
@@ -109,7 +115,8 @@ begin
         dina        =>bram_din,
         douta       =>bram_dout    
     );
-    
+    ------------------------------------------------------------------------
+
     EMU: nv_reg_emu
     Generic map(
         MAX_DELAY_NS => MAX_DELAY_NS
@@ -124,30 +131,39 @@ begin
     
     busy<=busy_internal;
     
-    rstN <= '0' when global_resetN = '0' else
-            '0' when resetN_emaultor = '0' else
-            global_resetN;
-    bram_en <= bram_en_rst when global_resetN = '0' else
-            '0' when resetN_emaultor = '0' else
-            (en or busy_internal);              --IMPORTANT keeps the bram active even if the signal was deactivated "feature enable hold"
-    bram_we <= bram_we_rst when global_resetN = '0' else
-            (OTHERS => '0') when resetN_emaultor = '0' else
+    --------------------------MUX------------------------------
+    rstN <= '0' when resetN = '0' else
+            '0' when power_resetN = '0' else
+            resetN;
+    bram_en <= bram_en_rst when resetN = '0' else
+            '0' when power_resetN = '0' else
+            (en or busy_internal);              --ENABLE HOLD: IMPORTANT keeps the bram active even if the signal was deactivated
+    bram_we <= bram_we_rst when resetN = '0' else
+            (OTHERS => '0') when power_resetN = '0' else
             we;
-    bram_addr <= bram_addr_rst when global_resetN = '0' else
-            (OTHERS => '0') when resetN_emaultor = '0' else
+    bram_addr <= bram_addr_rst when resetN = '0' else
+            (OTHERS => '0') when power_resetN = '0' else
             addr;
-    bram_din <= bram_din_rst when global_resetN = '0' else
-            (OTHERS => '0') when resetN_emaultor = '0' else
+    bram_din <= bram_din_rst when resetN = '0' else
+            (OTHERS => '0') when power_resetN = '0' else
             din;
-    dout <= bram_dout when global_resetN = '0' else
-            (OTHERS => '0') when resetN_emaultor = '0' else
+    dout <= bram_dout when resetN = '0' else
+            (OTHERS => '0') when power_resetN = '0' else
             bram_dout;
-    
+    ----------------------------------------------------------- 
+    --to use a different bram memory as primitive for the nv_reg
+    --add combinatory logic on the new ports reaching the memory
+    --primitive like above. The clock must not be changed.
+    -------------------place new logic here-------------------- 
+
+    ----------------------END MUX------------------------------
+
+
     RST_BRAM: process(clk) is --the reset is syncronous
     variable counter : INTEGER RANGE 0 TO (NV_REG_WIDTH -1);
     begin
         if(rising_edge(clk)) then
-            if(global_resetN = '0') then
+            if(resetN = '0') then
                 bram_en_rst <= '1';
                 bram_we_rst <= (OTHERS => '1');
                 
