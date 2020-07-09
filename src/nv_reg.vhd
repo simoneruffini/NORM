@@ -41,9 +41,9 @@ entity nv_reg is
         clk             : in STD_LOGIC;
         resetN          : in STD_LOGIC; 
         power_resetN 	: in STD_LOGIC;
-        busy_sig        : out STD_LOGIC;
-        busy            : out STD_LOGIC;
         -------------chage from here-------------- 
+        busy            : out STD_LOGIC;
+        busy_sig        : out STD_LOGIC;
         en              : in STD_LOGIC;
         we              : in STD_LOGIC_VECTOR(0 DOWNTO 0);
         addr            : in STD_LOGIC_VECTOR(integer(ceil(log2(real(NV_REG_WIDTH))))-1 DOWNTO 0);
