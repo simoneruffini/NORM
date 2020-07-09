@@ -1,11 +1,11 @@
 -- Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 -- --------------------------------------------------------------------------------
 -- Tool Version: Vivado v.2020.1 (win64) Build 2902540 Wed May 27 19:54:49 MDT 2020
--- Date        : Thu Jul  2 12:20:20 2020
+-- Date        : Thu Jul  9 18:11:21 2020
 -- Host        : DESKTOP-T6ISU8F running 64-bit major release  (build 9200)
--- Command     : write_vhdl -force -mode synth_stub -rename_top blk_mem_gen_1 -prefix
---               blk_mem_gen_1_ blk_mem_gen_0_stub.vhdl
--- Design      : blk_mem_gen_0
+-- Command     : write_vhdl -force -mode synth_stub {c:/Users/Simone
+--               Ruffini/VivadoProjects/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.srcs/sources_1/ip/blk_mem_gen_1/blk_mem_gen_1_stub.vhdl}
+-- Design      : blk_mem_gen_1
 -- Purpose     : Stub declaration of top-level module interface
 -- Device      : xc7z020clg484-1
 -- --------------------------------------------------------------------------------

@@ -125,7 +125,7 @@ output wire [31 : 0] douta;
     .C_WRITE_DEPTH_B(16),
     .C_READ_DEPTH_B(16),
     .C_ADDRB_WIDTH(4),
-    .C_HAS_MEM_OUTPUT_REGS_A(0),
+    .C_HAS_MEM_OUTPUT_REGS_A(1),
     .C_HAS_MEM_OUTPUT_REGS_B(0),
     .C_HAS_MUX_OUTPUT_REGS_A(0),
     .C_HAS_MUX_OUTPUT_REGS_B(0),

@@ -33,7 +33,8 @@ use IEEE.math_real.all;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 use work.COMMON_PACKAGE.all;
-
+use work.TEST_MODULE_PACKAGE.all;
+use work.GLOBAL_SETTINGS.all;
 
 entity nv_reg_testbench is
 --  Port ( );
@@ -53,6 +54,7 @@ architecture Behavioral of nv_reg_testbench is
     signal nv_reg_din       :STD_LOGIC_VECTOR(31 DOWNTO 0); 
     signal nv_reg_dout      :STD_LOGIC_VECTOR(31 DOWNTO 0);  
     constant bram_width     : INTEGER := NV_REG_WIDTH;
+    constant max_delay_ns   : INTEGER := FRAM_MAX_DELAY_NS;
     ------------------------------------------------------------------------------------------------
     ------------------------------------CNTR_1_SIGNALS----------------------------------------------
     signal cntr_ce, cntr_init : STD_LOGIC := '0';
@@ -64,8 +66,8 @@ architecture Behavioral of nv_reg_testbench is
 begin
     NV_REG_1: entity work.nv_reg(Behavioral) 
     Generic map(
-        MAX_DELAY_NS=> FRAM_MAX_DELAY_NS,
-        NV_REG_WIDTH=> NV_REG_WIDTH
+        MAX_DELAY_NS=> max_delay_ns,
+        NV_REG_WIDTH=> bram_width
     )
     Port map(       
         clk         => MASTER_CLK,
@@ -91,36 +93,43 @@ begin
     RESET: process begin
         MASTER_RESETN <= '0';
         power_resetN <= '0';
-        wait for 20 * MASTER_CLK_PERIOD_NS * 1ns;
+        wait for 17 * MASTER_CLK_PERIOD_NS * 1ns;
         power_resetN <='1';
         MASTER_RESETN <= '1';
-        wait for 10 * MASTER_CLK_PERIOD_NS * 1ns;
+        wait for (10 * MASTER_CLK_PERIOD_NS + MASTER_CLK_PERIOD_NS/2)* 1ns;
         power_resetN <='0';
-        wait for 5 * MASTER_CLK_PERIOD_NS * 1ns;
+        wait for 2 * MASTER_CLK_PERIOD_NS * 1ns;
         power_resetN <= '1';
         wait;
     end process;
     
     
     
-    TEST_1: process (power_resetN,MASTER_CLK) is
+    TEST_1: process (master_resetN,MASTER_CLK) is
+    variable stop: std_logic;
     begin
-        if(power_resetN='0') then
-
+        if(master_resetN='0') then
+            stop := '0';
             cntr_ce <= '0';
             nv_reg_en <= '0'; 
             nv_reg_we <= (OTHERS => '0'); 
-
+            cntr_init <= '0';
         elsif(rising_edge(MASTER_CLK)) then 
 
             cntr_ce <= '1';
             nv_reg_en <= '1';
-            nv_reg_we <= (OTHERS => '0');
-            if(cntr_value <bram_width) then
-                nv_reg_we <= (OTHERS => '1');
+            nv_reg_we <= (OTHERS => '1');
+            if(stop = '1') then
+                nv_reg_we <= (OTHERS => '0');
             end if;
-            if((cntr_value = bram_width -1) and (busy_sig ='0') AND (busy ='1')) then
+            if((cntr_value = 1) and (busy_sig ='1') AND (busy ='1')) then
+                nv_reg_en <= '0';
+            end if;
+            if((cntr_value >= 3) and (busy_sig ='0') AND (busy ='1')) then
                 nv_reg_we <= (others => '0');
+                cntr_ce <= '0';
+                cntr_init <= '1';
+                stop := '1';
             end if;
         end if;
     end process; 
@@ -128,17 +137,17 @@ begin
     nv_reg_addr <= std_logic_vector(to_unsigned(cntr_value mod bram_width,bram_addr_width_bit));  
     nv_reg_din <= std_logic_vector(to_unsigned(cntr_value +1 ,32));
     
-    cntr_clk <= not busy;
-    cntr_init <= '0';
+    cntr_clk <= (not busy) and power_resetN;
+ 
     CNTR_1: entity work.counter(Behavioral)
     Generic map(
         MAX         => cntr_max_val,
-        INIT_VALUE  => cntr_max_val -1,
+        INIT_VALUE  => 1,
         INCREASE_BY => 1
     )
     Port map( 
         clk         => cntr_clk,
-        resetn      => power_resetN,
+        resetN      => master_resetN,
         INIT        => cntr_init,
         CE          => cntr_ce,
         TC          => cntr_tc,
