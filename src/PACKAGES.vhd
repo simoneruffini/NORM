@@ -4,7 +4,7 @@
 -- 
 -- Create Date: 05/15/2020 07:14:26 PM
 -- Design Name: 
--- Module Name: packages - Behavioral
+-- Module Name: PACKAGES - Behavioral
 -- Project Name: 
 -- Target Devices: 
 -- Tool Versions: 

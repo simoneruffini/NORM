@@ -4,7 +4,7 @@
 -- 
 -- Create Date: 06/14/2020 05:43:53 PM
 -- Design Name: 
--- Module Name: global_settings - Behavioral
+-- Module Name: GLOBAL_SETTINGS - Behavioral
 -- Project Name: 
 -- Target Devices: 
 -- Tool Versions: 
