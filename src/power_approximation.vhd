@@ -55,6 +55,7 @@ architecture Behavioral of power_approximation is
         );
         Port ( 
             clk         : in STD_LOGIC;
+            resetN      : in STD_LOGIC;
             INIT        : in STD_LOGIC;
             CE          : in STD_LOGIC;
             TC          : out STD_LOGIC;
@@ -76,6 +77,7 @@ begin
             )
             port map(
                 clk         => sys_clk,
+                resetn      => '1',
                 INIT        => power_counter_reset(i),
                 CE          => power_state_en(i),
                 TC          => power_counter_full(i),

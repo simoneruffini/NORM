@@ -74,6 +74,7 @@ architecture Behavioral of intermittency_emulator is
         );
         Port ( 
             clk         : in STD_LOGIC;
+            resetn      : in STD_LOGIC;
             INIT        : in STD_LOGIC;
             CE          : in STD_LOGIC;
             TC          : out STD_LOGIC;
@@ -120,6 +121,7 @@ begin
         )
         port map(
             clk     => sys_clk,
+            resetn  => '1',
             INIT    => '0',
             CE      => counter_en,
             TC      => TC_counter,

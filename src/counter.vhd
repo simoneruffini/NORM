@@ -39,6 +39,7 @@ entity counter is
     );
     Port ( 
         clk         : in STD_LOGIC;
+        resetN      : in STD_LOGIC;
         INIT        : in STD_LOGIC;
         CE          : in STD_LOGIC;
         TC          : out STD_LOGIC;
@@ -55,9 +56,11 @@ begin
     value <= counter;
     TC <= '1' when counter = MAX else '0';
     
-    COUNT:process(clk) is
+    COUNT:process(clk,resetN) is
     begin
-        if rising_edge(clk) then
+        if(resetN = '0') then
+            counter <= 0;
+        elsif rising_edge(clk) then
             if INIT = '1' then
                 counter <= INIT_VALUE;
             elsif CE = '1' then
