@@ -75,8 +75,7 @@ begin
             value   => value_counter 
         );
 
-    create_clock : process(sys_clk) begin
-        prescaler_clk_signal <= prescaler_clk_signal; -- as default maintain the current state
+    create_clock : process(sys_clk) begin     
         if rising_edge(sys_clk) then
             if TC_counter = '1' then
                 prescaler_clk_signal <= not prescaler_clk_signal; -- when terminal count goes high, change clock state

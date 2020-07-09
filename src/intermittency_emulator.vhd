@@ -34,7 +34,7 @@ use work.INTERMITTENCY_PKG.all;
 use work.GLOBAL_SETTINGS.all;
 
 
-entity INTERMITTENCY_EMULATOR is
+entity intermittency_emulator is
     port(
         sys_clk             : in std_logic; 
         reset_emulator      : out std_logic; 
@@ -42,9 +42,9 @@ entity INTERMITTENCY_EMULATOR is
         threshold_compared  : out std_logic_vector(INTERMITTENCY_NUM_THRESHOLDS - 1 downto 0); 
         select_threshold    : in integer range 0 to INTERMITTENCY_NUM_THRESHOLDS -1
     );
-end INTERMITTENCY_EMULATOR;
+end intermittency_emulator;
 
-architecture Behavioral of INTERMITTENCY_EMULATOR is
+architecture Behavioral of intermittency_emulator is
     component trace_ROM is
         generic(
             NUM_ELEMNTS_ROM : integer;

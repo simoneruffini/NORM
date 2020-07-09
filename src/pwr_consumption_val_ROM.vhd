@@ -31,7 +31,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
-entity PWR_CONSUMPTION_VAL_ROM is
+entity pwr_consumption_val_ROM is
     generic(
         NUM_ELEMENTS_ROM : integer;
         MAX_VAL         : integer
@@ -41,9 +41,9 @@ entity PWR_CONSUMPTION_VAL_ROM is
 		addr      : in	integer range 0 to NUM_ELEMENTS_ROM - 1;
 		data_out  : out	integer range 0 to MAX_VAL - 1
     );
-end PWR_CONSUMPTION_VAL_ROM;
+end pwr_consumption_val_ROM;
 
-architecture Behavioral of PWR_CONSUMPTION_VAL_ROM is
+architecture Behavioral of pwr_consumption_val_ROM is
     type rom_type is array (0 to NUM_ELEMENTS_ROM - 1) of integer range 0 to  MAX_VAL - 1;
     signal ROM: rom_type := (
         100,

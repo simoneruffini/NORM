@@ -48,7 +48,7 @@ end fsm_nv_reg;
 architecture Behavioral of fsm_nv_reg is
     
     signal present_state, future_state : fsm_nv_reg_state_t;
-    constant max_slack: INTEGER := 12;
+    constant max_slack: INTEGER := 10;
 begin
     
     FSM_MV_REG_SEQ: process (clk,resetN) is 

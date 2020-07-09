@@ -40,7 +40,7 @@ entity nv_reg is
     Port ( 
         clk             : in STD_LOGIC;
         resetN          : in STD_LOGIC; 
-        power_resetN : in STD_LOGIC;
+        power_resetN 	: in STD_LOGIC;
         busy_sig        : out STD_LOGIC;
         busy            : out STD_LOGIC;
         -------------chage from here-------------- 
