@@ -115,8 +115,8 @@ architecture Behavioral of top_level is
         );
         port ( 
             clk             : in STD_LOGIC;
-            global_resetN   : in STD_LOGIC;
-            resetN_emulator : in STD_LOGIC;
+            resetN          : in STD_LOGIC;
+            power_resetN    : in STD_LOGIC;
             busy_sig        : out STD_LOGIC;
             busy            : out STD_LOGIC;
             --------------------------- 
@@ -243,8 +243,8 @@ begin
     ) 
     port map(
         clk             => sys_clk,
-        global_resetN   => global_resetN,
-        resetN_emulator => resetN_emulator,
+        resetN          => global_resetN,
+        power_resetN    => resetN_emulator,
         busy_sig        => nv_reg_busy_sig,
         busy            => nv_reg_busy,
         en              => nv_reg_en,
