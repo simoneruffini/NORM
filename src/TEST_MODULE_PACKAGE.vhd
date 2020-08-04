@@ -44,7 +44,7 @@ package TEST_MODULE_PACKAGE is
         start_data_save_s,
         data_save_s,
         data_saved_s
-        );
+    );
         
     type threshold_t is(
         hazard,

@@ -50,7 +50,9 @@ entity adder is
         nv_reg_addr         : out STD_LOGIC_VECTOR(nv_reg_addr_width_bit-1 DOWNTO 0);
         nv_reg_din          : out STD_LOGIC_VECTOR( 31 DOWNTO 0);
         nv_reg_dout         : in STD_LOGIC_VECTOR( 31 DOWNTO 0);
-        adder_value         : out std_logic_vector(31 downto 0)
+        adder1_value         : out std_logic_vector(31 downto 0);
+        adder2_value         : out std_logic_vector(31 downto 0);
+        adder3_value         : out std_logic_vector(31 downto 0)
     );
 end adder;
 
@@ -106,19 +108,29 @@ architecture Behavioral of adder is
     signal dinb     : std_logic_vector(31 downto 0) := (others =>'0');
     signal doutb    : std_logic_vector(31 downto 0);
     --------------------------------------------------------------------------------------
-    -------------------------------ADDR_SIGNALS-------------------------------------------
-    type control_fsm is(
-        reset_state,
-        loading_state,
-        read_state,
-        wait_state_1,
-        add_state,
-        recovery_fsm_state
+    -------------------------------ADDER_FSM----------------------------------------------
+    type adder_fsm_state is(
+        power_off_s,
+	init_s,
+        loading_s,
+        read_vreg1_s,
+        read_vreg2_s,
+        read_vreg3_s,
+        wait1_s,
+        wait2_s,
+        wait3_s,
+        add1_s,
+        add2_s,
+        add3_s,
+        recovery_s
     );    
-    signal present_state, future_state : control_fsm := reset_state;
+    signal present_state, future_state : adder_fsm_state:= power_off_s;
     --------------------------------------------------------------------------------------
     -------------------------------ADDER_SIGNALS------------------------------------------
-    signal adder_value_signal : std_logic_vector(31 downto 0) := (others => '0');
+    --this signals keep the value of the current adder, we have 3 adders that count by summing +1,+2,+3 to them selves
+    signal adder1_value_internal : std_logic_vector(31 downto 0) := (others => '0');
+    signal adder2_value_internal : std_logic_vector(31 downto 0) := (others => '0');
+    signal adder3_value_internal : std_logic_vector(31 downto 0) := (others => '0');
     --------------------------------------------------------------------------------------
     -------------------------------DATA_REC_SIGNALS---------------------------------------  
     signal data_rec_busy: STD_LOGIC;
@@ -140,23 +152,38 @@ architecture Behavioral of adder is
     signal data_save_var_cntr_ce: STD_LOGIC;
     signal data_save_var_cntr_end_value : INTEGER;    
     --------------------------------------------------------------------------------------
---------------------------------------------------DATA_REC_PROC-------------------------------------------------------------------
-    signal data_rec_nv_reg_start_addr: STD_LOGIC_VECTOR(nv_reg_addr_width_bit-1 DOWNTO 0);
-    signal data_rec_offset: INTEGER RANGE 0 TO NV_REG_WIDTH-1;
-    signal data_rec_recovered_data : STD_LOGIC_VECTOR( 31 DOWNTO 0);
-    signal data_rec_recovered_offset: INTEGER RANGE 0 TO NV_REG_WIDTH -1;
-    -------------------------------COUNTER_SIGNALS----------------------------------------
+    -------------------------------VAR_COUNTER_SIGNALS------------------------------------
     signal var_cntr_clk,var_cntr_init,var_cntr_ce,var_cntr_tc: STD_LOGIC;
-    signal var_cntr_value, var_cntr_end_value: INTEGER range 0 to NV_REG_WIDTH+2;
+    signal var_cntr_value, var_cntr_value_last,var_cntr_end_value: INTEGER range 0 to NV_REG_WIDTH+2;
     --------------------------------------------------------------------------------------   
+
+--------------------------------------------------DATA_REC_PROC-------------------------------------------------------------------
+    signal data_rec_nv_reg_start_addr: STD_LOGIC_VECTOR(nv_reg_addr_width_bit-1 DOWNTO 0);	--address from which start recovering data in nv_reg
+    signal data_rec_offset: INTEGER RANGE 0 TO NV_REG_WIDTH-1;					            --the offset used to calculate the last address for data recovery process
+												                                            --> ex: if we have 3 consecutive WORDS saved in nv_reg that we want to recover then data_rec_offset = 2
+    signal data_rec_recovered_data : STD_LOGIC_VECTOR( 31 DOWNTO 0);                        --the data recovered from nv_reg after recovery starts
+    signal data_rec_recovered_offset: INTEGER RANGE 0 TO NV_REG_WIDTH -1;                   --the offset associated to data_rec_recovered_data when in recovery, used to know which WORD from nv_reg data_rec_recovered_data is.
+    --signal data_rec_recovered_offset_last : INTEGER RANGE 0 TO NV_REG_WIDTH-1;              --shift register used to sinchronize the offset of the recovered data with the recovered data data
 --------------------------------------------------DATA_SAVE_PROC-------------------------------------------------------------------
-     signal data_save_nv_reg_start_addr: STD_LOGIC_VECTOR(nv_reg_addr_width_bit-1 DOWNTO 0);
-     signal data_save_bram_start_addr: STD_LOGIC_VECTOR(bram_addr_width_bit-1 DOWNTO 0);
-     signal data_save_bram_offset : INTEGER RANGE 0 TO BRAM_WIDTH -1;
-     
+    signal data_save_nv_reg_start_addr: STD_LOGIC_VECTOR(nv_reg_addr_width_bit-1 DOWNTO 0);	--start address (in nv_reg) from which the data save process will save volatile values
+    signal data_save_bram_start_addr: STD_LOGIC_VECTOR(bram_addr_width_bit-1 DOWNTO 0);		--start address (in bram aka volatile register) from which the data save process will fetch data
+                                                                                            --> this address is where the first WORD of volatile data (that will be lost after power failure) is stored
+    signal data_save_bram_offset : INTEGER RANGE 0 TO BRAM_WIDTH -1;				        --the offset used to calculate the last address of bram (aka volatile register) for data save process
+    												                                        --> ex: if we have 2 consecutive WORDS saved in bram that we want to store in nv_reg then data_save_bram_offset=1
+-- this upper signal can change during the adder process. 
+-- For example after a power failure we could want to retrive the old data and then save the values in a different place in nv_reg (thus changing data_save_nv_reg_start_addr).
+-- Or we could only want to recover a subset of the data stored in nv_reg (thus changing data_rec_nv_reg_start_addr and data_rec_offset).
+-- This could be implemented in hw by using an eeprom to store this values or the nv_reg itself by keeping this data in a std and first access location for the executing process.
+-----------------------------------------------------------------------------------------------------------------------------------
+
 begin
     
-    blk_mem_gen_0_1 : blk_mem_gen_0
+    -- Bram aka volatile register 
+    --> N.B. 	After a power failure the contents of the V_REG will remain as it is a BRAM in a powerd FPGA.
+    --> 	It is the task of the developer to ensure this values are not accessed because 
+    -->		in theory they are not available (as a real system would lose them)
+    -- TODO: add wiping process when reset is on
+    V_REG: blk_mem_gen_0
     PORT MAP (
         clka    => clka,
         ena     => ena,
@@ -174,92 +201,174 @@ begin
     
     clka <= sys_clk;
     clkb <= sys_clk;
-    adder_value <= adder_value_signal;
+
+    adder1_value <= adder1_value_internal; 
+    adder2_value <= adder2_value_internal;
+    adder3_value <= adder3_value_internal;
+   
+    -- We will save in nv_reg @ 0x01 and will store 3 words (nv_reg_offset =2)
+    -- We will save in v_reg @ 0x01 and will store 3 words (bram_offset =2)
     
-    -- Default values for adder
-    data_rec_nv_reg_start_addr  <= (0 => '1',
-                                    others => '0');
-    data_rec_offset             <= 0;
+    --%%%%%%%%%%%%%%%%%%%% ADDER CONSTANTS %%%%%%%%%%%%%%%%%%%%%%%%%%
+    data_rec_nv_reg_start_addr  <= (0=>'1', OTHERS => '0'); -- 1
+    data_rec_offset             <= 2; 
     data_save_nv_reg_start_addr <= data_rec_nv_reg_start_addr;
-    data_save_bram_start_addr   <= (0 => '1',
-                                    others => '0');
+    data_save_bram_start_addr   <= (1 => '1', OTHERS => '0'); -- 2
     data_save_bram_offset       <= data_rec_offset;
-    -----------------    
+    --%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
     ADDR_FSM_SEQ : process(sys_clk, resetN) begin
         if resetN = '0' then
-            present_state <= reset_state;
+            present_state <= power_off_s;
         elsif rising_edge(sys_clk) then
             present_state <= future_state;
         end if;    
     end process;
     
-    ADDR_FSM_CMB : process(present_state, data_rec_recovered_offset, fsm_status, adder_value_signal,data_rec_recovered_data,data_rec_busy) begin
-        
+    ADDR_FSM_CMB : process( present_state, 
+                            fsm_status, 
+                            data_rec_recovered_offset, data_rec_recovered_data, 
+                            data_rec_busy,
+                            adder1_value_internal, adder2_value_internal, adder3_value_internal ) 
+    begin
+                            
+        --################ V_REG DEFAULTS
         ena <= '0';
         wea <= (others => '0'); 
         addra <= (others => '0');
         dina <= (others => '0');
+	    --###############################
+
         future_state <= present_state;
         
         case present_state is
-            when reset_state =>
-                if fsm_status = recovery_s then
-                    future_state <= loading_state;         
+            when power_off_s =>
+                future_state <= init_s;
+            when init_s =>
+                --set initialization signal, do init
+
+                ------------------------------------
+                if fsm_status = start_data_recovery_s and data_rec_busy = '1' then
+                    future_state <= loading_s;         
                 end if;     
-            when loading_state =>
-                if data_rec_busy = '0' then
-                    future_state <= read_state;
-                else
-                    ena <= '1';
-                    wea <= "1";
-                    addra <= std_logic_vector(to_unsigned(data_rec_recovered_offset + to_integer(unsigned(data_rec_nv_reg_start_addr)),bram_addr_width_bit));
-                    dina <= data_rec_recovered_data;
+            when loading_s =>
+                -- TODO: use data_recovered_s, it's better, but the other TODOs must be completed    
+                if fsm_status = data_recovered_s then
+                        future_state <= read_vreg1_s;
+                elsif fsm_status = recovery_s then
+                    if data_rec_busy = '1' then --if the data recovery has ended then change state 
+                       
+                        -- enable and write to V_REG
+                        ena <= '1';
+                        wea <= "1";
+                        -- the address where to save in V_REG is calculated through data_rec_recovered_offset 
+                        --> that changes every time a new WORD is retrived from NV_REG
+                        addra <= std_logic_vector(  to_unsigned(data_rec_recovered_offset + 
+                                                    to_integer(unsigned(data_rec_nv_reg_start_addr)),bram_addr_width_bit));
+                        dina <= data_rec_recovered_data;
+                     end if;
                 end if;
-            when read_state =>
-                if (fsm_status /= do_operation_s) then
-                    future_state <= recovery_fsm_state;
-                elsif fsm_status /= recovery_s then
+            when read_vreg1_s => -- in state read_vreg1_s we prepare the signals to read the value for adder1_value from V_REG 
+                if fsm_status = do_operation_s then
                     ena <= '1';
-                    addra(3 downto 0) <= data_rec_nv_reg_start_addr;
-                    future_state <= wait_state_1;
+                    addra(3 downto 0) <= std_logic_vector( unsigned(data_rec_nv_reg_start_addr));
+                    future_state <= wait1_s;
+                else -- fsm_status = start_data_s
+                    future_state <= recovery_s;
                 end if;
-            when wait_state_1 =>
-                if (fsm_status /= do_operation_s) then
-                    future_state <= recovery_fsm_state;
-                else
-                    addra(3 downto 0)  <= data_rec_nv_reg_start_addr;
-                    ena <= '1';
-                    future_state <= add_state;
-                end if;
-            when add_state =>
-                if (fsm_status /= do_operation_s) then
-                    future_state <= recovery_fsm_state;
-                else
-                    addra(3 downto 0)  <= data_rec_nv_reg_start_addr;                    
-                    wea <= "1";
-                    ena <= '1';
-                    dina <= adder_value_signal;
-                    future_state <= read_state;
-                end if;                                
-            when recovery_fsm_state =>
+            when wait1_s =>
                 if (fsm_status = do_operation_s) then
-                    future_state <= read_state;
+                    ena <= '1';
+                    addra(3 downto 0) <= std_logic_vector( unsigned(data_rec_nv_reg_start_addr));
+                    future_state <= add1_s;
+                else -- fsm_status = start_data_s
+                    future_state <= recovery_s;
+                end if;
+            when add1_s =>
+                if (fsm_status = do_operation_s) then
+                    wea <= "1";
+                    ena <= '1';
+                    addra(3 downto 0) <= std_logic_vector( unsigned(data_rec_nv_reg_start_addr));
+                    adder1_value_internal <= std_logic_vector(unsigned(douta) + 1);
+                    dina <= adder1_value_internal;
+                    future_state <= read_vreg2_s;
+                else -- fsm_status = start_data_s
+                    future_state <= recovery_s;
+                end if;                                
+            when read_vreg2_s => -- in state read_vreg2_s we prepare the signals to read the value for adder2_value from V_REG 
+                if (fsm_status = do_operation_s) then
+                    ena <= '1';
+                    addra(3 downto 0) <= std_logic_vector( unsigned(data_rec_nv_reg_start_addr) + 1);
+                    future_state <= wait2_s;
+                else -- fsm_status = start_data_s
+                    future_state <= recovery_s;
+                end if;
+            when wait2_s =>
+                if (fsm_status = do_operation_s) then
+                    ena <= '1';
+                    addra(3 downto 0) <= std_logic_vector( unsigned(data_rec_nv_reg_start_addr) + 1);
+                    future_state <= add2_s;
+                else -- fsm_status = start_data_s
+                    future_state <= recovery_s;
+                end if;
+            when add2_s =>
+                if (fsm_status = do_operation_s) then
+                    wea <= "1";
+                    ena <= '1';
+                    addra(3 downto 0) <= std_logic_vector( unsigned(data_rec_nv_reg_start_addr) + 1);
+                    adder2_value_internal <= std_logic_vector(unsigned(douta) + 2);
+                    dina <= adder2_value_internal;
+                    future_state <= read_vreg3_s;
+                else -- fsm_status = start_data_s
+                    future_state <= recovery_s;
+                end if;                                
+            when read_vreg3_s => -- in state read_vreg3_s we prepare the signals to read the value for adder3_value from V_REG 
+                if (fsm_status = do_operation_s) then
+                    ena <= '1';
+                    addra(3 downto 0) <= std_logic_vector( unsigned(data_rec_nv_reg_start_addr) + 2);
+                    future_state <= wait3_s;
+                else -- fsm_status = start_data_s
+                    future_state <= recovery_s;
+                end if;
+            when wait3_s =>
+                if (fsm_status = do_operation_s) then
+                    ena <= '1';
+                    addra(3 downto 0) <= std_logic_vector( unsigned(data_rec_nv_reg_start_addr) + 2);
+                    future_state <= add3_s;
+                else -- fsm_status = start_data_s
+                    future_state <= recovery_s;
+                end if;
+            when add3_s =>
+                if (fsm_status = do_operation_s) then
+                    wea <= "1";
+                    ena <= '1';
+                    addra(3 downto 0) <= std_logic_vector( unsigned(data_rec_nv_reg_start_addr) + 2);
+                    adder3_value_internal <= std_logic_vector(unsigned(douta) + 3);
+                    dina <= adder3_value_internal;
+                    future_state <= read_vreg1_s;
+                else -- fsm_status = start_data_s
+                    future_state <= recovery_s;
+                end if;                                
+            when recovery_s =>
+                if (fsm_status = do_operation_s) then
+                    future_state <= read_vreg1_s;
                 end if;                                                               
         end case;
     
     end process;
     
-    add_process : process(sys_clk, resetN) begin
-        if resetN = '0' then
-            adder_value_signal <= (others => '0');
-        elsif rising_edge(sys_clk) then
-            if present_state = wait_state_1 then
-                adder_value_signal <= std_logic_vector(unsigned(douta) + 1);
-            end if;
-        end if;
-    end process;
+--    add_process : process(sys_clk, resetN) begin
+--        if resetN = '0' then
+--            adder1_value_internal <= (others => '0');
+--        elsif rising_edge(sys_clk) then
+--            if present_state = wait1_s then
+--                adder1_value_internal <= std_logic_vector(unsigned(douta) + 1);
+--            end if;
+--        end if;
+--    end process;
     
+
+    --%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% NV_REG PORTS ACCESS MULTIPLEXER %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     nv_reg_en   <=  data_rec_nv_reg_en      when data_rec_busy = '1'    else
                     data_save_nv_reg_en     when data_save_busy = '1'   else
                     '0';
@@ -273,33 +382,38 @@ begin
     nv_reg_din  <=  data_rec_nv_reg_din     when data_rec_busy = '1'    else
                     data_save_nv_reg_din    when data_save_busy = '1'   else
                     (others => '0');
-                    
-      
+    --%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    --%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% VAR_CNTR PORT ACCESS MULITPLEXER %%%%%%%%%%%%%%%%%%%%%%%%%%%% 
     var_cntr_init       <=  data_rec_var_cntr_init          when data_rec_busy = '1'    else
                             data_save_var_cntr_init         when data_save_busy = '1'   else
-                            '1';
+                            '1'; --default initialize counter
     var_cntr_ce         <=  data_rec_var_cntr_ce            when data_rec_busy = '1'    else
                             data_save_var_cntr_ce           when data_save_busy = '1'   else
-                            '0';
+                            '0'; --default do not count
     var_cntr_end_value  <=  data_rec_var_cntr_end_value     when data_rec_busy = '1'    else
                             data_save_var_cntr_end_value    when data_save_busy = '1'   else
-                            1;
-    
-    task_status <= task_status_internal;                     
-    TASK_STATUS_CNTRL: process (data_rec_busy,data_save_busy) is
-    begin
-         if(data_rec_busy = '0' AND data_save_busy = '0') then
-            task_status_internal <= '0';
-         else
-            task_status_internal <= '1';
-         end if;
-    end process;
-------------------------------------------------DATA_REC-------------------------------------------------------------------
+                            1; --default end value is 1
+    --%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-    -- Default values    
+    task_status <= task_status_internal;                     
+
+    task_status_internal <= data_rec_busy OR data_save_busy;
+    
+--    TASK_STATUS_CNTRL: process (data_rec_busy,data_save_busy) is
+--    begin
+--         if(data_rec_busy = '0' AND data_save_busy = '0') then
+--            task_status_internal <= '0';
+--         else
+--            task_status_internal <= '1';
+--         end if;
+--    end process;
+------------------------------------------------DATA_REC process-------------------------------------------------------------------
+
+    --%%%%%%%%%%%%%%%%%%% DATA_REC CONSTANTS %%%%%%%%%%%%%%%%%%%%%%%%
     data_rec_nv_reg_we <= (OTHERS => '0');
     data_rec_nv_reg_din <= (OTHERS => '0');
-    -----------------
+    --%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
     DATA_REC: process(resetN,sys_clk) is
     begin
@@ -321,37 +435,82 @@ begin
     data_rec_var_cntr_ce <= data_rec_busy;
     data_rec_var_cntr_init <= not data_rec_busy;
     
-    DATA_REC_OUT_CNTRL: process(var_cntr_value,data_rec_busy) is
-        variable offset_last : INTEGER RANGE 0 TO NV_REG_WIDTH-1;
---        variable recovered_data_last: STD_LOGIC_VECTOR(31 DOWNTO 0);
+    -- TODO: check that the first request to nv_reg is useless (tweak VAR_CNT_INIT_VAL or else) and
+    --      the V_REG shall not save it so keep data_rec_recovered_addr/offset steady. 
+    --      Or at least make that the first request to NV_REG is good because the moment that 
+    --      data_rec_busy goes up we have a non requested pulse on var_cntr that changes it's value 
+    --      and so data_rec_nv_reg_addr (the protocol is violated).
+    -- TODO: when we end the recovery process the ouptus for the V_REG must remain steady till we 
+    --      exit do_operation_s form fsm_nv_reg so that the V_REG will not read wrong data
+    -- TODO: capture the output data from nv_reg using the protocol definitions: capture when nv_reg_busy is off
+
+    DATA_REC_OUT_CNTRL: process(sys_clk,data_rec_busy) is
     begin
-        if(data_rec_busy = '1') then
-            if(var_cntr_value <= data_rec_offset) then 
+        if (data_rec_busy = '0') then 
+            data_rec_recovered_offset <= 0;
+            --data_rec_recovered_data <= nv_reg_dout;
+            data_rec_recovered_data <= (OTHERS => '0');
+        elsif (rising_edge(sys_clk)) then
+            if(nv_reg_busy ='0') then
+                if(var_cntr_value > 0 AND var_cntr_value <= data_rec_offset + 1 ) then -- the plus one is used because the data is moved into a shift register for siyncronization purposes
+                    data_rec_recovered_data <= nv_reg_dout;
+                    data_rec_recovered_offset <= var_cntr_value_last;
+                end if;
+--             else
+--                data_rec_recovered_offset <= 0;
+--                data_rec_recovered_data <= (OTHERS => '0');
+            end if;
+        end if;
+    end process DATA_REC_OUT_CNTRL;
+
+    DATA_REC_NVREG_REQ: process (data_rec_busy,var_cntr_value) is
+    begin 
+        if (data_rec_busy = '0') then 
+            data_rec_nv_reg_addr <= data_rec_nv_reg_start_addr; 
+        else
+            if(var_cntr_value<=data_rec_offset) then
                 data_rec_nv_reg_addr <= std_logic_vector(   unsigned(data_rec_nv_reg_start_addr) 
                                                             + to_unsigned(var_cntr_value,nv_reg_addr_width_bit)
                                                          ); 
-                
-            end if;
-            if(var_cntr_value <= data_rec_offset + 1) then
-            
-                data_rec_recovered_offset <= offset_last;
---                data_rec_recovered_data <= nv_reg_dout;
---                data_rec_recovered_data <= recovered_data_last;
-                offset_last :=var_cntr_value;
---                recovered_data_last := nv_reg_dout;
-            
-                data_rec_recovered_data <= nv_reg_dout;
-            end if;
-        else
-            offset_last := 0;
---            recovered_data_last := (OTHERS => '0');
-            data_rec_nv_reg_addr <= data_rec_nv_reg_start_addr;
-            data_rec_recovered_offset <= 0;
-            data_rec_recovered_data <= (OTHERS => '0');
+            end if; -- if the bound is not respected latch the last value, 
+                    --> i.e. when the process starts it is "data_rec_nv_reg_start_addr", while
+                    --> when it is over "data_rec_offset" it assumes "data_rec_nv_reg_start_addr + data_rec_offset"
         end if;
-    end process DATA_REC_OUT_CNTRL;
+    end process DATA_REC_NVREG_REQ;
+
     
---------------------------------------------------DATA_SAVE-------------------------------------------------------------------
+--    DATA_REC_OUT_CNTRL_old: process(var_cntr_value,data_rec_busy) is
+--        --shift register used to sinchronize the offset of the recovered data with the recovered data data
+--        variable data_rec_recovered_offset_last : INTEGER RANGE 0 TO NV_REG_WIDTH-1;
+----        variable recovered_data_last: STD_LOGIC_VECTOR(31 DOWNTO 0);
+--    begin
+--        if(data_rec_busy = '1') then
+--            if(var_cntr_value <= data_rec_offset) then 
+--                data_rec_nv_reg_addr <= std_logic_vector(   unsigned(data_rec_nv_reg_start_addr) 
+--                                                            + to_unsigned(var_cntr_value,nv_reg_addr_width_bit)
+--                                                         ); 
+--                
+--            end if;
+--            if(var_cntr_value <= data_rec_offset + 1) then
+--            
+--                data_rec_recovered_offset <= data_rec_recovered_offset_last;
+----                data_rec_recovered_data <= nv_reg_dout;
+----                data_rec_recovered_data <= recovered_data_last;
+--                data_rec_recovered_offset_last :=var_cntr_value;
+----                recovered_data_last := nv_reg_dout;
+--            
+--                data_rec_recovered_data <= nv_reg_dout;
+--            end if;
+--        else
+--            data_rec_recovered_offset_last := 0;
+----            recovered_data_last := (OTHERS => '0');
+--            data_rec_nv_reg_addr <= data_rec_nv_reg_start_addr;
+--            data_rec_recovered_offset <= 0;
+--            data_rec_recovered_data <= (OTHERS => '0');
+--        end if;
+--    end process DATA_REC_OUT_CNTRL;
+    
+--------------------------------------------------DATA_SAVE process-------------------------------------------------------------------
     
     -- Default values         
     web <= (OTHERS => '0');      
@@ -440,4 +599,15 @@ begin
         TC          => var_cntr_tc,
         value       => var_cntr_value
     );
+    VAR_CNTR_LAST_VAL: process(task_status_internal,var_cntr_value) is
+        variable var_cntr_value_last_var: INTEGER range 0 to NV_REG_WIDTH+2;
+    begin
+        if(task_status_internal = '0') then
+            var_cntr_value_last<= 0;
+            var_cntr_value_last_var := var_cntr_value;
+        else --changes on val_cntr_value events
+            var_cntr_value_last <= var_cntr_value_last_var;
+            var_cntr_value_last_var := var_cntr_value;
+        end if;
+    end process VAR_CNTR_LAST_VAL;
 end Behavioral;
