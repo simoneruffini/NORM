@@ -404,10 +404,10 @@ begin
     --%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     --%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% V_REG PORTS ACCESS MULTIPLEXER %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    v_reg_ena     => when power_restN = '1' ena     else v_reg_reset_ena;
-    v_reg_wea     => when power_restN = '1' wea     else v_reg_reset_wea;
-    v_reg_addra   => when power_restN = '1' addra   else v_reg_reset_addra;
-    v_reg_dina    => when power_restN = '1' dina    else v_reg_reset_dina;
+    v_reg_ena     <= ena    when resetN = '1'    else v_reg_reset_ena;
+    v_reg_wea     <= wea    when resetN = '1'    else v_reg_reset_wea;
+    v_reg_addra   <= addra  when resetN = '1'    else v_reg_reset_addra;
+    v_reg_dina    <= dina   when resetN = '1'    else v_reg_reset_dina;
     --%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     task_status <= task_status_internal;                     
@@ -589,32 +589,33 @@ begin
             var_cntr_value_last_var := var_cntr_value;
         end if;
     end process VAR_CNTR_LAST_VAL;
-end Behavioral;
-
 --------------------------------------------------V_REG_RESET process-----------------------------------------------------------------
 
---V_REG_RESET: process(sys_clk) is --the reset is syncronous
---variable counter : INTEGER RANGE 0 TO (BRAM_WIDTH-1);
---begin
---    if(rising_edge(sys_clk)) then
---        if(power_resetN = '0') then
---            v_reg_reset_ena <= '1';
---            v_reg_reset_wea <= (OTHERS => '1');
---            
---            v_reg_reset_dina <= (OTHERS => '0');
---            if(counter < BRAM_WIDTH ) then
---                counter := counter +1;
---            elsif(counter = BRAM_WIDTH ) then
---                v_reg_reset_wea <= (OTHERS => '0');
---                v_reg_reset_ena <= '0';
---            end if;
---            v_reg_reset_addra <= std_logic_vector(to_unsigned(counter-1,bram_addr_width_bit));
---        else
---            v_reg_reset_wea <= (OTHERS => '0');
---            counter := 0;
---        end if;
---
---    end if;
---    
---end process V_REG_RESET;
+V_REG_RESET: process(sys_clk) is --the reset is syncronous
+variable counter : INTEGER RANGE 0 TO (BRAM_WIDTH-1);
+begin
+    if(rising_edge(sys_clk)) then
+        if(resetN= '0') then
+            v_reg_reset_ena <= '1';
+            v_reg_reset_wea <= (OTHERS => '1');
+            v_reg_reset_dina <= (OTHERS => '0');
+            if(counter < BRAM_WIDTH ) then
+                counter := counter +1;
+            elsif(counter = BRAM_WIDTH ) then
+                v_reg_reset_wea <= (OTHERS => '0');
+                v_reg_reset_ena <= '0';
+            end if;
+            v_reg_reset_addra <= std_logic_vector(to_unsigned(counter-1,bram_addr_width_bit));
+        else
+            v_reg_reset_ena <= '0';
+            v_reg_reset_wea <= (OTHERS => '0');
+            v_reg_reset_dina <= (OTHERS => '0');
+            v_reg_reset_addra <= (OTHERS => '0');
+            counter := 0;
+        end if;
+    end if;
+end process V_REG_RESET;
+
+end Behavioral;
+
     

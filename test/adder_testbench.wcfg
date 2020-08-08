@@ -14,15 +14,15 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="663750fs"></ZoomStartTime>
-      <ZoomEndTime time="1187251fs"></ZoomEndTime>
-      <Cursor1Time time="985100fs"></Cursor1Time>
+      <ZoomStartTime time="992400fs"></ZoomStartTime>
+      <ZoomEndTime time="1120401fs"></ZoomEndTime>
+      <Cursor1Time time="1010000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="293"></NameColumnWidth>
-      <ValueColumnWidth column_width="102"></ValueColumnWidth>
+      <ValueColumnWidth column_width="98"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="10" />
+   <WVObjectSize size="11" />
    <wvobject fp_name="group44" type="group">
       <obj_property name="label">nv_reg</obj_property>
       <obj_property name="DisplayName">label</obj_property>
@@ -384,26 +384,25 @@
          <obj_property name="label">A</obj_property>
          <obj_property name="DisplayName">label</obj_property>
          <obj_property name="isExpanded"></obj_property>
-         <wvobject fp_name="/adder_testbench/ADDR_E/ena" type="logic">
-            <obj_property name="ElementShortName">ena</obj_property>
-            <obj_property name="ObjectShortName">ena</obj_property>
+         <wvobject fp_name="/adder_testbench/ADDR_E/v_reg_ena" type="logic">
+            <obj_property name="ElementShortName">v_reg_ena</obj_property>
+            <obj_property name="ObjectShortName">v_reg_ena</obj_property>
          </wvobject>
-         <wvobject fp_name="/adder_testbench/ADDR_E/addra" type="array">
-            <obj_property name="ElementShortName">addra[15:0]</obj_property>
-            <obj_property name="ObjectShortName">addra[15:0]</obj_property>
-            <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+         <wvobject fp_name="/adder_testbench/ADDR_E/v_reg_wea" type="array">
+            <obj_property name="ElementShortName">v_reg_wea[0:0]</obj_property>
+            <obj_property name="ObjectShortName">v_reg_wea[0:0]</obj_property>
          </wvobject>
-         <wvobject fp_name="/adder_testbench/ADDR_E/wea" type="array">
-            <obj_property name="ElementShortName">wea[0:0]</obj_property>
-            <obj_property name="ObjectShortName">wea[0:0]</obj_property>
+         <wvobject fp_name="/adder_testbench/ADDR_E/v_reg_addra" type="array">
+            <obj_property name="ElementShortName">v_reg_addra[15:0]</obj_property>
+            <obj_property name="ObjectShortName">v_reg_addra[15:0]</obj_property>
          </wvobject>
-         <wvobject fp_name="/adder_testbench/ADDR_E/dina" type="array">
-            <obj_property name="ElementShortName">dina[31:0]</obj_property>
-            <obj_property name="ObjectShortName">dina[31:0]</obj_property>
+         <wvobject fp_name="/adder_testbench/ADDR_E/v_reg_dina" type="array">
+            <obj_property name="ElementShortName">v_reg_dina[31:0]</obj_property>
+            <obj_property name="ObjectShortName">v_reg_dina[31:0]</obj_property>
          </wvobject>
-         <wvobject fp_name="/adder_testbench/ADDR_E/douta" type="array">
-            <obj_property name="ElementShortName">douta[31:0]</obj_property>
-            <obj_property name="ObjectShortName">douta[31:0]</obj_property>
+         <wvobject fp_name="/adder_testbench/ADDR_E/v_reg_douta" type="array">
+            <obj_property name="ElementShortName">v_reg_douta[31:0]</obj_property>
+            <obj_property name="ObjectShortName">v_reg_douta[31:0]</obj_property>
          </wvobject>
       </wvobject>
       <wvobject fp_name="group90" type="group">
@@ -430,6 +429,27 @@
             <obj_property name="ElementShortName">doutb[31:0]</obj_property>
             <obj_property name="ObjectShortName">doutb[31:0]</obj_property>
          </wvobject>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group96" type="group">
+      <obj_property name="label">V-reg_reset</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject fp_name="/adder_testbench/ADDR_E/v_reg_reset_ena" type="logic">
+         <obj_property name="ElementShortName">v_reg_reset_ena</obj_property>
+         <obj_property name="ObjectShortName">v_reg_reset_ena</obj_property>
+      </wvobject>
+      <wvobject fp_name="/adder_testbench/ADDR_E/v_reg_reset_wea" type="array">
+         <obj_property name="ElementShortName">v_reg_reset_wea[0:0]</obj_property>
+         <obj_property name="ObjectShortName">v_reg_reset_wea[0:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/adder_testbench/ADDR_E/v_reg_reset_addra" type="array">
+         <obj_property name="ElementShortName">v_reg_reset_addra[15:0]</obj_property>
+         <obj_property name="ObjectShortName">v_reg_reset_addra[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/adder_testbench/ADDR_E/v_reg_reset_dina" type="array">
+         <obj_property name="ElementShortName">v_reg_reset_dina[31:0]</obj_property>
+         <obj_property name="ObjectShortName">v_reg_reset_dina[31:0]</obj_property>
       </wvobject>
    </wvobject>
 </wave_config>

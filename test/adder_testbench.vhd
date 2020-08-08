@@ -186,7 +186,7 @@ begin
         thresh_stats <= hazard;
         wait for (25)*MASTER_CLK_PERIOD_NS * 1ns; --wait for (20)*MASTER_CLK_PERIOD_NS * 1ns; -- to have abrupt interruption
         power_resetN <= '0';
-        wait for (2)*MASTER_CLK_PERIOD_NS * 1ns;
+        wait for (4)*MASTER_CLK_PERIOD_NS * 1ns;
         power_resetN <= '1';
         wait for (10)*MASTER_CLK_PERIOD_NS * 1ns;
         thresh_stats <= nothing;
