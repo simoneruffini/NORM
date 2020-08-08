@@ -532,7 +532,7 @@ begin
             data_save_nv_reg_addr <= data_save_nv_reg_start_addr;
         elsif rising_edge(sys_clk) then
            if nv_reg_busy_sig = '0' and nv_reg_busy = '1' then --capture the nv_reg signals at the start cycle and keep them constant
-                if (var_cntr_value <= data_save_v_reg_offset + 1) then
+                if (var_cntr_value <= data_save_v_reg_offset) then
                     data_save_nv_reg_din <= doutb;
                     data_save_nv_reg_addr <= std_logic_vector(   unsigned(data_save_nv_reg_start_addr) + 
                                                                 to_unsigned(var_cntr_value,nv_reg_addr_width_bit)  
