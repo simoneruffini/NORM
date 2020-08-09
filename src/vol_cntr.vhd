@@ -74,7 +74,7 @@ architecture Behavioral of vol_cntr is
         );
     END COMPONENT;
     
-    component variable_counter is
+    component var_counter is
         Generic(
             MAX         : INTEGER;
             INIT_VALUE  : INTEGER;
@@ -562,7 +562,7 @@ begin
         end if;
     end process VAR_CNTR_CLK_GEN;
         
-    VAR_CNTR: variable_counter
+    VAR_CNTR: var_counter
     Generic map(
         MAX         => NV_REG_WIDTH+2,
         INIT_VALUE  => 0,

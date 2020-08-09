@@ -4,7 +4,7 @@
 -- 
 -- Create Date: 06/26/2020 05:19:23 PM
 -- Design Name: 
--- Module Name: variable_counter - Behavioral
+-- Module Name: var_counter - Behavioral
 -- Project Name: 
 -- Target Devices: 
 -- Tool Versions: 
@@ -31,7 +31,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
-entity variable_counter is
+entity var_counter is
     Generic(
         MAX         : INTEGER;
         INIT_VALUE  : INTEGER;
@@ -46,9 +46,9 @@ entity variable_counter is
         TC          : out STD_LOGIC;
         value       : out INTEGER RANGE 0 TO MAX
     );
-end variable_counter;
+end var_counter;
 
-architecture Behavioral of variable_counter is
+architecture Behavioral of var_counter is
     signal counter : INTEGER RANGE 0 TO MAX;
 begin
      -----------------------------------------------------------------------
