@@ -214,7 +214,6 @@ begin
     );
     
     VOL_CNTR_1 : vol_cntr
---    VOL_CNTR_1 : multiple_adder
     port map(
         sys_clk             => sys_clk,
         resetN              => resetN_emulator,
