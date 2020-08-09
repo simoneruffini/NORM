@@ -82,7 +82,7 @@ architecture Behavioral of top_level is
         port(
             sys_clk             : in std_logic;
             resetN              : in std_logic;
-            fsm_status          : in fsm_nv_reg_state_t;
+            fsm_nv_reg_state    : in fsm_nv_reg_state_t;
             task_status         : out STD_LOGIC;
             nv_reg_en           : out STD_LOGIC;
             nv_reg_busy         : in STD_LOGIC;
@@ -107,8 +107,8 @@ architecture Behavioral of top_level is
             resetN                  : in STD_LOGIC;
             thresh_stats            : in threshold_t;
             task_status             : in STD_LOGIC;
-            status                  : out fsm_nv_reg_state_t;
-            status_sig              : out fsm_nv_reg_state_t --used with care (it is the future state of the machine, and it is combinatory so it is prone to glitces)
+            fsm_state               : out fsm_nv_reg_state_t;
+            fsm_state_sig           : out fsm_nv_reg_state_t --used with care (it is the future state of the machine, and it is combinatory so it is prone to glitces)
         );
     end component;
     
@@ -153,15 +153,15 @@ architecture Behavioral of top_level is
     signal threshold_compared  : std_logic_vector(INTERMITTENCY_NUM_THRESHOLDS - 1 downto 0); 
     signal select_threshold    : integer range 0 to INTERMITTENCY_NUM_THRESHOLDS -1;
     
-    --- vol_cntr signals ---
-    signal fsm_status          : fsm_nv_reg_state_t;
+    --- VOL_CNTR signals ---
+    signal fsm_nv_reg_state    : fsm_nv_reg_state_t;
     signal task_status         : STD_LOGIC;
     
     --- FSM NV REG ---
     signal fsm_nv_reg_thresh_stats         : threshold_t;
     signal fsm_nv_reg_task_status          : STD_LOGIC;
-    signal fsm_nv_reg_status               : fsm_nv_reg_state_t;
-    signal fsm_nv_reg_status_sig           : fsm_nv_reg_state_t;
+    signal fsm_nv_reg_state_internal       : fsm_nv_reg_state_t;
+    signal fsm_nv_reg_state_sig_internal   : fsm_nv_reg_state_t;
     
     --- NV REG ---
     signal nv_reg_busy_sig    : STD_LOGIC;
@@ -217,7 +217,7 @@ begin
     port map(
         sys_clk             => sys_clk,
         resetN              => resetN_emulator,
-        fsm_status          => fsm_status,
+        fsm_nv_reg_state    => fsm_nv_reg_state,
         task_status         => task_status,
         nv_reg_en           => nv_reg_en,
         nv_reg_busy         => nv_reg_busy,
@@ -241,8 +241,8 @@ begin
         resetN          => resetN_emulator,
         thresh_stats    => fsm_nv_reg_thresh_stats,
         task_status     => fsm_nv_reg_task_status,       
-        status          => fsm_nv_reg_status,
-        status_sig      => fsm_nv_reg_status_sig
+        fsm_state       => fsm_nv_reg_state_internal,
+        fsm_state_sig   => fsm_nv_reg_state_sig_internal
     );
 
     NV_REG_1 : nv_reg
@@ -279,10 +279,10 @@ begin
     
     warning_signal <= threshold_compared(1);
     
-    fsm_status <= fsm_nv_reg_status;
+    fsm_nv_reg_state <= fsm_nv_reg_state_internal;
     fsm_nv_reg_task_status <= task_status;
     
-    fsm_nv_reg_thresh_stats <= hazard when threshold_compared(1) = '1' else nothing; -- TODO: controllare se va bene
+    fsm_nv_reg_thresh_stats <= hazard when threshold_compared(1) = '1' else nothing; 
                                
 
 end Behavioral;

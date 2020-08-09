@@ -40,7 +40,7 @@ entity vol_cntr is
     port(
         sys_clk             : in STD_LOGIC;
         resetN              : in STD_LOGIC;
-        fsm_status          : in fsm_nv_reg_state_t;
+        fsm_nv_reg_state    : in fsm_nv_reg_state_t;
         task_status         : out STD_LOGIC;
         nv_reg_en           : out STD_LOGIC;
         nv_reg_busy         : in STD_LOGIC;
@@ -237,7 +237,7 @@ begin
     end process;
     
     ADDR_FSM_CMB : process( present_state, 
-                            fsm_status, 
+                            fsm_nv_reg_state, 
                             data_rec_recovered_offset, data_rec_recovered_data, 
                             data_rec_busy,
                             vol_cntr1_value_internal, vol_cntr2_value_internal, vol_cntr3_value_internal ) is
@@ -259,14 +259,13 @@ begin
                 --set initialization signal, do init
 
                 ------------------------------------
-                if fsm_status = start_data_recovery_s and data_rec_busy = '1' then
+                if fsm_nv_reg_state = start_data_recovery_s and data_rec_busy = '1' then
                     future_state <= recovery_s;         
                 end if;     
             when recovery_s =>
-                -- TODO: use data_recovered_s, it's better, but the other TODOs must be completed    
-                if fsm_status = data_recovered_s then
+                if fsm_nv_reg_state = data_recovered_s then
                         future_state <= read_vreg1_s;
-                elsif fsm_status = recovery_s then
+                elsif fsm_nv_reg_state = recovery_s then
                     if data_rec_busy = '1' then --if the data recovery has ended then change state 
                        
                         -- enable and write to V_REG
@@ -281,84 +280,84 @@ begin
                      end if;
                 end if;
             when read_vreg1_s => -- in state read_vreg1_s we prepare the signals to read the value for vol_cntr1_value from V_REG 
-                if fsm_status = do_operation_s then
+                if fsm_nv_reg_state = do_operation_s then
                     ena <= '1';
                     addra <= data_rec_v_reg_start_addr;
                     future_state <= wait1_s;
-                else -- fsm_status = start_data_s
+                else -- fsm_nv_reg_state = start_data_s
                     future_state <= data_save_init_s;
                 end if;
             when wait1_s =>
-                if (fsm_status = do_operation_s) then
+                if (fsm_nv_reg_state = do_operation_s) then
                     ena <= '1';
                     addra <= data_rec_v_reg_start_addr;
                     future_state <= add1_s;
-                else -- fsm_status = start_data_s
+                else -- fsm_nv_reg_state = start_data_s
                     future_state <= data_save_init_s;
                 end if;
             when add1_s =>
-                if (fsm_status = do_operation_s) then
+                if (fsm_nv_reg_state = do_operation_s) then
                     wea <= "1";
                     ena <= '1';
                     addra <= data_rec_v_reg_start_addr;
                     vol_cntr1_value_internal <= std_logic_vector(unsigned(v_reg_douta) + 1);
                     dina <= vol_cntr1_value_internal;
                     future_state <= read_vreg2_s;
-                else -- fsm_status = start_data_s
+                else -- fsm_nv_reg_state = start_data_s
                     future_state <= data_save_init_s;
                 end if;                                
             when read_vreg2_s => -- in state read_vreg2_s we prepare the signals to read the value for vol_cntr2_value from V_REG 
-                if (fsm_status = do_operation_s) then
+                if (fsm_nv_reg_state = do_operation_s) then
                     ena <= '1';
                     addra <= std_logic_vector( unsigned(data_rec_v_reg_start_addr) + 1);
                     future_state <= wait2_s;
-                else -- fsm_status = start_data_s
+                else -- fsm_nv_reg_state = start_data_s
                     future_state <= data_save_init_s;
                 end if;
             when wait2_s =>
-                if (fsm_status = do_operation_s) then
+                if (fsm_nv_reg_state = do_operation_s) then
                     ena <= '1';
                     addra <= std_logic_vector( unsigned(data_rec_v_reg_start_addr) + 1);
                     future_state <= add2_s;
-                else -- fsm_status = start_data_s
+                else -- fsm_nv_reg_state = start_data_s
                     future_state <= data_save_init_s;
                 end if;
             when add2_s =>
-                if (fsm_status = do_operation_s) then
+                if (fsm_nv_reg_state = do_operation_s) then
                     wea <= "1";
                     ena <= '1';
                     addra <= std_logic_vector( unsigned(data_rec_v_reg_start_addr) + 1);
                     vol_cntr2_value_internal <= std_logic_vector(unsigned(v_reg_douta) + 2);
                     dina <= vol_cntr2_value_internal;
                     future_state <= read_vreg3_s;
-                else -- fsm_status = start_data_s
+                else -- fsm_nv_reg_state = start_data_s
                     future_state <= data_save_init_s;
                 end if;                                
             when read_vreg3_s => -- in state read_vreg3_s we prepare the signals to read the value for vol_cntr3_value from V_REG 
-                if (fsm_status = do_operation_s) then
+                if (fsm_nv_reg_state = do_operation_s) then
                     ena <= '1';
                     addra <= std_logic_vector( unsigned(data_rec_v_reg_start_addr) + 2);
                     future_state <= wait3_s;
-                else -- fsm_status = start_data_s
+                else -- fsm_nv_reg_state = start_data_s
                     future_state <= data_save_init_s;
                 end if;
             when wait3_s =>
-                if (fsm_status = do_operation_s) then
+                if (fsm_nv_reg_state = do_operation_s) then
                     ena <= '1';
                     addra <= std_logic_vector( unsigned(data_rec_v_reg_start_addr) + 2);
                     future_state <= add3_s;
-                else -- fsm_status = start_data_s
+                else -- fsm_nv_reg_state = start_data_s
                     future_state <= data_save_init_s;
                 end if;
             when add3_s =>
-                if (fsm_status = do_operation_s) then
+                if (fsm_nv_reg_state = do_operation_s) then
                     wea <= "1";
                     ena <= '1';
                     addra <= std_logic_vector( unsigned(data_rec_v_reg_start_addr) + 2);
                     vol_cntr3_value_internal <= std_logic_vector(unsigned(v_reg_douta) + 3);
                     dina <= vol_cntr3_value_internal;
                     future_state <= read_vreg1_s;
-                else -- fsm_status = start_data_s
+                else -- fsm_nv_reg_state = start_data_s
                     future_state <= data_save_init_s;
                 end if;                                
             when data_save_init_s =>     --prepares the signals used by data_save
@@ -366,7 +365,7 @@ begin
             when data_save_init_cmplt_s => --used to have the data ready when save starts
                 future_state <= data_save_s;
             when data_save_s =>
-                if fsm_status = do_operation_s then
+                if fsm_nv_reg_state = do_operation_s then
                     future_state <= read_vreg1_s;
                 end if;                                                               
         end case;
@@ -427,7 +426,7 @@ begin
            -- data_rec_nv_reg_en <= '0';
             
         elsif(rising_edge(sys_clk)) then
-            if(fsm_status = start_data_recovery_s) then
+            if(fsm_nv_reg_state = start_data_recovery_s) then
                 data_rec_busy <= '1';
                -- data_rec_nv_reg_en <= '1';  
             elsif(var_cntr_tc = '1') then
@@ -458,7 +457,6 @@ begin
         end if;
     end process DATA_REC_V_REG_SIG_CNTRL;
 
-    --TODO: make this process sync with capture on nv_reg_busy = '0'
     DATA_REC_NV_REG_SIG_CNTRL: process (data_rec_busy,var_cntr_value) is
     begin 
         if (data_rec_busy = '0') then 
@@ -487,7 +485,7 @@ begin
             enb <= '0';
         elsif(rising_edge(sys_clk)) then
             
-            if(fsm_status = start_data_save_s) then
+            if(fsm_nv_reg_state = start_data_save_s) then
                 enb <= '1';
                 if(present_state=data_save_init_cmplt_s) then
                     data_save_busy <= '1';

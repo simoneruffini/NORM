@@ -57,8 +57,8 @@ architecture Behavioral of vol_cntr_testbench is
     --------------------------------------------------------------------------------------
     -------------------------------FSM_NV_REG_SIGNALS-------------------------------------
     signal thresh_stats         : threshold_t;
-    signal fsm_status           : fsm_nv_reg_state_t;    
-    signal fsm_status_sig       : fsm_nv_reg_state_t;
+    signal fsm_nv_reg_state     : fsm_nv_reg_state_t;    
+    signal fsm_nv_reg_state_sig : fsm_nv_reg_state_t;
 
     --------------------------------------------------------------------------------------
 
@@ -68,7 +68,7 @@ architecture Behavioral of vol_cntr_testbench is
     port(
         sys_clk             : in STD_LOGIC;
         resetN              : in STD_LOGIC;
-        fsm_status          : in fsm_nv_reg_state_t;
+        fsm_nv_reg_state    : in fsm_nv_reg_state_t;
         task_status         : out STD_LOGIC;
         nv_reg_en           : out STD_LOGIC;
         nv_reg_busy         : in STD_LOGIC;
@@ -89,8 +89,8 @@ architecture Behavioral of vol_cntr_testbench is
         resetN                  : in STD_LOGIC;
         thresh_stats            : in threshold_t;
         task_status             : in STD_LOGIC;
-        status                  : out fsm_nv_reg_state_t;
-        status_sig              : out fsm_nv_reg_state_t --used with care (it is the future state of the machine, and it is combinatory so it is prone to glitces)
+        fsm_state               : out fsm_nv_reg_state_t;
+        fsm_state_sig           : out fsm_nv_reg_state_t --used with care (it is the future state of the machine, and it is combinatory so it is prone to glitces)
     );
     end component;
     
@@ -120,7 +120,7 @@ begin
     port map(                           
         sys_clk             => sys_clk,
         resetN              => power_resetN,
-        fsm_status          => fsm_status,
+        fsm_nv_reg_state    => fsm_nv_reg_state,
         task_status         => task_status,
         nv_reg_en           => nv_reg_en,
         nv_reg_busy         => nv_reg_busy,
@@ -136,8 +136,8 @@ begin
         resetN          =>power_resetN, 
         thresh_stats    =>thresh_stats, 
         task_status     =>task_status, 
-        status          =>fsm_status
---        status_sig      =>,
+        fsm_state       =>fsm_nv_reg_state
+--        fsm_state_sig      =>,
     );
    
     

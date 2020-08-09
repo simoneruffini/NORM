@@ -96,9 +96,9 @@
          <obj_property name="ElementShortName">thresh_stats</obj_property>
          <obj_property name="ObjectShortName">thresh_stats</obj_property>
       </wvobject>
-      <wvobject fp_name="/vol_cntr_testbench/fsm_status" type="other">
-         <obj_property name="ElementShortName">fsm_status</obj_property>
-         <obj_property name="ObjectShortName">fsm_status</obj_property>
+      <wvobject fp_name="/vol_cntr_testbench/fsm_nv_reg_state" type="other">
+         <obj_property name="ElementShortName">fsm_nv_reg_state</obj_property>
+         <obj_property name="ObjectShortName">fsm_nv_reg_state</obj_property>
       </wvobject>
       <wvobject fp_name="/vol_cntr_testbench/task_status" type="logic">
          <obj_property name="ElementShortName">task_status</obj_property>

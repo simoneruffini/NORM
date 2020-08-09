@@ -71,9 +71,9 @@
          <obj_property name="ElementShortName">task_status</obj_property>
          <obj_property name="ObjectShortName">task_status</obj_property>
       </wvobject>
-      <wvobject type="other" fp_name="/top_level_testbench/top_level_1/FSM_NV_REG_1/status">
-         <obj_property name="ElementShortName">status</obj_property>
-         <obj_property name="ObjectShortName">status</obj_property>
+      <wvobject type="other" fp_name="/top_level_testbench/top_level_1/FSM_NV_REG_1/fsm_state">
+         <obj_property name="ElementShortName">fsm_state</obj_property>
+         <obj_property name="ObjectShortName">fsm_state</obj_property>
       </wvobject>
       <wvobject type="other" fp_name="/top_level_testbench/top_level_1/FSM_NV_REG_1/thresh_stats">
          <obj_property name="ElementShortName">thresh_stats</obj_property>

@@ -43,7 +43,8 @@ architecture Behavioral of fsm_nv_reg_testbench is
     
     -----------------------------FSM_NV_REG_SIGNALS---------------------------------------
     signal thresh : threshold_t;
-    signal fsm_status : fsm_nv_reg_state_t;
+    signal fsm_nv_reg_state : fsm_nv_reg_state_t;
+    signal fsm_nv_reg_state_sig : fsm_nv_reg_state_t;
     signal task_status: STD_LOGIC;
     signal power_resetN: STD_LOGIC;
     --------------------------------------------------------------------------------------
@@ -56,7 +57,8 @@ begin
         resetN              => power_resetN,
         thresh_stats        => thresh,
         task_status         => task_status,
-        status              => fsm_status 
+        fsm_state           => fsm_nv_reg_state 
+        fsm_state_sig       => fsm_nv_reg_state_sig
     );
     
     CLK: process begin
@@ -87,7 +89,7 @@ begin
         if(power_resetN ='0') then
             task_status <= '0';
         elsif(rising_edge(MASTER_CLK)) then
-            if(fsm_status = start_data_recovery_s OR fsm_status = start_data_save_s) then
+            if(fsm_nv_reg_state = start_data_recovery_s OR fsm_nv_reg_state = start_data_save_s) then
                 task_status <= '1';
             else
                 task_status <= '0';

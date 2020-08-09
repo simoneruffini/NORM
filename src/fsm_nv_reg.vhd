@@ -40,8 +40,8 @@ entity fsm_nv_reg is
         resetN                  : in STD_LOGIC;
         thresh_stats            : in threshold_t;
         task_status             : in STD_LOGIC;
-        status                  : out fsm_nv_reg_state_t;
-        status_sig              : out fsm_nv_reg_state_t --used with care (it is the future state of the machine, and it is combinatory so it is prone to glitces)
+        fsm_state               : out fsm_nv_reg_state_t;
+        fsm_state_sig           : out fsm_nv_reg_state_t --used with care (it is the future state of the machine, and it is combinatory so it is prone to glitces)
     );
 end fsm_nv_reg;
 
@@ -106,8 +106,8 @@ begin
         end case;
     end process FSM_NV_REG_FUTURE;
     
-    status <= present_state;
-    status_sig <= future_state;
+    fsm_state <= present_state;
+    fsm_state_sig <= future_state;
     
 end Behavioral;
 -------------------------------------------------------------------------------------------------------------------------------------

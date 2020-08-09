@@ -16,8 +16,6 @@
 -- Revision 0.01 - File Created
 -- Additional Comments:
 -- remeber that busy signals are important, and that the ram used has no output latches so the data my be jittery
--- TODO: look into the dout data, at the moment the single port ram is in read_first_mode but it is not working
---      like it should according to documentation
 ----------------------------------------------------------------------------------
 
 
