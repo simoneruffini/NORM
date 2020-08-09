@@ -116,7 +116,7 @@ architecture Behavioral of vol_cntr is
     type vol_cntr_fsm_state is(
         power_off_s,
         init_s,
-        loading_s,
+        recovery_s,
         read_vreg1_s,
         read_vreg2_s,
         read_vreg3_s,
@@ -126,9 +126,9 @@ architecture Behavioral of vol_cntr is
         add1_s,
         add2_s,
         add3_s,
-        recovery_init_s,
-        recovery_init_cmplt_s,
-        recovery_s
+        data_save_init_s,
+        data_save_init_cmplt_s,
+        data_save_s
     );    
     signal present_state, future_state : vol_cntr_fsm_state:= power_off_s;
     --------------------------------------------------------------------------------------
@@ -260,9 +260,9 @@ begin
 
                 ------------------------------------
                 if fsm_status = start_data_recovery_s and data_rec_busy = '1' then
-                    future_state <= loading_s;         
+                    future_state <= recovery_s;         
                 end if;     
-            when loading_s =>
+            when recovery_s =>
                 -- TODO: use data_recovered_s, it's better, but the other TODOs must be completed    
                 if fsm_status = data_recovered_s then
                         future_state <= read_vreg1_s;
@@ -286,7 +286,7 @@ begin
                     addra <= data_rec_v_reg_start_addr;
                     future_state <= wait1_s;
                 else -- fsm_status = start_data_s
-                    future_state <= recovery_init_s;
+                    future_state <= data_save_init_s;
                 end if;
             when wait1_s =>
                 if (fsm_status = do_operation_s) then
@@ -294,7 +294,7 @@ begin
                     addra <= data_rec_v_reg_start_addr;
                     future_state <= add1_s;
                 else -- fsm_status = start_data_s
-                    future_state <= recovery_init_s;
+                    future_state <= data_save_init_s;
                 end if;
             when add1_s =>
                 if (fsm_status = do_operation_s) then
@@ -305,7 +305,7 @@ begin
                     dina <= vol_cntr1_value_internal;
                     future_state <= read_vreg2_s;
                 else -- fsm_status = start_data_s
-                    future_state <= recovery_init_s;
+                    future_state <= data_save_init_s;
                 end if;                                
             when read_vreg2_s => -- in state read_vreg2_s we prepare the signals to read the value for vol_cntr2_value from V_REG 
                 if (fsm_status = do_operation_s) then
@@ -313,7 +313,7 @@ begin
                     addra <= std_logic_vector( unsigned(data_rec_v_reg_start_addr) + 1);
                     future_state <= wait2_s;
                 else -- fsm_status = start_data_s
-                    future_state <= recovery_init_s;
+                    future_state <= data_save_init_s;
                 end if;
             when wait2_s =>
                 if (fsm_status = do_operation_s) then
@@ -321,7 +321,7 @@ begin
                     addra <= std_logic_vector( unsigned(data_rec_v_reg_start_addr) + 1);
                     future_state <= add2_s;
                 else -- fsm_status = start_data_s
-                    future_state <= recovery_init_s;
+                    future_state <= data_save_init_s;
                 end if;
             when add2_s =>
                 if (fsm_status = do_operation_s) then
@@ -332,7 +332,7 @@ begin
                     dina <= vol_cntr2_value_internal;
                     future_state <= read_vreg3_s;
                 else -- fsm_status = start_data_s
-                    future_state <= recovery_init_s;
+                    future_state <= data_save_init_s;
                 end if;                                
             when read_vreg3_s => -- in state read_vreg3_s we prepare the signals to read the value for vol_cntr3_value from V_REG 
                 if (fsm_status = do_operation_s) then
@@ -340,7 +340,7 @@ begin
                     addra <= std_logic_vector( unsigned(data_rec_v_reg_start_addr) + 2);
                     future_state <= wait3_s;
                 else -- fsm_status = start_data_s
-                    future_state <= recovery_init_s;
+                    future_state <= data_save_init_s;
                 end if;
             when wait3_s =>
                 if (fsm_status = do_operation_s) then
@@ -348,7 +348,7 @@ begin
                     addra <= std_logic_vector( unsigned(data_rec_v_reg_start_addr) + 2);
                     future_state <= add3_s;
                 else -- fsm_status = start_data_s
-                    future_state <= recovery_init_s;
+                    future_state <= data_save_init_s;
                 end if;
             when add3_s =>
                 if (fsm_status = do_operation_s) then
@@ -359,13 +359,13 @@ begin
                     dina <= vol_cntr3_value_internal;
                     future_state <= read_vreg1_s;
                 else -- fsm_status = start_data_s
-                    future_state <= recovery_init_s;
+                    future_state <= data_save_init_s;
                 end if;                                
-            when recovery_init_s =>     --prepares the signals used by data_save
-                    future_state <= recovery_init_cmplt_s;
-            when recovery_init_cmplt_s => --used to have the data ready when save starts
-                future_state <= recovery_s;
-            when recovery_s =>
+            when data_save_init_s =>     --prepares the signals used by data_save
+                    future_state <= data_save_init_cmplt_s;
+            when data_save_init_cmplt_s => --used to have the data ready when save starts
+                future_state <= data_save_s;
+            when data_save_s =>
                 if fsm_status = do_operation_s then
                     future_state <= read_vreg1_s;
                 end if;                                                               
@@ -489,7 +489,7 @@ begin
             
             if(fsm_status = start_data_save_s) then
                 enb <= '1';
-                if(present_state=recovery_init_cmplt_s) then
+                if(present_state=data_save_init_cmplt_s) then
                     data_save_busy <= '1';
                 end if;  
             end if;
