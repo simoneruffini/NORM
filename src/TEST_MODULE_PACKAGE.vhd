@@ -52,10 +52,10 @@ package TEST_MODULE_PACKAGE is
         nothing
     );
     constant NV_REG_WIDTH: INTEGER := 16;
-    constant BRAM_WIDTH: INTEGER := 65536;
+    constant V_REG_WIDTH: INTEGER := 65536;
     constant FRAM_MAX_DELAY_NS : INTEGER := MASTER_CLK_PERIOD_NS *4;
     constant nv_reg_addr_width_bit : INTEGER := integer(ceil(log2(real(NV_REG_WIDTH))));
-    constant bram_addr_width_bit : INTEGER := integer(ceil(log2(real(BRAM_WIDTH))));
+    constant v_reg_addr_width_bit : INTEGER := integer(ceil(log2(real(V_REG_WIDTH))));
 end package;
 package body TEST_MODULE_PACKAGE is 
 end package body TEST_MODULE_PACKAGE;

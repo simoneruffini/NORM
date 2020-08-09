@@ -63,13 +63,13 @@ architecture Behavioral of vol_cntr is
             clka    : in std_logic;
             ena     : in std_logic;
             wea     : in std_logic_vector(0 DOWNTO 0);
-            addra   : in std_logic_vector(bram_addr_width_bit-1 DOWNTO 0);
+            addra   : in std_logic_vector(v_reg_addr_width_bit-1 DOWNTO 0);
             dina    : in std_logic_vector(31 DOWNTO 0);
             douta   : out std_logic_vector(31 DOWNTO 0);
             clkb    : in std_logic;
             enb     : in std_logic;
             web     : in std_logic_vector(0 DOWNTO 0);
-            addrb   : in std_logic_vector(bram_addr_width_bit-1 DOWNTO 0);
+            addrb   : in std_logic_vector(v_reg_addr_width_bit-1 DOWNTO 0);
             dinb    : in std_logic_vector(31 DOWNTO 0);
             doutb   : out std_logic_vector(31 DOWNTO 0)
         );
@@ -96,20 +96,20 @@ architecture Behavioral of vol_cntr is
     signal clka         : std_logic;
     signal v_reg_ena    : std_logic;
     signal v_reg_wea    : std_logic_vector(0 DOWNTO 0);
-    signal v_reg_addra  : std_logic_vector(bram_addr_width_bit-1 DOWNTO 0);
+    signal v_reg_addra  : std_logic_vector(v_reg_addr_width_bit-1 DOWNTO 0);
     signal v_reg_dina   : std_logic_vector(31 DOWNTO 0);
     signal v_reg_douta  : std_logic_vector(31 DOWNTO 0);
     signal clkb         : std_logic;
     signal enb          : std_logic := '0';
     signal web          : std_logic_vector(0 DOWNTO 0) := "0";
-    signal addrb        : std_logic_vector(bram_addr_width_bit-1 DOWNTO 0);
+    signal addrb        : std_logic_vector(v_reg_addr_width_bit-1 DOWNTO 0);
     signal dinb         : std_logic_vector(31 DOWNTO 0) := (OTHERS =>'0');
     signal doutb        : std_logic_vector(31 DOWNTO 0);
     --------------------------------------------------------------------------------------
     -------------------------------COMMON_SIGNALS-----------------------------------------
     signal ena      : std_logic;
     signal wea      : std_logic_vector(0 DOWNTO 0);
-    signal addra    : std_logic_vector(bram_addr_width_bit-1 DOWNTO 0);
+    signal addra    : std_logic_vector(v_reg_addr_width_bit-1 DOWNTO 0);
     signal dina     : std_logic_vector(31 DOWNTO 0);
     signal task_status_internal: STD_LOGIC;
     --------------------------------------------------------------------------------------
@@ -166,7 +166,7 @@ architecture Behavioral of vol_cntr is
 
 --------------------------------------------------DATA_REC process-------------------------------------------------------------------
     signal data_rec_nv_reg_start_addr: STD_LOGIC_VECTOR(nv_reg_addr_width_bit-1 DOWNTO 0);	--address from which start recovering data in nv_reg
-    signal data_rec_v_reg_start_addr: STD_LOGIC_VECTOR(bram_addr_width_bit-1 DOWNTO 0);     --addres in v_reg from which the recovered data (#ofdata=data_rec_offset) will be stored
+    signal data_rec_v_reg_start_addr: STD_LOGIC_VECTOR(v_reg_addr_width_bit-1 DOWNTO 0);    --addres in v_reg from which the recovered data (#ofdata=data_rec_offset) will be stored
     signal data_rec_offset: INTEGER RANGE 0 TO NV_REG_WIDTH-1;					            --the offset used to calculate the last address recovered from nv_reg in data recovery process
 												                                            --> ex: if we have 3 consecutive WORDS saved in nv_reg that we want to recover then data_rec_offset = 2
     signal data_rec_recovered_data : STD_LOGIC_VECTOR( 31 DOWNTO 0);                        --the data recovered from nv_reg after recovery starts
@@ -174,9 +174,9 @@ architecture Behavioral of vol_cntr is
     --signal data_rec_recovered_offset_last : INTEGER RANGE 0 TO NV_REG_WIDTH-1;              --shift register used to sinchronize the offset of the recovered data with the recovered data data
 --------------------------------------------------DATA_SAVE process-------------------------------------------------------------------
     signal data_save_nv_reg_start_addr: STD_LOGIC_VECTOR(nv_reg_addr_width_bit-1 DOWNTO 0);	--start address (in nv_reg) from which the data save process will save volatile values
-    signal data_save_v_reg_start_addr: STD_LOGIC_VECTOR(bram_addr_width_bit-1 DOWNTO 0);     --start address (in bram aka volatile register) from which the data save process will fetch data
+    signal data_save_v_reg_start_addr: STD_LOGIC_VECTOR(v_reg_addr_width_bit-1 DOWNTO 0);   --start address (in bram aka volatile register) from which the data save process will fetch data
                                                                                             --> this address is where the first WORD of volatile data (that will be lost after power failure) is stored
-    signal data_save_v_reg_offset : INTEGER RANGE 0 TO BRAM_WIDTH -1;				        --the offset used to calculate the last address of v_reg (aka volatile register) for data save process
+    signal data_save_v_reg_offset : INTEGER RANGE 0 TO V_REG_WIDTH -1;				        --the offset used to calculate the last address of v_reg (aka volatile register) for data save process
     												                                        --> ex: if we have 2 consecutive WORDS saved in v_reg that we want to store in nv_reg then data_save_v_reg_offset=1
 -- this upper signal can change during the vol_cntr process. 
 -- For example after a power failure we could want to retrive the old data and then save the values in a different place in nv_reg (thus changing data_save_nv_reg_start_addr).
@@ -185,7 +185,7 @@ architecture Behavioral of vol_cntr is
 --------------------------------------------------V_REG_RESET process------------------------------------------------------------------
     signal v_reg_reset_ena      : std_logic;
     signal v_reg_reset_wea      : std_logic_vector(0 DOWNTO 0);
-    signal v_reg_reset_addra    : std_logic_vector(bram_addr_width_bit-1 DOWNTO 0);
+    signal v_reg_reset_addra    : std_logic_vector(v_reg_addr_width_bit-1 DOWNTO 0);
     signal v_reg_reset_dina     : std_logic_vector(31 DOWNTO 0);
 -----------------------------------------------------------------------------------------------------------------------------------
 
@@ -276,7 +276,7 @@ begin
                         -- the address where to save in V_REG is calculated through data_rec_recovered_offset 
                         --> that changes every time a new WORD is retrived from NV_REG
                         addra <= std_logic_vector(  to_unsigned(to_integer( unsigned(data_rec_v_reg_start_addr)+
-                                                                            data_rec_recovered_offset ),bram_addr_width_bit)
+                                                                            data_rec_recovered_offset ),v_reg_addr_width_bit)
                                                     );
                         dina <= data_rec_recovered_data;
                      end if;
@@ -518,7 +518,7 @@ begin
                                         --> change the value when it is captured as no more busy 
                 if (var_cntr_value <= data_save_v_reg_offset ) then
                     addrb <= std_logic_vector(  unsigned(data_save_v_reg_start_addr) +
-                                                to_unsigned(var_cntr_value, bram_addr_width_bit)
+                                                to_unsigned(var_cntr_value, v_reg_addr_width_bit)
                                                 );
                 end if;
             end if;
@@ -592,20 +592,20 @@ begin
 --------------------------------------------------V_REG_RESET process-----------------------------------------------------------------
 
 V_REG_RESET: process(sys_clk) is --the reset is syncronous
-variable counter : INTEGER RANGE 0 TO (BRAM_WIDTH-1);
+variable counter : INTEGER RANGE 0 TO (V_REG_WIDTH-1);
 begin
     if(rising_edge(sys_clk)) then
         if(resetN= '0') then
             v_reg_reset_ena <= '1';
             v_reg_reset_wea <= (OTHERS => '1');
             v_reg_reset_dina <= (OTHERS => '0');
-            if(counter < BRAM_WIDTH ) then
+            if(counter < V_REG_WIDTH ) then
                 counter := counter +1;
-            elsif(counter = BRAM_WIDTH ) then
+            elsif(counter = V_REG_WIDTH ) then
                 v_reg_reset_wea <= (OTHERS => '0');
                 v_reg_reset_ena <= '0';
             end if;
-            v_reg_reset_addra <= std_logic_vector(to_unsigned(counter-1,bram_addr_width_bit));
+            v_reg_reset_addra <= std_logic_vector(to_unsigned(counter-1,v_reg_addr_width_bit));
         else
             v_reg_reset_ena <= '0';
             v_reg_reset_wea <= (OTHERS => '0');

@@ -61,13 +61,13 @@ architecture Behavioral of multiple_adder is
             clka    : in std_logic;
             ena     : in std_logic;
             wea     : in std_logic_vector(0 downto 0);
-            addra   : in std_logic_vector(bram_addr_width_bit-1 downto 0);
+            addra   : in std_logic_vector(v_reg_addr_width_bit-1 downto 0);
             dina    : in std_logic_vector(31 downto 0);
             douta   : out std_logic_vector(31 downto 0);
             clkb    : in std_logic;
             enb     : in std_logic;
             web     : in std_logic_vector(0 downto 0);
-            addrb   : in std_logic_vector(bram_addr_width_bit-1 downto 0);
+            addrb   : in std_logic_vector(v_reg_addr_width_bit-1 downto 0);
             dinb    : in std_logic_vector(31 downto 0);
             doutb   : out std_logic_vector(31 downto 0)
         );
@@ -96,13 +96,13 @@ architecture Behavioral of multiple_adder is
     signal clka     : std_logic;
     signal ena      : std_logic;
     signal wea      : std_logic_vector(0 downto 0);
-    signal addra    : std_logic_vector(bram_addr_width_bit-1 downto 0);
+    signal addra    : std_logic_vector(v_reg_addr_width_bit-1 downto 0);
     signal dina     : std_logic_vector(31 downto 0);
     signal douta    : std_logic_vector(31 downto 0);
     signal clkb     : std_logic;
     signal enb      : std_logic := '0';
     signal web      : std_logic_vector(0 downto 0) := "0";
-    signal addrb    : std_logic_vector(bram_addr_width_bit-1 downto 0);
+    signal addrb    : std_logic_vector(v_reg_addr_width_bit-1 downto 0);
     signal dinb     : std_logic_vector(31 downto 0) := (others =>'0');
     signal doutb    : std_logic_vector(31 downto 0);
     --------------------------------------------------------------------------------------
@@ -158,8 +158,8 @@ architecture Behavioral of multiple_adder is
     --------------------------------------------------------------------------------------   
 --------------------------------------------------DATA_SAVE_PROC-------------------------------------------------------------------
      signal data_save_nv_reg_start_addr: STD_LOGIC_VECTOR(nv_reg_addr_width_bit-1 DOWNTO 0);
-     signal data_save_bram_start_addr: STD_LOGIC_VECTOR(bram_addr_width_bit-1 DOWNTO 0);
-     signal data_save_bram_offset : INTEGER RANGE 0 TO BRAM_WIDTH -1;
+     signal data_save_bram_start_addr: STD_LOGIC_VECTOR(v_reg_addr_width_bit-1 DOWNTO 0);
+     signal data_save_bram_offset : INTEGER RANGE 0 TO V_REG_WIDTH -1;
      
 begin
     
@@ -218,7 +218,7 @@ begin
                 else
                     ena <= '1';
                     wea <= "1";
-                    addra <= std_logic_vector(to_unsigned(data_rec_recovered_offset + to_integer(unsigned(data_rec_nv_reg_start_addr)),bram_addr_width_bit));
+                    addra <= std_logic_vector(to_unsigned(data_rec_recovered_offset + to_integer(unsigned(data_rec_nv_reg_start_addr)),v_reg_addr_width_bit));
                     dina <= data_rec_recovered_data;
                 end if;
             when read_state =>
@@ -226,14 +226,14 @@ begin
                     future_state <= recovery_fsm_state;
                 elsif fsm_status /= recovery_s then
                     ena <= '1';
-                    addra <= std_logic_vector(to_unsigned(count_adder, bram_addr_width_bit));
+                    addra <= std_logic_vector(to_unsigned(count_adder, v_reg_addr_width_bit));
                     future_state <= wait_state_1;
                 end if;
             when wait_state_1 =>
                 if (fsm_status /= do_operation_s) then
                     future_state <= recovery_fsm_state;
                 else
-                    addra <= std_logic_vector(to_unsigned(count_adder, bram_addr_width_bit));
+                    addra <= std_logic_vector(to_unsigned(count_adder, v_reg_addr_width_bit));
                     ena <= '1';
                     future_state <= wait_state_2;
                 end if;
@@ -241,7 +241,7 @@ begin
                 if (fsm_status /= do_operation_s) then
                     future_state <= recovery_fsm_state;
                 else
-                    addra <= std_logic_vector(to_unsigned(count_adder, bram_addr_width_bit));
+                    addra <= std_logic_vector(to_unsigned(count_adder, v_reg_addr_width_bit));
                     ena <= '1';
                     future_state <= add_state;
                 end if;            
@@ -251,7 +251,7 @@ begin
                 else
                     wea <= "1";
                     ena <= '1';
-                    addra <= std_logic_vector(to_unsigned(count_adder, bram_addr_width_bit));
+                    addra <= std_logic_vector(to_unsigned(count_adder, v_reg_addr_width_bit));
                     dina <= adder_array(count_adder);
                     future_state <= read_state;
                 end if;                                
@@ -411,7 +411,7 @@ begin
         if(data_save_busy = '1') then
             if(var_cntr_value <= data_save_bram_offset) then
                 addrb <= std_logic_vector(  unsigned(data_save_bram_start_addr)
-                                            +to_unsigned(var_cntr_value,bram_addr_width_bit -1)
+                                            +to_unsigned(var_cntr_value,v_reg_addr_width_bit -1)
                                           );
                 
             end if;
