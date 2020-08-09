@@ -42,7 +42,9 @@ entity top_level is
     port(
         sys_clk         : in std_logic;
         global_resetN   : std_logic;
-        val             : out std_logic_vector(31 downto 0)
+        val1            : out std_logic_vector(31 downto 0);
+        val2            : out std_logic_vector(31 downto 0);
+        val3            : out std_logic_vector(31 downto 0)
     );
 end top_level;
 
@@ -78,8 +80,8 @@ architecture Behavioral of top_level is
         );
     end component;
     
-    component adder is    
---    component multiple_adder is    
+    component vol_cntr is    
+--    component multiple_vol_cntr is    
         port(
             sys_clk             : in std_logic;
             resetN              : in std_logic;
@@ -92,8 +94,9 @@ architecture Behavioral of top_level is
             nv_reg_addr         : out STD_LOGIC_VECTOR(nv_reg_addr_width_bit-1 DOWNTO 0);
             nv_reg_din          : out STD_LOGIC_VECTOR( 31 DOWNTO 0);
             nv_reg_dout         : in STD_LOGIC_VECTOR( 31 DOWNTO 0);
-            adder_value         : out std_logic_vector(31 downto 0)  
-            
+            vol_cntr1_val       : out STD_LOGIC_VECTOR( 31 DOWNTO 0);
+            vol_cntr2_val       : out STD_LOGIC_VECTOR( 31 DOWNTO 0);
+            vol_cntr3_val       : out STD_LOGIC_VECTOR( 31 DOWNTO 0)
         );
     end component;
     
@@ -153,7 +156,7 @@ architecture Behavioral of top_level is
     signal threshold_compared  : std_logic_vector(INTERMITTENCY_NUM_THRESHOLDS - 1 downto 0); 
     signal select_threshold    : integer range 0 to INTERMITTENCY_NUM_THRESHOLDS -1;
     
-    --- ADDER signals ---
+    --- vol_cntr signals ---
     signal fsm_status          : fsm_nv_reg_state_t;
     signal task_status         : STD_LOGIC;
     
@@ -213,8 +216,8 @@ begin
         select_threshold    => select_threshold
     );
     
-    ADDER_1 : adder
---    ADDER_1 : multiple_adder
+    VOL_CNTR_1 : vol_cntr
+--    VOL_CNTR_1 : multiple_adder
     port map(
         sys_clk             => sys_clk,
         resetN              => resetN_emulator,
@@ -227,7 +230,9 @@ begin
         nv_reg_addr         => nv_reg_addr,
         nv_reg_din          => nv_reg_din,
         nv_reg_dout         => nv_reg_dout,
-        adder_value         => val
+        vol_cntr1_val       => val1,
+        vol_cntr2_val       => val2,
+        vol_cntr3_val       => val3
     );
     
 --    FSM_NV_REG_1 : fsm_nv_reg_cb

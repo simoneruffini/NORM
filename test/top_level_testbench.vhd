@@ -40,20 +40,24 @@ architecture Behavioral of top_level_testbench is
     port(
         sys_clk         : in std_logic;
         global_resetN   : std_logic;
-        val             : out std_logic_vector(31 downto 0)
+        val1            : out std_logic_vector(31 downto 0);
+        val2            : out std_logic_vector(31 downto 0);
+        val3            : out std_logic_vector(31 downto 0)
     );
     end component;
     
     signal sys_clk : std_logic;
     signal global_resetN    : std_logic;
-    signal val     : std_logic_vector(31 downto 0);
+    signal val1,val2,val3   : std_logic_vector(31 downto 0);
 begin
 
     top_level_1 : top_level
     port map(
-        sys_clk => sys_clk,
-        global_resetN => global_resetN,
-        val     => val
+        sys_clk         => sys_clk,
+        global_resetN   => global_resetN,
+        val1            => val1,
+        val2            => val2,
+        val3            => val3
     );    
     
     reset_proc : process begin

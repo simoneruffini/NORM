@@ -4,7 +4,7 @@
 -- 
 -- Create Date: 06/19/2020 04:37:42 PM
 -- Design Name: 
--- Module Name: adder - Behavioral
+-- Module Name: vol_cntr - Behavioral
 -- Project Name: 
 -- Target Devices: 
 -- Tool Versions: 
@@ -37,7 +37,7 @@ use work.NV_REG_EMULATOR_PKG.all;
 use work.COMMON_PACKAGE.all;
 use work.TEST_MODULE_PACKAGE.all;
 
-entity adder is    
+entity vol_cntr is    
     port(
         sys_clk             : in STD_LOGIC;
         resetN              : in STD_LOGIC;
@@ -50,13 +50,13 @@ entity adder is
         nv_reg_addr         : out STD_LOGIC_VECTOR(nv_reg_addr_width_bit-1 DOWNTO 0);
         nv_reg_din          : out STD_LOGIC_VECTOR( 31 DOWNTO 0);
         nv_reg_dout         : in STD_LOGIC_VECTOR( 31 DOWNTO 0);
-        adder1_value         : out std_logic_vector(31 DOWNTO 0);
-        adder2_value         : out std_logic_vector(31 DOWNTO 0);
-        adder3_value         : out std_logic_vector(31 DOWNTO 0)
+        vol_cntr1_value     : out std_logic_vector(31 DOWNTO 0);
+        vol_cntr2_value     : out std_logic_vector(31 DOWNTO 0);
+        vol_cntr3_value     : out std_logic_vector(31 DOWNTO 0)
     );
-end adder;
+end vol_cntr;
 
-architecture Behavioral of adder is
+architecture Behavioral of vol_cntr is
     
     COMPONENT blk_mem_gen_0
         PORT (
@@ -113,8 +113,8 @@ architecture Behavioral of adder is
     signal dina     : std_logic_vector(31 DOWNTO 0);
     signal task_status_internal: STD_LOGIC;
     --------------------------------------------------------------------------------------
-    -------------------------------ADDER_FSM----------------------------------------------
-    type adder_fsm_state is(
+    -------------------------------VOL_CNTR_FSM-------------------------------------------
+    type vol_cntr_fsm_state is(
         power_off_s,
         init_s,
         loading_s,
@@ -131,13 +131,13 @@ architecture Behavioral of adder is
         recovery_init_cmplt_s,
         recovery_s
     );    
-    signal present_state, future_state : adder_fsm_state:= power_off_s;
+    signal present_state, future_state : vol_cntr_fsm_state:= power_off_s;
     --------------------------------------------------------------------------------------
-    -------------------------------ADDER_SIGNALS------------------------------------------
-    --this signals keep the value of the current adder, we have 3 adders that count by summing +1,+2,+3 to them selves
-    signal adder1_value_internal : std_logic_vector(31 DOWNTO 0) := (OTHERS => '0');
-    signal adder2_value_internal : std_logic_vector(31 DOWNTO 0) := (OTHERS => '0');
-    signal adder3_value_internal : std_logic_vector(31 DOWNTO 0) := (OTHERS => '0');
+    -------------------------------VOL_CNTR_SIGNALS---------------------------------------
+    --this signals keep the value of the current volatile counter, we have 3 vol_cntrs that count by summing +1,+2,+3 to them selves
+    signal vol_cntr1_value_internal : std_logic_vector(31 DOWNTO 0) := (OTHERS => '0');
+    signal vol_cntr2_value_internal : std_logic_vector(31 DOWNTO 0) := (OTHERS => '0');
+    signal vol_cntr3_value_internal : std_logic_vector(31 DOWNTO 0) := (OTHERS => '0');
     --------------------------------------------------------------------------------------
     -------------------------------DATA_REC_SIGNALS---------------------------------------  
     signal data_rec_busy: STD_LOGIC;
@@ -178,7 +178,7 @@ architecture Behavioral of adder is
                                                                                             --> this address is where the first WORD of volatile data (that will be lost after power failure) is stored
     signal data_save_v_reg_offset : INTEGER RANGE 0 TO BRAM_WIDTH -1;				        --the offset used to calculate the last address of v_reg (aka volatile register) for data save process
     												                                        --> ex: if we have 2 consecutive WORDS saved in v_reg that we want to store in nv_reg then data_save_v_reg_offset=1
--- this upper signal can change during the adder process. 
+-- this upper signal can change during the vol_cntr process. 
 -- For example after a power failure we could want to retrive the old data and then save the values in a different place in nv_reg (thus changing data_save_nv_reg_start_addr).
 -- Or we could only want to recover a subset of the data stored in nv_reg (thus changing data_rec_nv_reg_start_addr and data_rec_offset).
 -- This could be implemented in hw by using an eeprom to store this values or the nv_reg itself by keeping this data in a std and first access location for the executing process.
@@ -211,15 +211,15 @@ begin
     clka <= sys_clk;
     clkb <= sys_clk;
 
-    adder1_value <= adder1_value_internal; 
-    adder2_value <= adder2_value_internal;
-    adder3_value <= adder3_value_internal;
+    vol_cntr1_value <= vol_cntr1_value_internal; 
+    vol_cntr2_value <= vol_cntr2_value_internal;
+    vol_cntr3_value <= vol_cntr3_value_internal;
    
     -- We will restore from nv_reg @ 0x01 and will get 3 words (nv_reg_offset =2)
     -- We will save the restored data in v_reg @ 0x08 and will store the same 3 words
     -- We will save v_reg data in nv_reg @ 0x01 and will store the same 3 words 
     
-    --%%%%%%%%%%%%%%%%%%%% ADDER CONSTANTS %%%%%%%%%%%%%%%%%%%%%%%%%%
+    --%%%%%%%%%%%%%%%%%%%% VOL_CNTR CONSTANTS %%%%%%%%%%%%%%%%%%%%%%%
     data_rec_nv_reg_start_addr  <= (0 => '1', OTHERS => '0'); -- 1
     data_rec_offset             <= 2; 
     data_rec_v_reg_start_addr   <= (3 => '1', OTHERS => '0'); -- 8
@@ -241,7 +241,7 @@ begin
                             fsm_status, 
                             data_rec_recovered_offset, data_rec_recovered_data, 
                             data_rec_busy,
-                            adder1_value_internal, adder2_value_internal, adder3_value_internal ) is
+                            vol_cntr1_value_internal, vol_cntr2_value_internal, vol_cntr3_value_internal ) is
     begin
                             
         --################ V_REG DEFAULTS
@@ -281,7 +281,7 @@ begin
                         dina <= data_rec_recovered_data;
                      end if;
                 end if;
-            when read_vreg1_s => -- in state read_vreg1_s we prepare the signals to read the value for adder1_value from V_REG 
+            when read_vreg1_s => -- in state read_vreg1_s we prepare the signals to read the value for vol_cntr1_value from V_REG 
                 if fsm_status = do_operation_s then
                     ena <= '1';
                     addra <= data_rec_v_reg_start_addr;
@@ -302,13 +302,13 @@ begin
                     wea <= "1";
                     ena <= '1';
                     addra <= data_rec_v_reg_start_addr;
-                    adder1_value_internal <= std_logic_vector(unsigned(v_reg_douta) + 1);
-                    dina <= adder1_value_internal;
+                    vol_cntr1_value_internal <= std_logic_vector(unsigned(v_reg_douta) + 1);
+                    dina <= vol_cntr1_value_internal;
                     future_state <= read_vreg2_s;
                 else -- fsm_status = start_data_s
                     future_state <= recovery_init_s;
                 end if;                                
-            when read_vreg2_s => -- in state read_vreg2_s we prepare the signals to read the value for adder2_value from V_REG 
+            when read_vreg2_s => -- in state read_vreg2_s we prepare the signals to read the value for vol_cntr2_value from V_REG 
                 if (fsm_status = do_operation_s) then
                     ena <= '1';
                     addra <= std_logic_vector( unsigned(data_rec_v_reg_start_addr) + 1);
@@ -329,13 +329,13 @@ begin
                     wea <= "1";
                     ena <= '1';
                     addra <= std_logic_vector( unsigned(data_rec_v_reg_start_addr) + 1);
-                    adder2_value_internal <= std_logic_vector(unsigned(v_reg_douta) + 2);
-                    dina <= adder2_value_internal;
+                    vol_cntr2_value_internal <= std_logic_vector(unsigned(v_reg_douta) + 2);
+                    dina <= vol_cntr2_value_internal;
                     future_state <= read_vreg3_s;
                 else -- fsm_status = start_data_s
                     future_state <= recovery_init_s;
                 end if;                                
-            when read_vreg3_s => -- in state read_vreg3_s we prepare the signals to read the value for adder3_value from V_REG 
+            when read_vreg3_s => -- in state read_vreg3_s we prepare the signals to read the value for vol_cntr3_value from V_REG 
                 if (fsm_status = do_operation_s) then
                     ena <= '1';
                     addra <= std_logic_vector( unsigned(data_rec_v_reg_start_addr) + 2);
@@ -356,8 +356,8 @@ begin
                     wea <= "1";
                     ena <= '1';
                     addra <= std_logic_vector( unsigned(data_rec_v_reg_start_addr) + 2);
-                    adder3_value_internal <= std_logic_vector(unsigned(v_reg_douta) + 3);
-                    dina <= adder3_value_internal;
+                    vol_cntr3_value_internal <= std_logic_vector(unsigned(v_reg_douta) + 3);
+                    dina <= vol_cntr3_value_internal;
                     future_state <= read_vreg1_s;
                 else -- fsm_status = start_data_s
                     future_state <= recovery_init_s;

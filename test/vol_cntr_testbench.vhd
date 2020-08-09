@@ -4,7 +4,7 @@
 -- 
 -- Create Date: 06/26/2020 04:48:12 PM
 -- Design Name: 
--- Module Name: adder_testbench - Behavioral
+-- Module Name: vol_cntr_testbench - Behavioral
 -- Project Name: 
 -- Target Devices: 
 -- Tool Versions: 
@@ -36,17 +36,17 @@ use work.NV_REG_EMULATOR_PKG.all;
 use work.TEST_MODULE_PACKAGE.all;
 use work.GLOBAL_SETTINGS.ALL;
 
-entity adder_testbench is
+entity vol_cntr_testbench is
 --  Port ( );
-end adder_testbench;
+end vol_cntr_testbench;
 
-architecture Behavioral of adder_testbench is
+architecture Behavioral of vol_cntr_testbench is
     -------------------------------TESTB_INTERNAL_SIGNALS---------------------------------
     signal sys_clk      : STD_LOGIC;
     signal power_resetN : STD_LOGIC;       
     signal resetN       : STD_LOGIC;
     --------------------------------------------------------------------------------------    
-    -------------------------------ADDER_SIGNALS------------------------------------------
+    -------------------------------vol_cntr_SIGNALS---------------------------------------
     signal task_status         : STD_LOGIC;
     signal nv_reg_en           : STD_LOGIC;
     signal nv_reg_busy         : STD_LOGIC;
@@ -65,7 +65,7 @@ architecture Behavioral of adder_testbench is
 
     
     
-    component adder is    
+    component vol_cntr is    
     port(
         sys_clk             : in STD_LOGIC;
         resetN              : in STD_LOGIC;
@@ -77,7 +77,10 @@ architecture Behavioral of adder_testbench is
         nv_reg_we           : out STD_LOGIC_VECTOR( 0 DOWNTO 0);  
         nv_reg_addr         : out STD_LOGIC_VECTOR(nv_reg_addr_width_bit-1 DOWNTO 0);
         nv_reg_din          : out STD_LOGIC_VECTOR( 31 DOWNTO 0);
-        nv_reg_dout         : in STD_LOGIC_VECTOR( 31 DOWNTO 0)
+        nv_reg_dout         : in STD_LOGIC_VECTOR( 31 DOWNTO 0);
+        vol_cntr1_value     : out std_logic_vector(31 DOWNTO 0);
+        vol_cntr2_value     : out std_logic_vector(31 DOWNTO 0);
+        vol_cntr3_value     : out std_logic_vector(31 DOWNTO 0)
     );
     end component;
     
@@ -114,7 +117,7 @@ architecture Behavioral of adder_testbench is
     
 begin
     
-    ADDR_E: adder
+    ADDR_E: vol_cntr
     port map(                           
         sys_clk             => sys_clk,
         resetN              => power_resetN,
