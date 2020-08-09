@@ -31,7 +31,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
-use work.POWER_APPROXIMATION_PKG.all;
+use work.COMMON_PACKAGE.all;
 use work.GLOBAL_SETTINGS.all;
 
 entity INSTANT_PWR_CALC_TESTBENCH is

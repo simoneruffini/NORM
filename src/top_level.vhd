@@ -31,10 +31,7 @@ use IEEE.math_real.all;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
-use work.POWER_APPROXIMATION_PKG.all;
-use work.INTERMITTENCY_PKG.all;
 use work.GLOBAL_SETTINGS.all;
-use work.NV_REG_EMULATOR_PKG.all;
 use work.COMMON_PACKAGE.all;
 use work.TEST_MODULE_PACKAGE.all;
 

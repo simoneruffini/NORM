@@ -30,7 +30,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 -- any Xilinx leaf cells in this code.
 --library UNISIM;
 --use UNISIM.VComponents.all;
-use work.INTERMITTENCY_PKG.all;
+use work.COMMON_PACKAGE.all;
 use work.GLOBAL_SETTINGS.all;
 
 

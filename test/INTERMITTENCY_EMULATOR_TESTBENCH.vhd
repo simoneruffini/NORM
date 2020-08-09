@@ -31,7 +31,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
-use work.INTERMITTENCY_PKG.all;
+use work.COMMON_PACKAGE.all;
 use work.GLOBAL_SETTINGS.all;
 
 entity INTERMITTENCY_EMULATOR_TESTBENCH is

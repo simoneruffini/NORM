@@ -7,7 +7,7 @@
          <top_modules>
             <top_module name="INTERMITTENCY_EMULATOR_TESTBENCH" />
             <top_module name="global_settings" />
-            <top_module name="intermittency_pkg" />
+            <top_module name="common_package" />
          </top_modules>
       </db_ref>
    </db_ref_list>

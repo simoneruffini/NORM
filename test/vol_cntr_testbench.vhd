@@ -32,7 +32,6 @@ use IEEE.math_real.all;
 -- any Xilinx leaf cells in this code.
 --library UNISIM;
 --use UNISIM.VComponents.all;
-use work.NV_REG_EMULATOR_PKG.all;
 use work.TEST_MODULE_PACKAGE.all;
 use work.GLOBAL_SETTINGS.ALL;
 

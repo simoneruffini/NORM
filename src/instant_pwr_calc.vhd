@@ -31,7 +31,7 @@ use IEEE.NUMERIC_STD.ALL;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
-use work.POWER_APPROXIMATION_PKG.all;
+use work.COMMON_PACKAGE.all;
 use work.GLOBAL_SETTINGS.all;
 
 entity instant_pwr_calc is

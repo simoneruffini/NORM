@@ -7,7 +7,6 @@
          <top_modules>
             <top_module name="common_package" />
             <top_module name="global_settings" />
-            <top_module name="nv_reg_emulator_pkg" />
             <top_module name="test_module_package" />
             <top_module name="vol_cntr_testbench" />
          </top_modules>

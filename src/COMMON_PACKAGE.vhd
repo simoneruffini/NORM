@@ -4,7 +4,7 @@
 -- 
 -- Create Date: 05/15/2020 07:14:26 PM
 -- Design Name: 
--- Module Name: PACKAGES - Behavioral
+-- Module Name: COMMON_PACKAGE - Behavioral
 -- Project Name: 
 -- Target Devices: 
 -- Tool Versions: 
@@ -33,30 +33,13 @@ use IEEE.NUMERIC_STD.ALL;
 
 use work.GLOBAL_SETTINGS.all;
 
-
-package POWER_APPROXIMATION_PKG is
-    type power_approx_counter_type is array (integer range <>) of integer range 0 to 2**PWR_APPROX_COUNTER_NUM_BITS - 1;
-end package POWER_APPROXIMATION_PKG;
-
-package INTERMITTENCY_PKG is
-    type intermittency_arr_int_type is array (integer range <>) of integer;
-end package INTERMITTENCY_PKG;
-
-package NV_REG_EMULATOR_PKG is
-    type recovery_data_fsm_type is(
-        init_state,
-        start_data_recovery_state,
-        recovery_state,
-        data_recovered_state
-    );
-end package NV_REG_EMULATOR_PKG;
-
 package COMMON_PACKAGE is
-        type PWR_STATES_ARR_TYPE is array(natural range <>) of INTEGER;
-        pure function get_busy_counter_end_value(
-            input_clk_period : INTEGER;  --in nannoseconds
-            max_delay_time: INTEGER  --in nannoseconds
-        ) return INTEGER;
+    type POWER_APPROX_COUNTER_TYPE is array (integer range <>) of INTEGER range 0 to 2**PWR_APPROX_COUNTER_NUM_BITS - 1;
+    type INTERMITTENCY_ARR_INT_TYPE is array (integer range <>) of INTEGER;
+    pure function get_busy_counter_end_value(
+        input_clk_period : INTEGER;  --in nannoseconds
+        max_delay_time: INTEGER  --in nannoseconds
+    ) return INTEGER;
 end package;
 
 library IEEE;

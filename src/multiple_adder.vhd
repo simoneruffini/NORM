@@ -33,7 +33,6 @@ use IEEE.MATH_REAL.ALL;
 --use UNISIM.VComponents.all;
 
 use work.GLOBAL_SETTINGS.all;
-use work.NV_REG_EMULATOR_PKG.all;
 use work.COMMON_PACKAGE.all;
 use work.TEST_MODULE_PACKAGE.all;
 
