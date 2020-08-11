@@ -39,6 +39,6 @@ package GLOBAL_SETTINGS is
     constant INTERMITTENCY_MAX_VAL_ROM_TRACE    : integer := 330;
     constant INTERMITTENCY_PRESCALER            : integer := 16;
     constant INTERMITTENCY_NUM_THRESHOLDS       : integer := 2;
-    constant MASTER_CLK_SPEED                   : INTEGER := 100000000;
-    constant MASTER_CLK_PERIOD_NS               : INTEGER := (1e9/MASTER_CLK_SPEED);
+    constant MASTER_CLK_SPEED_HZ                : INTEGER := 100000000;
+    constant MASTER_CLK_PERIOD_NS               : INTEGER := (1e9/MASTER_CLK_SPEED_HZ);
 end package GLOBAL_SETTINGS;

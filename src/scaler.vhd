@@ -50,6 +50,7 @@ architecture Behavioral of scaler is
         );
         Port ( 
             clk         : in STD_LOGIC;
+            resetN      : in STD_LOGIC;
             INIT        : in STD_LOGIC;
             CE          : in STD_LOGIC;
             TC          : out STD_LOGIC;
@@ -69,6 +70,7 @@ begin
         )
         port map(
             clk     => sys_clk,
+            resetN  => '1',
             INIT    => '0',
             CE      => '1',
             TC      => TC_counter,

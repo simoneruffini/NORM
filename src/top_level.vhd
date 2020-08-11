@@ -38,7 +38,7 @@ use work.TEST_MODULE_PACKAGE.all;
 entity top_level is
     port(
         sys_clk         : in std_logic;
-        global_resetN   : std_logic;
+        global_resetN   : in std_logic;
         val1            : out std_logic_vector(31 downto 0);
         val2            : out std_logic_vector(31 downto 0);
         val3            : out std_logic_vector(31 downto 0)
@@ -91,9 +91,9 @@ architecture Behavioral of top_level is
             nv_reg_addr         : out STD_LOGIC_VECTOR(nv_reg_addr_width_bit-1 DOWNTO 0);
             nv_reg_din          : out STD_LOGIC_VECTOR( 31 DOWNTO 0);
             nv_reg_dout         : in STD_LOGIC_VECTOR( 31 DOWNTO 0);
-            vol_cntr1_val       : out STD_LOGIC_VECTOR( 31 DOWNTO 0);
-            vol_cntr2_val       : out STD_LOGIC_VECTOR( 31 DOWNTO 0);
-            vol_cntr3_val       : out STD_LOGIC_VECTOR( 31 DOWNTO 0)
+            vol_cntr1_value     : out STD_LOGIC_VECTOR( 31 DOWNTO 0);
+            vol_cntr2_value     : out STD_LOGIC_VECTOR( 31 DOWNTO 0);
+            vol_cntr3_value     : out STD_LOGIC_VECTOR( 31 DOWNTO 0)
         );
     end component;
     
@@ -226,9 +226,9 @@ begin
         nv_reg_addr         => nv_reg_addr,
         nv_reg_din          => nv_reg_din,
         nv_reg_dout         => nv_reg_dout,
-        vol_cntr1_val       => val1,
-        vol_cntr2_val       => val2,
-        vol_cntr3_val       => val3
+        vol_cntr1_value     => val1,
+        vol_cntr2_value     => val2,
+        vol_cntr3_value     => val3
     );
     
 --    FSM_NV_REG_1 : fsm_nv_reg_cb
