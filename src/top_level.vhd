@@ -97,6 +97,10 @@ architecture Behavioral of top_level is
         );
     end component;
     
+--    component fsm_nv_reg_cb is
+--        generic(    
+--            PERIOD_BACKUP_CLKS      : integer
+--        );  
     component fsm_nv_reg is
         port ( 
             clk                     : in STD_LOGIC;
@@ -226,6 +230,10 @@ begin
         adder_value         => val
     );
     
+--    FSM_NV_REG_1 : fsm_nv_reg_cb
+--    generic map(
+--        PERIOD_BACKUP_CLKS  => 50
+--    )    
     FSM_NV_REG_1 : fsm_nv_reg
     port map(
         clk             => sys_clk,
