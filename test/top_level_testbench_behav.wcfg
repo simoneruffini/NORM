@@ -64,18 +64,18 @@
       </wvobject>
    </wvobject>
    <wvobject type="group" fp_name="group659">
-      <obj_property name="label">FSM_NV_REG</obj_property>
+      <obj_property name="label">FSM_NV_REG_DB</obj_property>
       <obj_property name="DisplayName">label</obj_property>
       <obj_property name="isExpanded"></obj_property>
-      <wvobject type="logic" fp_name="/top_level_testbench/top_level_1/FSM_NV_REG_1/task_status">
+      <wvobject type="logic" fp_name="/top_level_testbench/top_level_1/FSM_NV_REG_DB_1/task_status">
          <obj_property name="ElementShortName">task_status</obj_property>
          <obj_property name="ObjectShortName">task_status</obj_property>
       </wvobject>
-      <wvobject type="other" fp_name="/top_level_testbench/top_level_1/FSM_NV_REG_1/fsm_state">
+      <wvobject type="other" fp_name="/top_level_testbench/top_level_1/FSM_NV_REG_DB_1/fsm_state">
          <obj_property name="ElementShortName">fsm_state</obj_property>
          <obj_property name="ObjectShortName">fsm_state</obj_property>
       </wvobject>
-      <wvobject type="other" fp_name="/top_level_testbench/top_level_1/FSM_NV_REG_1/thresh_stats">
+      <wvobject type="other" fp_name="/top_level_testbench/top_level_1/FSM_NV_REG_DB_1/thresh_stats">
          <obj_property name="ElementShortName">thresh_stats</obj_property>
          <obj_property name="ObjectShortName">thresh_stats</obj_property>
       </wvobject>

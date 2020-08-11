@@ -101,7 +101,7 @@ architecture Behavioral of top_level is
 --        generic(    
 --            PERIOD_BACKUP_CLKS      : integer
 --        );  
-    component fsm_nv_reg is
+    component fsm_nv_reg_db is
         port ( 
             clk                     : in STD_LOGIC;
             resetN                  : in STD_LOGIC;
@@ -185,7 +185,7 @@ architecture Behavioral of top_level is
     
 begin
     
-    PWR_APPROX_1 : POWER_APPROXIMATION
+    PWR_APPROX_1 : power_approximation
     port map(
         sys_clk                 => sys_clk,
         power_state_en          => power_state_en,
@@ -194,7 +194,7 @@ begin
         power_counter_reset     => power_counter_reset
     );
     
-    INSTANT_PWR_CALC_1 : INSTANT_PWR_CALC
+    INSTANT_PWR_CALC_1 : instant_pwr_calc
     port map(
         sys_clk                 => sys_clk,
         start_evaluation        => start_evaluation,
@@ -204,7 +204,7 @@ begin
         output_data             => output_data
     );
         
-    INTERMITTENCY_EMULATOR_1 : INTERMITTENCY_EMULATOR
+    INTERMITTENCY_EMULATOR_1 : intermittency_emulator
     port map(
         sys_clk             => sys_clk,
         reset_emulator      => reset_emulator,
@@ -235,7 +235,7 @@ begin
 --    generic map(
 --        PERIOD_BACKUP_CLKS  => 50
 --    )    
-    FSM_NV_REG_1 : fsm_nv_reg
+    FSM_NV_REG_1 : fsm_nv_reg_db
     port map(
         clk             => sys_clk,
         resetN          => resetN_emulator,
