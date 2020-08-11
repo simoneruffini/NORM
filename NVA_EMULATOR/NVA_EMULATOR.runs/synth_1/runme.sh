@@ -6,10 +6,14 @@
 # Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 # 
 
+echo "This script was generated under a different operating system."
+echo "Please update the PATH and LD_LIBRARY_PATH variables below, before executing this script"
+exit
+
 if [ -z "$PATH" ]; then
-  PATH=/opt/Xilinx/Vivado/2020.1/ids_lite/ISE/bin/lin64:/opt/Xilinx/Vivado/2020.1/bin
+  PATH=C:/Xilinx/Vivado/2020.1/ids_lite/ISE/bin/nt64;C:/Xilinx/Vivado/2020.1/ids_lite/ISE/lib/nt64:C:/Xilinx/Vivado/2020.1/bin
 else
-  PATH=/opt/Xilinx/Vivado/2020.1/ids_lite/ISE/bin/lin64:/opt/Xilinx/Vivado/2020.1/bin:$PATH
+  PATH=C:/Xilinx/Vivado/2020.1/ids_lite/ISE/bin/nt64;C:/Xilinx/Vivado/2020.1/ids_lite/ISE/lib/nt64:C:/Xilinx/Vivado/2020.1/bin:$PATH
 fi
 export PATH
 
@@ -20,7 +24,7 @@ else
 fi
 export LD_LIBRARY_PATH
 
-HD_PWD='/home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.runs/synth_1'
+HD_PWD='C:/Users/Simone Ruffini/VivadoProjects/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.runs/synth_1'
 cd "$HD_PWD"
 
 HD_LOG=runme.log

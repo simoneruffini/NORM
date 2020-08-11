@@ -4,17 +4,13 @@
 // Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 //
 
-echo "This script was generated under a different operating system."
-echo "Please update the PATH variable below, before executing this script"
-exit
-
 var WshShell = new ActiveXObject( "WScript.Shell" );
 var ProcEnv = WshShell.Environment( "Process" );
 var PathVal = ProcEnv("PATH");
 if ( PathVal.length == 0 ) {
-  PathVal = "/opt/Xilinx/Vivado/2020.1/ids_lite/ISE/bin/lin64;/opt/Xilinx/Vivado/2020.1/bin;";
+  PathVal = "C:/Xilinx/Vivado/2020.1/ids_lite/ISE/bin/nt64;C:/Xilinx/Vivado/2020.1/ids_lite/ISE/lib/nt64;C:/Xilinx/Vivado/2020.1/bin;";
 } else {
-  PathVal = "/opt/Xilinx/Vivado/2020.1/ids_lite/ISE/bin/lin64;/opt/Xilinx/Vivado/2020.1/bin;" + PathVal;
+  PathVal = "C:/Xilinx/Vivado/2020.1/ids_lite/ISE/bin/nt64;C:/Xilinx/Vivado/2020.1/ids_lite/ISE/lib/nt64;C:/Xilinx/Vivado/2020.1/bin;" + PathVal;
 }
 
 ProcEnv("PATH") = PathVal;

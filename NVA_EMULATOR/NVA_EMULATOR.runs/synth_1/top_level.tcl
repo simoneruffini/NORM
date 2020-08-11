@@ -4,7 +4,7 @@
 
 set TIME_start [clock seconds] 
 namespace eval ::optrace {
-  variable script "/home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.runs/synth_1/top_level.tcl"
+  variable script "C:/Users/Simone Ruffini/VivadoProjects/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.runs/synth_1/top_level.tcl"
   variable category "vivado_synth"
 }
 
@@ -70,6 +70,8 @@ proc create_report { reportName command } {
   }
 }
 OPTRACE "synth_1" START { ROLLUP_AUTO }
+set_param chipscope.maxJobs 3
+set_msg_config -id {Common 17-41} -limit 10000000
 OPTRACE "Creating in-memory project" START { }
 create_project -in_memory -part xc7z020clg484-1
 
@@ -77,42 +79,42 @@ set_param project.singleFileAddWarning.threshold 0
 set_param project.compositeFile.enableAutoGeneration 0
 set_param synth.vivado.isSynthRun true
 set_msg_config -source 4 -id {IP_Flow 19-2162} -severity warning -new_severity info
-set_property webtalk.parent_dir /home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.cache/wt [current_project]
-set_property parent.project_path /home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.xpr [current_project]
+set_property webtalk.parent_dir {C:/Users/Simone Ruffini/VivadoProjects/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.cache/wt} [current_project]
+set_property parent.project_path {C:/Users/Simone Ruffini/VivadoProjects/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.xpr} [current_project]
 set_property XPM_LIBRARIES XPM_MEMORY [current_project]
 set_property default_lib xil_defaultlib [current_project]
 set_property target_language VHDL [current_project]
 set_property board_part em.avnet.com:zed:part0:1.4 [current_project]
-set_property ip_output_repo /home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.cache/ip [current_project]
+set_property ip_output_repo {c:/Users/Simone Ruffini/VivadoProjects/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.cache/ip} [current_project]
 set_property ip_cache_permissions {read write} [current_project]
 OPTRACE "Creating in-memory project" END { }
 OPTRACE "Adding files" START { }
 read_vhdl -library xil_defaultlib {
-  /home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/global_settings.vhd
-  /home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/packages.vhd
-  /home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/INSTANT_PWR_CALC.vhd
-  /home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/INTERMITTENCY_EMULATOR.vhd
-  /home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/POWER_APPROXIMATION.vhd
-  /home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/PWR_CONSUMPTION_VAL_ROM.vhd
-  /home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/TEST_MODULE_PACKAGE.vhd
-  /home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/adder.vhd
-  /home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/counter.vhd
-  /home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/fsm_nv_reg.vhd
-  /home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/nv_reg.vhd
-  /home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/nv_reg_emu.vhd
-  /home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/scaler.vhd
-  /home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/trace_ROM.vhd
-  /home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/variable_counter.vhd
-  /home/luca/Documents/git/NonVolatileProcEmul-FPGA/src/top_level.vhd
+  {C:/Users/Simone Ruffini/VivadoProjects/NonVolatileProcEmul-FPGA/src/GLOBAL_SETTINGS.vhd}
+  {C:/Users/Simone Ruffini/VivadoProjects/NonVolatileProcEmul-FPGA/src/COMMON_PACKAGE.vhd}
+  {C:/Users/Simone Ruffini/VivadoProjects/NonVolatileProcEmul-FPGA/src/TEST_MODULE_PACKAGE.vhd}
+  {C:/Users/Simone Ruffini/VivadoProjects/NonVolatileProcEmul-FPGA/src/counter.vhd}
+  {C:/Users/Simone Ruffini/VivadoProjects/NonVolatileProcEmul-FPGA/src/fsm_nv_reg.vhd}
+  {C:/Users/Simone Ruffini/VivadoProjects/NonVolatileProcEmul-FPGA/src/instant_pwr_calc.vhd}
+  {C:/Users/Simone Ruffini/VivadoProjects/NonVolatileProcEmul-FPGA/src/intermittency_emulator.vhd}
+  {C:/Users/Simone Ruffini/VivadoProjects/NonVolatileProcEmul-FPGA/src/nv_reg.vhd}
+  {C:/Users/Simone Ruffini/VivadoProjects/NonVolatileProcEmul-FPGA/src/nv_reg_emu.vhd}
+  {C:/Users/Simone Ruffini/VivadoProjects/NonVolatileProcEmul-FPGA/src/power_approximation.vhd}
+  {C:/Users/Simone Ruffini/VivadoProjects/NonVolatileProcEmul-FPGA/src/pwr_consumption_val_ROM.vhd}
+  {C:/Users/Simone Ruffini/VivadoProjects/NonVolatileProcEmul-FPGA/src/scaler.vhd}
+  {C:/Users/Simone Ruffini/VivadoProjects/NonVolatileProcEmul-FPGA/src/trace_ROM.vhd}
+  {C:/Users/Simone Ruffini/VivadoProjects/NonVolatileProcEmul-FPGA/src/var_counter.vhd}
+  {C:/Users/Simone Ruffini/VivadoProjects/NonVolatileProcEmul-FPGA/src/vol_cntr.vhd}
+  {C:/Users/Simone Ruffini/VivadoProjects/NonVolatileProcEmul-FPGA/src/top_level.vhd}
 }
-read_ip -quiet /home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.srcs/sources_1/ip/blk_mem_gen_1/blk_mem_gen_1.xci
-set_property used_in_implementation false [get_files -all /home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.srcs/sources_1/ip/blk_mem_gen_1/blk_mem_gen_1_ooc.xdc]
+read_ip -quiet {{C:/Users/Simone Ruffini/VivadoProjects/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.srcs/sources_1/ip/blk_mem_gen_0/blk_mem_gen_0.xci}}
+set_property used_in_implementation false [get_files -all {{c:/Users/Simone Ruffini/VivadoProjects/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.srcs/sources_1/ip/blk_mem_gen_0/blk_mem_gen_0_ooc.xdc}}]
 
-read_ip -quiet /home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.srcs/sources_1/ip/blk_mem_gen_0/blk_mem_gen_0.xci
-set_property used_in_implementation false [get_files -all /home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.srcs/sources_1/ip/blk_mem_gen_0/blk_mem_gen_0_ooc.xdc]
+read_ip -quiet {{C:/Users/Simone Ruffini/VivadoProjects/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.srcs/sources_1/ip/xbip_multadd_0/xbip_multadd_0.xci}}
+set_property used_in_implementation false [get_files -all {{c:/Users/Simone Ruffini/VivadoProjects/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.srcs/sources_1/ip/xbip_multadd_0/xbip_multadd_0_ooc.xdc}}]
 
-read_ip -quiet /home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.srcs/sources_1/ip/xbip_multadd_0/xbip_multadd_0.xci
-set_property used_in_implementation false [get_files -all /home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.srcs/sources_1/ip/xbip_multadd_0/xbip_multadd_0_ooc.xdc]
+read_ip -quiet {{C:/Users/Simone Ruffini/VivadoProjects/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.srcs/sources_1/ip/blk_mem_gen_1/blk_mem_gen_1.xci}}
+set_property used_in_implementation false [get_files -all {{c:/Users/Simone Ruffini/VivadoProjects/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.srcs/sources_1/ip/blk_mem_gen_1/blk_mem_gen_1_ooc.xdc}}]
 
 OPTRACE "Adding files" END { }
 # Mark all dcp files as not used in implementation to prevent them from being
@@ -123,8 +125,8 @@ OPTRACE "Adding files" END { }
 foreach dcp [get_files -quiet -all -filter file_type=="Design\ Checkpoint"] {
   set_property used_in_implementation false $dcp
 }
-read_xdc /home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.srcs/constrs_1/new/constraints.xdc
-set_property used_in_implementation false [get_files /home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.srcs/constrs_1/new/constraints.xdc]
+read_xdc {{C:/Users/Simone Ruffini/VivadoProjects/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.srcs/constrs_1/new/constraints.xdc}}
+set_property used_in_implementation false [get_files {{C:/Users/Simone Ruffini/VivadoProjects/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.srcs/constrs_1/new/constraints.xdc}}]
 
 read_xdc dont_touch.xdc
 set_property used_in_implementation false [get_files dont_touch.xdc]

@@ -1,12 +1,12 @@
 #-----------------------------------------------------------
 # Vivado v2020.1 (64-bit)
-# SW Build 2902540 on Wed May 27 19:54:35 MDT 2020
+# SW Build 2902540 on Wed May 27 19:54:49 MDT 2020
 # IP Build 2902112 on Wed May 27 22:43:36 MDT 2020
-# Start of session at: Tue Jul  7 16:56:41 2020
-# Process ID: 35706
-# Current directory: /home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.runs/synth_1
-# Command line: vivado -log top_level.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source top_level.tcl
-# Log file: /home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.runs/synth_1/top_level.vds
-# Journal file: /home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.runs/synth_1/vivado.jou
+# Start of session at: Sun Aug  9 23:45:44 2020
+# Process ID: 17884
+# Current directory: C:/Users/Simone Ruffini/VivadoProjects/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.runs/synth_1
+# Command line: vivado.exe -log top_level.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source top_level.tcl
+# Log file: C:/Users/Simone Ruffini/VivadoProjects/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.runs/synth_1/top_level.vds
+# Journal file: C:/Users/Simone Ruffini/VivadoProjects/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.runs/synth_1\vivado.jou
 #-----------------------------------------------------------
 source top_level.tcl -notrace

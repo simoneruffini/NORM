@@ -81,51 +81,51 @@ create_clock -add -name sys_clk_pin -period 10.00 -waveform {0 5} [get_ports {sy
 # ----------------------------------------------------------------------------
 # JA Pmod - Bank 13
 # ---------------------------------------------------------------------------- 
- set_property PACKAGE_PIN Y11  [get_ports {val[0]}];  # "JA1"
- set_property PACKAGE_PIN AA8  [get_ports {val[1]}];  # "JA10"
- set_property PACKAGE_PIN AA11 [get_ports {val[2]}];  # "JA2"
- set_property PACKAGE_PIN Y10  [get_ports {val[3]}];  # "JA3"
- set_property PACKAGE_PIN AA9  [get_ports {val[4]}];  # "JA4"
- set_property PACKAGE_PIN AB11 [get_ports {val[5]}];  # "JA7"
- set_property PACKAGE_PIN AB10 [get_ports {val[6]}];  # "JA8"
- set_property PACKAGE_PIN AB9  [get_ports {val[7]}];  # "JA9"
+ set_property PACKAGE_PIN Y11  [get_ports {val1[0]}];  # "JA1"
+ set_property PACKAGE_PIN AA8  [get_ports {val1[1]}];  # "JA10"
+ set_property PACKAGE_PIN AA11 [get_ports {val1[2]}];  # "JA2"
+ set_property PACKAGE_PIN Y10  [get_ports {val1[3]}];  # "JA3"
+ set_property PACKAGE_PIN AA9  [get_ports {val1[4]}];  # "JA4"
+ set_property PACKAGE_PIN AB11 [get_ports {val1[5]}];  # "JA7"
+ set_property PACKAGE_PIN AB10 [get_ports {val1[6]}];  # "JA8"
+ set_property PACKAGE_PIN AB9  [get_ports {val1[7]}];  # "JA9"
 
 
 # ----------------------------------------------------------------------------
 # JB Pmod - Bank 13
 # ---------------------------------------------------------------------------- 
- set_property PACKAGE_PIN W12 [get_ports {val[8]}];  # "JB1"
- set_property PACKAGE_PIN V8 [get_ports {val[9]}];  # "JB10"
- set_property PACKAGE_PIN W11 [get_ports {val[10]}];  # "JB2"
- set_property PACKAGE_PIN V10 [get_ports {val[11]}];  # "JB3"
- set_property PACKAGE_PIN W8 [get_ports {val[12]}];  # "JB4"
- set_property PACKAGE_PIN V12 [get_ports {val[13]}];  # "JB7"
- set_property PACKAGE_PIN W10 [get_ports {val[14]}];  # "JB8"
- set_property PACKAGE_PIN V9 [get_ports {val[15]}];  # "JB9"
+ set_property PACKAGE_PIN W12 [get_ports {val1[8]}];  # "JB1"
+ set_property PACKAGE_PIN V8 [get_ports {val1[9]}];  # "JB10"
+ set_property PACKAGE_PIN W11 [get_ports {val1[10]}];  # "JB2"
+ set_property PACKAGE_PIN V10 [get_ports {val1[11]}];  # "JB3"
+ set_property PACKAGE_PIN W8 [get_ports {val1[12]}];  # "JB4"
+ set_property PACKAGE_PIN V12 [get_ports {val1[13]}];  # "JB7"
+ set_property PACKAGE_PIN W10 [get_ports {val1[14]}];  # "JB8"
+ set_property PACKAGE_PIN V9 [get_ports {val1[15]}];  # "JB9"
 
 # ----------------------------------------------------------------------------
 # JC Pmod - Bank 13
 # ---------------------------------------------------------------------------- 
- set_property PACKAGE_PIN AB6 [get_ports {val[16]}];  # "JC1_N"
- set_property PACKAGE_PIN AB7 [get_ports {val[17]}];  # "JC1_P"
- set_property PACKAGE_PIN AA4 [get_ports {val[18]}];  # "JC2_N"
- set_property PACKAGE_PIN Y4  [get_ports {val[19]}];  # "JC2_P"
- set_property PACKAGE_PIN T6  [get_ports {val[20]}];  # "JC3_N"
- set_property PACKAGE_PIN R6  [get_ports {val[21]}];  # "JC3_P"
- set_property PACKAGE_PIN U4  [get_ports {val[22]}];  # "JC4_N"
- set_property PACKAGE_PIN T4  [get_ports {val[23]}];  # "JC4_P"
+ set_property PACKAGE_PIN AB6 [get_ports {val1[16]}];  # "JC1_N"
+ set_property PACKAGE_PIN AB7 [get_ports {val1[17]}];  # "JC1_P"
+ set_property PACKAGE_PIN AA4 [get_ports {val1[18]}];  # "JC2_N"
+ set_property PACKAGE_PIN Y4  [get_ports {val1[19]}];  # "JC2_P"
+ set_property PACKAGE_PIN T6  [get_ports {val1[20]}];  # "JC3_N"
+ set_property PACKAGE_PIN R6  [get_ports {val1[21]}];  # "JC3_P"
+ set_property PACKAGE_PIN U4  [get_ports {val1[22]}];  # "JC4_N"
+ set_property PACKAGE_PIN T4  [get_ports {val1[23]}];  # "JC4_P"
 
 # ----------------------------------------------------------------------------
 # JA Pmod - Bank 13
 # ---------------------------------------------------------------------------- 
- set_property PACKAGE_PIN W7 [get_ports {val[24]}];  # "JD1_N"
- set_property PACKAGE_PIN V7 [get_ports {val[25]}];  # "JD1_P"
- set_property PACKAGE_PIN V4 [get_ports {val[26]}];  # "JD2_N"
- set_property PACKAGE_PIN V5 [get_ports {val[27]}];  # "JD2_P"
- set_property PACKAGE_PIN W5 [get_ports {val[28]}];  # "JD3_N"
- set_property PACKAGE_PIN W6 [get_ports {val[29]}];  # "JD3_P"
- set_property PACKAGE_PIN U5 [get_ports {val[30]}];  # "JD4_N"
- set_property PACKAGE_PIN U6 [get_ports {val[31]}];  # "JD4_P"
+ set_property PACKAGE_PIN W7 [get_ports {val1[24]}];  # "JD1_N"
+ set_property PACKAGE_PIN V7 [get_ports {val1[25]}];  # "JD1_P"
+ set_property PACKAGE_PIN V4 [get_ports {val1[26]}];  # "JD2_N"
+ set_property PACKAGE_PIN V5 [get_ports {val1[27]}];  # "JD2_P"
+ set_property PACKAGE_PIN W5 [get_ports {val1[28]}];  # "JD3_N"
+ set_property PACKAGE_PIN W6 [get_ports {val1[29]}];  # "JD3_P"
+ set_property PACKAGE_PIN U5 [get_ports {val1[30]}];  # "JD4_N"
+ set_property PACKAGE_PIN U6 [get_ports {val1[31]}];  # "JD4_P"
 
 # ----------------------------------------------------------------------------
 # OLED Display - Bank 13

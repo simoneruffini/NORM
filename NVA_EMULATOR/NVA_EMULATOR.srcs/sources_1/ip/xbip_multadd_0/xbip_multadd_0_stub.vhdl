@@ -1,10 +1,10 @@
 -- Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 -- --------------------------------------------------------------------------------
--- Tool Version: Vivado v.2020.1 (lin64) Build 2902540 Wed May 27 19:54:35 MDT 2020
--- Date        : Fri Jul  3 09:38:14 2020
--- Host        : luca-pc running 64-bit Manjaro Linux
--- Command     : write_vhdl -force -mode synth_stub
---               /home/luca/Documents/git/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.srcs/sources_1/ip/xbip_multadd_0/xbip_multadd_0_stub.vhdl
+-- Tool Version: Vivado v.2020.1 (win64) Build 2902540 Wed May 27 19:54:49 MDT 2020
+-- Date        : Sun Aug  9 22:54:22 2020
+-- Host        : DESKTOP-T6ISU8F running 64-bit major release  (build 9200)
+-- Command     : write_vhdl -force -mode synth_stub {c:/Users/Simone
+--               Ruffini/VivadoProjects/NonVolatileProcEmul-FPGA/NVA_EMULATOR/NVA_EMULATOR.srcs/sources_1/ip/xbip_multadd_0/xbip_multadd_0_stub.vhdl}
 -- Design      : xbip_multadd_0
 -- Purpose     : Stub declaration of top-level module interface
 -- Device      : xc7z020clg484-1
