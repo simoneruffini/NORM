@@ -4,7 +4,7 @@
 -- 
 -- Create Date: 06/26/2020 04:48:12 PM
 -- Design Name: 
--- Module Name: vol_cntr_testbench - Behavioral
+-- Module Name: vol_arc_testbench - Behavioral
 -- Project Name: 
 -- Target Devices: 
 -- Tool Versions: 
@@ -35,17 +35,17 @@ use IEEE.math_real.all;
 use work.TEST_MODULE_PACKAGE.all;
 use work.GLOBAL_SETTINGS.ALL;
 
-entity vol_cntr_testbench is
+entity vol_arc_testbench is
 --  Port ( );
-end vol_cntr_testbench;
+end vol_arc_testbench;
 
-architecture Behavioral of vol_cntr_testbench is
+architecture Behavioral of vol_arc_testbench is
     -------------------------------TESTB_INTERNAL_SIGNALS---------------------------------
     signal sys_clk      : STD_LOGIC;
     signal power_resetN : STD_LOGIC;       
     signal resetN       : STD_LOGIC;
     --------------------------------------------------------------------------------------    
-    -------------------------------vol_cntr_SIGNALS---------------------------------------
+    -------------------------------VOL_ARC_SIGNALS----------------------------------------
     signal task_status         : STD_LOGIC;
     signal nv_reg_en           : STD_LOGIC;
     signal nv_reg_busy         : STD_LOGIC;
@@ -64,7 +64,7 @@ architecture Behavioral of vol_cntr_testbench is
 
     
     
-    component vol_cntr is    
+    component vol_arc is    
     port(
         sys_clk             : in STD_LOGIC;
         resetN              : in STD_LOGIC;
@@ -83,7 +83,7 @@ architecture Behavioral of vol_cntr_testbench is
     );
     end component;
     
-    component fsm_nv_reg is
+    component fsm_nv_reg_db is
     port ( 
         clk                     : in STD_LOGIC;
         resetN                  : in STD_LOGIC;
@@ -116,7 +116,7 @@ architecture Behavioral of vol_cntr_testbench is
     
 begin
     
-    ADDR_E: vol_cntr
+    ADDR_E: vol_arc
     port map(                           
         sys_clk             => sys_clk,
         resetN              => power_resetN,
@@ -130,7 +130,7 @@ begin
         nv_reg_din          => nv_reg_din,
         nv_reg_dout         => nv_reg_dout
     );                      
-    FSM_NV_REG_E: fsm_nv_reg
+    FSM_NV_REG_E: fsm_nv_reg_db
     port map( 
         clk             =>sys_clk, 
         resetN          =>power_resetN, 

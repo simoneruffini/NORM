@@ -1,8 +1,10 @@
 TODOS:
-- change `NVA_EMULATOR` folder with `/vivado`
+- rename `vol_cntr` to `vol_arc` (volatile architecture) and keep only the counters with the previous name `vol_cntr`
+- add complete states in `VOL_CNTR_FSM_CMB`: `vol_cntr1_cmpt_s`, `vol_cntr2_cmplt_s`, `vol_cntr3_cmnplt_s` that skip the fetching from `v_reg` when the task is complete
+- serach for framework in overleaf and substiture where needed \nvmef
 - unify projects names and folders
 - set scripts:
-    - create `/script` folder
+    - __[ok]__: create `/script` folder
     - create `generate_project.tcl` that will generate the whole project using the below scripts crated with `generate_scripts.tcl` 
     - create `README.md` inside it
     - generate tcl scripts for:
@@ -10,7 +12,7 @@ TODOS:
         - `write_ip_tcl [get_ips]`: see [Tcl Command Reference](https://www.xilinx.com/support/documentation/sw_manuals/xilinx2019_2/ug835-vivado-tcl-commands.pdf) 
         - `write_xdc`: see above     
     - create `generate_scripts.tcl`: the scritpts differentiate from when they need to be generated during project and when they are run for project generation
-    
+- __[ok]__: change `NVA_EMULATOR` folder with `/vivado`
 -  __[ok]__: add erasing process to vol_cntr during power_off time:  
     After a power failure the contents of the V_REG will remain as it is a BRAM in a powerd FPGA.
     It is the task of the developer to ensure this values are not accessed because in theory they are not available (as a real system would lose them)

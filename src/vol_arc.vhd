@@ -4,7 +4,7 @@
 -- 
 -- Create Date: 06/19/2020 04:37:42 PM
 -- Design Name: 
--- Module Name: vol_cntr - Behavioral
+-- Module Name: vol_arc - Behavioral
 -- Project Name: 
 -- Target Devices: 
 -- Tool Versions: 
@@ -36,7 +36,7 @@ use work.GLOBAL_SETTINGS.all;
 use work.COMMON_PACKAGE.all;
 use work.TEST_MODULE_PACKAGE.all;
 
-entity vol_cntr is    
+entity vol_arc is    
     port(
         sys_clk             : in STD_LOGIC;
         resetN              : in STD_LOGIC;
@@ -53,9 +53,9 @@ entity vol_cntr is
         vol_cntr2_value     : out std_logic_vector(31 DOWNTO 0);
         vol_cntr3_value     : out std_logic_vector(31 DOWNTO 0)
     );
-end vol_cntr;
+end vol_arc;
 
-architecture Behavioral of vol_cntr is
+architecture Behavioral of vol_arc is
     
     COMPONENT blk_mem_gen_0
         PORT (
@@ -112,8 +112,8 @@ architecture Behavioral of vol_cntr is
     signal dina     : std_logic_vector(31 DOWNTO 0);
     signal task_status_internal: STD_LOGIC;
     --------------------------------------------------------------------------------------
-    -------------------------------VOL_CNTR_FSM-------------------------------------------
-    type vol_cntr_fsm_state is(
+    -------------------------------VOL_ARC_FSM--------------------------------------------
+    type vol_arc_fsm_state is(
         power_off_s,
         init_s,
         recovery_s,
@@ -130,7 +130,7 @@ architecture Behavioral of vol_cntr is
         data_save_init_cmplt_s,
         data_save_s
     );    
-    signal present_state, future_state : vol_cntr_fsm_state:= power_off_s;
+    signal present_state, future_state : vol_arc_fsm_state:= power_off_s;
     --------------------------------------------------------------------------------------
     -------------------------------VOL_CNTR_SIGNALS---------------------------------------
     --this signals keep the value of the current volatile counter, we have 3 vol_cntrs that count by summing +1,+2,+3 to them selves
@@ -218,7 +218,7 @@ begin
     -- We will save the restored data in v_reg @ 0x08 and will store the same 3 words
     -- We will save v_reg data in nv_reg @ 0x01 and will store the same 3 words 
     
-    --%%%%%%%%%%%%%%%%%%%% VOL_CNTR CONSTANTS %%%%%%%%%%%%%%%%%%%%%%%
+    --%%%%%%%%%%%%%%%%%%%% VOL_ARC CONSTANTS %%%%%%%%%%%%%%%%%%%%%%%%
     data_rec_nv_reg_start_addr  <= (0 => '1', OTHERS => '0'); -- 1
     data_rec_offset             <= 2; 
     data_rec_v_reg_start_addr   <= (3 => '1', OTHERS => '0'); -- 8
@@ -227,7 +227,7 @@ begin
     data_save_v_reg_offset      <= data_rec_offset;
     --%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
-    ADDR_FSM_SEQ : process(sys_clk, resetN) is
+    VOL_ARC_FSM_SEQ : process(sys_clk, resetN) is
     begin
         if resetN = '0' then
             present_state <= power_off_s;
@@ -236,7 +236,7 @@ begin
         end if;    
     end process;
     
-    ADDR_FSM_CMB : process( present_state, 
+    VOL_ARC_FSM_CMB : process( present_state, 
                             fsm_nv_reg_state, 
                             data_rec_recovered_offset, data_rec_recovered_data, 
                             data_rec_busy,
@@ -370,7 +370,7 @@ begin
                 end if;                                                               
         end case;
     
-    end process;   
+    end process VOL_ARC_FSM_CMB;   
 ------------------------------------------------Multiplexers-----------------------------------------------------------------------
 
     --%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% NV_REG PORTS ACCESS MULTIPLEXER %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

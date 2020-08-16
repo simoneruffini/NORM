@@ -2,25 +2,114 @@
 # Vivado v2020.1 (64-bit)
 # SW Build 2902540 on Wed May 27 19:54:49 MDT 2020
 # IP Build 2902112 on Wed May 27 22:43:36 MDT 2020
-# Start of session at: Tue Aug 11 19:08:48 2020
-# Process ID: 1352
-# Current directory: C:/Users/Simone Ruffini/VivadoProjects/NonVolatileProcEmul-FPGA/vivado
-# Command line: vivado.exe -gui_launcher_event rodinguilauncherevent9784 C:\Users\Simone Ruffini\VivadoProjects\NonVolatileProcEmul-FPGA\vivado\NVA_EMULATOR.xpr
-# Log file: C:/Users/Simone Ruffini/VivadoProjects/NonVolatileProcEmul-FPGA/vivado/vivado.log
-# Journal file: C:/Users/Simone Ruffini/VivadoProjects/NonVolatileProcEmul-FPGA/vivado\vivado.jou
+# Start of session at: Sun Aug 16 13:49:19 2020
+# Process ID: 12332
+# Current directory: C:/Users/Simone Ruffini/VivadoProjects/NVMEF-FPGA/vivado
+# Command line: vivado.exe -gui_launcher_event rodinguilauncherevent9372 C:\Users\Simone Ruffini\VivadoProjects\NVMEF-FPGA\vivado\NVA_EMULATOR.xpr
+# Log file: C:/Users/Simone Ruffini/VivadoProjects/NVMEF-FPGA/vivado/vivado.log
+# Journal file: C:/Users/Simone Ruffini/VivadoProjects/NVMEF-FPGA/vivado\vivado.jou
 #-----------------------------------------------------------
 start_gui
-open_project {C:/Users/Simone Ruffini/VivadoProjects/NonVolatileProcEmul-FPGA/vivado/NVA_EMULATOR.xpr}
-INFO: [Project 1-313] Project file moved from 'C:/Users/Simone Ruffini/VivadoProjects/NonVolatileProcEmul-FPGA/NVA_EMULATOR' since last save.
-CRITICAL WARNING: [Project 1-19] Could not find the file 'C:/Users/Simone Ruffini/VivadoProjects/NonVolatileProcEmul-FPGA/test/vol_cntr_testbench_behav.wcfg'.
+open_project {C:/Users/Simone Ruffini/VivadoProjects/NVMEF-FPGA/vivado/NVA_EMULATOR.xpr}
 Scanning sources...
 Finished scanning sources
 INFO: [IP_Flow 19-234] Refreshing IP repositories
 INFO: [IP_Flow 19-1704] No user IP repositories specified
 INFO: [IP_Flow 19-2313] Loaded Vivado IP repository 'C:/Xilinx/Vivado/2020.1/data/ip'.
-open_project: Time (s): cpu = 00:00:18 ; elapsed = 00:00:10 . Memory (MB): peak = 1021.391 ; gain = 0.000
+open_project: Time (s): cpu = 00:00:26 ; elapsed = 00:00:11 . Memory (MB): peak = 1021.516 ; gain = 0.000
+set_property top fsm_nv_reg_db_testbench [get_filesets sim_1]
+set_property top_lib xil_defaultlib [get_filesets sim_1]
+set_property is_enabled true [get_files  {{C:/Users/Simone Ruffini/VivadoProjects/NVMEF-FPGA/test/top_level_testbench.vhd}}]
+set_property is_enabled true [get_files  {{C:/Users/Simone Ruffini/VivadoProjects/NVMEF-FPGA/test/INTERMITTENCY_EMULATOR_TESTBENCH.vhd}}]
+set_property is_enabled true [get_files  {{C:/Users/Simone Ruffini/VivadoProjects/NVMEF-FPGA/test/INSTANT_PWR_CALC_TESTBENCH.vhd}}]
+set_property source_mgmt_mode All [current_project]
 update_compile_order -fileset sources_1
-set_property source_mgmt_mode None [current_project]
-export_ip_user_files -of_objects  [get_files {{C:/Users/Simone Ruffini/VivadoProjects/NonVolatileProcEmul-FPGA/vivado/NVA_EMULATOR.srcs/sources_1/new/fsm_nv_reg_cb.vhd}}] -no_script -reset -force -quiet
-remove_files  {{C:/Users/Simone Ruffini/VivadoProjects/NonVolatileProcEmul-FPGA/vivado/NVA_EMULATOR.srcs/sources_1/new/fsm_nv_reg_cb.vhd}}
-add_files -norecurse {{C:/Users/Simone Ruffini/VivadoProjects/NonVolatileProcEmul-FPGA/src/fsm_nv_reg_cb.vhd}}
+update_compile_order -fileset sim_1
+set_property is_enabled true [get_files  {{C:/Users/Simone Ruffini/VivadoProjects/NVMEF-FPGA/test/fsm_nv_reg_db_testbench.wcfg}}]
+set_property is_enabled false [get_files  {{C:/Users/Simone Ruffini/VivadoProjects/NVMEF-FPGA/test/fsm_nv_reg_db_testbench.wcfg}}]
+set_property is_enabled false [get_files  {{C:/Users/Simone Ruffini/VivadoProjects/NVMEF-FPGA/test/vol_arc_testbench.wcfg}}]
+set_property is_enabled true [get_files  {{C:/Users/Simone Ruffini/VivadoProjects/NVMEF-FPGA/test/fsm_nv_reg_db_testbench.wcfg}}]
+launch_simulation
+Command: launch_simulation 
+INFO: [Vivado 12-5698] Checking validity of IPs in the design for the 'XSim' simulator...
+INFO: [Vivado 12-5682] Launching behavioral simulation in 'C:/Users/Simone Ruffini/VivadoProjects/NVMEF-FPGA/vivado/NVA_EMULATOR.sim/sim_1/behav/xsim'
+INFO: [Vivado 12-4795] Using compiled simulation libraries for IPs
+INFO: [SIM-utils-51] Simulation object is 'sim_1'
+INFO: [USF-XSim-7] Finding pre-compiled libraries...
+INFO: [USF-XSim-11] File 'C:/Xilinx/Vivado/2020.1/data/xsim/xsim.ini' copied to run dir:'C:/Users/Simone Ruffini/VivadoProjects/NVMEF-FPGA/vivado/NVA_EMULATOR.sim/sim_1/behav/xsim'
+INFO: [SIM-utils-54] Inspecting design source files for 'fsm_nv_reg_db_testbench' in fileset 'sim_1'...
+INFO: [USF-XSim-97] Finding global include files...
+INFO: [USF-XSim-98] Fetching design files from 'sim_1'...
+INFO: [USF-XSim-2] XSim::Compile design
+INFO: [USF-XSim-61] Executing 'COMPILE and ANALYZE' step in 'C:/Users/Simone Ruffini/VivadoProjects/NVMEF-FPGA/vivado/NVA_EMULATOR.sim/sim_1/behav/xsim'
+"xvhdl --incr --relax -prj fsm_nv_reg_db_testbench_vhdl.prj"
+INFO: [USF-XSim-69] 'compile' step finished in '2' seconds
+INFO: [USF-XSim-3] XSim::Elaborate design
+INFO: [USF-XSim-61] Executing 'ELABORATE' step in 'C:/Users/Simone Ruffini/VivadoProjects/NVMEF-FPGA/vivado/NVA_EMULATOR.sim/sim_1/behav/xsim'
+"xelab -wto 6c784a65724441bda61cf5a117c436ee --incr --debug typical --relax --mt 2 -L xil_defaultlib -L secureip -L xpm --snapshot fsm_nv_reg_db_testbench_behav xil_defaultlib.fsm_nv_reg_db_testbench -log elaborate.log"
+Vivado Simulator 2020.1
+Copyright 1986-1999, 2001-2020 Xilinx, Inc. All Rights Reserved.
+Running: C:/Xilinx/Vivado/2020.1/bin/unwrapped/win64.o/xelab.exe -wto 6c784a65724441bda61cf5a117c436ee --incr --debug typical --relax --mt 2 -L xil_defaultlib -L secureip -L xpm --snapshot fsm_nv_reg_db_testbench_behav xil_defaultlib.fsm_nv_reg_db_testbench -log elaborate.log 
+Using 2 slave threads.
+Starting static elaboration
+Completed static elaboration
+Starting simulation data flow analysis
+Completed simulation data flow analysis
+Time Resolution for simulation is 1ps
+Compiling package std.standard
+Compiling package std.textio
+Compiling package ieee.std_logic_1164
+Compiling package ieee.numeric_std
+Compiling package xil_defaultlib.global_settings
+Compiling package xil_defaultlib.common_package
+Compiling package ieee.math_real
+Compiling package xil_defaultlib.test_module_package
+Compiling architecture behavioral of entity xil_defaultlib.fsm_nv_reg_db [fsm_nv_reg_db_default]
+Compiling architecture behavioral of entity xil_defaultlib.fsm_nv_reg_db_testbench
+Built simulation snapshot fsm_nv_reg_db_testbench_behav
+
+****** Webtalk v2020.1 (64-bit)
+  **** SW Build 2902540 on Wed May 27 19:54:49 MDT 2020
+  **** IP Build 2902112 on Wed May 27 22:43:36 MDT 2020
+    ** Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
+
+source C:/Users/Simone -notrace
+invalid command name "Invalid"
+    while executing
+"Invalid number of parameters"
+    (file "C:/Users/Simone" line 1)
+INFO: [Common 17-206] Exiting Webtalk at Sun Aug 16 13:56:35 2020...
+run_program: Time (s): cpu = 00:00:01 ; elapsed = 00:00:09 . Memory (MB): peak = 1021.516 ; gain = 0.000
+INFO: [USF-XSim-69] 'elaborate' step finished in '8' seconds
+INFO: [USF-XSim-4] XSim::Simulate design
+INFO: [USF-XSim-61] Executing 'SIMULATE' step in 'C:/Users/Simone Ruffini/VivadoProjects/NVMEF-FPGA/vivado/NVA_EMULATOR.sim/sim_1/behav/xsim'
+INFO: [USF-XSim-98] *** Running xsim
+   with args "fsm_nv_reg_db_testbench_behav -key {Behavioral:sim_1:Functional:fsm_nv_reg_db_testbench} -tclbatch {fsm_nv_reg_db_testbench.tcl} -view {{C:/Users/Simone Ruffini/VivadoProjects/NVMEF-FPGA/test/fsm_nv_reg_db_testbench.wcfg}} -log {simulate.log}"
+INFO: [USF-XSim-8] Loading simulator feature
+Vivado Simulator 2020.1
+Time resolution is 1 ps
+open_wave_config {C:/Users/Simone Ruffini/VivadoProjects/NVMEF-FPGA/test/fsm_nv_reg_db_testbench.wcfg}
+source fsm_nv_reg_db_testbench.tcl
+# set curr_wave [current_wave_config]
+# if { [string length $curr_wave] == 0 } {
+#   if { [llength [get_objects]] > 0} {
+#     add_wave /
+#     set_property needs_save false [current_wave_config]
+#   } else {
+#      send_msg_id Add_Wave-1 WARNING "No top level signals found. Simulator will start without a wave window. If you want to open a wave window go to 'File->New Waveform Configuration' or type 'create_wave_config' in the TCL console."
+#   }
+# }
+# run 1us
+xsim: Time (s): cpu = 00:00:14 ; elapsed = 00:00:06 . Memory (MB): peak = 1021.516 ; gain = 0.000
+INFO: [USF-XSim-96] XSim completed. Design snapshot 'fsm_nv_reg_db_testbench_behav' loaded.
+INFO: [USF-XSim-97] XSim simulation ran for 1us
+launch_simulation: Time (s): cpu = 00:00:21 ; elapsed = 00:00:21 . Memory (MB): peak = 1021.516 ; gain = 0.000
+run 800 ns
+restart
+INFO: [Simtcl 6-17] Simulation restarted
+run 800 ns
+save_wave_config {C:/Users/Simone Ruffini/VivadoProjects/NVMEF-FPGA/test/fsm_nv_reg_db_testbench.wcfg}
+close_sim
+INFO: [Simtcl 6-16] Simulation closed
+exit
+INFO: [Common 17-206] Exiting Vivado at Sun Aug 16 14:00:23 2020...
