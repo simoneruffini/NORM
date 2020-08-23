@@ -43,8 +43,8 @@ entity fsm_nv_reg_cb is
         resetN                  : in STD_LOGIC;
         thresh_stats            : in threshold_t;
         task_status             : in STD_LOGIC;
-        status                  : out fsm_nv_reg_state_t;
-        status_sig              : out fsm_nv_reg_state_t --used with care (it is the future state of the machine, and it is combinatory so it is prone to glitces)
+        fsm_state               : out fsm_nv_reg_state_t;
+        fsm_state_sig           : out fsm_nv_reg_state_t --used with care (it is the future state of the machine, and it is combinatory so it is prone to glitces)
     );
 end fsm_nv_reg_cb;
 
@@ -65,6 +65,7 @@ architecture Behavioral of fsm_nv_reg_cb is
         );
         Port ( 
             clk         : in STD_LOGIC;
+            resetN      : in STD_LOGIC;
             INIT        : in STD_LOGIC;
             CE          : in STD_LOGIC;
             TC          : out STD_LOGIC;
@@ -84,6 +85,7 @@ begin
     )
     port map(
         clk         => clk,
+        resetN      => resetN,
         INIT        => CB_count_init,
         CE          => CB_count_CE,
         TC          => CB_count_TC,
@@ -91,25 +93,25 @@ begin
     );
     
     FSM_MV_REG_SEQ: process (clk,resetN) is 
-    variable do_operation_s_slack: INTEGER RANGE 0 to max_slack;
+--    variable do_operation_s_slack: INTEGER RANGE 0 to max_slack;
     begin
         if resetN = '0' then
             present_state <= shutdown_s;
-            do_operation_s_slack := 0;
+--            do_operation_s_slack := 0;
         elsif rising_edge(clk) then
             present_state <= future_state;
-            if(present_state = do_operation_s AND do_operation_s_slack < max_slack ) then
-                present_state <= do_operation_s;
-                do_operation_s_slack := do_operation_s_slack + 1;
-            else
-                do_operation_s_slack := 0;
-            end if;
+--            if(present_state = do_operation_s AND do_operation_s_slack < max_slack ) then
+--                present_state <= do_operation_s;
+--                do_operation_s_slack := do_operation_s_slack + 1;
+--            else
+--                do_operation_s_slack := 0;
+--            end if;
         end if;  
     end process;
     
     
     
-    FSM_NV_REG_FUTURE: process(present_state,thresh_stats,task_status) is 
+    FSM_NV_REG_FUTURE: process(present_state,thresh_stats,task_status,CB_count_TC) is 
     begin
         future_state <= present_state; -- default do nothing
         CB_count_CE <= '0';
@@ -149,8 +151,8 @@ begin
         end case;
     end process FSM_NV_REG_FUTURE;
     
-    status <= present_state;
-    status_sig <= future_state;
+    fsm_state <= present_state;
+    fsm_state_sig <= future_state;
     
 
 
