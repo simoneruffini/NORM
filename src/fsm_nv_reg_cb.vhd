@@ -41,7 +41,6 @@ entity fsm_nv_reg_cb is
     port ( 
         clk                     : in STD_LOGIC;
         resetN                  : in STD_LOGIC;
-        thresh_stats            : in threshold_t;
         task_status             : in STD_LOGIC;
         fsm_state               : out fsm_nv_reg_state_t;
         fsm_state_sig           : out fsm_nv_reg_state_t --used with care (it is the future state of the machine, and it is combinatory so it is prone to glitces)
@@ -111,7 +110,7 @@ begin
     
     
     
-    FSM_NV_REG_FUTURE: process(present_state,thresh_stats,task_status,CB_count_TC) is 
+    FSM_NV_REG_FUTURE: process(present_state,task_status,CB_count_TC) is 
     begin
         future_state <= present_state; -- default do nothing
         CB_count_CE <= '0';
