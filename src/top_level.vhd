@@ -97,20 +97,50 @@ architecture Behavioral of top_level is
         );
     end component;
     
+    -- To use the DYNAMIC BACKUP architecture uncomment the following part
+    -----------------------------------------------------------------------
+--    component fsm_nv_reg_db is
+--        port ( 
+--            clk                     : in STD_LOGIC;
+--            resetN                  : in STD_LOGIC;
+--            thresh_stats            : in threshold_t;
+--            task_status             : in STD_LOGIC;
+--            fsm_state               : out fsm_nv_reg_state_t;
+--            fsm_state_sig           : out fsm_nv_reg_state_t --used with care (it is the future state of the machine, and it is combinatory so it is prone to glitces)
+--        );
+--    end component;
+    -----------------------------------------------------------------------
+    
+    
+    -- To use the CONSTANT PERIOD BACKUP architecture uncomment the following part
+    -----------------------------------------------------------------------
     component fsm_nv_reg_cb is
         generic(    
             PERIOD_BACKUP_CLKS      : integer
         );  
---    component fsm_nv_reg_db is
         port ( 
             clk                     : in STD_LOGIC;
             resetN                  : in STD_LOGIC;
-            thresh_stats            : in threshold_t;
             task_status             : in STD_LOGIC;
             fsm_state               : out fsm_nv_reg_state_t;
             fsm_state_sig           : out fsm_nv_reg_state_t --used with care (it is the future state of the machine, and it is combinatory so it is prone to glitces)
         );
     end component;
+    -----------------------------------------------------------------------
+    
+    -- To use the TASK BACKUP architecture uncomment the following part
+    -----------------------------------------------------------------------
+--    component fsm_nv_reg_tb is
+--        port ( 
+--            clk                     : in STD_LOGIC;
+--            resetN                  : in STD_LOGIC;
+--            volatile_counter_val    : in STD_LOGIC_VECTOR(31 downto 0);
+--            task_status             : in STD_LOGIC;
+--            fsm_state               : out fsm_nv_reg_state_t;
+--            fsm_state_sig           : out fsm_nv_reg_state_t --used with care (it is the future state of the machine, and it is combinatory so it is prone to glitces)
+--        );
+--    end component;
+    -----------------------------------------------------------------------
     
     component nv_reg is
         generic(
@@ -183,6 +213,7 @@ architecture Behavioral of top_level is
     );  
     signal present_state :  state_type := wait_state;
     
+    signal val1_sig, val2_sig, val3_sig : std_logic_vector(31 downto 0); 
 begin
     
     PWR_APPROX_1 : power_approximation
@@ -226,24 +257,53 @@ begin
         nv_reg_addr         => nv_reg_addr,
         nv_reg_din          => nv_reg_din,
         nv_reg_dout         => nv_reg_dout,
-        vol_cntr1_value     => val1,
-        vol_cntr2_value     => val2,
-        vol_cntr3_value     => val3
+        vol_cntr1_value     => val1_sig,
+        vol_cntr2_value     => val2_sig,
+        vol_cntr3_value     => val3_sig
     );
     
+    -- To use the DYNAMIC BACKUP architecture uncomment the following part
+    -----------------------------------------------------------------------
+--    FSM_NV_REG_1 : fsm_nv_reg_db
+--    port map(
+--        clk             => sys_clk,
+--        resetN          => resetN_emulator,
+--        thresh_stats    => fsm_nv_reg_thresh_stats,
+--        task_status     => fsm_nv_reg_task_status,       
+--        fsm_state       => fsm_nv_reg_state_internal,
+--        fsm_state_sig   => fsm_nv_reg_state_sig_internal
+--    );
+    -----------------------------------------------------------------------
+    
+    -- To use the CONSTANT PERIOD BACKUP architecture uncomment the following part
+    -----------------------------------------------------------------------
     FSM_NV_REG_1 : fsm_nv_reg_cb
     generic map(
-        PERIOD_BACKUP_CLKS  => 1000
-    )    
---    FSM_NV_REG_1 : fsm_nv_reg_db
-    port map(
+        PERIOD_BACKUP_CLKS  => 975
+    )   port map(
         clk             => sys_clk,
         resetN          => resetN_emulator,
-        thresh_stats    => fsm_nv_reg_thresh_stats,
         task_status     => fsm_nv_reg_task_status,       
         fsm_state       => fsm_nv_reg_state_internal,
         fsm_state_sig   => fsm_nv_reg_state_sig_internal
     );
+    -----------------------------------------------------------------------
+    
+    -- To use the TASK BACKUP architecture uncomment the following part
+    -----------------------------------------------------------------------
+--    FSM_NV_REG_1 : fsm_nv_reg_tb
+--    port map(
+--        clk                     => sys_clk,
+--        resetN                  => resetN_emulator,
+--        volatile_counter_val    => val1_sig,
+--        task_status             => fsm_nv_reg_task_status,       
+--        fsm_state               => fsm_nv_reg_state_internal,
+--        fsm_state_sig           => fsm_nv_reg_state_sig_internal
+--    );
+    -----------------------------------------------------------------------
+    
+    
+    
 
     NV_REG_1 : nv_reg
     generic map(
@@ -284,5 +344,9 @@ begin
     
     fsm_nv_reg_thresh_stats <= hazard when threshold_compared(1) = '1' else nothing; 
                                
+    val1 <= val1_sig;
+    val2 <= val2_sig;
+    val3 <= val3_sig;
+    
 
 end Behavioral;
