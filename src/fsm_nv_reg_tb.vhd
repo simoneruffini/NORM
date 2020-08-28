@@ -2,9 +2,9 @@
 -- Company: 
 -- Engineer: 
 -- 
--- Create Date: 08/10/2020 04:16:02 PM
+-- Create Date: 08/24/2020 06:04:01 PM
 -- Design Name: 
--- Module Name: fsm_nv_reg_cb - Behavioral
+-- Module Name: fsm_nv_reg_tb - Behavioral
 -- Project Name: 
 -- Target Devices: 
 -- Tool Versions: 
@@ -24,74 +24,34 @@ use IEEE.STD_LOGIC_1164.ALL;
 
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
---use IEEE.NUMERIC_STD.ALL;
+use IEEE.NUMERIC_STD.ALL;
 
 -- Uncomment the following library declaration if instantiating
 -- any Xilinx leaf cells in this code.
 --library UNISIM;
 --use UNISIM.VComponents.all;
 use work.COMMON_PACKAGE.all;
-use work.TEST_ARCHITECTURE_PACKAGE.all;
+use work.TEST_MODULE_PACKAGE.all;
 
-
-entity fsm_nv_reg_cb is
-    generic(
-        PERIOD_BACKUP_CLKS      : integer
-    );    
+entity fsm_nv_reg_tb is
     port ( 
         clk                     : in STD_LOGIC;
         resetN                  : in STD_LOGIC;
+        volatile_counter_val    : in STD_LOGIC_VECTOR(31 downto 0);
         task_status             : in STD_LOGIC;
         fsm_state               : out fsm_nv_reg_state_t;
         fsm_state_sig           : out fsm_nv_reg_state_t --used with care (it is the future state of the machine, and it is combinatory so it is prone to glitces)
     );
-end fsm_nv_reg_cb;
+end fsm_nv_reg_tb;
 
-architecture Behavioral of fsm_nv_reg_cb is
+architecture Behavioral of fsm_nv_reg_tb is
+
     signal present_state, future_state : fsm_nv_reg_state_t;
     constant max_slack: INTEGER := 10;
-    
-    signal CB_count_init    : std_logic := '0';                 
-    signal CB_count_CE      : std_logic := '0';
-    signal CB_count_TC      : std_logic;
-    signal CB_count_val     : integer range 0 to PERIOD_BACKUP_CLKS;
-    
-    component counter is
-        Generic(
-            MAX         : INTEGER;
-            INIT_VALUE  : INTEGER;
-            INCREASE_BY : INTEGER
-        );
-        Port ( 
-            clk         : in STD_LOGIC;
-            resetN      : in STD_LOGIC;
-            INIT        : in STD_LOGIC;
-            CE          : in STD_LOGIC;
-            TC          : out STD_LOGIC;
-            value       : out INTEGER RANGE 0 TO MAX
-        );
-        
-        
-    end component;
-    
+    constant task_complete_val_counter : INTEGER :=  25;
 begin
     
-    COUTER : counter 
-    generic map(
-        MAX         => PERIOD_BACKUP_CLKS,
-        INIT_VALUE  => 0,
-        INCREASE_BY => 1
-    )
-    port map(
-        clk         => clk,
-        resetN      => resetN,
-        INIT        => CB_count_init,
-        CE          => CB_count_CE,
-        TC          => CB_count_TC,
-        value       => CB_count_val
-    );
-    
-    FSM_MV_REG_SEQ: process (clk,resetN) is 
+    FSM_NV_REG_DB_SEQ: process (clk,resetN) is 
 --    variable do_operation_s_slack: INTEGER RANGE 0 to max_slack;
     begin
         if resetN = '0' then
@@ -110,11 +70,10 @@ begin
     
     
     
-    FSM_NV_REG_FUTURE: process(present_state,task_status,CB_count_TC) is 
+    FSM_NV_REG_DB_FUTURE: process(present_state,task_status, volatile_counter_val) is 
+    variable last_val : integer := 0;
     begin
         future_state <= present_state; -- default do nothing
-        CB_count_CE <= '0';
-        CB_count_init <= '1';
         case present_state is
             when shutdown_s =>
                 future_state <= init_s;
@@ -131,10 +90,9 @@ begin
             when data_recovered_s =>
                 future_state <= do_operation_s;
             when do_operation_s =>
-                CB_count_CE <= '1';
-                CB_count_init <= '0';
-                if(CB_count_TC = '1') then
+                if ((to_integer(unsigned(volatile_counter_val)) mod task_complete_val_counter) = 0) and (to_integer(unsigned(volatile_counter_val)) /= last_val)  then
                     future_state <= start_data_save_s;
+                    last_val := to_integer(unsigned(volatile_counter_val));
                 end if;
             when start_data_save_s =>
                 if(task_status = '1') then
@@ -148,11 +106,10 @@ begin
                 future_state <= do_operation_s;
             when others =>
         end case;
-    end process FSM_NV_REG_FUTURE;
+    end process FSM_NV_REG_DB_FUTURE;
     
     fsm_state <= present_state;
     fsm_state_sig <= future_state;
-    
 
 
 end Behavioral;
