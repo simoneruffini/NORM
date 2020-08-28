@@ -51,8 +51,9 @@ package TEST_ARCHITECTURE_PACKAGE is
         waring,
         nothing
     );
+
     constant V_REG_WIDTH: INTEGER := 65536;
-    constant v_reg_addr_width_bit : INTEGER := integer(ceil(log2(real(V_REG_WIDTH))));
+
 end package;
 package body TEST_ARCHITECTURE_PACKAGE is 
 end package body TEST_ARCHITECTURE_PACKAGE;
