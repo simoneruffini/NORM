@@ -48,29 +48,30 @@ architecture Behavioral of fsm_nv_reg_tb is
 
     signal present_state, future_state : fsm_nv_reg_state_t;
     constant max_slack: INTEGER := 10;
-    constant task_complete_val_counter : INTEGER := 100;
+    constant task_complete_val_counter : INTEGER :=  25;
 begin
     
     FSM_NV_REG_DB_SEQ: process (clk,resetN) is 
-    variable do_operation_s_slack: INTEGER RANGE 0 to max_slack;
+--    variable do_operation_s_slack: INTEGER RANGE 0 to max_slack;
     begin
         if resetN = '0' then
             present_state <= shutdown_s;
-            do_operation_s_slack := 0;
+--            do_operation_s_slack := 0;
         elsif rising_edge(clk) then
             present_state <= future_state;
-            if(present_state = do_operation_s AND do_operation_s_slack < max_slack ) then
-                present_state <= do_operation_s;
-                do_operation_s_slack := do_operation_s_slack + 1;
-            else
-                do_operation_s_slack := 0;
-            end if;
+--            if(present_state = do_operation_s AND do_operation_s_slack < max_slack ) then
+--                present_state <= do_operation_s;
+--                do_operation_s_slack := do_operation_s_slack + 1;
+--            else
+--                do_operation_s_slack := 0;
+--            end if;
         end if;  
     end process;
     
     
     
     FSM_NV_REG_DB_FUTURE: process(present_state,task_status, volatile_counter_val) is 
+    variable last_val : integer := 0;
     begin
         future_state <= present_state; -- default do nothing
         case present_state is
@@ -89,8 +90,9 @@ begin
             when data_recovered_s =>
                 future_state <= do_operation_s;
             when do_operation_s =>
-                if (to_integer(unsigned(volatile_counter_val)) mod task_complete_val_counter) = 0  then
+                if ((to_integer(unsigned(volatile_counter_val)) mod task_complete_val_counter) = 0) and (to_integer(unsigned(volatile_counter_val)) /= last_val)  then
                     future_state <= start_data_save_s;
+                    last_val := to_integer(unsigned(volatile_counter_val));
                 end if;
             when start_data_save_s =>
                 if(task_status = '1') then
