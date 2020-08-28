@@ -31,8 +31,9 @@ use IEEE.NUMERIC_STD.ALL;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
-use work.TEST_MODULE_PACKAGE.ALL;
-use work.GLOBAL_SETTINGS.ALL;
+use work.COMMON_PACKAGE.ALL;
+use work.TEST_ARCHITECTURE_PACKAGE.ALL;
+use work.NVME_FRAMEWORK_PACKAGE.ALL;
 
 entity nv_reg_emu_testbench is
 --  Port ( );

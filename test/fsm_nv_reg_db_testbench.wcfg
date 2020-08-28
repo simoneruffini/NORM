@@ -7,8 +7,8 @@
          <top_modules>
             <top_module name="common_package" />
             <top_module name="fsm_nv_reg_db_testbench" />
-            <top_module name="global_settings" />
-            <top_module name="test_module_package" />
+            <top_module name="nvme_framework_package" />
+            <top_module name="test_architecture_package" />
          </top_modules>
       </db_ref>
    </db_ref_list>

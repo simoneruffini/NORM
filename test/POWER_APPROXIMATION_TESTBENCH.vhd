@@ -4,7 +4,7 @@
 -- 
 -- Create Date: 05/15/2020 10:00:25 PM
 -- Design Name: 
--- Module Name: POWER_APPROXIMATION_TESTBENCH - Behavioral
+-- Module Name: power_approximation_testbench - Behavioral
 -- Project Name: 
 -- Target Devices: 
 -- Tool Versions: 
@@ -32,13 +32,13 @@ use IEEE.STD_LOGIC_1164.ALL;
 --use UNISIM.VComponents.all;
 
 use work.COMMON_PACKAGE.all;
-use work.GLOBAL_SETTINGS.all;
+use work.NVME_FRAMEWORK_PACKAGE.all;
 
-entity POWER_APPROXIMATION_TESTBENCH is
+entity power_approximation_testbench is
 --  Port ( );
-end POWER_APPROXIMATION_TESTBENCH;
+end power_approximation_testbench;
 
-architecture Behavioral of POWER_APPROXIMATION_TESTBENCH is
+architecture Behavioral of power_approximation_testbench is
     component POWER_APPROXIMATION is
         port(
             sys_clk                 : in std_logic;

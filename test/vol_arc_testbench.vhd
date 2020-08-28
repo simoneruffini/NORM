@@ -32,8 +32,10 @@ use IEEE.math_real.all;
 -- any Xilinx leaf cells in this code.
 --library UNISIM;
 --use UNISIM.VComponents.all;
-use work.TEST_MODULE_PACKAGE.all;
-use work.GLOBAL_SETTINGS.ALL;
+
+use work.COMMON_PACKAGE.ALL;
+use work.NVME_FRAMEWORK_PACKAGE.ALL;
+use work.TEST_ARCHITECTURE_PACKAGE.all;
 
 entity vol_arc_testbench is
 --  Port ( );
@@ -54,6 +56,9 @@ architecture Behavioral of vol_arc_testbench is
     signal nv_reg_addr         : STD_LOGIC_VECTOR(nv_reg_addr_width_bit-1 DOWNTO 0);
     signal nv_reg_din          : STD_LOGIC_VECTOR( 31 DOWNTO 0);
     signal nv_reg_dout         : STD_LOGIC_VECTOR( 31 DOWNTO 0);
+    signal vol_cntr1_value     : std_logic_vector(31 DOWNTO 0);
+    signal vol_cntr2_value     : std_logic_vector(31 DOWNTO 0);
+    signal vol_cntr3_value     : std_logic_vector(31 DOWNTO 0);
     --------------------------------------------------------------------------------------
     -------------------------------FSM_NV_REG_SIGNALS-------------------------------------
     signal thresh_stats         : threshold_t;
@@ -128,7 +133,11 @@ begin
         nv_reg_we           => nv_reg_we,
         nv_reg_addr         => nv_reg_addr,
         nv_reg_din          => nv_reg_din,
-        nv_reg_dout         => nv_reg_dout
+        nv_reg_dout         => nv_reg_dout,
+        vol_cntr1_value     => vol_cntr1_value,
+        vol_cntr2_value     => vol_cntr2_value,
+        vol_cntr3_value     => vol_cntr3_value
+        
     );                      
     FSM_NV_REG_E: fsm_nv_reg_db
     port map( 

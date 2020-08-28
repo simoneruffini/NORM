@@ -4,7 +4,7 @@
 -- 
 -- Create Date: 07/02/2020 10:37:15 PM
 -- Design Name: 
--- Module Name: TEST_MODULE_PACKAGE - Behavioral
+-- Module Name: TEST_ARCHITECTURE_PACKAGE - Behavioral
 -- Project Name: 
 -- Target Devices: 
 -- Tool Versions: 
@@ -26,14 +26,14 @@ use IEEE.STD_LOGIC_1164.ALL;
 -- arithmetic functions with Signed or Unsigned values
 --use IEEE.NUMERIC_STD.ALL;
 use IEEE.MATH_REAL.ALL;
-use work.GLOBAL_SETTINGS.ALL;
+use work.NVME_FRAMEWORK_PACKAGE.ALL;
 
 -- Uncomment the following library declaration if instantiating
 -- any Xilinx leaf cells in this code.
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
-package TEST_MODULE_PACKAGE is
+package TEST_ARCHITECTURE_PACKAGE is
     type fsm_nv_reg_state_t is(
         shutdown_s,
         init_s,
@@ -51,11 +51,8 @@ package TEST_MODULE_PACKAGE is
         waring,
         nothing
     );
-    constant NV_REG_WIDTH: INTEGER := 16;
     constant V_REG_WIDTH: INTEGER := 65536;
-    constant FRAM_MAX_DELAY_NS : INTEGER := MASTER_CLK_PERIOD_NS *4;
-    constant nv_reg_addr_width_bit : INTEGER := integer(ceil(log2(real(NV_REG_WIDTH))));
     constant v_reg_addr_width_bit : INTEGER := integer(ceil(log2(real(V_REG_WIDTH))));
 end package;
-package body TEST_MODULE_PACKAGE is 
-end package body TEST_MODULE_PACKAGE;
+package body TEST_ARCHITECTURE_PACKAGE is 
+end package body TEST_ARCHITECTURE_PACKAGE;

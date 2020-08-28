@@ -4,7 +4,7 @@
 -- 
 -- Create Date: 05/17/2020 06:52:04 PM
 -- Design Name: 
--- Module Name: INTERMITTENCY_EMULATOR_TESTBENCH - Behavioral
+-- Module Name: intermittency_emulator_testbench - Behavioral
 -- Project Name: 
 -- Target Devices: 
 -- Tool Versions: 
@@ -32,13 +32,13 @@ use IEEE.STD_LOGIC_1164.ALL;
 --use UNISIM.VComponents.all;
 
 use work.COMMON_PACKAGE.all;
-use work.GLOBAL_SETTINGS.all;
+use work.NVME_FRAMEWORK_PACKAGE.all;
 
-entity INTERMITTENCY_EMULATOR_TESTBENCH is
+entity intermittency_emulator_testbench is
 --  Port ( );
-end INTERMITTENCY_EMULATOR_TESTBENCH;
+end intermittency_emulator_testbench;
 
-architecture Behavioral of INTERMITTENCY_EMULATOR_TESTBENCH is
+architecture Behavioral of intermittency_emulator_testbench is
     component INTERMITTENCY_EMULATOR is
         port(
             sys_clk             : in std_logic; 

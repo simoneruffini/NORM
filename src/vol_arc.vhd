@@ -32,26 +32,26 @@ use IEEE.MATH_REAL.ALL;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
-use work.GLOBAL_SETTINGS.all;
 use work.COMMON_PACKAGE.all;
-use work.TEST_MODULE_PACKAGE.all;
+use work.NVME_FRAMEWORK_PACKAGE.all;
+use work.TEST_ARCHITECTURE_PACKAGE.all;
 
 entity vol_arc is    
     port(
-        sys_clk             : in STD_LOGIC;
-        resetN              : in STD_LOGIC;
-        fsm_nv_reg_state    : in fsm_nv_reg_state_t;
+        sys_clk             : in  STD_LOGIC;
+        resetN              : in  STD_LOGIC;
+        fsm_nv_reg_state    : in  fsm_nv_reg_state_t;
         task_status         : out STD_LOGIC;
         nv_reg_en           : out STD_LOGIC;
-        nv_reg_busy         : in STD_LOGIC;
-        nv_reg_busy_sig     : in STD_LOGIC; 
-        nv_reg_we           : out STD_LOGIC_VECTOR( 0 DOWNTO 0);  
+        nv_reg_busy         : in  STD_LOGIC;
+        nv_reg_busy_sig     : in  STD_LOGIC; 
+        nv_reg_we           : out STD_LOGIC_VECTOR(0 DOWNTO 0);  
         nv_reg_addr         : out STD_LOGIC_VECTOR(nv_reg_addr_width_bit-1 DOWNTO 0);
-        nv_reg_din          : out STD_LOGIC_VECTOR( 31 DOWNTO 0);
-        nv_reg_dout         : in STD_LOGIC_VECTOR( 31 DOWNTO 0);
-        vol_cntr1_value     : out std_logic_vector(31 DOWNTO 0);
-        vol_cntr2_value     : out std_logic_vector(31 DOWNTO 0);
-        vol_cntr3_value     : out std_logic_vector(31 DOWNTO 0)
+        nv_reg_din          : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+        nv_reg_dout         : in  STD_LOGIC_VECTOR(31 DOWNTO 0);
+        vol_cntr1_value     : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+        vol_cntr2_value     : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+        vol_cntr3_value     : out STD_LOGIC_VECTOR(31 DOWNTO 0)
     );
 end vol_arc;
 
@@ -413,6 +413,11 @@ begin
                                                                 --> (used to regulate v_reg access to avoid collisions)
     
 ------------------------------------------------DATA_REC process-------------------------------------------------------------------
+-- Doc:
+--      this process and its brothers are concernd of data recovery from non volatile register. The recovered data and its amount 
+--      can be defined by changing the constants in VOL_ARC CONSTANTS subsection of this code. The recovered data can be obtained 
+--      by combining the information carried by: data_rec_recovered_data, data_rec_recovered_offset. This is necessary because
+--      from request to offer there are delays expecially from NV_REG.
 
     --%%%%%%%%%%%%%%%%%%% DATA_REC CONSTANTS %%%%%%%%%%%%%%%%%%%%%%%%
     data_rec_nv_reg_we <= (OTHERS => '0');
@@ -473,7 +478,7 @@ begin
     end process DATA_REC_NV_REG_SIG_CNTRL;
     
 --------------------------------------------------DATA_SAVE process-------------------------------------------------------------------
-    
+
     --%%%%%%%%%%%%%%%%%%% DATA_SAVE CONSTANTS %%%%%%%%%%%%%%%%%%%%%%%
     web <= (OTHERS => '0');      
     --%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -541,9 +546,12 @@ begin
     end process DATA_SAVE_NV_REG_SIG;
     
 --------------------------------------------------VAR_CNTR process--------------------------------------------------------------------
-    
-    data_rec_var_cntr_end_value <= data_rec_offset + 2; --the plus two is because a cycle is used to get the first data and then 
-                                                        --> the other one just to notify as terminal count cycle
+-- Doc:
+--
+--    
+
+    data_rec_var_cntr_end_value <= data_rec_offset + 2;         --the plus two is because a cycle is used to get the first data and then 
+                                                                --> the other one just to notify as terminal count cycle
     data_save_var_cntr_end_value <= data_save_v_reg_offset + 2; --should be + 1 just for the terminal count clk cycle but +2 because on how the var_cntr_clk ticks
                                                                 --> beacuase of this an extra clk cycle will be wasted
 
@@ -587,6 +595,9 @@ begin
         end if;
     end process VAR_CNTR_LAST_VAL;
 --------------------------------------------------V_REG_RESET process-----------------------------------------------------------------
+-- Doc:
+--      this process erases the volatile register during reset status. The number of erased memory areas is equal to the numebr of
+--      clock cycle the system is in reset (not the global one but the simulated one of intemittency emulator)
 
 V_REG_RESET: process(sys_clk) is --the reset is syncronous
 variable counter : INTEGER RANGE 0 TO (V_REG_WIDTH-1);

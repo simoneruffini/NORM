@@ -2,13 +2,13 @@
 # Vivado v2020.1 (64-bit)
 # SW Build 2902540 on Wed May 27 19:54:49 MDT 2020
 # IP Build 2902112 on Wed May 27 22:43:36 MDT 2020
-# Start of session at: Fri Aug 28 18:19:57 2020
-# Process ID: 15496
+# Start of session at: Sun Aug 16 13:07:39 2020
+# Process ID: 12496
 # Current directory: C:/Users/Simone Ruffini/VivadoProjects/NVMEF-FPGA/vivado
-# Command line: vivado.exe -gui_launcher_event rodinguilauncherevent17176 C:\Users\Simone Ruffini\VivadoProjects\NVMEF-FPGA\vivado\NVA_EMULATOR.xpr
+# Command line: vivado.exe -gui_launcher_event rodinguilauncherevent12344 C:\Users\Simone Ruffini\VivadoProjects\NVMEF-FPGA\vivado\NVA_EMULATOR.xpr
 # Log file: C:/Users/Simone Ruffini/VivadoProjects/NVMEF-FPGA/vivado/vivado.log
 # Journal file: C:/Users/Simone Ruffini/VivadoProjects/NVMEF-FPGA/vivado\vivado.jou
 #-----------------------------------------------------------
 start_gui
 open_project {C:/Users/Simone Ruffini/VivadoProjects/NVMEF-FPGA/vivado/NVA_EMULATOR.xpr}
-update_compile_order -fileset sources_1
+launch_simulation

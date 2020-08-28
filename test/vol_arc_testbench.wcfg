@@ -6,20 +6,20 @@
       <db_ref path="vol_arc_testbench_behav.wdb" id="1">
          <top_modules>
             <top_module name="common_package" />
-            <top_module name="global_settings" />
-            <top_module name="test_module_package" />
+            <top_module name="nvme_framework_package" />
+            <top_module name="test_architecture_package" />
             <top_module name="vol_arc_testbench" />
          </top_modules>
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="857481fs"></ZoomStartTime>
-      <ZoomEndTime time="1028504fs"></ZoomEndTime>
-      <Cursor1Time time="1000000fs"></Cursor1Time>
+      <ZoomStartTime time="578600fs"></ZoomStartTime>
+      <ZoomEndTime time="738001fs"></ZoomEndTime>
+      <Cursor1Time time="535000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="293"></NameColumnWidth>
-      <ValueColumnWidth column_width="94"></ValueColumnWidth>
+      <ValueColumnWidth column_width="90"></ValueColumnWidth>
    </column_width_setting>
    <WVObjectSize size="11" />
    <wvobject fp_name="group44" type="group">
@@ -92,6 +92,7 @@
    <wvobject fp_name="group47" type="group">
       <obj_property name="label">fsm_nv_reg</obj_property>
       <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
       <wvobject fp_name="/vol_arc_testbench/thresh_stats" type="other">
          <obj_property name="ElementShortName">thresh_stats</obj_property>
          <obj_property name="ObjectShortName">thresh_stats</obj_property>
@@ -108,6 +109,7 @@
    <wvobject fp_name="group212" type="group">
       <obj_property name="label">vol_arc_fsm</obj_property>
       <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
       <wvobject fp_name="/vol_arc_testbench/ADDR_E/present_state" type="other">
          <obj_property name="ElementShortName">present_state</obj_property>
          <obj_property name="ObjectShortName">present_state</obj_property>
@@ -116,6 +118,7 @@
    <wvobject fp_name="group48" type="group">
       <obj_property name="label">MAIN_SIG</obj_property>
       <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
       <wvobject fp_name="/vol_arc_testbench/sys_clk" type="logic">
          <obj_property name="ElementShortName">sys_clk</obj_property>
          <obj_property name="ObjectShortName">sys_clk</obj_property>
@@ -331,6 +334,7 @@
    <wvobject fp_name="group139" type="group">
       <obj_property name="label">vol_arc</obj_property>
       <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
       <wvobject fp_name="/vol_arc_testbench/ADDR_E/vol_cntr1_value" type="array">
          <obj_property name="ElementShortName">vol_cntr1_value[31:0]</obj_property>
          <obj_property name="ObjectShortName">vol_cntr1_value[31:0]</obj_property>

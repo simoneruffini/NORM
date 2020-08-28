@@ -31,11 +31,15 @@ use IEEE.NUMERIC_STD.ALL;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
-use work.GLOBAL_SETTINGS.all;
+use work.NVME_FRAMEWORK_PACKAGE.all;
 
 package COMMON_PACKAGE is
     type POWER_APPROX_COUNTER_TYPE is array (integer range <>) of INTEGER range 0 to 2**PWR_APPROX_COUNTER_NUM_BITS - 1;
     type INTERMITTENCY_ARR_INT_TYPE is array (integer range <>) of INTEGER;
+
+    constant MASTER_CLK_SPEED_HZ                : INTEGER := 100000000;
+    constant MASTER_CLK_PERIOD_NS               : INTEGER := (1e9/MASTER_CLK_SPEED_HZ);
+
     pure function get_busy_counter_end_value(
         input_clk_period : INTEGER;  --in nannoseconds
         max_delay_time: INTEGER  --in nannoseconds

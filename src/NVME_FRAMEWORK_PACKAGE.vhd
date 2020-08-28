@@ -4,7 +4,7 @@
 -- 
 -- Create Date: 06/14/2020 05:43:53 PM
 -- Design Name: 
--- Module Name: GLOBAL_SETTINGS - Behavioral
+-- Module Name: NVME_FRAMEWORK_PACKAGE - Behavioral
 -- Project Name: 
 -- Target Devices: 
 -- Tool Versions: 
@@ -31,7 +31,11 @@ use IEEE.STD_LOGIC_1164.ALL;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
-package GLOBAL_SETTINGS is
+use IEEE.MATH_REAL.ALL; --for log2 and ceil
+
+use work.COMMON_PACKAGE.all;
+
+package NVME_FRAMEWORK_PACKAGE is
     constant NUM_PWR_STATES                     : integer := 3;
     constant PWR_CONSUMPTION_ROM_BITS           : integer := 10;
     constant PWR_APPROX_COUNTER_NUM_BITS        : integer := 31;
@@ -39,6 +43,9 @@ package GLOBAL_SETTINGS is
     constant INTERMITTENCY_MAX_VAL_ROM_TRACE    : integer := 330;
     constant INTERMITTENCY_PRESCALER            : integer := 16;
     constant INTERMITTENCY_NUM_THRESHOLDS       : integer := 2;
-    constant MASTER_CLK_SPEED_HZ                : INTEGER := 100000000;
-    constant MASTER_CLK_PERIOD_NS               : INTEGER := (1e9/MASTER_CLK_SPEED_HZ);
-end package GLOBAL_SETTINGS;
+
+    constant NV_REG_WIDTH                       : INTEGER := 16;
+    constant FRAM_MAX_DELAY_NS                  : INTEGER := MASTER_CLK_PERIOD_NS *4;
+    constant nv_reg_addr_width_bit              : INTEGER := integer(ceil(log2(real(NV_REG_WIDTH))));
+
+end package NVME_FRAMEWORK_PACKAGE;
