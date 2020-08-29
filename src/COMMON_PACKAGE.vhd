@@ -25,7 +25,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
 use IEEE.NUMERIC_STD.ALL;
-
+use IEEE.MATH_REAL.ALL; --for log2 and ceil
 -- Uncomment the following library declaration if instantiating
 -- any Xilinx leaf cells in this code.
 --library UNISIM;
@@ -36,10 +36,10 @@ use work.NVME_FRAMEWORK_PACKAGE.all;
 
 package COMMON_PACKAGE is
     type POWER_APPROX_COUNTER_TYPE is array (integer range <>) of INTEGER range 0 to 2**PWR_APPROX_COUNTER_NUM_BITS - 1;
-    type INTERMITTENCY_ARR_INT_TYPE is array (integer range <>) of INTEGER := (others => 0); -- forse ora non piu ma non so se vada
+    type INTERMITTENCY_ARR_INT_TYPE is array (integer range <>) of INTEGER; -- forse ora non piu ma non so se vada
     
 
-    constant INTERMITTENCY_NUM_ELEMNTS_ROM      : integer := 1000; -- indica quanti valori ha la ROM dove c'è il voltage trace
+    constant INTERMITTENCY_NUM_ELEMNTS_ROM      : integer := 1000; -- indica quanti valori ha la ROM dove c'?? il voltage trace
     constant INTERMITTENCY_MAX_VAL_ROM_TRACE    : integer := 330; -- indica il valore MAX dei dati nella ROM
     constant INTERMITTENCY_PRESCALER            : integer := 16; -- indica il prescaler con cui vengono pescati i dati nella ROM
 
@@ -48,6 +48,8 @@ package COMMON_PACKAGE is
 
     constant MASTER_CLK_SPEED_HZ                : INTEGER := 100000000;
     constant MASTER_CLK_PERIOD_NS               : INTEGER := (1e9/MASTER_CLK_SPEED_HZ);
+    
+    constant FRAM_MAX_DELAY_NS                  : INTEGER := MASTER_CLK_PERIOD_NS *4;
 
     pure function get_busy_counter_end_value(
         input_clk_period : INTEGER;  --in nannoseconds

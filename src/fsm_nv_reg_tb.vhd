@@ -31,7 +31,7 @@ use IEEE.NUMERIC_STD.ALL;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 use work.COMMON_PACKAGE.all;
-use work.TEST_MODULE_PACKAGE.all;
+use work.TEST_ARCHITECTURE_PACKAGE.all;
 
 entity fsm_nv_reg_tb is
     port ( 

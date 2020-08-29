@@ -113,30 +113,30 @@ architecture Behavioral of top_level is
     
     -- To use the CONSTANT PERIOD BACKUP architecture uncomment the following part
     -----------------------------------------------------------------------
-    component fsm_nv_reg_cb is
-        port ( 
-            clk                     : in STD_LOGIC;
-            resetN                  : in STD_LOGIC;
-            task_status             : in STD_LOGIC;
-            period_backup_clks      : integer;
-            fsm_state               : out fsm_nv_reg_state_t;
-            fsm_state_sig           : out fsm_nv_reg_state_t --used with care (it is the future state of the machine, and it is combinatory so it is prone to glitces)
-        );
-    end component;
-    -----------------------------------------------------------------------
-    
-    -- To use the TASK BACKUP architecture uncomment the following part
-    -----------------------------------------------------------------------
---    component fsm_nv_reg_tb is
+--    component fsm_nv_reg_cb is
 --        port ( 
 --            clk                     : in STD_LOGIC;
 --            resetN                  : in STD_LOGIC;
---            volatile_counter_val    : in STD_LOGIC_VECTOR(31 downto 0);
 --            task_status             : in STD_LOGIC;
+--            period_backup_clks      : integer;
 --            fsm_state               : out fsm_nv_reg_state_t;
 --            fsm_state_sig           : out fsm_nv_reg_state_t --used with care (it is the future state of the machine, and it is combinatory so it is prone to glitces)
 --        );
 --    end component;
+    -----------------------------------------------------------------------
+    
+    -- To use the TASK BACKUP architecture uncomment the following part
+    -----------------------------------------------------------------------
+    component fsm_nv_reg_tb is
+        port ( 
+            clk                     : in STD_LOGIC;
+            resetN                  : in STD_LOGIC;
+            volatile_counter_val    : in STD_LOGIC_VECTOR(31 downto 0);
+            task_status             : in STD_LOGIC;
+            fsm_state               : out fsm_nv_reg_state_t;
+            fsm_state_sig           : out fsm_nv_reg_state_t --used with care (it is the future state of the machine, and it is combinatory so it is prone to glitces)
+        );
+    end component;
     -----------------------------------------------------------------------
     
     component nv_reg is
@@ -274,28 +274,28 @@ begin
     
     -- To use the CONSTANT PERIOD BACKUP architecture uncomment the following part
     -----------------------------------------------------------------------
-    FSM_NV_REG_1 : fsm_nv_reg_cb
-    port map(
-        clk                 => sys_clk,
-        resetN              => resetN_emulator,
-        task_status         => fsm_nv_reg_task_status,   
-        period_backup_clks  => 975,    
-        fsm_state           => fsm_nv_reg_state_internal,
-        fsm_state_sig       => fsm_nv_reg_state_sig_internal
-    );
+--    FSM_NV_REG_1 : fsm_nv_reg_cb
+--    port map(
+--        clk                 => sys_clk,
+--        resetN              => resetN_emulator,
+--        task_status         => fsm_nv_reg_task_status,   
+--        period_backup_clks  => 975,    
+--        fsm_state           => fsm_nv_reg_state_internal,
+--        fsm_state_sig       => fsm_nv_reg_state_sig_internal
+--    );
     -----------------------------------------------------------------------
     
     -- To use the TASK BACKUP architecture uncomment the following part
     -----------------------------------------------------------------------
---    FSM_NV_REG_1 : fsm_nv_reg_tb
---    port map(
---        clk                     => sys_clk,
---        resetN                  => resetN_emulator,
---        volatile_counter_val    => val1_sig,
---        task_status             => fsm_nv_reg_task_status,       
---        fsm_state               => fsm_nv_reg_state_internal,
---        fsm_state_sig           => fsm_nv_reg_state_sig_internal
---    );
+    FSM_NV_REG_1 : fsm_nv_reg_tb
+    port map(
+        clk                     => sys_clk,
+        resetN                  => resetN_emulator,
+        volatile_counter_val    => val1_sig,
+        task_status             => fsm_nv_reg_task_status,       
+        fsm_state               => fsm_nv_reg_state_internal,
+        fsm_state_sig           => fsm_nv_reg_state_sig_internal
+    );
     -----------------------------------------------------------------------
     
     

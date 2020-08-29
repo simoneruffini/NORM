@@ -9,9 +9,9 @@ vivado_path = "/opt/Xilinx/Vivado/2020.1/bin/vivado"
 
 allTaskVelues = []
 
-allTaskVelues.append(5)
+# allTaskVelues.append(5)
 
-for val in range(10,200,5):
+for val in range(1,250,1):
     allTaskVelues.append(val)
 
 tcl_script_file = open(tcl_script_name, 'w')
@@ -27,29 +27,28 @@ for taskValue in allTaskVelues:
     tcl_script_file.write("restart\n")
 
 tcl_script_file.close()
-os.system("touch tmp_log.txt")
-os.system("/./opt/Xilinx/Vivado/2020.1/bin/vivado -mode batch -source fixed_time_simulations_TB.tcl | grep Declared >> tmp_log.txt") 
 
-resultFile = open("tmp_log.txt", 'r')
-allLines = resultFile.read().split('\n')
-nums = []
+os.system("rm vivado.log")
+os.system("rm vivado.jou")
+os.system(" export LC_ALL=C \n/." + vivado_path + " -mode batch -source " + tcl_script_name)
+
+vivado_log_file = open("vivado.log", 'r')
+allLines = vivado_log_file.read().split('\n')
+endVals = []
 for line in allLines:
-	elements = line.split(' ')
-	num = elements[len(elements) - 1]
-	if num.isnumeric():
-		nums.append(int(num))
-resultFile.close()
-print(nums)
-x_val = []
-x_val.append(5)
-for val in range(10,210,10):
-    x_val.append(val)
-plt.plot(x_val,nums, '.-b')
+    if "Declared" in line:
+        elements = line.split(' ')
+        num = elements[len(elements) - 1]
+        if num.isnumeric():
+            endVals.append(int(num))
+vivado_log_file.close()
+print(endVals)
+
+plt.plot(allTaskVelues,endVals, '.-b')
 plt.xlabel("task_complete_val_counter")
 plt.ylabel("Counter 1 final val")
 plt.savefig("TB_graph.pdf")
 plt.show()
 
-os.system("rm tmp_log.txt")
 os.system("rm vivado.log")
 os.system("rm vivado.jou")
