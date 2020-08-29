@@ -4,7 +4,7 @@
 -- 
 -- Create Date: 06/14/2020 12:13:18 PM
 -- Design Name: 
--- Module Name: INSTANT_PWR_CALC_TESTBENCH - Behavioral
+-- Module Name: instant_pwr_calc_testbench - Behavioral
 -- Project Name: 
 -- Target Devices: 
 -- Tool Versions: 
@@ -32,13 +32,13 @@ use IEEE.STD_LOGIC_1164.ALL;
 --use UNISIM.VComponents.all;
 
 use work.COMMON_PACKAGE.all;
-use work.GLOBAL_SETTINGS.all;
+use work.NVME_FRAMEWORK_PACKAGE.all;
 
-entity INSTANT_PWR_CALC_TESTBENCH is
+entity instant_pwr_calc_testbench is
 --  Port ( );
-end INSTANT_PWR_CALC_TESTBENCH;
+end instant_pwr_calc_testbench;
 
-architecture Behavioral of INSTANT_PWR_CALC_TESTBENCH is
+architecture Behavioral of instant_pwr_calc_testbench is
 
     component INSTANT_PWR_CALC is
         port (

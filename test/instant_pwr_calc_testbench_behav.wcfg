@@ -3,10 +3,10 @@
    <wave_state>
    </wave_state>
    <db_ref_list>
-      <db_ref path="INSTANT_PWR_CALC_TESTBENCH_behav.wdb" id="1">
+      <db_ref path="instant_pwr_calc_testbench_behav.wdb" id="1">
          <top_modules>
-            <top_module name="INSTANT_PWR_CALC_TESTBENCH" />
-            <top_module name="global_settings" />
+            <top_module name="instant_pwr_calc_testbench" />
+            <top_module name="nvme_framework_package" />
             <top_module name="common_package" />
          </top_modules>
       </db_ref>
@@ -21,75 +21,75 @@
       <ValueColumnWidth column_width="97"></ValueColumnWidth>
    </column_width_setting>
    <WVObjectSize size="15" />
-   <wvobject type="logic" fp_name="/INSTANT_PWR_CALC_TESTBENCH/sys_clk">
+   <wvobject type="logic" fp_name="/instant_pwr_calc_testbench/sys_clk">
       <obj_property name="ElementShortName">sys_clk</obj_property>
       <obj_property name="ObjectShortName">sys_clk</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/INSTANT_PWR_CALC_TESTBENCH/start_evaluation">
+   <wvobject type="logic" fp_name="/instant_pwr_calc_testbench/start_evaluation">
       <obj_property name="ElementShortName">start_evaluation</obj_property>
       <obj_property name="ObjectShortName">start_evaluation</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/INSTANT_PWR_CALC_TESTBENCH/evaluation_ready">
+   <wvobject type="logic" fp_name="/instant_pwr_calc_testbench/evaluation_ready">
       <obj_property name="ElementShortName">evaluation_ready</obj_property>
       <obj_property name="ObjectShortName">evaluation_ready</obj_property>
       <obj_property name="CustomSignalColor">#FFFFFF</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
-   <wvobject type="other" fp_name="/INSTANT_PWR_CALC_TESTBENCH/num_state_to_evaluate">
+   <wvobject type="other" fp_name="/instant_pwr_calc_testbench/num_state_to_evaluate">
       <obj_property name="ElementShortName">num_state_to_evaluate</obj_property>
       <obj_property name="ObjectShortName">num_state_to_evaluate</obj_property>
       <obj_property name="CustomSignalColor">#FFFF00</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/INSTANT_PWR_CALC_TESTBENCH/input_counter_val">
+   <wvobject type="array" fp_name="/instant_pwr_calc_testbench/input_counter_val">
       <obj_property name="ElementShortName">input_counter_val[2:0]</obj_property>
       <obj_property name="ObjectShortName">input_counter_val[2:0]</obj_property>
       <obj_property name="CustomSignalColor">#FFFF00</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/INSTANT_PWR_CALC_TESTBENCH/INSTANT_PWR_CALC_1/CE">
+   <wvobject type="logic" fp_name="/instant_pwr_calc_testbench/INSTANT_PWR_CALC_1/CE">
       <obj_property name="ElementShortName">CE</obj_property>
       <obj_property name="ObjectShortName">CE</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/INSTANT_PWR_CALC_TESTBENCH/INSTANT_PWR_CALC_1/input_counter_val_std_logic_vector">
+   <wvobject type="array" fp_name="/instant_pwr_calc_testbench/INSTANT_PWR_CALC_1/input_counter_val_std_logic_vector">
       <obj_property name="ElementShortName">input_counter_val_std_logic_vector[30:0]</obj_property>
       <obj_property name="ObjectShortName">input_counter_val_std_logic_vector[30:0]</obj_property>
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/INSTANT_PWR_CALC_TESTBENCH/INSTANT_PWR_CALC_1/input_counter_val_std_logic_vector_FF">
+   <wvobject type="array" fp_name="/instant_pwr_calc_testbench/INSTANT_PWR_CALC_1/input_counter_val_std_logic_vector_FF">
       <obj_property name="ElementShortName">input_counter_val_std_logic_vector_FF[30:0]</obj_property>
       <obj_property name="ObjectShortName">input_counter_val_std_logic_vector_FF[30:0]</obj_property>
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/INSTANT_PWR_CALC_TESTBENCH/INSTANT_PWR_CALC_1/sample_input_counter_val_std_logic_vector">
+   <wvobject type="logic" fp_name="/instant_pwr_calc_testbench/INSTANT_PWR_CALC_1/sample_input_counter_val_std_logic_vector">
       <obj_property name="ElementShortName">sample_input_counter_val_std_logic_vector</obj_property>
       <obj_property name="ObjectShortName">sample_input_counter_val_std_logic_vector</obj_property>
    </wvobject>
-   <wvobject type="other" fp_name="/INSTANT_PWR_CALC_TESTBENCH/INSTANT_PWR_CALC_1/ROM_addr_FF">
+   <wvobject type="other" fp_name="/instant_pwr_calc_testbench/INSTANT_PWR_CALC_1/ROM_addr_FF">
       <obj_property name="ElementShortName">ROM_addr_FF</obj_property>
       <obj_property name="ObjectShortName">ROM_addr_FF</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/INSTANT_PWR_CALC_TESTBENCH/INSTANT_PWR_CALC_1/sample_ROM_addr">
+   <wvobject type="logic" fp_name="/instant_pwr_calc_testbench/INSTANT_PWR_CALC_1/sample_ROM_addr">
       <obj_property name="ElementShortName">sample_ROM_addr</obj_property>
       <obj_property name="ObjectShortName">sample_ROM_addr</obj_property>
    </wvobject>
-   <wvobject type="other" fp_name="/INSTANT_PWR_CALC_TESTBENCH/INSTANT_PWR_CALC_1/ROM_data_out">
+   <wvobject type="other" fp_name="/instant_pwr_calc_testbench/INSTANT_PWR_CALC_1/ROM_data_out">
       <obj_property name="ElementShortName">ROM_data_out</obj_property>
       <obj_property name="ObjectShortName">ROM_data_out</obj_property>
       <obj_property name="CustomSignalColor">#FF00FF</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
-   <wvobject type="other" fp_name="/INSTANT_PWR_CALC_TESTBENCH/INSTANT_PWR_CALC_1/instant_pwr_calc_present_state">
+   <wvobject type="other" fp_name="/instant_pwr_calc_testbench/INSTANT_PWR_CALC_1/instant_pwr_calc_present_state">
       <obj_property name="ElementShortName">instant_pwr_calc_present_state</obj_property>
       <obj_property name="ObjectShortName">instant_pwr_calc_present_state</obj_property>
    </wvobject>
-   <wvobject type="other" fp_name="/INSTANT_PWR_CALC_TESTBENCH/INSTANT_PWR_CALC_1/instant_pwr_calc_future_state">
+   <wvobject type="other" fp_name="/instant_pwr_calc_testbench/INSTANT_PWR_CALC_1/instant_pwr_calc_future_state">
       <obj_property name="ElementShortName">instant_pwr_calc_future_state</obj_property>
       <obj_property name="ObjectShortName">instant_pwr_calc_future_state</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/INSTANT_PWR_CALC_TESTBENCH/output_data">
+   <wvobject type="array" fp_name="/instant_pwr_calc_testbench/output_data">
       <obj_property name="ElementShortName">output_data[41:0]</obj_property>
       <obj_property name="ObjectShortName">output_data[41:0]</obj_property>
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>

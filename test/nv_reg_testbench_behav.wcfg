@@ -6,9 +6,9 @@
       <db_ref path="nv_reg_testbench_behav.wdb" id="1">
          <top_modules>
             <top_module name="common_package" />
-            <top_module name="global_settings" />
+            <top_module name="nvme_framework_package" />
             <top_module name="nv_reg_testbench" />
-            <top_module name="test_module_package" />
+            <top_module name="test_architecture_package" />
          </top_modules>
       </db_ref>
    </db_ref_list>

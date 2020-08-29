@@ -31,9 +31,9 @@ use IEEE.math_real.all;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
-use work.GLOBAL_SETTINGS.all;
+use work.NVME_FRAMEWORK_PACKAGE.all;
 use work.COMMON_PACKAGE.all;
-use work.TEST_MODULE_PACKAGE.all;
+use work.TEST_ARCHITECTURE_PACKAGE.all;
 
 entity top_level is
     port(
@@ -77,8 +77,7 @@ architecture Behavioral of top_level is
         );
     end component;
     
-    component vol_cntr is    
---    component multiple_vol_cntr is    
+    component vol_arc is    
         port(
             sys_clk             : in std_logic;
             resetN              : in std_logic;
@@ -181,7 +180,7 @@ architecture Behavioral of top_level is
     signal threshold_compared  : std_logic_vector(INTERMITTENCY_NUM_THRESHOLDS - 1 downto 0); 
     signal select_threshold    : integer range 0 to INTERMITTENCY_NUM_THRESHOLDS -1;
     
-    --- VOL_CNTR signals ---
+    --- vol_arc signals ---
     signal fsm_nv_reg_state    : fsm_nv_reg_state_t;
     signal task_status         : STD_LOGIC;
     
@@ -242,7 +241,7 @@ begin
         select_threshold    => select_threshold
     );
     
-    VOL_CNTR_1 : vol_cntr
+    VOL_ARC_1: vol_arc
     port map(
         sys_clk             => sys_clk,
         resetN              => resetN_emulator,

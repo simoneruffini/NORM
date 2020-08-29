@@ -32,9 +32,10 @@ use IEEE.math_real.all;
 -- any Xilinx leaf cells in this code.
 --library UNISIM;
 --use UNISIM.VComponents.all;
+
 use work.COMMON_PACKAGE.all;
-use work.TEST_MODULE_PACKAGE.all;
-use work.GLOBAL_SETTINGS.all;
+use work.TEST_ARCHITECTURE_PACKAGE.all;
+use work.NVME_FRAMEWORK_PACKAGE.all;
 
 entity nv_reg_testbench is
 --  Port ( );

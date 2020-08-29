@@ -4,7 +4,7 @@
 -- 
 -- Create Date: 06/26/2020 04:48:12 PM
 -- Design Name: 
--- Module Name: vol_cntr_testbench - Behavioral
+-- Module Name: vol_arc_testbench - Behavioral
 -- Project Name: 
 -- Target Devices: 
 -- Tool Versions: 
@@ -32,20 +32,22 @@ use IEEE.math_real.all;
 -- any Xilinx leaf cells in this code.
 --library UNISIM;
 --use UNISIM.VComponents.all;
-use work.TEST_MODULE_PACKAGE.all;
-use work.GLOBAL_SETTINGS.ALL;
 
-entity vol_cntr_testbench is
+use work.COMMON_PACKAGE.ALL;
+use work.NVME_FRAMEWORK_PACKAGE.ALL;
+use work.TEST_ARCHITECTURE_PACKAGE.all;
+
+entity vol_arc_testbench is
 --  Port ( );
-end vol_cntr_testbench;
+end vol_arc_testbench;
 
-architecture Behavioral of vol_cntr_testbench is
+architecture Behavioral of vol_arc_testbench is
     -------------------------------TESTB_INTERNAL_SIGNALS---------------------------------
     signal sys_clk      : STD_LOGIC;
     signal power_resetN : STD_LOGIC;       
     signal resetN       : STD_LOGIC;
     --------------------------------------------------------------------------------------    
-    -------------------------------vol_cntr_SIGNALS---------------------------------------
+    -------------------------------VOL_ARC_SIGNALS----------------------------------------
     signal task_status         : STD_LOGIC;
     signal nv_reg_en           : STD_LOGIC;
     signal nv_reg_busy         : STD_LOGIC;
@@ -54,6 +56,9 @@ architecture Behavioral of vol_cntr_testbench is
     signal nv_reg_addr         : STD_LOGIC_VECTOR(nv_reg_addr_width_bit-1 DOWNTO 0);
     signal nv_reg_din          : STD_LOGIC_VECTOR( 31 DOWNTO 0);
     signal nv_reg_dout         : STD_LOGIC_VECTOR( 31 DOWNTO 0);
+    signal vol_cntr1_value     : std_logic_vector(31 DOWNTO 0);
+    signal vol_cntr2_value     : std_logic_vector(31 DOWNTO 0);
+    signal vol_cntr3_value     : std_logic_vector(31 DOWNTO 0);
     --------------------------------------------------------------------------------------
     -------------------------------FSM_NV_REG_SIGNALS-------------------------------------
     signal thresh_stats         : threshold_t;
@@ -64,7 +69,7 @@ architecture Behavioral of vol_cntr_testbench is
 
     
     
-    component vol_cntr is    
+    component vol_arc is    
     port(
         sys_clk             : in STD_LOGIC;
         resetN              : in STD_LOGIC;
@@ -83,7 +88,7 @@ architecture Behavioral of vol_cntr_testbench is
     );
     end component;
     
-    component fsm_nv_reg is
+    component fsm_nv_reg_db is
     port ( 
         clk                     : in STD_LOGIC;
         resetN                  : in STD_LOGIC;
@@ -116,7 +121,7 @@ architecture Behavioral of vol_cntr_testbench is
     
 begin
     
-    ADDR_E: vol_cntr
+    ADDR_E: vol_arc
     port map(                           
         sys_clk             => sys_clk,
         resetN              => power_resetN,
@@ -128,9 +133,13 @@ begin
         nv_reg_we           => nv_reg_we,
         nv_reg_addr         => nv_reg_addr,
         nv_reg_din          => nv_reg_din,
-        nv_reg_dout         => nv_reg_dout
+        nv_reg_dout         => nv_reg_dout,
+        vol_cntr1_value     => vol_cntr1_value,
+        vol_cntr2_value     => vol_cntr2_value,
+        vol_cntr3_value     => vol_cntr3_value
+        
     );                      
-    FSM_NV_REG_E: fsm_nv_reg
+    FSM_NV_REG_E: fsm_nv_reg_db
     port map( 
         clk             =>sys_clk, 
         resetN          =>power_resetN, 

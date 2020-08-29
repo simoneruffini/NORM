@@ -31,11 +31,24 @@ use IEEE.NUMERIC_STD.ALL;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
-use work.GLOBAL_SETTINGS.all;
+use work.TEST_ARCHITECTURE_PACKAGE.all;
+use work.NVME_FRAMEWORK_PACKAGE.all;
 
 package COMMON_PACKAGE is
     type POWER_APPROX_COUNTER_TYPE is array (integer range <>) of INTEGER range 0 to 2**PWR_APPROX_COUNTER_NUM_BITS - 1;
-    type INTERMITTENCY_ARR_INT_TYPE is array (integer range <>) of INTEGER;
+    type INTERMITTENCY_ARR_INT_TYPE is array (integer range <>) of INTEGER := (others => 0); -- forse ora non piu ma non so se vada
+    
+
+    constant INTERMITTENCY_NUM_ELEMNTS_ROM      : integer := 1000; -- indica quanti valori ha la ROM dove c'è il voltage trace
+    constant INTERMITTENCY_MAX_VAL_ROM_TRACE    : integer := 330; -- indica il valore MAX dei dati nella ROM
+    constant INTERMITTENCY_PRESCALER            : integer := 16; -- indica il prescaler con cui vengono pescati i dati nella ROM
+
+    constant nv_reg_addr_width_bit              : INTEGER := integer(ceil(log2(real(NV_REG_WIDTH)))); 
+    constant v_reg_addr_width_bit               : INTEGER := integer(ceil(log2(real(V_REG_WIDTH))));
+
+    constant MASTER_CLK_SPEED_HZ                : INTEGER := 100000000;
+    constant MASTER_CLK_PERIOD_NS               : INTEGER := (1e9/MASTER_CLK_SPEED_HZ);
+
     pure function get_busy_counter_end_value(
         input_clk_period : INTEGER;  --in nannoseconds
         max_delay_time: INTEGER  --in nannoseconds
