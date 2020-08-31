@@ -11,7 +11,7 @@ allTaskVelues = []
 
 # allTaskVelues.append(5)
 
-for val in range(1,250,1):
+for val in range(0,250,5):
     allTaskVelues.append(val)
 
 tcl_script_file = open(tcl_script_name, 'w')
@@ -30,7 +30,7 @@ tcl_script_file.close()
 
 os.system("rm vivado.log")
 os.system("rm vivado.jou")
-os.system(" export LC_ALL=C \n/." + vivado_path + " -mode batch -source " + tcl_script_name)
+os.system("export LC_ALL=C \n/." + vivado_path + " -mode batch -source " + tcl_script_name)
 
 vivado_log_file = open("vivado.log", 'r')
 allLines = vivado_log_file.read().split('\n')
@@ -47,6 +47,9 @@ print(endVals)
 plt.plot(allTaskVelues,endVals, '.-b')
 plt.xlabel("task_complete_val_counter")
 plt.ylabel("Counter 1 final val")
+plt.ylim(0,max(endVals) + max(endVals)*0.1)
+plt.xlim(0,max(allTaskVelues))
+plt.grid()
 plt.savefig("TB_graph.pdf")
 plt.show()
 

@@ -28,7 +28,9 @@ for period in allPerdios:
 
 tcl_script_file.close()
 
-os.system("/." + vivado_path + " -mode batch -source " + tcl_script_name)
+os.system("rm vivado.log")
+os.system("rm vivado.jou")
+os.system("export LC_ALL=C \n/." + vivado_path + " -mode batch -source " + tcl_script_name)
 
 vivado_log_file = open("vivado.log", 'r')
 allLines = vivado_log_file.read().split('\n')
@@ -48,6 +50,9 @@ print(endVals)
 plt.plot(allPerdios,endVals, '.-b')
 plt.xlabel("num clocks of period")
 plt.ylabel("Counter 1 final val")
+plt.ylim(0,max(endVals) + max(endVals)*0.1)
+plt.xlim(0,max(allPerdios))
+plt.grid()
 plt.savefig("CB_graph.pdf")
 plt.show()
 
