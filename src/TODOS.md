@@ -39,4 +39,3 @@ TODOS:
 add_condition -name vol_cntr1_to_100 -radix dec {/vol_arc_testbench/vol_cntr1_value == 100} {
     puts "vol_cntr1_value reached 100 at [current_time]" 
     stop }
-
