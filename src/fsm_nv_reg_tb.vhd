@@ -31,7 +31,7 @@ use IEEE.NUMERIC_STD.ALL;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 use work.COMMON_PACKAGE.all;
-use work.TEST_MODULE_PACKAGE.all;
+use work.TEST_ARCHITECTURE_PACKAGE.all;
 
 entity fsm_nv_reg_tb is
     port ( 
@@ -48,7 +48,7 @@ architecture Behavioral of fsm_nv_reg_tb is
 
     signal present_state, future_state : fsm_nv_reg_state_t;
     constant max_slack: INTEGER := 10;
-    constant task_complete_val_counter : INTEGER :=  25;
+    signal task_complete_val_counter : INTEGER :=  25;
 begin
     
     FSM_NV_REG_DB_SEQ: process (clk,resetN) is 

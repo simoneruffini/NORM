@@ -34,14 +34,12 @@ use work.COMMON_PACKAGE.all;
 use work.TEST_ARCHITECTURE_PACKAGE.all;
 
 
-entity fsm_nv_reg_cb is
-    generic(
-        PERIOD_BACKUP_CLKS      : integer
-    );    
+entity fsm_nv_reg_cb is       
     port ( 
         clk                     : in STD_LOGIC;
         resetN                  : in STD_LOGIC;
         task_status             : in STD_LOGIC;
+        period_backup_clks      : integer range 0 to 2**31 -1; 
         fsm_state               : out fsm_nv_reg_state_t;
         fsm_state_sig           : out fsm_nv_reg_state_t --used with care (it is the future state of the machine, and it is combinatory so it is prone to glitces)
     );
@@ -54,9 +52,9 @@ architecture Behavioral of fsm_nv_reg_cb is
     signal CB_count_init    : std_logic := '0';                 
     signal CB_count_CE      : std_logic := '0';
     signal CB_count_TC      : std_logic;
-    signal CB_count_val     : integer range 0 to PERIOD_BACKUP_CLKS;
+    signal CB_count_val     : integer; 
     
-    component counter is
+    component var_counter is
         Generic(
             MAX         : INTEGER;
             INIT_VALUE  : INTEGER;
@@ -67,6 +65,7 @@ architecture Behavioral of fsm_nv_reg_cb is
             resetN      : in STD_LOGIC;
             INIT        : in STD_LOGIC;
             CE          : in STD_LOGIC;
+            end_value   : in INTEGER RANGE 0 TO MAX;
             TC          : out STD_LOGIC;
             value       : out INTEGER RANGE 0 TO MAX
         );
@@ -76,9 +75,9 @@ architecture Behavioral of fsm_nv_reg_cb is
     
 begin
     
-    COUTER : counter 
+    COUTER : var_counter 
     generic map(
-        MAX         => PERIOD_BACKUP_CLKS,
+        MAX         => 2**31 -1,
         INIT_VALUE  => 0,
         INCREASE_BY => 1
     )
@@ -87,6 +86,7 @@ begin
         resetN      => resetN,
         INIT        => CB_count_init,
         CE          => CB_count_CE,
+        end_value   => period_backup_clks,
         TC          => CB_count_TC,
         value       => CB_count_val
     );
