@@ -37,11 +37,15 @@ use work.TEST_ARCHITECTURE_PACKAGE.all;
 
 entity top_level is
     port(
-        sys_clk         : in std_logic;
-        global_resetN   : in std_logic;
-        val1            : out std_logic_vector(31 downto 0);
-        val2            : out std_logic_vector(31 downto 0);
-        val3            : out std_logic_vector(31 downto 0)
+        sys_clk                     : in std_logic;
+        global_resetN               : in std_logic;
+        IPC_start_evaluation        : in std_logic;
+        IPC_evaluation_ready        : out std_logic;
+        IPC_num_state_to_evaluate   : in integer range 0 to NUM_PWR_STATES;
+        IPC_output_data             : out std_logic_vector(PWR_APPROX_COUNTER_NUM_BITS + PWR_CONSUMPTION_ROM_BITS downto 0);
+        val1                        : out std_logic_vector(31 downto 0);
+        val2                        : out std_logic_vector(31 downto 0);
+        val3                        : out std_logic_vector(31 downto 0)
     );
 end top_level;
 
@@ -670,7 +674,7 @@ begin
         start_evaluation        => start_evaluation,
         evaluation_ready        => evaluation_ready,
         num_state_to_evaluate   => num_state_to_evaluate,
-        input_counter_val       => input_counter_val,
+        input_counter_val       => power_counter_val,
         output_data             => output_data
     );
         
@@ -753,4 +757,11 @@ begin
     val1 <= val1_sig;
     val2 <= val2_sig;
     val3 <= val3_sig;
+    
+    -- Connect IPC signals --
+    start_evaluation <= IPC_start_evaluation;
+    IPC_evaluation_ready <= evaluation_ready;
+    num_state_to_evaluate <= IPC_num_state_to_evaluate;
+    IPC_output_data <= output_data;    
+
 end Behavioral_tb;

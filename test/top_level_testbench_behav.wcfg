@@ -13,16 +13,16 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="0fs"></ZoomStartTime>
-      <ZoomEndTime time="6850001fs"></ZoomEndTime>
-      <Cursor1Time time="905000fs"></Cursor1Time>
+      <ZoomStartTime time="144159500fs"></ZoomStartTime>
+      <ZoomEndTime time="144486001fs"></ZoomEndTime>
+      <Cursor1Time time="144225000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="270"></NameColumnWidth>
       <ValueColumnWidth column_width="76"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="15" />
-   <wvobject fp_name="/top_level_testbench/sys_clk" type="logic">
+   <WVObjectSize size="17" />
+   <wvobject type="logic" fp_name="/top_level_testbench/sys_clk">
       <obj_property name="ElementShortName">sys_clk</obj_property>
       <obj_property name="ObjectShortName">sys_clk</obj_property>
    </wvobject>
@@ -38,7 +38,19 @@
       <obj_property name="ElementShortName">warning_signal</obj_property>
       <obj_property name="ObjectShortName">warning_signal</obj_property>
    </wvobject>
-   <wvobject fp_name="/top_level_testbench/val1" type="array">
+   <wvobject type="array" fp_name="/top_level_testbench/IPC_val2">
+      <obj_property name="ElementShortName">IPC_val2[41:0]</obj_property>
+      <obj_property name="ObjectShortName">IPC_val2[41:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/top_level_testbench/IPC_val1">
+      <obj_property name="ElementShortName">IPC_val1[41:0]</obj_property>
+      <obj_property name="ObjectShortName">IPC_val1[41:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/top_level_testbench/IPC_val0">
+      <obj_property name="ElementShortName">IPC_val0[41:0]</obj_property>
+      <obj_property name="ObjectShortName">IPC_val0[41:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/top_level_testbench/val1">
       <obj_property name="ElementShortName">val1[31:0]</obj_property>
       <obj_property name="ObjectShortName">val1[31:0]</obj_property>
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
@@ -411,7 +423,8 @@
    <wvobject fp_name="group590" type="group">
       <obj_property name="label">INSTANT_PWR_CALC</obj_property>
       <obj_property name="DisplayName">label</obj_property>
-      <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/INSTANT_PWR_CALC_1/start_evaluation" type="logic">
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject type="logic" fp_name="/top_level_testbench/top_level_1/INSTANT_PWR_CALC_1/start_evaluation">
          <obj_property name="ElementShortName">start_evaluation</obj_property>
          <obj_property name="ObjectShortName">start_evaluation</obj_property>
       </wvobject>
