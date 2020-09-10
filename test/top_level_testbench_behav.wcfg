@@ -14,427 +14,426 @@
    </db_ref_list>
    <zoom_setting>
       <ZoomStartTime time="0fs"></ZoomStartTime>
-      <ZoomEndTime time="34000467fs"></ZoomEndTime>
-      <Cursor1Time time="1000000fs"></Cursor1Time>
+      <ZoomEndTime time="6850001fs"></ZoomEndTime>
+      <Cursor1Time time="905000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="270"></NameColumnWidth>
-      <ValueColumnWidth column_width="80"></ValueColumnWidth>
+      <ValueColumnWidth column_width="76"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="14" />
-   <wvobject type="logic" fp_name="/top_level_testbench/sys_clk">
+   <WVObjectSize size="15" />
+   <wvobject fp_name="/top_level_testbench/sys_clk" type="logic">
       <obj_property name="ElementShortName">sys_clk</obj_property>
       <obj_property name="ObjectShortName">sys_clk</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/top_level_testbench/top_level_1/global_resetN">
+   <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/global_resetN" type="logic">
       <obj_property name="ElementShortName">global_resetN</obj_property>
       <obj_property name="ObjectShortName">global_resetN</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/top_level_testbench/top_level_1/INTERMITTENCY_EMULATOR_1/reset_emulator">
+   <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/INTERMITTENCY_EMULATOR_1/reset_emulator" type="logic">
       <obj_property name="ElementShortName">reset_emulator</obj_property>
       <obj_property name="ObjectShortName">reset_emulator</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/top_level_testbench/top_level_1/warning_signal">
+   <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/warning_signal" type="logic">
       <obj_property name="ElementShortName">warning_signal</obj_property>
       <obj_property name="ObjectShortName">warning_signal</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/top_level_testbench/val1">
+   <wvobject fp_name="/top_level_testbench/val1" type="array">
       <obj_property name="ElementShortName">val1[31:0]</obj_property>
       <obj_property name="ObjectShortName">val1[31:0]</obj_property>
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/top_level_testbench/val2">
+   <wvobject fp_name="/top_level_testbench/val2" type="array">
       <obj_property name="ElementShortName">val2[31:0]</obj_property>
       <obj_property name="ObjectShortName">val2[31:0]</obj_property>
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/top_level_testbench/val3">
+   <wvobject fp_name="/top_level_testbench/val3" type="array">
       <obj_property name="ElementShortName">val3[31:0]</obj_property>
       <obj_property name="ObjectShortName">val3[31:0]</obj_property>
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
-   <wvobject type="group" fp_name="group596">
+   <wvobject fp_name="group596" type="group">
       <obj_property name="label">INTERM_EMU</obj_property>
       <obj_property name="DisplayName">label</obj_property>
-      <wvobject type="array" fp_name="/top_level_testbench/top_level_1/INTERMITTENCY_EMULATOR_1/threshold_value">
+      <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/INTERMITTENCY_EMULATOR_1/threshold_value" type="array">
          <obj_property name="ElementShortName">threshold_value[1:0]</obj_property>
          <obj_property name="ObjectShortName">threshold_value[1:0]</obj_property>
       </wvobject>
-      <wvobject type="array" fp_name="/top_level_testbench/top_level_1/INTERMITTENCY_EMULATOR_1/threshold_compared">
+      <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/INTERMITTENCY_EMULATOR_1/threshold_compared" type="array">
          <obj_property name="ElementShortName">threshold_compared[1:0]</obj_property>
          <obj_property name="ObjectShortName">threshold_compared[1:0]</obj_property>
       </wvobject>
-      <wvobject type="other" fp_name="/top_level_testbench/top_level_1/INTERMITTENCY_EMULATOR_1/select_threshold">
+      <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/INTERMITTENCY_EMULATOR_1/select_threshold" type="other">
          <obj_property name="ElementShortName">select_threshold</obj_property>
          <obj_property name="ObjectShortName">select_threshold</obj_property>
       </wvobject>
-      <wvobject type="array" fp_name="/top_level_testbench/top_level_1/INTERMITTENCY_EMULATOR_1/output_comparator">
+      <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/INTERMITTENCY_EMULATOR_1/output_comparator" type="array">
          <obj_property name="ElementShortName">output_comparator[1:0]</obj_property>
          <obj_property name="ObjectShortName">output_comparator[1:0]</obj_property>
       </wvobject>
    </wvobject>
-   <wvobject type="group" fp_name="group193">
+   <wvobject fp_name="group193" type="group">
       <obj_property name="label">FSM_NV_REG_CB</obj_property>
       <obj_property name="DisplayName">label</obj_property>
       <obj_property name="isExpanded"></obj_property>
-      <wvobject type="logic" fp_name="/top_level_testbench/top_level_1/FSM_NV_REG_1/task_status">
+      <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/FSM_NV_REG_1/task_status" type="logic">
          <obj_property name="ElementShortName">task_status</obj_property>
          <obj_property name="ObjectShortName">task_status</obj_property>
       </wvobject>
-      <wvobject type="other" fp_name="/top_level_testbench/top_level_1/FSM_NV_REG_1/fsm_state">
+      <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/FSM_NV_REG_1/fsm_state" type="other">
          <obj_property name="ElementShortName">fsm_state</obj_property>
          <obj_property name="ObjectShortName">fsm_state</obj_property>
       </wvobject>
-      <wvobject type="other" fp_name="/top_level_testbench/top_level_1/FSM_NV_REG_1/fsm_state_sig">
+      <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/FSM_NV_REG_1/fsm_state_sig" type="other">
          <obj_property name="ElementShortName">fsm_state_sig</obj_property>
          <obj_property name="ObjectShortName">fsm_state_sig</obj_property>
       </wvobject>
-      <wvobject type="other" fp_name="/top_level_testbench/top_level_1/FSM_NV_REG_1/max_slack">
+      <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/FSM_NV_REG_1/max_slack" type="other">
          <obj_property name="ElementShortName">max_slack</obj_property>
          <obj_property name="ObjectShortName">max_slack</obj_property>
       </wvobject>
    </wvobject>
-   <wvobject type="group" fp_name="group659">
+   <wvobject fp_name="group659" type="group">
       <obj_property name="label">FSM_NV_REG_DB</obj_property>
       <obj_property name="DisplayName">label</obj_property>
       <obj_property name="isExpanded"></obj_property>
    </wvobject>
-   <wvobject type="group" fp_name="group602">
+   <wvobject fp_name="group602" type="group">
       <obj_property name="label">VOL_ARC</obj_property>
       <obj_property name="DisplayName">label</obj_property>
-      <wvobject type="group" fp_name="group692">
+      <wvobject fp_name="group692" type="group">
          <obj_property name="label">vol_arc_fsm</obj_property>
          <obj_property name="DisplayName">label</obj_property>
          <obj_property name="isExpanded"></obj_property>
-         <wvobject type="other" fp_name="/top_level_testbench/top_level_1/VOL_ARC_1/present_state">
+         <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/VOL_ARC_1/present_state" type="other">
             <obj_property name="ElementShortName">present_state</obj_property>
             <obj_property name="ObjectShortName">present_state</obj_property>
          </wvobject>
-         <wvobject type="array" fp_name="/top_level_testbench/top_level_1/VOL_ARC_1/wea">
+         <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/VOL_ARC_1/wea" type="array">
             <obj_property name="ElementShortName">wea[0:0]</obj_property>
             <obj_property name="ObjectShortName">wea[0:0]</obj_property>
          </wvobject>
-         <wvobject type="logic" fp_name="/top_level_testbench/top_level_1/VOL_ARC_1/ena">
+         <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/VOL_ARC_1/ena" type="logic">
             <obj_property name="ElementShortName">ena</obj_property>
             <obj_property name="ObjectShortName">ena</obj_property>
          </wvobject>
-         <wvobject type="array" fp_name="/top_level_testbench/top_level_1/VOL_ARC_1/addra">
+         <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/VOL_ARC_1/addra" type="array">
             <obj_property name="ElementShortName">addra[15:0]</obj_property>
             <obj_property name="ObjectShortName">addra[15:0]</obj_property>
          </wvobject>
-         <wvobject type="array" fp_name="/top_level_testbench/top_level_1/VOL_ARC_1/douta">
-            <obj_property name="ElementShortName">douta[31:0]</obj_property>
-            <obj_property name="ObjectShortName">douta[31:0]</obj_property>
+         <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/VOL_ARC_1/v_reg_douta" type="array">
+            <obj_property name="ElementShortName">v_reg_douta[31:0]</obj_property>
+            <obj_property name="ObjectShortName">v_reg_douta[31:0]</obj_property>
             <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
          </wvobject>
-         <wvobject type="array" fp_name="/top_level_testbench/top_level_1/VOL_ARC_1/dina">
+         <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/VOL_ARC_1/dina" type="array">
             <obj_property name="ElementShortName">dina[31:0]</obj_property>
             <obj_property name="ObjectShortName">dina[31:0]</obj_property>
             <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
          </wvobject>
-         <wvobject type="array" fp_name="/top_level_testbench/top_level_1/VOL_ARC_1/vol_cntr1_value">
+         <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/VOL_ARC_1/vol_cntr1_value" type="array">
             <obj_property name="ElementShortName">vol_cntr1_value[31:0]</obj_property>
-            <obj_property name="ObjectShortName">VOL_CNTR1_value[31:0]</obj_property>
+            <obj_property name="ObjectShortName">vol_cntr1_value[31:0]</obj_property>
             <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
          </wvobject>
-         <wvobject type="array" fp_name="/top_level_testbench/top_level_1/VOL_ARC_1/vol_cntr2_val">
-            <obj_property name="ElementShortName">vol_cntr2_value[31:0]</obj_property>
-            <obj_property name="ObjectShortName">VOL_CNTR2_value[31:0]</obj_property>
-            <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-         </wvobject>
-         <wvobject type="array" fp_name="/top_level_testbench/top_level_1/VOL_ARC_1/vol_cntr3_value">
+         <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/VOL_ARC_1/vol_cntr3_value" type="array">
             <obj_property name="ElementShortName">vol_cntr3_value[31:0]</obj_property>
             <obj_property name="ObjectShortName">vol_cntr3_value[31:0]</obj_property>
             <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
          </wvobject>
       </wvobject>
-      <wvobject type="group" fp_name="group771">
+      <wvobject fp_name="group771" type="group">
          <obj_property name="label">recovery</obj_property>
          <obj_property name="DisplayName">label</obj_property>
-         <wvobject type="logic" fp_name="/top_level_testbench/top_level_1/VOL_ARC_1/enb">
+         <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/VOL_ARC_1/enb" type="logic">
             <obj_property name="ElementShortName">enb</obj_property>
             <obj_property name="ObjectShortName">enb</obj_property>
          </wvobject>
-         <wvobject type="array" fp_name="/top_level_testbench/top_level_1/VOL_ARC_1/web">
+         <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/VOL_ARC_1/web" type="array">
             <obj_property name="ElementShortName">web[0:0]</obj_property>
             <obj_property name="ObjectShortName">web[0:0]</obj_property>
          </wvobject>
-         <wvobject type="array" fp_name="/top_level_testbench/top_level_1/VOL_ARC_1/addrb">
+         <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/VOL_ARC_1/addrb" type="array">
             <obj_property name="ElementShortName">addrb[15:0]</obj_property>
             <obj_property name="ObjectShortName">addrb[15:0]</obj_property>
          </wvobject>
-         <wvobject type="array" fp_name="/top_level_testbench/top_level_1/VOL_ARC_1/dinb">
+         <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/VOL_ARC_1/dinb" type="array">
             <obj_property name="ElementShortName">dinb[31:0]</obj_property>
             <obj_property name="ObjectShortName">dinb[31:0]</obj_property>
          </wvobject>
-         <wvobject type="array" fp_name="/top_level_testbench/top_level_1/VOL_ARC_1/doutb">
+         <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/VOL_ARC_1/doutb" type="array">
             <obj_property name="ElementShortName">doutb[31:0]</obj_property>
             <obj_property name="ObjectShortName">doutb[31:0]</obj_property>
             <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
          </wvobject>
       </wvobject>
-      <wvobject type="group" fp_name="group694">
+      <wvobject fp_name="group694" type="group">
          <obj_property name="label">others</obj_property>
          <obj_property name="DisplayName">label</obj_property>
-         <wvobject type="logic" fp_name="/top_level_testbench/top_level_1/VOL_ARC_1/nv_reg_en">
+         <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/VOL_ARC_1/nv_reg_en" type="logic">
             <obj_property name="ElementShortName">nv_reg_en</obj_property>
             <obj_property name="ObjectShortName">nv_reg_en</obj_property>
          </wvobject>
-         <wvobject type="logic" fp_name="/top_level_testbench/top_level_1/VOL_ARC_1/nv_reg_busy">
+         <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/VOL_ARC_1/nv_reg_busy" type="logic">
             <obj_property name="ElementShortName">nv_reg_busy</obj_property>
             <obj_property name="ObjectShortName">nv_reg_busy</obj_property>
          </wvobject>
-         <wvobject type="logic" fp_name="/top_level_testbench/top_level_1/VOL_ARC_1/nv_reg_busy_sig">
+         <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/VOL_ARC_1/nv_reg_busy_sig" type="logic">
             <obj_property name="ElementShortName">nv_reg_busy_sig</obj_property>
             <obj_property name="ObjectShortName">nv_reg_busy_sig</obj_property>
          </wvobject>
-         <wvobject type="array" fp_name="/top_level_testbench/top_level_1/VOL_ARC_1/nv_reg_we">
+         <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/VOL_ARC_1/nv_reg_we" type="array">
             <obj_property name="ElementShortName">nv_reg_we[0:0]</obj_property>
             <obj_property name="ObjectShortName">nv_reg_we[0:0]</obj_property>
          </wvobject>
-         <wvobject type="array" fp_name="/top_level_testbench/top_level_1/VOL_ARC_1/nv_reg_addr">
+         <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/VOL_ARC_1/nv_reg_addr" type="array">
             <obj_property name="ElementShortName">nv_reg_addr[3:0]</obj_property>
             <obj_property name="ObjectShortName">nv_reg_addr[3:0]</obj_property>
          </wvobject>
-         <wvobject type="array" fp_name="/top_level_testbench/top_level_1/VOL_ARC_1/nv_reg_din">
+         <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/VOL_ARC_1/nv_reg_din" type="array">
             <obj_property name="ElementShortName">nv_reg_din[31:0]</obj_property>
             <obj_property name="ObjectShortName">nv_reg_din[31:0]</obj_property>
          </wvobject>
-         <wvobject type="array" fp_name="/top_level_testbench/top_level_1/VOL_ARC_1/nv_reg_dout">
+         <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/VOL_ARC_1/nv_reg_dout" type="array">
             <obj_property name="ElementShortName">nv_reg_dout[31:0]</obj_property>
             <obj_property name="ObjectShortName">nv_reg_dout[31:0]</obj_property>
          </wvobject>
-         <wvobject type="array" fp_name="/top_level_testbench/top_level_1/VOL_ARC_1/douta">
-            <obj_property name="ElementShortName">douta[31:0]</obj_property>
-            <obj_property name="ObjectShortName">douta[31:0]</obj_property>
+         <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/VOL_ARC_1/v_reg_douta" type="array">
+            <obj_property name="ElementShortName">v_reg_douta[31:0]</obj_property>
+            <obj_property name="ObjectShortName">v_reg_douta[31:0]</obj_property>
          </wvobject>
-         <wvobject type="logic" fp_name="/top_level_testbench/top_level_1/VOL_ARC_1/data_rec_busy">
+         <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/VOL_ARC_1/data_rec_busy" type="logic">
             <obj_property name="ElementShortName">data_rec_busy</obj_property>
             <obj_property name="ObjectShortName">data_rec_busy</obj_property>
          </wvobject>
-         <wvobject type="logic" fp_name="/top_level_testbench/top_level_1/VOL_ARC_1/data_rec_nv_reg_en">
+         <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/VOL_ARC_1/data_rec_nv_reg_en" type="logic">
             <obj_property name="ElementShortName">data_rec_nv_reg_en</obj_property>
             <obj_property name="ObjectShortName">data_rec_nv_reg_en</obj_property>
          </wvobject>
-         <wvobject type="array" fp_name="/top_level_testbench/top_level_1/VOL_ARC_1/data_rec_nv_reg_we">
+         <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/VOL_ARC_1/data_rec_nv_reg_we" type="array">
             <obj_property name="ElementShortName">data_rec_nv_reg_we[0:0]</obj_property>
             <obj_property name="ObjectShortName">data_rec_nv_reg_we[0:0]</obj_property>
          </wvobject>
-         <wvobject type="array" fp_name="/top_level_testbench/top_level_1/VOL_ARC_1/data_rec_nv_reg_din">
+         <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/VOL_ARC_1/data_rec_nv_reg_din" type="array">
             <obj_property name="ElementShortName">data_rec_nv_reg_din[31:0]</obj_property>
             <obj_property name="ObjectShortName">data_rec_nv_reg_din[31:0]</obj_property>
          </wvobject>
-         <wvobject type="array" fp_name="/top_level_testbench/top_level_1/VOL_ARC_1/data_rec_nv_reg_addr">
+         <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/VOL_ARC_1/data_rec_nv_reg_addr" type="array">
             <obj_property name="ElementShortName">data_rec_nv_reg_addr[3:0]</obj_property>
             <obj_property name="ObjectShortName">data_rec_nv_reg_addr[3:0]</obj_property>
          </wvobject>
-         <wvobject type="logic" fp_name="/top_level_testbench/top_level_1/VOL_ARC_1/data_rec_var_cntr_init">
+         <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/VOL_ARC_1/data_rec_var_cntr_init" type="logic">
             <obj_property name="ElementShortName">data_rec_var_cntr_init</obj_property>
             <obj_property name="ObjectShortName">data_rec_var_cntr_init</obj_property>
          </wvobject>
-         <wvobject type="logic" fp_name="/top_level_testbench/top_level_1/VOL_ARC_1/data_rec_var_cntr_ce">
+         <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/VOL_ARC_1/data_rec_var_cntr_ce" type="logic">
             <obj_property name="ElementShortName">data_rec_var_cntr_ce</obj_property>
             <obj_property name="ObjectShortName">data_rec_var_cntr_ce</obj_property>
          </wvobject>
-         <wvobject type="other" fp_name="/top_level_testbench/top_level_1/VOL_ARC_1/data_rec_var_cntr_end_value">
+         <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/VOL_ARC_1/data_rec_var_cntr_end_value" type="other">
             <obj_property name="ElementShortName">data_rec_var_cntr_end_value</obj_property>
             <obj_property name="ObjectShortName">data_rec_var_cntr_end_value</obj_property>
          </wvobject>
-         <wvobject type="logic" fp_name="/top_level_testbench/top_level_1/VOL_ARC_1/data_save_busy">
+         <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/VOL_ARC_1/data_save_busy" type="logic">
             <obj_property name="ElementShortName">data_save_busy</obj_property>
             <obj_property name="ObjectShortName">data_save_busy</obj_property>
          </wvobject>
-         <wvobject type="logic" fp_name="/top_level_testbench/top_level_1/VOL_ARC_1/data_save_nv_reg_en">
+         <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/VOL_ARC_1/data_save_nv_reg_en" type="logic">
             <obj_property name="ElementShortName">data_save_nv_reg_en</obj_property>
             <obj_property name="ObjectShortName">data_save_nv_reg_en</obj_property>
          </wvobject>
-         <wvobject type="array" fp_name="/top_level_testbench/top_level_1/VOL_ARC_1/data_save_nv_reg_we">
+         <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/VOL_ARC_1/data_save_nv_reg_we" type="array">
             <obj_property name="ElementShortName">data_save_nv_reg_we[0:0]</obj_property>
             <obj_property name="ObjectShortName">data_save_nv_reg_we[0:0]</obj_property>
          </wvobject>
-         <wvobject type="array" fp_name="/top_level_testbench/top_level_1/VOL_ARC_1/data_save_nv_reg_din">
+         <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/VOL_ARC_1/data_save_nv_reg_din" type="array">
             <obj_property name="ElementShortName">data_save_nv_reg_din[31:0]</obj_property>
             <obj_property name="ObjectShortName">data_save_nv_reg_din[31:0]</obj_property>
          </wvobject>
-         <wvobject type="array" fp_name="/top_level_testbench/top_level_1/VOL_ARC_1/data_save_nv_reg_addr">
+         <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/VOL_ARC_1/data_save_nv_reg_addr" type="array">
             <obj_property name="ElementShortName">data_save_nv_reg_addr[3:0]</obj_property>
             <obj_property name="ObjectShortName">data_save_nv_reg_addr[3:0]</obj_property>
          </wvobject>
-         <wvobject type="logic" fp_name="/top_level_testbench/top_level_1/VOL_ARC_1/data_save_var_cntr_init">
+         <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/VOL_ARC_1/data_save_var_cntr_init" type="logic">
             <obj_property name="ElementShortName">data_save_var_cntr_init</obj_property>
             <obj_property name="ObjectShortName">data_save_var_cntr_init</obj_property>
          </wvobject>
-         <wvobject type="logic" fp_name="/top_level_testbench/top_level_1/VOL_ARC_1/data_save_var_cntr_ce">
+         <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/VOL_ARC_1/data_save_var_cntr_ce" type="logic">
             <obj_property name="ElementShortName">data_save_var_cntr_ce</obj_property>
             <obj_property name="ObjectShortName">data_save_var_cntr_ce</obj_property>
          </wvobject>
-         <wvobject type="other" fp_name="/top_level_testbench/top_level_1/VOL_ARC_1/data_save_var_cntr_end_value">
+         <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/VOL_ARC_1/data_save_var_cntr_end_value" type="other">
             <obj_property name="ElementShortName">data_save_var_cntr_end_value</obj_property>
             <obj_property name="ObjectShortName">data_save_var_cntr_end_value</obj_property>
          </wvobject>
-         <wvobject type="array" fp_name="/top_level_testbench/top_level_1/VOL_ARC_1/data_rec_nv_reg_start_addr">
+         <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/VOL_ARC_1/data_rec_nv_reg_start_addr" type="array">
             <obj_property name="ElementShortName">data_rec_nv_reg_start_addr[3:0]</obj_property>
             <obj_property name="ObjectShortName">data_rec_nv_reg_start_addr[3:0]</obj_property>
          </wvobject>
-         <wvobject type="other" fp_name="/top_level_testbench/top_level_1/VOL_ARC_1/data_rec_offset">
+         <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/VOL_ARC_1/data_rec_offset" type="other">
             <obj_property name="ElementShortName">data_rec_offset</obj_property>
             <obj_property name="ObjectShortName">data_rec_offset</obj_property>
          </wvobject>
-         <wvobject type="array" fp_name="/top_level_testbench/top_level_1/VOL_ARC_1/data_rec_recovered_data">
+         <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/VOL_ARC_1/data_rec_recovered_data" type="array">
             <obj_property name="ElementShortName">data_rec_recovered_data[31:0]</obj_property>
             <obj_property name="ObjectShortName">data_rec_recovered_data[31:0]</obj_property>
          </wvobject>
-         <wvobject type="other" fp_name="/top_level_testbench/top_level_1/VOL_ARC_1/data_rec_recovered_offset">
+         <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/VOL_ARC_1/data_rec_recovered_offset" type="other">
             <obj_property name="ElementShortName">data_rec_recovered_offset</obj_property>
             <obj_property name="ObjectShortName">data_rec_recovered_offset</obj_property>
          </wvobject>
-         <wvobject type="logic" fp_name="/top_level_testbench/top_level_1/VOL_ARC_1/var_cntr_clk">
+         <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/VOL_ARC_1/var_cntr_clk" type="logic">
             <obj_property name="ElementShortName">var_cntr_clk</obj_property>
             <obj_property name="ObjectShortName">var_cntr_clk</obj_property>
          </wvobject>
-         <wvobject type="logic" fp_name="/top_level_testbench/top_level_1/VOL_ARC_1/var_cntr_init">
+         <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/VOL_ARC_1/var_cntr_init" type="logic">
             <obj_property name="ElementShortName">var_cntr_init</obj_property>
             <obj_property name="ObjectShortName">var_cntr_init</obj_property>
          </wvobject>
-         <wvobject type="logic" fp_name="/top_level_testbench/top_level_1/VOL_ARC_1/var_cntr_ce">
+         <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/VOL_ARC_1/var_cntr_ce" type="logic">
             <obj_property name="ElementShortName">var_cntr_ce</obj_property>
             <obj_property name="ObjectShortName">var_cntr_ce</obj_property>
          </wvobject>
-         <wvobject type="logic" fp_name="/top_level_testbench/top_level_1/VOL_ARC_1/var_cntr_tc">
+         <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/VOL_ARC_1/var_cntr_tc" type="logic">
             <obj_property name="ElementShortName">var_cntr_tc</obj_property>
             <obj_property name="ObjectShortName">var_cntr_tc</obj_property>
          </wvobject>
-         <wvobject type="other" fp_name="/top_level_testbench/top_level_1/VOL_ARC_1/var_cntr_value">
+         <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/VOL_ARC_1/var_cntr_value" type="other">
             <obj_property name="ElementShortName">var_cntr_value</obj_property>
             <obj_property name="ObjectShortName">var_cntr_value</obj_property>
          </wvobject>
-         <wvobject type="other" fp_name="/top_level_testbench/top_level_1/VOL_ARC_1/var_cntr_end_value">
+         <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/VOL_ARC_1/var_cntr_end_value" type="other">
             <obj_property name="ElementShortName">var_cntr_end_value</obj_property>
             <obj_property name="ObjectShortName">var_cntr_end_value</obj_property>
          </wvobject>
-         <wvobject type="array" fp_name="/top_level_testbench/top_level_1/VOL_ARC_1/data_save_nv_reg_start_addr">
+         <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/VOL_ARC_1/data_save_nv_reg_start_addr" type="array">
             <obj_property name="ElementShortName">data_save_nv_reg_start_addr[3:0]</obj_property>
             <obj_property name="ObjectShortName">data_save_nv_reg_start_addr[3:0]</obj_property>
          </wvobject>
-         <wvobject type="array" fp_name="/top_level_testbench/top_level_1/VOL_ARC_1/data_save_bram_start_addr">
-            <obj_property name="ElementShortName">data_save_bram_start_addr[15:0]</obj_property>
-            <obj_property name="ObjectShortName">data_save_bram_start_addr[15:0]</obj_property>
+         <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/VOL_ARC_1/data_save_v_reg_start_addr" type="array">
+            <obj_property name="ElementShortName">data_save_v_reg_start_addr[15:0]</obj_property>
+            <obj_property name="ObjectShortName">data_save_v_reg_start_addr[15:0]</obj_property>
          </wvobject>
-         <wvobject type="other" fp_name="/top_level_testbench/top_level_1/VOL_ARC_1/data_save_bram_offset">
-            <obj_property name="ElementShortName">data_save_bram_offset</obj_property>
-            <obj_property name="ObjectShortName">data_save_bram_offset</obj_property>
+         <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/VOL_ARC_1/data_save_v_reg_offset" type="other">
+            <obj_property name="ElementShortName">data_save_v_reg_offset</obj_property>
+            <obj_property name="ObjectShortName">data_save_v_reg_offset</obj_property>
          </wvobject>
       </wvobject>
    </wvobject>
-   <wvobject type="group" fp_name="group667">
+   <wvobject fp_name="group667" type="group">
       <obj_property name="label">NV_REG</obj_property>
       <obj_property name="DisplayName">label</obj_property>
-      <wvobject type="logic" fp_name="/top_level_testbench/top_level_1/NV_REG_1/busy_sig">
+      <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/NV_REG_1/busy_sig" type="logic">
          <obj_property name="ElementShortName">busy_sig</obj_property>
          <obj_property name="ObjectShortName">busy_sig</obj_property>
       </wvobject>
-      <wvobject type="logic" fp_name="/top_level_testbench/top_level_1/NV_REG_1/busy">
+      <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/NV_REG_1/busy" type="logic">
          <obj_property name="ElementShortName">busy</obj_property>
          <obj_property name="ObjectShortName">busy</obj_property>
       </wvobject>
-      <wvobject type="logic" fp_name="/top_level_testbench/top_level_1/NV_REG_1/rstn">
+      <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/NV_REG_1/rstn" type="logic">
          <obj_property name="ElementShortName">rstn</obj_property>
          <obj_property name="ObjectShortName">rstn</obj_property>
       </wvobject>
-      <wvobject type="logic" fp_name="/top_level_testbench/top_level_1/NV_REG_1/busy_internal">
+      <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/NV_REG_1/busy_internal" type="logic">
          <obj_property name="ElementShortName">busy_internal</obj_property>
          <obj_property name="ObjectShortName">busy_internal</obj_property>
       </wvobject>
-      <wvobject type="logic" fp_name="/top_level_testbench/top_level_1/NV_REG_1/bram_en">
+      <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/NV_REG_1/bram_en" type="logic">
          <obj_property name="ElementShortName">bram_en</obj_property>
          <obj_property name="ObjectShortName">bram_en</obj_property>
       </wvobject>
-      <wvobject type="logic" fp_name="/top_level_testbench/top_level_1/VOL_ARC_1/var_cntr_tc">
+      <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/VOL_ARC_1/var_cntr_tc" type="logic">
          <obj_property name="ElementShortName">var_cntr_tc</obj_property>
          <obj_property name="ObjectShortName">var_cntr_tc</obj_property>
       </wvobject>
-      <wvobject type="other" fp_name="/top_level_testbench/top_level_1/VOL_ARC_1/var_cntr_value">
+      <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/VOL_ARC_1/var_cntr_value" type="other">
          <obj_property name="ElementShortName">var_cntr_value</obj_property>
          <obj_property name="ObjectShortName">var_cntr_value</obj_property>
       </wvobject>
-      <wvobject type="array" fp_name="/top_level_testbench/top_level_1/NV_REG_1/bram_we">
+      <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/NV_REG_1/bram_we" type="array">
          <obj_property name="ElementShortName">bram_we[0:0]</obj_property>
          <obj_property name="ObjectShortName">bram_we[0:0]</obj_property>
       </wvobject>
-      <wvobject type="array" fp_name="/top_level_testbench/top_level_1/NV_REG_1/bram_addr">
+      <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/NV_REG_1/bram_addr" type="array">
          <obj_property name="ElementShortName">bram_addr[3:0]</obj_property>
          <obj_property name="ObjectShortName">bram_addr[3:0]</obj_property>
       </wvobject>
-      <wvobject type="array" fp_name="/top_level_testbench/top_level_1/NV_REG_1/bram_din">
+      <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/NV_REG_1/bram_din" type="array">
          <obj_property name="ElementShortName">bram_din[31:0]</obj_property>
          <obj_property name="ObjectShortName">bram_din[31:0]</obj_property>
          <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       </wvobject>
-      <wvobject type="array" fp_name="/top_level_testbench/top_level_1/NV_REG_1/bram_dout">
+      <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/NV_REG_1/bram_dout" type="array">
          <obj_property name="ElementShortName">bram_dout[31:0]</obj_property>
          <obj_property name="ObjectShortName">bram_dout[31:0]</obj_property>
          <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       </wvobject>
-      <wvobject type="logic" fp_name="/top_level_testbench/top_level_1/NV_REG_1/bram_en_rst">
+      <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/NV_REG_1/bram_en_rst" type="logic">
          <obj_property name="ElementShortName">bram_en_rst</obj_property>
          <obj_property name="ObjectShortName">bram_en_rst</obj_property>
       </wvobject>
-      <wvobject type="array" fp_name="/top_level_testbench/top_level_1/NV_REG_1/bram_we_rst">
+      <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/NV_REG_1/bram_we_rst" type="array">
          <obj_property name="ElementShortName">bram_we_rst[0:0]</obj_property>
          <obj_property name="ObjectShortName">bram_we_rst[0:0]</obj_property>
       </wvobject>
-      <wvobject type="array" fp_name="/top_level_testbench/top_level_1/NV_REG_1/bram_addr_rst">
+      <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/NV_REG_1/bram_addr_rst" type="array">
          <obj_property name="ElementShortName">bram_addr_rst[3:0]</obj_property>
          <obj_property name="ObjectShortName">bram_addr_rst[3:0]</obj_property>
       </wvobject>
-      <wvobject type="array" fp_name="/top_level_testbench/top_level_1/NV_REG_1/bram_din_rst">
+      <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/NV_REG_1/bram_din_rst" type="array">
          <obj_property name="ElementShortName">bram_din_rst[31:0]</obj_property>
          <obj_property name="ObjectShortName">bram_din_rst[31:0]</obj_property>
       </wvobject>
    </wvobject>
-   <wvobject type="group" fp_name="group583">
+   <wvobject fp_name="group583" type="group">
       <obj_property name="label">PWR_APPROX</obj_property>
       <obj_property name="DisplayName">label</obj_property>
-      <wvobject type="array" fp_name="/top_level_testbench/top_level_1/PWR_APPROX_1/power_state_en">
+      <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/PWR_APPROX_1/power_state_en" type="array">
          <obj_property name="ElementShortName">power_state_en[2:0]</obj_property>
          <obj_property name="ObjectShortName">power_state_en[2:0]</obj_property>
       </wvobject>
-      <wvobject type="array" fp_name="/top_level_testbench/top_level_1/PWR_APPROX_1/power_counter_val">
+      <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/PWR_APPROX_1/power_counter_val" type="array">
          <obj_property name="ElementShortName">power_counter_val[2:0]</obj_property>
          <obj_property name="ObjectShortName">power_counter_val[2:0]</obj_property>
          <obj_property name="isExpanded"></obj_property>
       </wvobject>
-      <wvobject type="array" fp_name="/top_level_testbench/top_level_1/PWR_APPROX_1/power_counter_full">
+      <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/PWR_APPROX_1/power_counter_full" type="array">
          <obj_property name="ElementShortName">power_counter_full[2:0]</obj_property>
          <obj_property name="ObjectShortName">power_counter_full[2:0]</obj_property>
       </wvobject>
-      <wvobject type="array" fp_name="/top_level_testbench/top_level_1/PWR_APPROX_1/power_counter_reset">
+      <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/PWR_APPROX_1/power_counter_reset" type="array">
          <obj_property name="ElementShortName">power_counter_reset[2:0]</obj_property>
          <obj_property name="ObjectShortName">power_counter_reset[2:0]</obj_property>
       </wvobject>
    </wvobject>
-   <wvobject type="group" fp_name="group590">
+   <wvobject fp_name="group590" type="group">
       <obj_property name="label">INSTANT_PWR_CALC</obj_property>
       <obj_property name="DisplayName">label</obj_property>
-      <wvobject type="logic" fp_name="/top_level_testbench/top_level_1/INSTANT_PWR_CALC_1/start_evaluation">
+      <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/INSTANT_PWR_CALC_1/start_evaluation" type="logic">
          <obj_property name="ElementShortName">start_evaluation</obj_property>
          <obj_property name="ObjectShortName">start_evaluation</obj_property>
       </wvobject>
-      <wvobject type="logic" fp_name="/top_level_testbench/top_level_1/INSTANT_PWR_CALC_1/evaluation_ready">
+      <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/INSTANT_PWR_CALC_1/evaluation_ready" type="logic">
          <obj_property name="ElementShortName">evaluation_ready</obj_property>
          <obj_property name="ObjectShortName">evaluation_ready</obj_property>
       </wvobject>
-      <wvobject type="other" fp_name="/top_level_testbench/top_level_1/INSTANT_PWR_CALC_1/num_state_to_evaluate">
+      <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/INSTANT_PWR_CALC_1/num_state_to_evaluate" type="other">
          <obj_property name="ElementShortName">num_state_to_evaluate</obj_property>
          <obj_property name="ObjectShortName">num_state_to_evaluate</obj_property>
       </wvobject>
-      <wvobject type="array" fp_name="/top_level_testbench/top_level_1/INSTANT_PWR_CALC_1/input_counter_val">
+      <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/INSTANT_PWR_CALC_1/input_counter_val" type="array">
          <obj_property name="ElementShortName">input_counter_val[2:0]</obj_property>
          <obj_property name="ObjectShortName">input_counter_val[2:0]</obj_property>
       </wvobject>
-      <wvobject type="array" fp_name="/top_level_testbench/top_level_1/INSTANT_PWR_CALC_1/output_data">
+      <wvobject fp_name="/top_level_testbench/TOP_LEVEL_1/INSTANT_PWR_CALC_1/output_data" type="array">
          <obj_property name="ElementShortName">output_data[41:0]</obj_property>
          <obj_property name="ObjectShortName">output_data[41:0]</obj_property>
       </wvobject>
+   </wvobject>
+   <wvobject fp_name="/top_level_testbench/clk_counter" type="other">
+      <obj_property name="ElementShortName">clk_counter</obj_property>
+      <obj_property name="ObjectShortName">clk_counter</obj_property>
    </wvobject>
 </wave_config>

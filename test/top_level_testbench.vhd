@@ -51,8 +51,8 @@ architecture Behavioral of top_level_testbench is
     signal val1,val2,val3   : std_logic_vector(31 downto 0);
 begin
 
-    top_level_1 : top_level
-    port map(
+TOP_LEVEL_1: entity work.top_level(Behavioral)
+    Port map(
         sys_clk         => sys_clk,
         global_resetN   => global_resetN,
         val1            => val1,
@@ -73,7 +73,5 @@ begin
         sys_clk <= '1';
         wait for 5 ns;
     end process;    
-
     
-
 end Behavioral;
