@@ -62,10 +62,10 @@
 # ----------------------------------------------------------------------------
 # Audio Codec - Bank 13
 # ---------------------------------------------------------------------------- 
-# set_property PACKAGE_PIN AB1 [get_ports {AC_ADR0}];  # "AC-ADR0"
-# set_property PACKAGE_PIN Y5  [get_ports {AC_ADR1}];  # "AC-ADR1"
-# set_property PACKAGE_PIN Y8  [get_ports {AC_GPIO0}];  # "AC-GPIO0"
-# set_property PACKAGE_PIN AA7 [get_ports {AC_GPIO1}];  # "AC-GPIO1"
+ set_property PACKAGE_PIN AB1 [get_ports {IPC_start_evaluation}];  # "AC-ADR0"
+ set_property PACKAGE_PIN Y5  [get_ports {IPC_evaluation_ready}];  # "AC-ADR1"
+ set_property PACKAGE_PIN Y8  [get_ports {IPC_num_state_to_evaluate[0]}];  # "AC-GPIO0"
+ set_property PACKAGE_PIN AA7 [get_ports {IPC_num_state_to_evaluate[1]}];  # "AC-GPIO1"
 # set_property PACKAGE_PIN AA6 [get_ports {AC_GPIO2}];  # "AC-GPIO2"
 # set_property PACKAGE_PIN Y6  [get_ports {AC_GPIO3}];  # "AC-GPIO3"
 # set_property PACKAGE_PIN AB2 [get_ports {AC_MCLK}];  # "AC-MCLK"
@@ -76,7 +76,7 @@
 # Clock Source - Bank 13
 # ---------------------------------------------------------------------------- 
 set_property PACKAGE_PIN Y9 [get_ports {sys_clk}];  # "GCLK"
-create_clock -add -name sys_clk_pin -period 10.00 -waveform {0 5} [get_ports {sys_clk}];
+create_clock -add -name sys_clk_pin -period 20.00 -waveform {0 5} [get_ports {sys_clk}];
 
 # ----------------------------------------------------------------------------
 # JA Pmod - Bank 13
@@ -130,103 +130,105 @@ create_clock -add -name sys_clk_pin -period 10.00 -waveform {0 5} [get_ports {sy
 # ----------------------------------------------------------------------------
 # OLED Display - Bank 13
 # ---------------------------------------------------------------------------- 
-#set_property PACKAGE_PIN U10  [get_ports {oled_dc}];  # "OLED-DC"
-#set_property PACKAGE_PIN U9   [get_ports {oled_res}];  # "OLED-RES"
-#set_property PACKAGE_PIN AB12 [get_ports {oled_sclk}];  # "OLED-SCLK"
-#set_property PACKAGE_PIN AA12 [get_ports {oled_sdin}];  # "OLED-SDIN"
-#set_property PACKAGE_PIN U11  [get_ports {oled_vbat}];  # "OLED-VBAT"
-#set_property PACKAGE_PIN U12  [get_ports {oled_vdd}];  # "OLED-VDD"
+set_property PACKAGE_PIN U10  [get_ports {val2[0]}];  # "OLED-DC"
+set_property PACKAGE_PIN U9   [get_ports {val2[1]}];  # "OLED-RES"
+set_property PACKAGE_PIN AB12 [get_ports {val2[2]}];  # "OLED-SCLK"
+set_property PACKAGE_PIN AA12 [get_ports {val2[3]}];  # "OLED-SDIN"
+set_property PACKAGE_PIN U11  [get_ports {val2[4]}];  # "OLED-VBAT"
+set_property PACKAGE_PIN U12  [get_ports {val2[5]}];  # "OLED-VDD"
 
 # ----------------------------------------------------------------------------
 # HDMI Output - Bank 33
 # ---------------------------------------------------------------------------- 
-# set_property PACKAGE_PIN W18  [get_ports {HD_CLK}];  # "HD-CLK"
-# set_property PACKAGE_PIN Y13  [get_ports {HD_D0}];  # "HD-D0"
-# set_property PACKAGE_PIN AA13 [get_ports {HD_D1}];  # "HD-D1"
-# set_property PACKAGE_PIN W13  [get_ports {HD_D10}];  # "HD-D10"
-# set_property PACKAGE_PIN W15  [get_ports {HD_D11}];  # "HD-D11"
-# set_property PACKAGE_PIN V15  [get_ports {HD_D12}];  # "HD-D12"
-# set_property PACKAGE_PIN U17  [get_ports {HD_D13}];  # "HD-D13"
-# set_property PACKAGE_PIN V14  [get_ports {HD_D14}];  # "HD-D14"
-# set_property PACKAGE_PIN V13  [get_ports {HS_D15}];  # "HD-D15"
-# set_property PACKAGE_PIN AA14 [get_ports {HD_D2}];  # "HD-D2"
-# set_property PACKAGE_PIN Y14  [get_ports {HD_D3}];  # "HD-D3"
-# set_property PACKAGE_PIN AB15 [get_ports {HD_D4}];  # "HD-D4"
-# set_property PACKAGE_PIN AB16 [get_ports {HD_D5}];  # "HD-D5"
-# set_property PACKAGE_PIN AA16 [get_ports {HD_D6}];  # "HD-D6"
-# set_property PACKAGE_PIN AB17 [get_ports {HD_D7}];  # "HD-D7"
-# set_property PACKAGE_PIN AA17 [get_ports {HD_D8}];  # "HD-D8"
-# set_property PACKAGE_PIN Y15  [get_ports {HD_D9}];  # "HD-D9"
-# set_property PACKAGE_PIN U16  [get_ports {HD_DE}];  # "HD-DE"
-# set_property PACKAGE_PIN V17  [get_ports {HD_HSYNC}];  # "HD-HSYNC"
-# set_property PACKAGE_PIN W16  [get_ports {HD_INT}];  # "HD-INT"
-# set_property PACKAGE_PIN AA18 [get_ports {HD_SCL}];  # "HD-SCL"
-# set_property PACKAGE_PIN Y16  [get_ports {HD_SDA}];  # "HD-SDA"
-# set_property PACKAGE_PIN U15  [get_ports {HD_SPDIF}];  # "HD-SPDIF"
-# set_property PACKAGE_PIN Y18  [get_ports {HD_SPDIFO}];  # "HD-SPDIFO"
-# set_property PACKAGE_PIN W17  [get_ports {HD_VSYNC}];  # "HD-VSYNC"
+ set_property PACKAGE_PIN W18  [get_ports {val2[6]}];  # "HD-CLK"
+ set_property PACKAGE_PIN Y13  [get_ports {val2[7]}];  # "HD-D0"
+ set_property PACKAGE_PIN AA13 [get_ports {val2[8]}];  # "HD-D1"
+ set_property PACKAGE_PIN W13  [get_ports {val2[9]}];  # "HD-D10"
+ set_property PACKAGE_PIN W15  [get_ports {val2[10]}];  # "HD-D11"
+ set_property PACKAGE_PIN V15  [get_ports {val2[11]}];  # "HD-D12"
+ set_property PACKAGE_PIN U17  [get_ports {val2[12]}];  # "HD-D13"
+ set_property PACKAGE_PIN V14  [get_ports {val2[13]}];  # "HD-D14"
+ set_property PACKAGE_PIN V13  [get_ports {val2[14]}];  # "HD-D15"
+ set_property PACKAGE_PIN AA14 [get_ports {val2[15]}];  # "HD-D2"
+ set_property PACKAGE_PIN Y14  [get_ports {val2[16]}];  # "HD-D3"
+ set_property PACKAGE_PIN AB15 [get_ports {val2[17]}];  # "HD-D4"
+ set_property PACKAGE_PIN AB16 [get_ports {val2[18]}];  # "HD-D5"
+ set_property PACKAGE_PIN AA16 [get_ports {val2[19]}];  # "HD-D6"
+ set_property PACKAGE_PIN AB17 [get_ports {val2[20]}];  # "HD-D7"
+ set_property PACKAGE_PIN AA17 [get_ports {val2[21]}];  # "HD-D8"
+ set_property PACKAGE_PIN Y15  [get_ports {val2[22]}];  # "HD-D9"
+ set_property PACKAGE_PIN U16  [get_ports {val2[23]}];  # "HD-DE"
+ set_property PACKAGE_PIN V17  [get_ports {val2[24]}];  # "HD-HSYNC"
+ set_property PACKAGE_PIN W16  [get_ports {val2[25]}];  # "HD-INT"
+ set_property PACKAGE_PIN AA18 [get_ports {val2[26]}];  # "HD-SCL"
+ set_property PACKAGE_PIN Y16  [get_ports {val2[27]}];  # "HD-SDA"
+ set_property PACKAGE_PIN U15  [get_ports {val2[28]}];  # "HD-SPDIF"
+ set_property PACKAGE_PIN Y18  [get_ports {val2[29]}];  # "HD-SPDIFO"
+ set_property PACKAGE_PIN W17  [get_ports {val2[30]}];  # "HD-VSYNC"
 
 # ----------------------------------------------------------------------------
 # User LEDs - Bank 33
 # ---------------------------------------------------------------------------- 
-# set_property PACKAGE_PIN T22 [get_ports {LD0}];  # "LD0"
-# set_property PACKAGE_PIN T21 [get_ports {LD1}];  # "LD1"
-# set_property PACKAGE_PIN U22 [get_ports {LD2}];  # "LD2"
-# set_property PACKAGE_PIN U21 [get_ports {LD3}];  # "LD3"
-# set_property PACKAGE_PIN V22 [get_ports {LD4}];  # "LD4"
-# set_property PACKAGE_PIN W22 [get_ports {LD5}];  # "LD5"
-# set_property PACKAGE_PIN U19 [get_ports {LD6}];  # "LD6"
-# set_property PACKAGE_PIN U14 [get_ports {LD7}];  # "LD7"
+ set_property PACKAGE_PIN T22 [get_ports {val2[31]}];  # "LD0"
+ 
+ 
+ set_property PACKAGE_PIN T21 [get_ports {val3[0]}];  # "LD1"
+ set_property PACKAGE_PIN U22 [get_ports {val3[1]}];  # "LD2"
+ set_property PACKAGE_PIN U21 [get_ports {val3[2]}];  # "LD3"
+ set_property PACKAGE_PIN V22 [get_ports {val3[3]}];  # "LD4"
+ set_property PACKAGE_PIN W22 [get_ports {val3[4]}];  # "LD5"
+ set_property PACKAGE_PIN U19 [get_ports {val3[5]}];  # "LD6"
+ set_property PACKAGE_PIN U14 [get_ports {val3[6]}];  # "LD7"
 
 # ----------------------------------------------------------------------------
 # VGA Output - Bank 33
 # ---------------------------------------------------------------------------- 
-# set_property PACKAGE_PIN Y21  [get_ports {VGA_B1}];  # "VGA-B1"
-# set_property PACKAGE_PIN Y20  [get_ports {VGA_B2}];  # "VGA-B2"
-# set_property PACKAGE_PIN AB20 [get_ports {VGA_B3}];  # "VGA-B3"
-# set_property PACKAGE_PIN AB19 [get_ports {VGA_B4}];  # "VGA-B4"
-# set_property PACKAGE_PIN AB22 [get_ports {VGA_G1}];  # "VGA-G1"
-# set_property PACKAGE_PIN AA22 [get_ports {VGA_G2}];  # "VGA-G2"
-# set_property PACKAGE_PIN AB21 [get_ports {VGA_G3}];  # "VGA-G3"
-# set_property PACKAGE_PIN AA21 [get_ports {VGA_G4}];  # "VGA-G4"
-# set_property PACKAGE_PIN AA19 [get_ports {VGA_HS}];  # "VGA-HS"
-# set_property PACKAGE_PIN V20  [get_ports {VGA_R1}];  # "VGA-R1"
-# set_property PACKAGE_PIN U20  [get_ports {VGA_R2}];  # "VGA-R2"
-# set_property PACKAGE_PIN V19  [get_ports {VGA_R3}];  # "VGA-R3"
-# set_property PACKAGE_PIN V18  [get_ports {VGA_R4}];  # "VGA-R4"
-# set_property PACKAGE_PIN Y19  [get_ports {VGA_VS}];  # "VGA-VS"
+ set_property PACKAGE_PIN Y21  [get_ports {val3[7]}];  # "VGA-B1"
+ set_property PACKAGE_PIN Y20  [get_ports {val3[8]}];  # "VGA-B2"
+ set_property PACKAGE_PIN AB20 [get_ports {val3[9]}];  # "VGA-B3"
+ set_property PACKAGE_PIN AB19 [get_ports {val3[10]}];  # "VGA-B4"
+ set_property PACKAGE_PIN AB22 [get_ports {val3[11]}];  # "VGA-G1"
+ set_property PACKAGE_PIN AA22 [get_ports {val3[12]}];  # "VGA-G2"
+ set_property PACKAGE_PIN AB21 [get_ports {val3[13]}];  # "VGA-G3"
+ set_property PACKAGE_PIN AA21 [get_ports {val3[14]}];  # "VGA-G4"
+ set_property PACKAGE_PIN AA19 [get_ports {val3[15]}];  # "VGA-HS"
+ set_property PACKAGE_PIN V20  [get_ports {val3[16]}];  # "VGA-R1"
+ set_property PACKAGE_PIN U20  [get_ports {val3[17]}];  # "VGA-R2"
+ set_property PACKAGE_PIN V19  [get_ports {val3[18]}];  # "VGA-R3"
+ set_property PACKAGE_PIN V18  [get_ports {val3[19]}];  # "VGA-R4"
+ set_property PACKAGE_PIN Y19  [get_ports {val3[20]}];  # "VGA-VS"
 
 # ----------------------------------------------------------------------------
 # User Push Buttons - Bank 34
 # ---------------------------------------------------------------------------- 
-#set_property PACKAGE_PIN P16 [get_ports {screen_on}];  # "BTNC"
-#set_property PACKAGE_PIN R16 [get_ports {poweroff}];  # "BTND"
-#set_property PACKAGE_PIN N15 [get_ports {screen_off}];  # "BTNL"
-# set_property PACKAGE_PIN R18 [get_ports {BTNR}];  # "BTNR"
-#set_property PACKAGE_PIN T18 [get_ports {init_oled}];  # "BTNU"
+set_property PACKAGE_PIN P16 [get_ports {val3[21]}];  # "BTNC"
+set_property PACKAGE_PIN R16 [get_ports {val3[22]}];  # "BTND"
+set_property PACKAGE_PIN N15 [get_ports {val3[23]}];  # "BTNL"
+set_property PACKAGE_PIN R18 [get_ports {val3[24]}];  # "BTNR"
+set_property PACKAGE_PIN T18 [get_ports {val3[25]}];  # "BTNU"
 
 # ----------------------------------------------------------------------------
 # USB OTG Reset - Bank 34
 # ---------------------------------------------------------------------------- 
-# set_property PACKAGE_PIN L16 [get_ports {OTG_VBUSOC}];  # "OTG-VBUSOC"
+ set_property PACKAGE_PIN L16 [get_ports {val3[26]}];  # "OTG-VBUSOC"
 
 # ----------------------------------------------------------------------------
 # XADC GIO - Bank 34
 # ---------------------------------------------------------------------------- 
-# set_property PACKAGE_PIN H15 [get_ports {XADC_GIO0}];  # "XADC-GIO0"
-# set_property PACKAGE_PIN R15 [get_ports {XADC_GIO1}];  # "XADC-GIO1"
-# set_property PACKAGE_PIN K15 [get_ports {XADC_GIO2}];  # "XADC-GIO2"
-# set_property PACKAGE_PIN J15 [get_ports {XADC_GIO3}];  # "XADC-GIO3"
+ set_property PACKAGE_PIN H15 [get_ports {val3[27]}];  # "XADC-GIO0"
+ set_property PACKAGE_PIN R15 [get_ports {val3[28]}];  # "XADC-GIO1"
+ set_property PACKAGE_PIN K15 [get_ports {val3[29]}];  # "XADC-GIO2"
+ set_property PACKAGE_PIN J15 [get_ports {val3[30]}];  # "XADC-GIO3"
 
 # ----------------------------------------------------------------------------
 # Miscellaneous - Bank 34
 # ---------------------------------------------------------------------------- 
-# set_property PACKAGE_PIN K16 [get_ports {PUDC_B}];  # "PUDC_B"
+ set_property PACKAGE_PIN K16 [get_ports {val3[31]}];  # "PUDC_B"
 
 # ----------------------------------------------------------------------------
 # USB OTG Reset - Bank 35
 # ---------------------------------------------------------------------------- 
-# set_property PACKAGE_PIN G17 [get_ports {OTG_RESETN}];  # "OTG-RESETN"
+ set_property PACKAGE_PIN G17 [get_ports {global_resetN}];  # "OTG-RESETN"
 
 # ----------------------------------------------------------------------------
 # User DIP Switches - Bank 35
@@ -262,52 +264,52 @@ create_clock -add -name sys_clk_pin -period 10.00 -waveform {0 5} [get_ports {sy
 # ----------------------------------------------------------------------------
 # FMC Expansion Connector - Bank 34
 # ---------------------------------------------------------------------------- 
-# set_property PACKAGE_PIN L19 [get_ports {FMC_CLK0_N}];  # "FMC-CLK0_N"
-# set_property PACKAGE_PIN L18 [get_ports {FMC_CLK0_P}];  # "FMC-CLK0_P"
-# set_property PACKAGE_PIN M20 [get_ports {FMC_LA00_CC_N}];  # "FMC-LA00_CC_N"
-# set_property PACKAGE_PIN M19 [get_ports {FMC_LA00_CC_P}];  # "FMC-LA00_CC_P"
-# set_property PACKAGE_PIN N20 [get_ports {FMC_LA01_CC_N}];  # "FMC-LA01_CC_N"
-# set_property PACKAGE_PIN N19 [get_ports {FMC_LA00_CC_P}];  # "FMC-LA01_CC_P"
-# set_property PACKAGE_PIN P18 [get_ports {FMC_LA02_N}];  # "FMC-LA02_N"
-# set_property PACKAGE_PIN P17 [get_ports {FMC_LA02_P}];  # "FMC-LA02_P"
-# set_property PACKAGE_PIN P22 [get_ports {FMC_LA03_N}];  # "FMC-LA03_N"
-# set_property PACKAGE_PIN N22 [get_ports {FMC_LA03_P}];  # "FMC-LA03_P"
-# set_property PACKAGE_PIN M22 [get_ports {FMC_LA04_N}];  # "FMC-LA04_N"
-# set_property PACKAGE_PIN M21 [get_ports {FMC_LA04_P}];  # "FMC-LA04_P"
-# set_property PACKAGE_PIN K18 [get_ports {FMC_LA05_N}];  # "FMC-LA05_N"
-# set_property PACKAGE_PIN J18 [get_ports {FMC_LA05_P}];  # "FMC-LA05_P"
-# set_property PACKAGE_PIN L22 [get_ports {FMC_LA06_N}];  # "FMC-LA06_N"
-# set_property PACKAGE_PIN L21 [get_ports {FMC_LA06_P}];  # "FMC-LA06_P"
-# set_property PACKAGE_PIN T17 [get_ports {FMC_LA07_N}];  # "FMC-LA07_N"
-# set_property PACKAGE_PIN T16 [get_ports {FMC_LA07_P}];  # "FMC-LA07_P"
-# set_property PACKAGE_PIN J22 [get_ports {FMC_LA08_N}];  # "FMC-LA08_N"
-# set_property PACKAGE_PIN J21 [get_ports {FMC_LA08_P}];  # "FMC-LA08_P"
-# set_property PACKAGE_PIN R21 [get_ports {FMC_LA09_N}];  # "FMC-LA09_N"
-# set_property PACKAGE_PIN R20 [get_ports {FMC_LA09_P}];  # "FMC-LA09_P"
-# set_property PACKAGE_PIN T19 [get_ports {FMC_LA10_N}];  # "FMC-LA10_N"
-# set_property PACKAGE_PIN R19 [get_ports {FMC_LA10_P}];  # "FMC-LA10_P"
-# set_property PACKAGE_PIN N18 [get_ports {FMC_LA11_N}];  # "FMC-LA11_N"
-# set_property PACKAGE_PIN N17 [get_ports {FMC_LA11_P}];  # "FMC-LA11_P"
-# set_property PACKAGE_PIN P21 [get_ports {FMC_LA12_N}];  # "FMC-LA12_N"
-# set_property PACKAGE_PIN P20 [get_ports {FMC_LA12_P}];  # "FMC-LA12_P"
-# set_property PACKAGE_PIN M17 [get_ports {FMC_LA13_N}];  # "FMC-LA13_N"
-# set_property PACKAGE_PIN L17 [get_ports {FMC_LA13_P}];  # "FMC-LA13_P"
-# set_property PACKAGE_PIN K20 [get_ports {FMC_LA14_N}];  # "FMC-LA14_N"
-# set_property PACKAGE_PIN K19 [get_ports {FMC_LA14_P}];  # "FMC-LA14_P"
-# set_property PACKAGE_PIN J17 [get_ports {FMC_LA15_N}];  # "FMC-LA15_N"
-# set_property PACKAGE_PIN J16 [get_ports {FMC_LA15_P}];  # "FMC-LA15_P"
-# set_property PACKAGE_PIN K21 [get_ports {FMC_LA16_N}];  # "FMC-LA16_N"
-# set_property PACKAGE_PIN J20 [get_ports {FMC_LA16_P}];  # "FMC-LA16_P"
+ set_property PACKAGE_PIN L19 [get_ports {IPC_output_data[0]}];  # "FMC-CLK0_N"
+ set_property PACKAGE_PIN L18 [get_ports {IPC_output_data[1]}];  # "FMC-CLK0_P"
+ set_property PACKAGE_PIN M20 [get_ports {IPC_output_data[2]}];  # "FMC-LA00_CC_N"
+ set_property PACKAGE_PIN M19 [get_ports {IPC_output_data[3]}];  # "FMC-LA00_CC_P"
+ set_property PACKAGE_PIN N20 [get_ports {IPC_output_data[4]}];  # "FMC-LA01_CC_N"
+ set_property PACKAGE_PIN N19 [get_ports {IPC_output_data[5]}];  # "FMC-LA01_CC_P"
+ set_property PACKAGE_PIN P18 [get_ports {IPC_output_data[6]}];  # "FMC-LA02_N"
+ set_property PACKAGE_PIN P17 [get_ports {IPC_output_data[7]}];  # "FMC-LA02_P"
+ set_property PACKAGE_PIN P22 [get_ports {IPC_output_data[8]}];  # "FMC-LA03_N"
+ set_property PACKAGE_PIN N22 [get_ports {IPC_output_data[9]}];  # "FMC-LA03_P"
+ set_property PACKAGE_PIN M22 [get_ports {IPC_output_data[10]}];  # "FMC-LA04_N"
+ set_property PACKAGE_PIN M21 [get_ports {IPC_output_data[11]}];  # "FMC-LA04_P"
+ set_property PACKAGE_PIN K18 [get_ports {IPC_output_data[12]}];  # "FMC-LA05_N"
+ set_property PACKAGE_PIN J18 [get_ports {IPC_output_data[13]}];  # "FMC-LA05_P"
+ set_property PACKAGE_PIN L22 [get_ports {IPC_output_data[14]}];  # "FMC-LA06_N"
+ set_property PACKAGE_PIN L21 [get_ports {IPC_output_data[15]}];  # "FMC-LA06_P"
+ set_property PACKAGE_PIN T17 [get_ports {IPC_output_data[16]}];  # "FMC-LA07_N"
+ set_property PACKAGE_PIN T16 [get_ports {IPC_output_data[17]}];  # "FMC-LA07_P"
+ set_property PACKAGE_PIN J22 [get_ports {IPC_output_data[18]}];  # "FMC-LA08_N"
+ set_property PACKAGE_PIN J21 [get_ports {IPC_output_data[19]}];  # "FMC-LA08_P"
+ set_property PACKAGE_PIN R21 [get_ports {IPC_output_data[20]}];  # "FMC-LA09_N"
+ set_property PACKAGE_PIN R20 [get_ports {IPC_output_data[21]}];  # "FMC-LA09_P"
+ set_property PACKAGE_PIN T19 [get_ports {IPC_output_data[22]}];  # "FMC-LA10_N"
+ set_property PACKAGE_PIN R19 [get_ports {IPC_output_data[23]}];  # "FMC-LA10_P"
+ set_property PACKAGE_PIN N18 [get_ports {IPC_output_data[24]}];  # "FMC-LA11_N"
+ set_property PACKAGE_PIN N17 [get_ports {IPC_output_data[25]}];  # "FMC-LA11_P"
+ set_property PACKAGE_PIN P21 [get_ports {IPC_output_data[26]}];  # "FMC-LA12_N"
+ set_property PACKAGE_PIN P20 [get_ports {IPC_output_data[27]}];  # "FMC-LA12_P"
+ set_property PACKAGE_PIN M17 [get_ports {IPC_output_data[28]}];  # "FMC-LA13_N"
+ set_property PACKAGE_PIN L17 [get_ports {IPC_output_data[29]}];  # "FMC-LA13_P"
+ set_property PACKAGE_PIN K20 [get_ports {IPC_output_data[30]}];  # "FMC-LA14_N"
+ set_property PACKAGE_PIN K19 [get_ports {IPC_output_data[31]}];  # "FMC-LA14_P"
+ set_property PACKAGE_PIN J17 [get_ports {IPC_output_data[32]}];  # "FMC-LA15_N"
+ set_property PACKAGE_PIN J16 [get_ports {IPC_output_data[33]}];  # "FMC-LA15_P"
+ set_property PACKAGE_PIN K21 [get_ports {IPC_output_data[34]}];  # "FMC-LA16_N"
+ set_property PACKAGE_PIN J20 [get_ports {IPC_output_data[35]}];  # "FMC-LA16_P"
 
 # ----------------------------------------------------------------------------
 # FMC Expansion Connector - Bank 35
 # ---------------------------------------------------------------------------- 
-# set_property PACKAGE_PIN C19 [get_ports {FMC_CLK1_N}];  # "FMC-CLK1_N"
-# set_property PACKAGE_PIN D18 [get_ports {FMC_CLK1_P}];  # "FMC-CLK1_P"
-# set_property PACKAGE_PIN B20 [get_ports {FMC_LA17_CC_N}];  # "FMC-LA17_CC_N"
-# set_property PACKAGE_PIN B19 [get_ports {FMC_LA17_CC_P}];  # "FMC-LA17_CC_P"
-# set_property PACKAGE_PIN C20 [get_ports {FMC_LA18_CC_N}];  # "FMC-LA18_CC_N"
-# set_property PACKAGE_PIN D20 [get_ports {FMC_LA18_CC_P}];  # "FMC-LA18_CC_P"
+ set_property PACKAGE_PIN C19 [get_ports {IPC_output_data[36]}];  # "FMC-CLK1_N"
+ set_property PACKAGE_PIN D18 [get_ports {IPC_output_data[37]}];  # "FMC-CLK1_P"
+ set_property PACKAGE_PIN B20 [get_ports {IPC_output_data[38]}];  # "FMC-LA17_CC_N"
+ set_property PACKAGE_PIN B19 [get_ports {IPC_output_data[39]}];  # "FMC-LA17_CC_P"
+ set_property PACKAGE_PIN C20 [get_ports {IPC_output_data[40]}];  # "FMC-LA18_CC_N"
+ set_property PACKAGE_PIN D20 [get_ports {IPC_output_data[41]}];  # "FMC-LA18_CC_P"
 # set_property PACKAGE_PIN G16 [get_ports {FMC_LA19_N}];  # "FMC-LA19_N"
 # set_property PACKAGE_PIN G15 [get_ports {FMC_LA19_P}];  # "FMC-LA19_P"
 # set_property PACKAGE_PIN G21 [get_ports {FMC_LA20_N}];  # "FMC-LA20_N"
