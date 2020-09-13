@@ -39,9 +39,9 @@ package COMMON_PACKAGE is
     type INTERMITTENCY_ARR_INT_TYPE is array (integer range <>) of INTEGER; -- forse ora non piu ma non so se vada
     
 
-    constant INTERMITTENCY_NUM_ELEMNTS_ROM      : integer := 1000; -- indica quanti valori ha la ROM dove c'?? il voltage trace
-    constant INTERMITTENCY_MAX_VAL_ROM_TRACE    : integer := 330; -- indica il valore MAX dei dati nella ROM
-    constant INTERMITTENCY_PRESCALER            : integer := 16; -- indica il prescaler con cui vengono pescati i dati nella ROM
+    constant INTERMITTENCY_NUM_ELEMNTS_ROM      : integer := 1570; -- indica quanti valori ha la ROM dove c'?? il voltage trace
+    constant INTERMITTENCY_MAX_VAL_ROM_TRACE    : integer := 5252; -- indica il valore MAX dei dati nella ROM
+    constant INTERMITTENCY_PRESCALER            : integer := 8; -- indica il prescaler con cui vengono pescati i dati nella ROM
 
     constant nv_reg_addr_width_bit              : INTEGER := integer(ceil(log2(real(NV_REG_WIDTH)))); 
     constant v_reg_addr_width_bit               : INTEGER := integer(ceil(log2(real(V_REG_WIDTH))));
