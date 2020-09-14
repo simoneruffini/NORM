@@ -91,28 +91,28 @@ architecture Behavioral of characterization_testbench is
     
 ----##!!--------------------DO NOT TOUCH LINES BELOW -----------------------------
 ----##DB!!------------------------------------------------------------------------
---    component fsm_nv_reg_db is
---        port ( 
---            clk                     : in STD_LOGIC;
---            resetN                  : in STD_LOGIC;
---            thresh_stats            : in threshold_t;
---            task_status             : in STD_LOGIC;
---            fsm_state               : out fsm_nv_reg_state_t;
---            fsm_state_sig           : out fsm_nv_reg_state_t --used with care (it is the future state of the machine, and it is combinatory so it is prone to glitces)
---        );
---    end component;
+component fsm_nv_reg_db is
+    port ( 
+        clk                     : in STD_LOGIC;
+        resetN                  : in STD_LOGIC;
+        thresh_stats            : in threshold_t;
+        task_status             : in STD_LOGIC;
+        fsm_state               : out fsm_nv_reg_state_t;
+        fsm_state_sig           : out fsm_nv_reg_state_t --used with care (it is the future state of the machine, and it is combinatory so it is prone to glitces)
+    );
+end component;
 ----!!DB##------------------------------------------------------------------------
 ----##CB!!------------------------------------------------------------------------
---    component fsm_nv_reg_cb is
---        port ( 
---            clk                     : in STD_LOGIC;
---            resetN                  : in STD_LOGIC;
---            task_status             : in STD_LOGIC;
---            period_backup_clks      : integer;
---            fsm_state               : out fsm_nv_reg_state_t;
---            fsm_state_sig           : out fsm_nv_reg_state_t --used with care (it is the future state of the machine, and it is combinatory so it is prone to glitces)
---        );
---    end component;
+------    component fsm_nv_reg_cb is
+------        port ( 
+------            clk                     : in STD_LOGIC;
+------            resetN                  : in STD_LOGIC;
+------            task_status             : in STD_LOGIC;
+------            period_backup_clks      : integer;
+------            fsm_state               : out fsm_nv_reg_state_t;
+------            fsm_state_sig           : out fsm_nv_reg_state_t --used with care (it is the future state of the machine, and it is combinatory so it is prone to glitces)
+------        );
+------    end component;
 ----!!CB##------------------------------------------------------------------------
 ----##TB!!------------------------------------------------------------------------
 --    component fsm_nv_reg_tb is
@@ -193,6 +193,7 @@ architecture Behavioral of characterization_testbench is
     
     
     signal warning_signal     : std_logic := '0';
+    signal warning_threshold  : integer := 3100;
 
     --- TESTBENCH SIGNALS ---
     signal sys_clk          : std_logic;
@@ -251,26 +252,26 @@ begin
     
 ----##!!--------------------DO NOT TOUCH LINES BELOW -----------------------------
 ----##DB!!------------------------------------------------------------------------
---    FSM_NV_REG_1 : fsm_nv_reg_db
---    port map(
---        clk             => sys_clk,
---        resetN          => resetN_emulator,
---        thresh_stats    => fsm_nv_reg_thresh_stats,
---        task_status     => fsm_nv_reg_task_status,       
---        fsm_state       => fsm_nv_reg_state_internal,
---        fsm_state_sig   => fsm_nv_reg_state_sig_internal
---    );
+FSM_NV_REG_1 : fsm_nv_reg_db
+port map(
+    clk             => sys_clk,
+    resetN          => resetN_emulator,
+    thresh_stats    => fsm_nv_reg_thresh_stats,
+    task_status     => fsm_nv_reg_task_status,       
+    fsm_state       => fsm_nv_reg_state_internal,
+    fsm_state_sig   => fsm_nv_reg_state_sig_internal
+);
 ----!!DB##------------------------------------------------------------------------
 ----##CB!!------------------------------------------------------------------------
---    FSM_NV_REG_1 : fsm_nv_reg_cb
---    port map(
---        clk                 => sys_clk,
---        resetN              => resetN_emulator,
---        task_status         => fsm_nv_reg_task_status,   
---        period_backup_clks  => 975,    
---        fsm_state           => fsm_nv_reg_state_internal,
---        fsm_state_sig       => fsm_nv_reg_state_sig_internal
---    );
+------    FSM_NV_REG_1 : fsm_nv_reg_cb
+------    port map(
+------        clk                 => sys_clk,
+------        resetN              => resetN_emulator,
+------        task_status         => fsm_nv_reg_task_status,   
+------        period_backup_clks  => 975,    
+------        fsm_state           => fsm_nv_reg_state_internal,
+------        fsm_state_sig       => fsm_nv_reg_state_sig_internal
+------    );
 ----!!CB##------------------------------------------------------------------------
 ----##TB!!------------------------------------------------------------------------
 --    FSM_NV_REG_1 : fsm_nv_reg_tb
@@ -309,8 +310,8 @@ begin
     power_state_en(2) <= warning_signal;
     power_state_en(1) <= reset_emulator;
     
-    threshold_value(0) <= 300;
-    threshold_value(1) <= 310;
+    threshold_value(0) <= 2800;
+    threshold_value(1) <= warning_threshold;
 --    threshold_value(2) <= 210;
 
     power_counter_reset <= (others => '1') when global_resetN = '0' else (others => '0');

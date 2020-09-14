@@ -60,11 +60,11 @@ if __name__ == "__main__":
     db_results_plots_path = "../doc/resources/characterization/"
     characterization_testbench_path = "../test/characterization_testbench.vhd"
     time_constant_us = 100
-    value_constant = 200
+    value_constant = 2000
 
-    start_value_threshold = 301
-    end_value_threshold = 330
-    threshold_step = 1
+    start_value_threshold = 3000
+    end_value_threshold = 5000
+    threshold_step = 20
     ##--------------------------------------------------------------------------------
 
 
@@ -110,7 +110,7 @@ if __name__ == "__main__":
     testbench_shtdwn_counter_path = "/characterization_testbench/shtdwn_counter"
     testbench_clk_counter_path = "/characterization_testbench/clk_counter"
 
-    threshold_signal_path = "/characterization_testbench/threshold_value[1]"
+    threshold_signal_path = "/characterization_testbench/warning_threshold"
 
     ## Create script tcl script file (later removed)
     tcl_script_file = open(tcl_script_name, 'w')
@@ -148,7 +148,7 @@ if __name__ == "__main__":
         printlnres(tcl_script_file, "[get_value -radix unsigned " + testbench_val1_path +" ];")
         tcl_script_file.write("get_value -radix unsigned " + threshold_signal_path + endl)
         tcl_script_file.write("get_value -radix unsigned " + testbench_val1_path + endl)
-        tcl_script_file.write("relaunch_sim" + endl)
+        tcl_script_file.write("restart" + endl)
 
     printlnres(tcl_script_file, "fixed_time_sim constant data ------------------------------------<")
     tcl_script_file.write("run " + str(time_constant_us) + " us" + endl)
