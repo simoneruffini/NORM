@@ -59,11 +59,11 @@ if __name__ == "__main__":
     db_results_path = "./DB_results.txt"
     db_results_plots_path = "../doc/resources/characterization/"
     characterization_testbench_path = "../test/characterization_testbench.vhd"
-    time_constant_us = 1000
-    value_constant = 2000
+    time_constant_us = 100
+    value_constant = 200
 
     start_value_threshold = 301
-    end_value_threshold = 303
+    end_value_threshold = 330
     threshold_step = 1
     ##--------------------------------------------------------------------------------
 
@@ -136,6 +136,11 @@ if __name__ == "__main__":
     tcl_script_file.write("set fp [open " + db_results_path + " w]" + endl)
     tcl_script_file.write("launch_simulation" + endl)
 
+    ### FIXED TIME ###
+    printlnres(tcl_script_file, "Fixed time simulation start ######################################")
+    printlnres(tcl_script_file, "fixed_time_sim variable data ------------------------------------<")
+    printlnres(tcl_script_file, "threshold_value[1];val1;")
+
     for threshold in allThreshold:
         tcl_script_file.write("set_value -radix unsigned " + threshold_signal_path + " " + str(threshold) + endl)
         tcl_script_file.write("run " + str(time_constant_us) + " us" + endl)
@@ -144,6 +149,38 @@ if __name__ == "__main__":
         tcl_script_file.write("get_value -radix unsigned " + threshold_signal_path + endl)
         tcl_script_file.write("get_value -radix unsigned " + testbench_val1_path + endl)
         tcl_script_file.write("relaunch_sim" + endl)
+
+    printlnres(tcl_script_file, "fixed_time_sim constant data ------------------------------------<")
+    tcl_script_file.write("run " + str(time_constant_us) + " us" + endl)
+    printlnres(tcl_script_file, "fixed_time:\t"+ str(time_constant_us) + " us")
+    printlnres(tcl_script_file, "shtdwn_counter:\t[get_value -radix unsigned " + testbench_shtdwn_counter_path +" ]")
+    printlnres(tcl_script_file, "clk_counter:\t[get_value -radix unsigned " + testbench_clk_counter_path +" ]")
+    tcl_script_file.write("restart" + endl)
+    printlnres(tcl_script_file, "Fixed time simulation end ########################################\n" + endl)
+
+    ### FIXED VALUE ###
+    tcl_script_file.write("add_condition -name cond1 -radix unsigned \"" + testbench_val1_path + " == " + str(value_constant) + "\" {" + endl)
+    tcl_script_file.write("global fp" + endl)
+    printres(tcl_script_file, "[get_value -radix unsigned " + threshold_signal_path + " ];")
+    printres(tcl_script_file, "[current_time];")
+    printres(tcl_script_file, "[get_value -radix unsigned " + testbench_shtdwn_counter_path +" ];")
+    printlnres(tcl_script_file, "[get_value -radix unsigned " + testbench_clk_counter_path +" ];")
+    tcl_script_file.write("stop }" + endl)
+
+    tcl_script_file.write("# Fixed value simulation start" + endl)
+    printlnres(tcl_script_file, "Fixed value simulation start #####################################")
+    printlnres(tcl_script_file, "fixed_val_sim variable data -------------------------------------<")
+    printlnres(tcl_script_file, "period_backup_clks;time_us;shtdwn_counter;clk_counter;")
+    for threshold in allThreshold:
+        tcl_script_file.write("set_value -radix unsigned " + threshold_signal_path + " " + str(threshold) + endl)
+        tcl_script_file.write("run 1 s" + endl) 
+        tcl_script_file.write("restart" + endl)
+
+    printlnres(tcl_script_file, "fixed_val_sim constant data -------------------------------------<")
+    printlnres(tcl_script_file, "val1:\t" + str(value_constant))
+
+    tcl_script_file.write("# Fixed value simulation end" + endl)
+    printlnres(tcl_script_file, "Fixed value simulation end #######################################")
 
     tcl_script_file.close()
 
