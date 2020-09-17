@@ -32,6 +32,7 @@ use IEEE.NUMERIC_STD.ALL;
 --use UNISIM.VComponents.all;
 
 use work.NVME_FRAMEWORK_PACKAGE.all;
+use work.COMMON_PACKAGE.all;
 
 entity top_level_testbench is
     
@@ -137,9 +138,9 @@ begin
 
     clock_proc : process begin
         sys_clk <= '0';
-        wait for 5 ns;
+        wait for MASTER_CLK_PERIOD_NS/2 * 1ns;
         sys_clk <= '1';
-        wait for 5 ns;
+        wait for MASTER_CLK_PERIOD_NS/2 * 1ns;
     end process;    
     
 end Behavioral;

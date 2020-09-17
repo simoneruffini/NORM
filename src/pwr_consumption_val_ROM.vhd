@@ -48,7 +48,7 @@ architecture Behavioral of pwr_consumption_val_ROM is
     signal ROM: rom_type := (
         100,
         50,
-        200
+        50
     );
 begin
     get_data:process (clk) is begin

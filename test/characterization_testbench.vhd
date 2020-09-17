@@ -24,7 +24,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
---use IEEE.NUMERIC_STD.ALL;
+use IEEE.NUMERIC_STD.ALL;
 use IEEE.math_real.all;
 -- Uncomment the following library declaration if instantiating
 -- any Xilinx leaf cells in this code.
@@ -91,28 +91,28 @@ architecture Behavioral of characterization_testbench is
     
 ----##!!--------------------DO NOT TOUCH LINES BELOW -----------------------------
 ----##DB!!------------------------------------------------------------------------
-component fsm_nv_reg_db is
-    port ( 
-        clk                     : in STD_LOGIC;
-        resetN                  : in STD_LOGIC;
-        thresh_stats            : in threshold_t;
-        task_status             : in STD_LOGIC;
-        fsm_state               : out fsm_nv_reg_state_t;
-        fsm_state_sig           : out fsm_nv_reg_state_t --used with care (it is the future state of the machine, and it is combinatory so it is prone to glitces)
-    );
-end component;
+--    component fsm_nv_reg_db is
+--        port ( 
+--            clk                     : in STD_LOGIC;
+--            resetN                  : in STD_LOGIC;
+--            thresh_stats            : in threshold_t;
+--            task_status             : in STD_LOGIC;
+--            fsm_state               : out fsm_nv_reg_state_t;
+--            fsm_state_sig           : out fsm_nv_reg_state_t 
+--        );
+--    end component;
 ----!!DB##------------------------------------------------------------------------
 ----##CB!!------------------------------------------------------------------------
-------    component fsm_nv_reg_cb is
-------        port ( 
-------            clk                     : in STD_LOGIC;
-------            resetN                  : in STD_LOGIC;
-------            task_status             : in STD_LOGIC;
-------            period_backup_clks      : integer;
-------            fsm_state               : out fsm_nv_reg_state_t;
-------            fsm_state_sig           : out fsm_nv_reg_state_t --used with care (it is the future state of the machine, and it is combinatory so it is prone to glitces)
-------        );
-------    end component;
+--    component fsm_nv_reg_cb is
+--        port ( 
+--            clk                     : in STD_LOGIC;
+--            resetN                  : in STD_LOGIC;
+--            task_status             : in STD_LOGIC;
+--            period_backup_clks      : integer;
+--            fsm_state               : out fsm_nv_reg_state_t;
+--            fsm_state_sig           : out fsm_nv_reg_state_t 
+--        );
+--    end component;
 ----!!CB##------------------------------------------------------------------------
 ----##TB!!------------------------------------------------------------------------
 --    component fsm_nv_reg_tb is
@@ -122,7 +122,7 @@ end component;
 --            volatile_counter_val    : in STD_LOGIC_VECTOR(31 downto 0);
 --            task_status             : in STD_LOGIC;
 --            fsm_state               : out fsm_nv_reg_state_t;
---            fsm_state_sig           : out fsm_nv_reg_state_t --used with care (it is the future state of the machine, and it is combinatory so it is prone to glitces)
+--            fsm_state_sig           : out fsm_nv_reg_state_t 
 --        );
 --    end component;
 ----!!TB##------------------------------------------------------------------------
@@ -201,6 +201,22 @@ end component;
     signal shtdwn_counter   : INTEGER := 0;
     signal clk_counter      : INTEGER := 0;
 
+    type IPC_fsm_type is(
+        wait_state, 
+        start_evaluation_1,
+        wait_evaluation_1,
+        start_evaluation_2,
+        wait_evaluation_2,
+        start_evaluation_3,
+        wait_evaluation_3
+    );
+    signal IPC_fsm_state : IPC_fsm_type := wait_state;
+    signal IPC_val0, IPC_val1, IPC_val2 : std_logic_vector(PWR_APPROX_COUNTER_NUM_BITS + PWR_CONSUMPTION_ROM_BITS downto 0) := (others => '0');
+
+    --%%## Do not tuch,below signal is controlled by the script
+    signal IPC_start_fsm_signal: STD_LOGIC := '0';
+    --%%## Do not tuch, above signal is controlled by the script
+
     
 begin
     
@@ -219,7 +235,7 @@ begin
         start_evaluation        => start_evaluation,
         evaluation_ready        => evaluation_ready,
         num_state_to_evaluate   => num_state_to_evaluate,
-        input_counter_val       => input_counter_val,
+        input_counter_val       => power_counter_val,
         output_data             => output_data
     );
         
@@ -252,33 +268,33 @@ begin
     
 ----##!!--------------------DO NOT TOUCH LINES BELOW -----------------------------
 ----##DB!!------------------------------------------------------------------------
-FSM_NV_REG_1 : fsm_nv_reg_db
-port map(
-    clk             => sys_clk,
-    resetN          => resetN_emulator,
-    thresh_stats    => fsm_nv_reg_thresh_stats,
-    task_status     => fsm_nv_reg_task_status,       
-    fsm_state       => fsm_nv_reg_state_internal,
-    fsm_state_sig   => fsm_nv_reg_state_sig_internal
-);
+--    FSM_NV_REG_1 : fsm_nv_reg_db
+--    port map(
+--        clk             => sys_clk,
+--        resetN          => resetN_emulator,
+--        thresh_stats    => fsm_nv_reg_thresh_stats,
+--        task_status     => fsm_nv_reg_task_status,       
+--        fsm_state       => fsm_nv_reg_state_internal,
+--        fsm_state_sig   => fsm_nv_reg_state_sig_internal
+--    );
 ----!!DB##------------------------------------------------------------------------
 ----##CB!!------------------------------------------------------------------------
-------    FSM_NV_REG_1 : fsm_nv_reg_cb
-------    port map(
-------        clk                 => sys_clk,
-------        resetN              => resetN_emulator,
-------        task_status         => fsm_nv_reg_task_status,   
-------        period_backup_clks  => 975,    
-------        fsm_state           => fsm_nv_reg_state_internal,
-------        fsm_state_sig       => fsm_nv_reg_state_sig_internal
-------    );
+--    FSM_NV_REG_1 : fsm_nv_reg_cb
+--    port map(
+--        clk                 => sys_clk,
+--        resetN              => resetN_emulator,
+--        task_status         => fsm_nv_reg_task_status,   
+--        period_backup_clks  => 975,    
+--        fsm_state           => fsm_nv_reg_state_internal,
+--        fsm_state_sig       => fsm_nv_reg_state_sig_internal
+--    );
 ----!!CB##------------------------------------------------------------------------
 ----##TB!!------------------------------------------------------------------------
 --    FSM_NV_REG_1 : fsm_nv_reg_tb
 --    port map(
 --        clk                     => sys_clk,
 --        resetN                  => resetN_emulator,
---        volatile_counter_val    => val1_sig,
+--        volatile_counter_val    => val1,
 --        task_status             => fsm_nv_reg_task_status,       
 --        fsm_state               => fsm_nv_reg_state_internal,
 --        fsm_state_sig           => fsm_nv_reg_state_sig_internal
@@ -306,9 +322,9 @@ port map(
     
     
     resetN_emulator <= not reset_emulator;
-    power_state_en(0) <= '1';
-    power_state_en(2) <= warning_signal;
-    power_state_en(1) <= reset_emulator;
+    power_state_en(0) <= '1' when fsm_nv_reg_state_internal = do_operation_s else '0'; --power consuption of the vol_cntr
+    power_state_en(1) <= '1' when nv_reg_en = '1' else '0'; --power consuption of the framework
+    power_state_en(2) <= '1' when fsm_nv_reg_state_internal = data_save_s else '0'; --power consuption of the data_save process (utilization of test_architecture(v_regs)+ fsm_nv_reg_X + framework(nv_reg))
     
     threshold_value(0) <= 2800;
     threshold_value(1) <= warning_threshold;
@@ -334,9 +350,9 @@ port map(
 
     clock_proc : process begin
         sys_clk <= '0';
-        wait for 5 ns;
+        wait for MASTER_CLK_PERIOD_NS/2 * 1ns;
         sys_clk <= '1';
-        wait for 5 ns;
+        wait for MASTER_CLK_PERIOD_NS/2 * 1ns;
     end process;    
     
     counter_proc: process (sys_clk,resetN_emulator,global_resetN)
@@ -354,6 +370,46 @@ port map(
         end if;
     end process;
 
+    IPC_fsm : process(sys_clk) begin
+        if rising_edge(sys_clk) then
+            start_evaluation <= '0';
+            num_state_to_evaluate <= 0;
+            case IPC_fsm_state is
+                when wait_state =>
+                    if (IPC_start_fsm_signal = '1') then
+                        IPC_fsm_state <= start_evaluation_1;
+                        IPC_start_fsm_signal <= '0';
+                    end if;
+                when start_evaluation_1 =>  
+                    start_evaluation <= '1';
+                    IPC_fsm_state <= wait_evaluation_1;
+                when wait_evaluation_1 =>
+                    if(evaluation_ready = '1') then
+                        IPC_val0 <= output_data;
+                        IPC_fsm_state <= start_evaluation_2;
+                    end if;
+                when start_evaluation_2 =>
+                    start_evaluation <= '1';
+                    num_state_to_evaluate <= 1;
+                    IPC_fsm_state <= wait_evaluation_2;
+                when wait_evaluation_2 =>
+                    num_state_to_evaluate <= 1;
+                    if(evaluation_ready = '1') then
+                        IPC_val1 <= output_data;
+                        IPC_fsm_state <= start_evaluation_3;
+                    end if;
+                when start_evaluation_3 =>
+                    start_evaluation <= '1';
+                    num_state_to_evaluate <= 2;
+                    IPC_fsm_state <= wait_evaluation_3;
+                when wait_evaluation_3 =>
+                    num_state_to_evaluate <= 2;
+                    if(evaluation_ready = '1') then
+                        IPC_val2 <= output_data;
+                        IPC_fsm_state <= wait_state;
+                    end if;          
+            end case;
+        end if;
+    end process;
                                
-    
 end Behavioral;
