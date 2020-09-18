@@ -53,6 +53,7 @@ package TEST_ARCHITECTURE_PACKAGE is
     );
 
     constant V_REG_WIDTH: INTEGER := 65536;
+    constant RST_EMU_THRESH: INTEGER := 2800;
 
 end package;
 package body TEST_ARCHITECTURE_PACKAGE is 

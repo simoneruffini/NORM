@@ -64,6 +64,8 @@ print(end_data_fixed_val)
 
 results_file.close()
 
+    ##used to make space for the vertical label on the y axis
+    ## some times still does not work
 plt.tight_layout()
 plt.xlim(0,max(end_data_fixed_time[0]))
 for i,y in enumerate(end_data_fixed_time[1:]):

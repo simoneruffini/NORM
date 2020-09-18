@@ -191,19 +191,12 @@ architecture Behavioral of top_level is
     signal nv_reg_din         : STD_LOGIC_VECTOR(31 DOWNTO 0);
     signal nv_reg_dout        : STD_LOGIC_VECTOR(31 DOWNTO 0);
     
-    
-    signal warning_signal     : std_logic := '0';
-    type state_type is(
-        wait_state,
-        save_state_1,
-        save_state_2,
-        save_state_3,
-        save_state_4
-    );  
-    signal present_state :  state_type := wait_state;
-    
+    --- INTERNAL SIGNALS ---
     signal val1_sig, val2_sig, val3_sig : std_logic_vector(31 downto 0); 
-    signal warning_threshold : integer := 3100;
+
+    --- Constants ---
+    constant hazard_threshold : integer := 3100;
+
 begin
     
     PWR_APPROX_1 : power_approximation
@@ -306,7 +299,7 @@ begin
         dout            => nv_reg_dout
     );
     
-    -- Ports routing
+    ----------------------------Start ports routing-------------------------------
     -- Connect IPC shignals --
     start_evaluation <= IPC_start_evaluation;
     IPC_evaluation_ready <= evaluation_ready;
@@ -318,26 +311,34 @@ begin
     val2 <= val2_sig;
     val3 <= val3_sig;
 
+    -- fsm signals
+    fsm_nv_reg_state <= fsm_nv_reg_state_internal;
+    fsm_nv_reg_task_status <= task_status;
+
     resetN_emulator <= not reset_emulator;
 
-    power_state_en(0) <= '1';
-    power_state_en(2) <= warning_signal;
-    power_state_en(1) <= reset_emulator;
-    
-    threshold_value(0) <= 2800;
-    threshold_value(1) <= warning_threshold;
---    threshold_value(2) <= 210;
+    power_counter_reset <= (others => '1') when global_resetN = '0' else (others => '0');
+    ----------------------------End ports routing---------------------------------
 
-   power_counter_reset <= (others => '1') when global_resetN = '0' else (others => '0');
+    -- IPC trigger: represents power consuption of the vol_cntr
+    power_state_en(0) <= '1' when fsm_nv_reg_state_internal = do_operation_s else '0'; 
+    
+    -- IPC trigger: represents power consuption of the framework
+    power_state_en(1) <= '1' when nv_reg_en = '1' else '0'; 
+    
+    -- IPC trigger: represents power consuption of the data_save process 
+    --> (utilization of test_architecture(v_regs) + fsm_nv_reg_X + framework(nv_reg))
+    power_state_en(2) <= '1' when fsm_nv_reg_state_internal = data_save_s else '0'; 
+
+    -- sets reset_emulator threshold
+    threshold_value(0) <= RST_EMU_THRESH;
+    -- sets the value for the hazard threshold, used by fsm_nv_reg_db
+    threshold_value(1) <=hazard_threshold;
+    --additional threshold if set in package, used by fsm_nv_reg_db
+--    threshold_value(2) <= 210;
 
     -- reset_emulator threshold
     select_threshold <= 0;    
-    
-    --TODO check if needed
-    warning_signal <= threshold_compared(1);
-    
-    fsm_nv_reg_state <= fsm_nv_reg_state_internal;
-    fsm_nv_reg_task_status <= task_status;
     
     -- hazard state set, used by fsm_nv_reg_db
     fsm_nv_reg_thresh_stats <= hazard when threshold_compared(1) = '1' else nothing; 

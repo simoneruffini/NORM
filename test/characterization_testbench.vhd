@@ -191,9 +191,7 @@ architecture Behavioral of characterization_testbench is
     signal nv_reg_din         : STD_LOGIC_VECTOR(31 DOWNTO 0);
     signal nv_reg_dout        : STD_LOGIC_VECTOR(31 DOWNTO 0);
     
-    
-    signal warning_signal     : std_logic := '0';
-    signal warning_threshold  : integer := 3100;
+    signal hazard_threshold  : integer := 3100;
 
     --- TESTBENCH SIGNALS ---
     signal sys_clk          : std_logic;
@@ -320,24 +318,28 @@ begin
         dout            => nv_reg_dout
     );
     
+    fsm_nv_reg_state <= fsm_nv_reg_state_internal;
+    fsm_nv_reg_task_status <= task_status;
     
     resetN_emulator <= not reset_emulator;
-    power_state_en(0) <= '1' when fsm_nv_reg_state_internal = do_operation_s else '0'; --power consuption of the vol_cntr
-    power_state_en(1) <= '1' when nv_reg_en = '1' else '0'; --power consuption of the framework
-    power_state_en(2) <= '1' when fsm_nv_reg_state_internal = data_save_s else '0'; --power consuption of the data_save process (utilization of test_architecture(v_regs)+ fsm_nv_reg_X + framework(nv_reg))
-    
-    threshold_value(0) <= 2800;
-    threshold_value(1) <= warning_threshold;
---    threshold_value(2) <= 210;
 
     power_counter_reset <= (others => '1') when global_resetN = '0' else (others => '0');
 
+    -- IPC trigger: represents power consuption of the vol_cntr
+    power_state_en(0) <= '1' when fsm_nv_reg_state_internal = do_operation_s else '0'; 
+    
+    -- IPC trigger: represents power consuption of the framework
+    power_state_en(1) <= '1' when nv_reg_en = '1' else '0'; 
+    
+    -- IPC trigger: represents power consuption of the data_save process 
+    --> (utilization of test_architecture(v_regs) + fsm_nv_reg_X + framework(nv_reg))
+    power_state_en(2) <= '1' when fsm_nv_reg_state_internal = data_save_s else '0'; 
+    
+    threshold_value(0) <= RST_EMU_THRESH;
+    threshold_value(1) <= hazard_threshold;
+--    threshold_value(2) <= 210;
+
     select_threshold <= 0;    
-    
-    warning_signal <= threshold_compared(1);
-    
-    fsm_nv_reg_state <= fsm_nv_reg_state_internal;
-    fsm_nv_reg_task_status <= task_status;
     
     fsm_nv_reg_thresh_stats <= hazard when threshold_compared(1) = '1' else nothing; 
 
