@@ -1,11 +1,7 @@
 TODOS:
-- __[ok]__: add power_approximation to project by using the states of `fsm_nv_reg` this could be used in charachterization process later
 - write characterization for the two types of model for each fsm_nv_reg
 - unify projects names and folders
 - use this [program](https://github.com/jeremiah-c-leary/vhdl-style-guide) to unify the code base (it must be configured properly)
-- tickle script for task based characterization
-- ticle script for time based characterization
-- python program to automate characterization (use of tickle scripts and grphs gen)
 - set scripts:
     - __[ok]__: create `/script` folder
     - create `generate_project.tcl` that will generate the whole project using the below scripts crated with `generate_scripts.tcl` 
@@ -15,6 +11,8 @@ TODOS:
         - `write_ip_tcl [get_ips]`: see [Tcl Command Reference](https://www.xilinx.com/support/documentation/sw_manuals/xilinx2019_2/ug835-vivado-tcl-commands.pdf) 
         - `write_xdc`: see above     
     - create `generate_scripts.tcl`: the scritpts differentiate from when they need to be generated during project and when they are run for project generation
+-__[ok]__: python program to automate characterization for task based backup
+- __[ok]__: add power_approximation to project by using the states of `fsm_nv_reg` this could be used in charachterization process later
 - __[ok]__: move `FRAM_MAX_DELAY_NS` from `test_architecture_package.vhd` to `GLOBAL_SETTINGS.vhd`
 - __[ok]__: rename `GLOBAL_SETTINGS.vhd` -> `NVME_FRAMEWORK_PACKAGE.vhd`
 - __[ok]__: rename `TEST_MODULE_PACKAGE.vhd` -> `TEST_ARCHITECTURE_PACKAGE.vhd`
@@ -35,7 +33,3 @@ TODOS:
 - __[ok]__: Refactor `fsm_status` to `fsm_nv_reg_state`
 - __[ok]__: Refactor `fsm_nv_reg_status` to `fsm_nv_reg_state_internal`
 - __[ok]__: Refactor `status` and `status_sig` to `fsm_state` and `fsm_state_sig`
-
-add_condition -name vol_cntr1_to_100 -radix dec {/vol_arc_testbench/vol_cntr1_value == 100} {
-    puts "vol_cntr1_value reached 100 at [current_time]" 
-    stop }

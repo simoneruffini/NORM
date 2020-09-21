@@ -49,7 +49,25 @@ for data in end_data:
 
 output.close()
 
-plt.plot(x,y,".-")
+shtdw_value = 2800
+wrng_value = 3000
+usefull_time = 0
+shtdw_time = 0
+wrng_time = 0
+for data in end_data:
+    if data>wrng_value:
+        usefull_time += 1
+    elif data <= wrng_value and data > shtdw_value:
+        wrng_time += 1
+    elif data <= shtdw_value:
+        shtdw_time +=1
+
+print("shutdown time: " + str(shtdw_time/len(end_data)*100) +"%")
+print("warning time: " + str(wrng_time/len(end_data)*100)+"%")
+print("usefull time: " + str(usefull_time/len(end_data)*100)+"%")
+plt.plot(x,y,"-", color="black")
+plt.axhline(y=shtdw_value,color="r")
+#plt.axhline(y=wrng_value,color="b")
 plt.grid()
 plt.show()
 
