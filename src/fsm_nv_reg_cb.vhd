@@ -92,19 +92,11 @@ begin
     );
     
     FSM_MV_REG_SEQ: process (clk,resetN) is 
---    variable do_operation_s_slack: INTEGER RANGE 0 to max_slack;
     begin
         if resetN = '0' then
             present_state <= shutdown_s;
---            do_operation_s_slack := 0;
         elsif rising_edge(clk) then
             present_state <= future_state;
---            if(present_state = do_operation_s AND do_operation_s_slack < max_slack ) then
---                present_state <= do_operation_s;
---                do_operation_s_slack := do_operation_s_slack + 1;
---            else
---                do_operation_s_slack := 0;
---            end if;
         end if;  
     end process;
     
