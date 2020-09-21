@@ -4,7 +4,7 @@ import re
 
 ##----------------------------------------------------------------------- Defaults
 results_plots_path = "../doc/resources/characterization/"
-results_path = "./CB_results.txt"
+results_path = "./characterization/results/CB_results.txt"
 results_name = "CB"
 ##-------------------------------------------------------------------------------- 
 
@@ -19,19 +19,19 @@ data_fix_val_tmp = []
 start_fix_time = 0
 start_fix_val= 0
 for line in allLines:
-    if "fixed_time_sim variable data" in line:
+    if "Fixed time simulation start" in line:
         start_fix_time = 1
     else:
         if start_fix_time == 1:
-            if "fixed_time_sim constant data" not in line:
+            if "Fixed time simulation end" not in line:
                 data_fix_time_tmp.append(str(line.strip()))
             else:
                 start_fix_time = 0
-    if "fixed_val_sim variable data" in line:    
+    if "Fixed value simulation start" in line:    
         start_fix_val = 1
     else:
         if start_fix_val == 1:
-            if "fixed_val_sim constant data" not in line:
+            if "Fixed value simulation end" not in line:
                 data_fix_val_tmp.append(str(line.strip()))
             else:
                 start_fix_val = 0
@@ -80,6 +80,7 @@ for i,y in enumerate(end_data_fixed_time[1:]):
     plt.grid()
     plt.tight_layout()
     plt.savefig(results_plots_path+"CB_fix_time_"+str.upper(names_fixed_time[i+1])+"_graph.pdf")
+    print("Saved graph: " + results_plots_path+"CB_fix_time_"+str.upper(names_fixed_time[i+1])+"_graph.pdf")
 
 plt.xlim(0,max(end_data_fixed_val[0]))
 for i,y in enumerate(end_data_fixed_val[1:]):
@@ -91,3 +92,4 @@ for i,y in enumerate(end_data_fixed_val[1:]):
     plt.grid()
     plt.tight_layout()
     plt.savefig(results_plots_path+"CB_fix_val_"+str.upper(names_fixed_val[i+1])+"_graph.pdf")
+    print("Saved graph: " + results_plots_path+"CB_fix_val_"+str.upper(names_fixed_val[i+1])+"_graph.pdf")
