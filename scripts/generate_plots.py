@@ -2,10 +2,26 @@ from matplotlib import pyplot as plt
 import argparse
 import re
 
+print("Which results would you plot?")
+print("\t-[1] DB (default)")
+print("\t-[2] CB")
+print("\t-[3] TB")
+choise = str(input("Make you choise: "))
+
+if choise == "2":
+    results_plots_path = "../doc/resources/characterization/"
+    results_path = "./characterization/results/CB_results.txt"
+    results_name = "CB"
+elif choise == "3":
+    results_plots_path = "../doc/resources/characterization/"
+    results_path = "./characterization/results/TB_results.txt"
+    results_name = "TB"
+else:
+    results_plots_path = "../doc/resources/characterization/"
+    results_path = "./characterization/results/DB_results.txt"
+    results_name = "DB"
 ##----------------------------------------------------------------------- Defaults
-results_plots_path = "../doc/resources/characterization/"
-results_path = "./characterization/results/CB_results.txt"
-results_name = "CB"
+
 ##-------------------------------------------------------------------------------- 
 
 ##----------------------------------------------------Arguments parsing and checks
@@ -79,9 +95,9 @@ for i,y in enumerate(end_data_fixed_time[1:]):
     plt.ylim(0,1.1 * max(end_data_fixed_time[i+1]))
     plt.grid()
     plt.tight_layout()
-    plt.savefig(results_plots_path+"CB_fix_time_"+str.upper(names_fixed_time[i+1])+"_graph.pdf")
-    print("Saved graph: " + results_plots_path+"CB_fix_time_"+str.upper(names_fixed_time[i+1])+"_graph.pdf")
-
+    plt.savefig(results_plots_path + results_name + "_fix_time_"+str.upper(names_fixed_time[i+1])+"_graph.pdf")
+    print("Saved graph: " + results_plots_path + results_name + "_fix_time_"+str.upper(names_fixed_time[i+1])+"_graph.pdf")
+ 
 plt.xlim(0,max(end_data_fixed_val[0]))
 for i,y in enumerate(end_data_fixed_val[1:]):
     plt.clf()
@@ -91,5 +107,5 @@ for i,y in enumerate(end_data_fixed_val[1:]):
     plt.ylim(0,1.1 * max(end_data_fixed_val[i+1]))
     plt.grid()
     plt.tight_layout()
-    plt.savefig(results_plots_path+"CB_fix_val_"+str.upper(names_fixed_val[i+1])+"_graph.pdf")
-    print("Saved graph: " + results_plots_path+"CB_fix_val_"+str.upper(names_fixed_val[i+1])+"_graph.pdf")
+    plt.savefig(results_plots_path + results_name + "_fix_val_"+str.upper(names_fixed_val[i+1])+"_graph.pdf")
+    print("Saved graph: " + results_plots_path + results_name + "_fix_val_"+str.upper(names_fixed_val[i+1])+"_graph.pdf")
