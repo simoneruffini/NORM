@@ -34,6 +34,8 @@ plt.plot(new_values)
 plt.plot(np.ones([num_sample]) * thresold_1)
 plt.plot(np.ones([num_sample]) * thresold_2)
 # plt.ylim(200,330)
+plt.xlabel("n° of sample")
+plt.ylabel("Value [mV]")
 
 plt.savefig("Voltage_trace.pdf")
 plt.show()
