@@ -95,11 +95,22 @@ for i,y in enumerate(end_data_fixed_time[1:]):
     max_val = max(end_data_fixed_time[i+1])
     max_index = end_data_fixed_time[i+1].index(max(end_data_fixed_time[i+1]))
 
+    min_val = min(end_data_fixed_time[i+1])
+    min_index = end_data_fixed_time[i+1].index(min(end_data_fixed_time[i+1]))
+
+    fig_pixel_size = fig.get_size_inches()*fig.dpi
+
     bbox_props = dict(boxstyle="square,pad=0.3", fc="w", ec="k", lw=0.72)
     arrowprops=dict(arrowstyle="->",connectionstyle="angle,angleA=0,angleB=60")
     kw = dict(xycoords='data',textcoords="axes fraction",
               arrowprops=arrowprops, bbox=bbox_props, ha="right", va="top")
     ax.annotate("Max = " + str(max_val), (end_data_fixed_time[0][max_index], max_val), xytext=(0.5,0.9), **kw)
+
+    bbox_props = dict(boxstyle="square,pad=0.3", fc="w", ec="k", lw=0.72)
+    arrowprops=dict(arrowstyle="->",connectionstyle="angle,angleA=0,angleB=120")
+    kw = dict(xycoords='data',textcoords="axes fraction",
+              arrowprops=arrowprops, bbox=bbox_props, ha="right", va="top")
+    ax.annotate("Min = " + str(min_val), (end_data_fixed_time[0][min_index], min_val), xytext=(0.5,0.1), **kw)
 
     ax.set_ylabel(names_fixed_time[i+1])
     ax.set_xlabel(names_fixed_time[0])
@@ -116,11 +127,21 @@ for i,y in enumerate(end_data_fixed_val[1:]):
 
     max_val = max(end_data_fixed_val[i+1])
     max_index = end_data_fixed_val[i+1].index(max(end_data_fixed_val[i+1]))
+
+    min_val = min(end_data_fixed_val[i+1])
+    min_index = end_data_fixed_val[i+1].index(min(end_data_fixed_val[i+1]))
+
     bbox_props = dict(boxstyle="square,pad=0.3", fc="w", ec="k", lw=0.72)
     arrowprops=dict(arrowstyle="->",connectionstyle="angle,angleA=0,angleB=60")
     kw = dict(xycoords='data',textcoords="axes fraction",
               arrowprops=arrowprops, bbox=bbox_props, ha="right", va="top")
     ax.annotate("Max = " + str(max_val), (end_data_fixed_val[0][max_index], max_val), xytext=(0.5,0.9), **kw)
+
+    bbox_props = dict(boxstyle="square,pad=0.3", fc="w", ec="k", lw=0.72)
+    arrowprops=dict(arrowstyle="->", connectionstyle="angle,angleA=0,angleB=120")
+    kw = dict(xycoords='data',textcoords="axes fraction",
+              arrowprops=arrowprops, bbox=bbox_props, ha="right", va="top")
+    ax.annotate("Min = " + str(min_val), (end_data_fixed_val[0][min_index], min_val), xytext=(0.5,0.1), **kw)
 
     ax.set_ylabel(names_fixed_val[i+1])
     ax.set_xlabel(names_fixed_time[0])
