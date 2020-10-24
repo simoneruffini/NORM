@@ -98,6 +98,7 @@ vol_cntr1_val_sig_path = "/characterization_testbench/VOL_ARC_1/vol_cntr1_value"
 tb_fix_time_cmds= {
     "task_value_tb"                 :"[get_value -radix unsigned /characterization_testbench/FSM_NV_REG_1/task_complete_val_counter]",
     "vol_cntr1_val"                 :"[get_value -radix unsigned /characterization_testbench/VOL_ARC_1/vol_cntr1_value]",
+    "nvreg_val1"                    :"$val1",
     "vol_cntr_pa_val"               :"[get_value -radix unsigned /characterization_testbench/power_counter_val(0)]",
     "framework_pa_val"              :"[get_value -radix unsigned /characterization_testbench/power_counter_val(1)]",
     "data_save_pa_val"              :"[get_value -radix unsigned /characterization_testbench/power_counter_val(2)]",
@@ -168,8 +169,18 @@ printlnres( "".join(
     )
 )
 
+print("set val1 0")
+print("add_condition -name cond1 -radix unsigned \" /characterization_testbench/fsm_nv_reg_state == data_save_s OR /characterization_testbench/fsm_nv_reg_state == recovery_s \" {")
+print("global fp")
+print("global val1")
+    ## print commands of the tb_fix_val_data as command1;command2;....commandN;
+    ## this commands will be printed in the results file
+print("set val1 [get_value -radix unsigned /characterization_testbench/val1]")
+print("}")
+
 for taskValue in allTaskValues:
     print("set_value -radix unsigned " + task_cmplt_val_cntr_sig_path + " " + str(taskValue))
+    print("set val1 0")
     print("run " + str(time_constant_us) + " us")
         ## print commands of the tb_fixe_time_data as command1;command2;....commandN;
         ## this commands will be printed in the results file
@@ -179,12 +190,14 @@ for taskValue in allTaskValues:
     )
     print("restart")
 
+print("remove_conditions -all")
+
 print("# Fixed time simulation end")
-printlnres("Fixed time simulation end ########################################\n")
+printlnres("Fixed time simulation end ########################################")
 
     ## This tcl command adds a condition that is checked every time the conditioned signal changes, if the condition is true the inner code is executed
     ## condition remain even after a restart, condtions can be reported by running report_conditions, and be all removed by running remove_condtion -all
-print("add_condition -name cond1 -radix unsigned \"" + vol_cntr1_val_sig_path + " == " + str(value_constant) + "\" {")
+print("add_condition -name cond2 -radix unsigned \"" + vol_cntr1_val_sig_path + " == " + str(value_constant) + "\" {")
 print("global fp")
     ## print commands of the tb_fix_val_data as command1;command2;....commandN;
     ## this commands will be printed in the results file
@@ -197,29 +210,29 @@ print("stop}")
 print("# Fixed value simulation start")
 printlnres("Fixed value simulation start #####################################")
 
-    ## outputs the keys of tb_fix_val_data in this format: key1;key2;key3;...;
+   ## outputs the keys of tb_fix_val_data in this format: key1;key2;key3;...;
 printlnres( "".join(
-        list(str(a)+";" for a in list(tb_fix_val_cmds.keys()))
-    )
+       list(str(a)+";" for a in list(tb_fix_val_cmds.keys()))
+   )
 )
-    ## Generate commands
+   ## Generate commands
 for taskValue in allTaskValues:
-    print("set_value -radix unsigned " + task_cmplt_val_cntr_sig_path + " " + str(taskValue))
-    print("run 5 ms")   ## this value must be setup manually, bigger value will result in long simulations if the condtion in add_condition is not reached
-                        ## but smaller value will not the simulation to reach the condition
-    print("set value [get_value -radix unsigned "+ vol_cntr1_val_sig_path +"]")
+   print("set_value -radix unsigned " + task_cmplt_val_cntr_sig_path + " " + str(taskValue))
+   print("run 5 ms")   ## this value must be setup manually, bigger value will result in long simulations if the condtion in add_condition is not reached
+                       ## but smaller value will not the simulation to reach the condition
+   print("set value [get_value -radix unsigned "+ vol_cntr1_val_sig_path +"]")
 
-        ## This part is executed only if add_condition is not met (happens if vol_cntr is not able to reach value_constant)
-    print("if { [expr $value < "+ str(value_constant)+"] } {")
+       ## This part is executed only if add_condition is not met (happens if vol_cntr is not able to reach value_constant)
+   print("if { [expr $value < "+ str(value_constant)+"] } {")
 
-        ## print commands of the tb_fix_val_data as command1;command2;....commandN;
-        ## this commands will be printed in the results file
-    printlnres( "".join( 
-            list(str(value)+";" for value in list(tb_fix_val_cmds.values()))
-        ) 
-    )
-    print("}")
-    print("restart")
+       ## print commands of the tb_fix_val_data as command1;command2;....commandN;
+       ## this commands will be printed in the results file
+   printlnres( "".join( 
+           list(str(value)+";" for value in list(tb_fix_val_cmds.values()))
+       ) 
+   )
+   print("}")
+   print("restart")
 
 print("# Fixed value simulation end")
 printlnres("Fixed value simulation end #######################################")
