@@ -1,4 +1,5 @@
 TODOS:
+- change `NVME_FRAMEWORK_PACKAGE` to `NVMEF_PACKAGE`
 - write characterization for the two types of model for each fsm_nv_reg
 - unify projects names and folders
 - use this [program](https://github.com/jeremiah-c-leary/vhdl-style-guide) to unify the code base (it must be configured properly)

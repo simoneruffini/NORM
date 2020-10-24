@@ -79,6 +79,7 @@ begin
                 future_state <= init_s;
             when init_s =>
                 future_state <= start_data_recovery_s;
+                last_val := 0;
             when start_data_recovery_s =>
                 if (task_status = '1') then
                     future_state <= recovery_s;
