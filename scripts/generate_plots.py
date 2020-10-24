@@ -86,31 +86,35 @@ for i,data in enumerate(data_fix_val_tmp):
 
 results_file.close()
 ##---------------------------------------------------------------------Plot reults
+# Plot fixed time graphs
 for i,y in enumerate(end_data_fixed_time[1:]):
     fig = plt.figure()
     ax = fig.gca()
     ax.plot(end_data_fixed_time[0],y,'.-')
     ax.set_ylim(0,1.3 * max(end_data_fixed_time[i+1]))
 
+    # Find max value and max value index
     max_val = max(end_data_fixed_time[i+1])
     max_index = end_data_fixed_time[i+1].index(max(end_data_fixed_time[i+1]))
 
-    min_val = min(end_data_fixed_time[i+1])
-    min_index = end_data_fixed_time[i+1].index(min(end_data_fixed_time[i+1]))
-
-    fig_pixel_size = fig.get_size_inches()*fig.dpi
-
+    # Annotate max value on graph
     bbox_props = dict(boxstyle="square,pad=0.3", fc="w", ec="k", lw=0.72)
     arrowprops=dict(arrowstyle="->",connectionstyle="angle,angleA=0,angleB=60")
     kw = dict(xycoords='data',textcoords="axes fraction",
               arrowprops=arrowprops, bbox=bbox_props, ha="right", va="top")
-    ax.annotate("Max = " + str(max_val), (end_data_fixed_time[0][max_index], max_val), xytext=(0.5,0.9), **kw)
+    ax.annotate("Max = " + str(int(max_val)), (end_data_fixed_time[0][max_index], max_val), xytext=(0.5,0.9), **kw)
 
+
+    # Find min value and min value index
+    min_val = min(end_data_fixed_time[i+1])
+    min_index = end_data_fixed_time[i+1].index(min(end_data_fixed_time[i+1]))
+
+    # Annotate min value on graph
     bbox_props = dict(boxstyle="square,pad=0.3", fc="w", ec="k", lw=0.72)
     arrowprops=dict(arrowstyle="->",connectionstyle="angle,angleA=0,angleB=120")
     kw = dict(xycoords='data',textcoords="axes fraction",
               arrowprops=arrowprops, bbox=bbox_props, ha="right", va="top")
-    ax.annotate("Min = " + str(min_val), (end_data_fixed_time[0][min_index], min_val), xytext=(0.5,0.1), **kw)
+    ax.annotate("Min = " + str(int(min_val)), (end_data_fixed_time[0][min_index], min_val), xytext=(0.5,0.1), **kw)
 
     ax.set_ylabel(names_fixed_time[i+1])
     ax.set_xlabel(names_fixed_time[0])
@@ -119,29 +123,46 @@ for i,y in enumerate(end_data_fixed_time[1:]):
     
     print("Saved graph: " + results_plots_path + results_name + "_fix_time_"+str.upper(names_fixed_time[i+1])+"_graph.pdf")
 
+# Plot fixed value graphs
 for i,y in enumerate(end_data_fixed_val[1:]):
     fig = plt.figure()
     ax = fig.gca()
     ax.plot(end_data_fixed_val[0],y,'.-')
     ax.set_ylim(0,1.3 * max(end_data_fixed_val[i+1]))
 
+    # Find max value and max value index
     max_val = max(end_data_fixed_val[i+1])
     max_index = end_data_fixed_val[i+1].index(max(end_data_fixed_val[i+1]))
 
-    min_val = min(end_data_fixed_val[i+1])
-    min_index = end_data_fixed_val[i+1].index(min(end_data_fixed_val[i+1]))
-
+    # Annotate max value on graph
     bbox_props = dict(boxstyle="square,pad=0.3", fc="w", ec="k", lw=0.72)
     arrowprops=dict(arrowstyle="->",connectionstyle="angle,angleA=0,angleB=60")
     kw = dict(xycoords='data',textcoords="axes fraction",
               arrowprops=arrowprops, bbox=bbox_props, ha="right", va="top")
-    ax.annotate("Max = " + str(max_val), (end_data_fixed_val[0][max_index], max_val), xytext=(0.5,0.9), **kw)
+    ax.annotate("Max = " + str(int(max_val)), (end_data_fixed_val[0][max_index], max_val), xytext=(0.5,0.9), **kw)
 
+
+    # Find min value and min value index
+    min_val = min(end_data_fixed_val[i+1])
+    min_index = end_data_fixed_val[i+1].index(min(end_data_fixed_val[i+1]))
+
+    # Annotate min value on graph
     bbox_props = dict(boxstyle="square,pad=0.3", fc="w", ec="k", lw=0.72)
     arrowprops=dict(arrowstyle="->", connectionstyle="angle,angleA=0,angleB=120")
     kw = dict(xycoords='data',textcoords="axes fraction",
               arrowprops=arrowprops, bbox=bbox_props, ha="right", va="top")
-    ax.annotate("Min = " + str(min_val), (end_data_fixed_val[0][min_index], min_val), xytext=(0.5,0.1), **kw)
+    ax.annotate("Min = " + str(int(min_val)), (end_data_fixed_val[0][min_index], min_val), xytext=(0.5,0.1), **kw)
+
+
+    ## CUSTOM GRAPH FOR 'TIME' and 'VOL_CNTR_PA_VAL' ##
+    if(str.upper(names_fixed_val[i+1]) == "TIME" or str.upper(names_fixed_val[i+1]) == "VOL_CNTR_PA_VAL"):
+        second_max_val = max(end_data_fixed_val[i+1][10:len(end_data_fixed_val[i+1]) - 10])
+        second_max_index = end_data_fixed_val[i+1].index(second_max_val)
+        bbox_props = dict(boxstyle="square,pad=0.3", fc="w", ec="k", lw=0.72)
+        arrowprops=dict(arrowstyle="->", connectionstyle="angle,angleA=0,angleB=120")
+        kw = dict(xycoords='data',textcoords="axes fraction",
+                arrowprops=arrowprops, bbox=bbox_props, ha="right", va="top")
+        ax.annotate("Max2 = " + str(int(second_max_val)), (end_data_fixed_val[0][second_max_index], second_max_val), xytext=(0.5,0.5), **kw)
 
     ax.set_ylabel(names_fixed_val[i+1])
     ax.set_xlabel(names_fixed_time[0])
