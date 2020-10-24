@@ -155,14 +155,15 @@ for i,y in enumerate(end_data_fixed_val[1:]):
 
 
     ## CUSTOM GRAPH FOR 'TIME' and 'VOL_CNTR_PA_VAL' ##
-    if(str.upper(names_fixed_val[i+1]) == "TIME" or str.upper(names_fixed_val[i+1]) == "VOL_CNTR_PA_VAL"):
+    if(results_name == "CB" and (str.upper(names_fixed_val[i+1]) == "TIME" or str.upper(names_fixed_val[i+1]) == "VOL_CNTR_PA_VAL")):
         second_max_val = max(end_data_fixed_val[i+1][10:len(end_data_fixed_val[i+1]) - 10])
         second_max_index = end_data_fixed_val[i+1].index(second_max_val)
         bbox_props = dict(boxstyle="square,pad=0.3", fc="w", ec="k", lw=0.72)
         arrowprops=dict(arrowstyle="->", connectionstyle="angle,angleA=0,angleB=120")
         kw = dict(xycoords='data',textcoords="axes fraction",
                 arrowprops=arrowprops, bbox=bbox_props, ha="right", va="top")
-        ax.annotate("Max2 = " + str(int(second_max_val)), (end_data_fixed_val[0][second_max_index], second_max_val), xytext=(0.5,0.5), **kw)
+        ax.annotate("Max' = " + str(int(second_max_val)), (end_data_fixed_val[0][second_max_index], second_max_val), xytext=(0.5,0.5), **kw)
+        print("\tCustomized: " + results_name + "_fix_val_"+str.upper(names_fixed_val[i+1])+"_graph.pdf")
 
     ax.set_ylabel(names_fixed_val[i+1])
     ax.set_xlabel(names_fixed_time[0])
