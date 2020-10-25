@@ -34,6 +34,7 @@ use IEEE.MATH_REAL.ALL;
 --use UNISIM.VComponents.all;
 
 package TEST_ARCHITECTURE_PACKAGE is
+    -- States of a general finate state machine for fsm_nv_reg
     type fsm_nv_reg_state_t is(
         shutdown_s,
         init_s,
@@ -46,14 +47,17 @@ package TEST_ARCHITECTURE_PACKAGE is
         data_saved_s
     );
         
+    -- Possible thresholds of the voltage trace
+    -- Add more thresholds in case of fsmn_nv_reg_db
     type threshold_t is(
         hazard,
         waring,
         nothing
     );
 
-    constant V_REG_WIDTH: INTEGER := 65536;
-    constant RST_EMU_THRESH: INTEGER := 2800;
+    constant V_REG_WIDTH: INTEGER := 65536;     -- Numver of words of the volatile register for the volatile architecture
+    constant RST_EMU_THRESH: INTEGER := 2800;   -- Voltage threshold at which the intemittency emulator will trigger reset_emulator
+                                                --> This value must be in the range of ones contained in trace_ROM
 
 end package;
 package body TEST_ARCHITECTURE_PACKAGE is 
