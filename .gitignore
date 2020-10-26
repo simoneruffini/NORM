@@ -1,0 +1,5 @@
+**PDF/**
+.vscode*
+NVA_EMULATOR.runs/
+NVA_EMULATOR.cache/
+NVA_EMULATOR.sim/

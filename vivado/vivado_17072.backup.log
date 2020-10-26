@@ -1,0 +1,23 @@
+#-----------------------------------------------------------
+# Vivado v2020.1 (64-bit)
+# SW Build 2902540 on Wed May 27 19:54:49 MDT 2020
+# IP Build 2902112 on Wed May 27 22:43:36 MDT 2020
+# Start of session at: Wed Aug 12 22:17:57 2020
+# Process ID: 17072
+# Current directory: C:/Users/Simone Ruffini/VivadoProjects/NVMEF-FPGA/vivado
+# Command line: vivado.exe -gui_launcher_event rodinguilauncherevent2908 C:\Users\Simone Ruffini\VivadoProjects\NVMEF-FPGA\vivado\NVA_EMULATOR.xpr
+# Log file: C:/Users/Simone Ruffini/VivadoProjects/NVMEF-FPGA/vivado/vivado.log
+# Journal file: C:/Users/Simone Ruffini/VivadoProjects/NVMEF-FPGA/vivado\vivado.jou
+#-----------------------------------------------------------
+start_gui
+open_project {C:/Users/Simone Ruffini/VivadoProjects/NVMEF-FPGA/vivado/NVA_EMULATOR.xpr}
+INFO: [Project 1-313] Project file moved from 'C:/Users/Simone Ruffini/VivadoProjects/NonVolatileProcEmul-FPGA/vivado' since last save.
+CRITICAL WARNING: [Project 1-311] Could not find the file 'C:/Users/Simone Ruffini/VivadoProjects/NVMEF-FPGA/test/vol_arc_testbench_behav.wcfg', nor could it be found using path 'C:/Users/Simone Ruffini/VivadoProjects/NonVolatileProcEmul-FPGA/test/vol_arc_testbench_behav.wcfg'.
+Scanning sources...
+Finished scanning sources
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1704] No user IP repositories specified
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository 'C:/Xilinx/Vivado/2020.1/data/ip'.
+open_project: Time (s): cpu = 00:00:17 ; elapsed = 00:00:07 . Memory (MB): peak = 1022.660 ; gain = 0.000
+exit
+INFO: [Common 17-206] Exiting Vivado at Wed Aug 12 22:20:28 2020...

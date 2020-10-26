@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="210" height="210">
+<g stroke-width="20" stroke="#80007E">
+<path stroke="#FA0" d="m50,10v80m40-40H10"/>
+<path stroke="#008000" d="m160,10v20m0,40v20m40-40H120"/>
+<path stroke="#003CFF" d="m10,160h80"/>
+<path d="m127,127 66,66m0-66-66,66"/>
+<path stroke-width="14" d="m120,127h14m52,0h14m-80,66h14m52,0h14"/>
+</g></svg>
