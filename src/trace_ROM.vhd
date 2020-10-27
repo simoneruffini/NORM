@@ -46,7 +46,8 @@ end trace_ROM;
 architecture Behavioral of trace_ROM is
     type rom_type is array (0 to NUM_ELEMNTS_ROM - 1) of integer range 0 to  MAX_VAL;
     signal ROM: rom_type := (
-    -- put here you voltage trace values, separated by a comma
+    -- put here you voltage trace values, separated by a comma (the last one without)
+    -- the NUMBER OF ELEMENTS inside this rom MUST BE NUM_ELEMENTS_ROM
         0,
         170,
         186,
