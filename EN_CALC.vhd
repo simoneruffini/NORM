@@ -1,50 +1,53 @@
-----------------------------------------------------------------------------------
--- Company: 
--- Engineer: 
--- 
--- Create Date: 06/10/2020 10:36:33 PM
--- Design Name: 
--- Module Name: INSTANT_PWR_CALC - Behavioral
--- Project Name: 
--- Target Devices: 
--- Tool Versions: 
--- Description: 
--- 
--- Dependencies: 
--- 
+--------------------------------------------------------------------------------
+-- Engineer:    Luca Caronti    [luca.caronit@studenti.unit.it] 
+--              Simone Ruffini  [simone.ruffini@tutanota.com]
+--
+-- Create Date:     06/10/2020 10:36:33 PM
+-- Design Name:     EN_CALC
+-- Module Name:     EN_CALC.vhd - Behavioral
+-- Project Name:    NORM
+--
+-- Description: Energy calcultaor
+-- Details: This core takes as input values from EN_APRX and transforms 
+--  them into a an energy value expressed in joule.
+-- Dependencies:
+--  * XiliX multiplier IP
+--
 -- Revision:
--- Revision 0.01 - File Created
+-- Revision 00 - Luca Caronti
+--  * File Created
+-- Revision 01 - Simone Ruffini
+--  * Refactoring 
 -- Additional Comments:
--- 
-----------------------------------------------------------------------------------
+--
+--------------------------------------------------------------------------------
 
-
+----------------------------- PACKAGES/LIBRARIES -------------------------------
 library IEEE;
-use IEEE.STD_LOGIC_1164.ALL;
+    use IEEE.STD_LOGIC_1164.all;
+    use IEEE.NUMERIC_STD.all;
 
--- Uncomment the following library declaration if using
--- arithmetic functions with Signed or Unsigned values
-use IEEE.NUMERIC_STD.ALL;
+-- User libraries
 
--- Uncomment the following library declaration if instantiating
--- any Xilinx leaf cells in this code.
---library UNISIM;
---use UNISIM.VComponents.all;
+library WORK;
+    use WORK.NORM_PKG.all;
 
-use work.NORM_PKG.all;
-
-entity instant_pwr_calc is
+----------------------------- ENTITY -------------------------------------------
+entity en_calc is
+    generic(
+      NUM_PWR_STATES: integer -- Same value found in EN_APRX
+    )
     port (
-        sys_clk                 : in std_logic; -- system clock
+        CLK                     : in std_logic; -- system clock
         start_evaluation        : in std_logic; -- start evaluation signal 
         evaluation_ready        : out std_logic; -- evaluation ready singal 
         num_state_to_evaluate   : in integer range 0 to NUM_PWR_STATES; -- number of state to evaluate
-        input_counter_val       : in power_approx_counter_type(NUM_PWR_STATES -1 downto 0); -- array of each state counter
-        output_data             : out std_logic_vector(PWR_APPROX_COUNTER_NUM_BITS + PWR_CONSUMPTION_ROM_BITS downto 0) -- output data
+        input_counter_val       : in aprx_values_t(NUM_PWR_STATES -1 downto 0); -- array of each state counter
+        output_data             : out std_logic_vector(C_EN_APRX_CNT_W + C_E3CROM_DATA_W downto 0) -- output data
     );
-end instant_pwr_calc;
+end en_calc;
 
-architecture Behavioral of instant_pwr_calc is
+architecture Behavioral of en_calc is
 
     --- ROM component declaration ---
     component PWR_CONSUMPTION_VAL_ROM is
@@ -65,11 +68,11 @@ architecture Behavioral of instant_pwr_calc is
             CLK         : IN STD_LOGIC;
             CE          : IN STD_LOGIC;
             SCLR        : IN STD_LOGIC;
-            A           : IN STD_LOGIC_VECTOR(PWR_APPROX_COUNTER_NUM_BITS - 1 DOWNTO 0);
-            B           : IN STD_LOGIC_VECTOR(PWR_CONSUMPTION_ROM_BITS - 1 DOWNTO 0);
+            A           : IN STD_LOGIC_VECTOR(C_EN_APRX_CNT_W - 1 DOWNTO 0);
+            B           : IN STD_LOGIC_VECTOR(C_E3CROM_DATA_W - 1 DOWNTO 0);
             C           : IN STD_LOGIC_VECTOR(1 DOWNTO 0);
             SUBTRACT    : IN STD_LOGIC;
-            P           : OUT STD_LOGIC_VECTOR(PWR_APPROX_COUNTER_NUM_BITS + PWR_CONSUMPTION_ROM_BITS DOWNTO 0);
+            P           : OUT STD_LOGIC_VECTOR(C_EN_APRX_CNT_W + C_E3CROM_DATA_W DOWNTO 0);
             PCOUT       : OUT STD_LOGIC_VECTOR(47 DOWNTO 0)
         );
     END COMPONENT;
@@ -81,18 +84,18 @@ architecture Behavioral of instant_pwr_calc is
     signal CE : std_logic := '0';
     
     --- COUNTER SIGNALS ---
-    signal input_counter_val_std_logic_vector : std_logic_vector(PWR_APPROX_COUNTER_NUM_BITS -1 downto 0) := (others => '0');
-    signal input_counter_val_std_logic_vector_FF : std_logic_vector(PWR_APPROX_COUNTER_NUM_BITS -1 downto 0) := (others => '0');
+    signal input_counter_val_std_logic_vector : std_logic_vector(C_EN_APRX_CNT_W -1 downto 0) := (others => '0');
+    signal input_counter_val_std_logic_vector_FF : std_logic_vector(C_EN_APRX_CNT_W -1 downto 0) := (others => '0');
     signal sample_input_counter_val_std_logic_vector : std_logic := '0';
     
     --- ROM ---
     signal ROM_addr_FF : integer range 0 to NUM_PWR_STATES - 1;
     signal sample_ROM_addr : std_logic := '0';
-    signal ROM_data_out  : integer range 0 to 2**PWR_CONSUMPTION_ROM_BITS - 1;
-    signal ROM_data_out_std_logic_vector : std_logic_vector(PWR_CONSUMPTION_ROM_BITS - 1 downto 0);
+    signal ROM_data_out  : integer range 0 to 2**C_E3CROM_DATA_W - 1;
+    signal ROM_data_out_std_logic_vector : std_logic_vector(C_E3CROM_DATA_W - 1 downto 0);
     
     --- FSM SIGNALS --- 
-    type instant_pwr_calc_state is(
+    type en_calc_state is(
         wait_state,
         wait_ROM_data_state,
         wait_evaluation_state_1,
@@ -101,23 +104,23 @@ architecture Behavioral of instant_pwr_calc is
         wait_evaluation_state_4,
         data_ready_state
     );
-    signal instant_pwr_calc_present_state, instant_pwr_calc_future_state : instant_pwr_calc_state := wait_state; 
+    signal en_calc_present_state, en_calc_future_state : en_calc_state := wait_state; 
     
 begin
     
     --- DATA-FLOW ---
-    input_counter_val_std_logic_vector <= std_logic_vector(to_unsigned(input_counter_val(num_state_to_evaluate),PWR_APPROX_COUNTER_NUM_BITS));
-    ROM_data_out_std_logic_vector <= std_logic_vector(to_unsigned(ROM_data_out, PWR_CONSUMPTION_ROM_BITS));
+    input_counter_val_std_logic_vector <= std_logic_vector(to_unsigned(input_counter_val(num_state_to_evaluate),C_EN_APRX_CNT_W));
+    ROM_data_out_std_logic_vector <= std_logic_vector(to_unsigned(ROM_data_out, C_E3CROM_DATA_W));
     output_data <= P;
 
     --- ROM INSTANCE ---
     PWR_CONSUMPTION_VAL_ROM_1 : PWR_CONSUMPTION_VAL_ROM
         generic map(
             NUM_ELEMENTS_ROM => NUM_PWR_STATES,
-            MAX_VAL => 2**PWR_CONSUMPTION_ROM_BITS
+            MAX_VAL => 2**C_E3CROM_DATA_W
         )
         port map(
-            clk => sys_clk,
+            clk => CLK,
             addr => ROM_addr_FF,
             data_out => ROM_data_out
         );
@@ -125,7 +128,7 @@ begin
     --- MULTIPLIER INSTANCE --- 
     MULTIPLIER_0 : xbip_multadd_0
         port map(
-            CLK => sys_clk,
+            CLK => CLK,
             CE => CE,
             SCLR => SCLR,
             A => input_counter_val_std_logic_vector_FF,
@@ -137,25 +140,25 @@ begin
         );
         
     --- SEQUANTIAL FSM ---
-    fsm_seq : process(sys_clk) begin
-		if rising_edge(sys_clk) then
-            instant_pwr_calc_present_state <= instant_pwr_calc_future_state; -- change state
-		end if;
-	end process;
-	
-	--- COMBINATORY FSM --
-    fsm_comb : process(instant_pwr_calc_present_state, start_evaluation) begin
+    fsm_seq : process(CLK) begin
+    if rising_edge(CLK) then
+            en_calc_present_state <= en_calc_future_state; -- change state
+    end if;
+  end process;
+  
+  --- COMBINATORY FSM --
+    fsm_comb : process(en_calc_present_state, start_evaluation) begin
         -- default values ---
-        instant_pwr_calc_future_state <= instant_pwr_calc_present_state;
+        en_calc_future_state <= en_calc_present_state;
         CE <= '0';
         sample_ROM_addr <= '0';
         sample_input_counter_val_std_logic_vector <= '0';
         evaluation_ready <= '0';
-        case instant_pwr_calc_present_state is
+        case en_calc_present_state is
             when wait_state =>
                 if start_evaluation = '1' then
                     -- if start_evaluation = '1' then change state
-                    instant_pwr_calc_future_state <= wait_ROM_data_state;
+                    en_calc_future_state <= wait_ROM_data_state;
                     
                     --- start sampling ---
                     sample_input_counter_val_std_logic_vector <= '1'; -- sample counter val
@@ -164,40 +167,40 @@ begin
                 end if;
             when wait_ROM_data_state => 
                 -- wait one clock cycle for ROM data             
-                instant_pwr_calc_future_state <= wait_evaluation_state_1;                
+                en_calc_future_state <= wait_evaluation_state_1;                
             when wait_evaluation_state_1 =>
                 -- wait first clock cycle 
                 CE <= '1';
-                instant_pwr_calc_future_state <= wait_evaluation_state_2;
+                en_calc_future_state <= wait_evaluation_state_2;
             when wait_evaluation_state_2 =>
                 -- wait second clock cycle 
                 CE <= '1';
-                instant_pwr_calc_future_state <= wait_evaluation_state_3;
+                en_calc_future_state <= wait_evaluation_state_3;
             when wait_evaluation_state_3 =>
                 -- wait third clock cycle 
                 CE <= '1';
-                instant_pwr_calc_future_state <= wait_evaluation_state_4;
+                en_calc_future_state <= wait_evaluation_state_4;
             when wait_evaluation_state_4 =>
                 -- wait fourth clock cycle 
                 CE <= '1';
-                instant_pwr_calc_future_state <= data_ready_state;            
+                en_calc_future_state <= data_ready_state;            
             when data_ready_state =>
                 -- data ready
                 evaluation_ready <= '1';
-                instant_pwr_calc_future_state <= wait_state;
+                en_calc_future_state <= wait_state;
         end case;
     end process;
     
     --- Flip Flop PROCESS ---
-    FF_proc : process(sys_clk) begin
-        if rising_edge(sys_clk) then
+    FF_proc : process(CLK) begin
+        if rising_edge(CLK) then
             if sample_ROM_addr = '1' then -- sample num_state_to_evaluate val
                 ROM_addr_FF <= num_state_to_evaluate;
             end if;
             if sample_input_counter_val_std_logic_vector = '1' then -- sample input_counter_val_std_logic_vector val
                 input_counter_val_std_logic_vector_FF <= input_counter_val_std_logic_vector;
             end if;
-		end if;
+    end if;
     end process;
 
     

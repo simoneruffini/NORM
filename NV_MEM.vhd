@@ -1,187 +1,185 @@
-----------------------------------------------------------------------------------
--- Company: 
--- Engineer: 
--- 
--- Create Date: 06/30/2020 12:55:22 PM
--- Design Name: 
--- Module Name: nv_mem - Behavioral
--- Project Name: 
--- Target Devices: 
--- Tool Versions: 
--- Description: 
--- 
--- Dependencies: 
--- 
+--------------------------------------------------------------------------------
+-- Engineer:  Simone Ruffini [simone.ruffini@tutanota.com]
+--
+--
+-- Create Date:     06/30/2020 12:55:22 PM
+-- Design Name:     NV_MEM
+-- Module Name:     NV_MEM.vhd - Behavioral
+-- Project Name:    NORM
+--
+-- Description: Non-volatile memory. Based on a simple dual port RAM
+-- Details:
+--
 -- Revision:
--- Revision 0.01 - File Created
+-- Revision 00 - Simone Ruffini
+--  * File Created
+-- Revision 01 - Simone Ruffini
+--  * Refactoring
 -- Additional Comments:
--- 
-----------------------------------------------------------------------------------
+--
+--------------------------------------------------------------------------------
 
+----------------------------- PACKAGES/LIBRARIES -------------------------------
 
 library IEEE;
-use IEEE.STD_LOGIC_1164.ALL;
+  use IEEE.STD_LOGIC_1164.all;
+  use IEEE.NUMERIC_STD.all;
+  use IEEE.MATH_REAL.all;
 
--- Uncomment the following library declaration if using
--- arithmetic functions with Signed or Unsigned values
-use IEEE.NUMERIC_STD.ALL;
+----------------------------- ENTITY -------------------------------------------
 
-use IEEE.math_real.all;
--- Uncomment the following library declaration if instantiating
--- any Xilinx leaf cells in this code.
---library UNISIM;
---use UNISIM.VComponents.all;
+entity NV_MEM is
+  generic (
+    MAX_DELAY_NS : integer;
+    ADDR_W       : natural;
+    DATA_W       : natural;
+    NV_MEM_WIDTH : integer
+  );
+  port (
+    CLK             : in    std_logic;
+    RST             : in    std_logic;
+    RST_EMU         : in    std_logic;
+    BUSY            : out   std_logic;
+    BUSY_SIG        : out   std_logic;
+    -------------chage from here--------------
+    EN              : in    std_logic;
+    WE              : in    std_logic;
+    RADDR           : in    std_logic_vector(ADDR_W - 1 downto 0);
+    WADDR           : in    std_logic_vector(ADDR_W - 1 downto 0);
+    DIN             : in    std_logic_vector(DATA_W - 1 downto 0);
+    DOUT            : out   std_logic_vector(DATA_W - 1 downto 0)
+    -------------chage to here----------------
+  );
+end entity NV_MEM;
 
-entity nv_mem is
-    Generic(
-        MAX_DELAY_NS: INTEGER;
-        NV_MEM_WIDTH: INTEGER
-    );
-    Port ( 
-        clk             : in STD_LOGIC;
-        resetN          : in STD_LOGIC; 
-        power_resetN 	: in STD_LOGIC;
-        -------------chage from here-------------- 
-        busy            : out STD_LOGIC;
-        busy_sig        : out STD_LOGIC;
-        en              : in STD_LOGIC;
-        we              : in STD_LOGIC_VECTOR(0 DOWNTO 0);
-        addr            : in STD_LOGIC_VECTOR(integer(ceil(log2(real(NV_MEM_WIDTH))))-1 DOWNTO 0);
-        din             : in STD_LOGIC_VECTOR(31 DOWNTO 0);
-        dout            : out STD_LOGIC_VECTOR(31 DOWNTO 0)
-        -------------chage to here---------------- 
-    );
-end nv_mem;
+----------------------------- ARCHITECTURE -------------------------------------
 
-architecture Behavioral of nv_mem is
-    ------------------------------------NV_MEM_EMU_SIGNALS------------------------------------------
-    signal rstn: STD_LOGIC;
-    signal busy_internal: STD_LOGIC;
-    ------------------------------------------------------------------------------------------------
-    ------------------------------------NV_MEM_CNST-------------------------------------------------
-    constant bram_addr_width_bit : INTEGER := integer(ceil(log2(real(NV_MEM_WIDTH))));
-    ------------------------------------------------------------------------------------------------
-    ------------------------------------BRAM_SIGNALS------------------------------------------------
-    signal bram_en  :STD_LOGIC;                     
-    signal bram_we  :STD_LOGIC_VECTOR(0 DOWNTO 0);  
-    signal bram_addr:STD_LOGIC_VECTOR(bram_addr_width_bit-1 DOWNTO 0); 
-    signal bram_din :STD_LOGIC_VECTOR(31 DOWNTO 0); 
-    signal bram_dout:STD_LOGIC_VECTOR(31 DOWNTO 0);                
-    ------------------------------------------------------------------------------------------------   
-    ------------------------------------RESET_SIGNALS-----------------------------------------------
-    signal bram_en_rst         :STD_LOGIC := '0';                     
-    signal bram_we_rst         :STD_LOGIC_VECTOR(0 DOWNTO 0) := (OTHERS => '0');  
-    signal bram_addr_rst       :STD_LOGIC_VECTOR(bram_addr_width_bit-1 DOWNTO 0) := (OTHERS => '0'); 
-    signal bram_din_rst        :STD_LOGIC_VECTOR(31 DOWNTO 0):= (OTHERS => '0'); 
-    ------------------------------------------------------------------------------------------------
+architecture BEHAVIORAL of NV_MEM is
 
-    --to use a different bram memory as primitive for the nv_mem
-    --------------------place here new memory component--------------------
-    COMPONENT blk_mem_gen_1 IS
-    PORT (
-        clka : IN STD_LOGIC;
-        ena : IN STD_LOGIC;
-        wea : IN STD_LOGIC_VECTOR(0 DOWNTO 0);
-        addra : IN STD_LOGIC_VECTOR(bram_addr_width_bit-1 DOWNTO 0);
-        dina : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-        douta : OUT STD_LOGIC_VECTOR(31 DOWNTO 0)
-      );
-    END COMPONENT blk_mem_gen_1;
-    -----------------------------------------------------------------------
-    
-    COMPONENT nv_mem_emu is
-        Generic(
-            MAX_DELAY_NS: INTEGER -- this is the maximum delay that the nv_mem uses to process data
-        );
-        Port ( 
-            clk     : IN STD_LOGIC;
-            resetN  : IN STD_LOGIC;
-            load_en : IN STD_LOGIC; 
-            busy_sig: OUT STD_LOGIC;
-            busy    : OUT STD_LOGIC
-        );
-    end COMPONENT;
-    
+  --########################### CONSTANTS 1 ####################################
+
+  --########################### TYPES ##########################################
+
+  --########################### FUNCTIONS ######################################
+
+  --########################### CONSTANTS 2 ####################################
+
+  --########################### SIGNALS ########################################
+
+  signal nv_mem_emu_rst : std_logic;
+  signal busy_internal  : std_logic;
+
+  signal ram_en         : std_logic;
+  signal ram_we         : std_logic;
+  signal ram_waddr      : std_logic_vector(ADDR_W - 1 downto 0);
+  signal ram_raddr      : std_logic_vector(ADDR_W - 1 downto 0);
+  signal ram_din        : std_logic_vector(DATA_W - 1 downto 0);
+  signal ram_dout       : std_logic_vector(DATA_W - 1 downto 0);
+
+  signal ram_en_rst     : std_logic;
+  signal ram_we_rst     : std_logic;
+  signal ram_waddr_rst  : std_logic_vector(ADDR_W - 1 downto 0);
+  signal ram_din_rst    : std_logic_vector(DATA_W - 1 downto 0);
+
 begin
-	
-    --to use a different bram memory as primitive for the nv_mem
-    -----------------instantiate here new memory component------------------
-    BRAM: blk_mem_gen_1
-    Port map (
-        clka        =>clk,
-        ena         =>bram_en,
-        wea         =>bram_we,
-        addra       =>bram_addr,
-        dina        =>bram_din,
-        douta       =>bram_dout    
-    );
-    ------------------------------------------------------------------------
 
-    EMU: nv_mem_emu
-    Generic map(
-        MAX_DELAY_NS => MAX_DELAY_NS
+  --########################### ENTITY DEFINITION ##############################
+
+  --to use a different ram memory as primitive for the nv_mem
+  -----------------instantiate here new memory component------------------
+  U_RAM : entity work.dual_prt_ram
+    generic map (
+      ADDR_W => ADDR_W,
+      DATA_W => DATA_W
     )
-    Port map( 
-        clk     =>clk,
-        resetN  =>rstN,
-        load_en =>bram_en,
-        busy_sig=>busy_sig,
-        busy    =>busy_internal
+    port map (
+      CLKA  => CLK,
+      CLKB  => CLK,
+      WEA   => ram_we,
+      ENA   => ram_en,
+      ENB   => ram_en,
+      ADDRA => ram_waddr,
+      ADDRB => ram_raddr,
+      DIA   => ram_din,
+      DOA   => open,
+      DOB   => ram_dout
     );
-    
-    busy<=busy_internal;
-    
-    --------------------------MUX------------------------------
-    rstN <= '0' when resetN = '0' else
-            '0' when power_resetN = '0' else
-            resetN;
-    bram_en <= bram_en_rst when resetN = '0' else
-            '0' when power_resetN = '0' else
-            (en or busy_internal);              --ENABLE HOLD: IMPORTANT keeps the bram active even if the signal was deactivated
-    bram_we <= bram_we_rst when resetN = '0' else
-            (OTHERS => '0') when power_resetN = '0' else
-            we;
-    bram_addr <= bram_addr_rst when resetN = '0' else
-            (OTHERS => '0') when power_resetN = '0' else
-            addr;
-    bram_din <= bram_din_rst when resetN = '0' else
-            (OTHERS => '0') when power_resetN = '0' else
-            din;
-    dout <= bram_dout when resetN = '0' else
-            (OTHERS => '0') when power_resetN = '0' else
-            bram_dout;
-    ----------------------------------------------------------- 
-    --to use a different bram memory as primitive for the nv_mem
-    --add combinatory logic on the new ports reaching the memory
-    --primitive like above. The clock must not be changed.
-    -------------------place new logic here-------------------- 
 
-    ----------------------END MUX------------------------------
+  ------------------------------------------------------------------------
 
+  U_NV_MEM_EMU : entity work.nv_mem_emu
+    generic map (
+      MAX_DELAY_NS => MAX_DELAY_NS
+    )
+    port map (
+      CLK      => CLK,
+      RST      => nv_mem_emu_rst,
+      LOAD_EN  => ram_en,
+      BUSY_SIG => BUSY_SIG,
+      BUSY     => busy_internal
+    );
 
-    RST_BRAM: process(clk) is --the reset is syncronous
-    variable counter : INTEGER RANGE 0 TO (NV_MEM_WIDTH -1);
-    begin
-        if(rising_edge(clk)) then
-            if(resetN = '0') then
-                bram_en_rst <= '1';
-                bram_we_rst <= (OTHERS => '1');
-                
-                bram_din_rst <= (OTHERS => '0');
-                if(counter < NV_MEM_WIDTH ) then
-                    counter := counter +1;
-                elsif(counter = NV_MEM_WIDTH ) then
-                    bram_we_rst <= (OTHERS => '0');
-                    bram_en_rst <= '0';
-                end if;
-                bram_addr_rst <= std_logic_vector(to_unsigned(counter-1,bram_addr_width_bit));
-            else
-                bram_we_rst <= (OTHERS => '0');
-                counter := 0;
-            end if;
+  --########################## OUTPUT PORTS WIRING #############################
 
+  BUSY <= busy_internal;
+
+  --########################## COMBINATORIAL EXECUTION #########################
+
+  nv_mem_emu_rst <= RST OR RST_EMU;
+
+  --------------------------MUX------------------------------
+  ram_en    <= ram_en_rst when RST = '1' else
+               '0' when RST_EMU = '1' else
+               (EN or busy_internal);              --ENABLE HOLD: IMPORTANT keeps the ram active even if the signal was deactivated
+  ram_we    <= ram_we_rst when RST = '1' else
+               (OTHERS => '0') when RST_EMU = '1' else
+               WE;
+  ram_raddr <= (OTHERS => '0')when RST = '1' else
+               (OTHERS => '0') when RST_EMU = '1' else
+               RADDR;
+  ram_waddr <= ram_waddr_rst when RST = '1' else
+               (OTHERS => '0') when RST_EMU = '1' else
+               WADDR;
+  ram_din   <= ram_din_rst when RST = '1' else
+               (OTHERS => '0') when RST_EMU = '1' else
+               DIN;
+  DOUT      <= ram_dout when RST = '1' else
+               (OTHERS => '0') when RST_EMU = '1' else
+               ram_dout;
+  -----------------------------------------------------------
+  --to use a different ram memory as primitive for the nv_mem
+  --add combinatory logic on the new ports reaching the memory
+  --primitive like above. The clock must not be changed.
+  -------------------place new logic here--------------------
+
+  ----------------------END MUX------------------------------
+
+  --########################## PROCESSES #######################################
+  RST_RAM : process (CLK) is --the reset is syncronous
+
+    variable counter : integer RANGE 0 to (NV_MEM_WIDTH - 1);
+
+  begin
+
+    if (CLK'event and CLK = '1') then
+      if (RST = '1') then
+        ram_en_rst <= '1';
+        ram_we_rst <= (OTHERS => '1');
+
+        ram_din_rst <= (OTHERS => '0');
+        if (counter < NV_MEM_WIDTH) then
+          counter := counter + 1;
+        elsif (counter = NV_MEM_WIDTH) then
+          ram_we_rst <= (OTHERS => '0');
+          ram_en_rst <= '0';
         end if;
-        
-    end process;
-    
-end Behavioral;
+        ram_waddr_rst <= std_logic_vector(to_unsigned(counter - 1, ram_waddr_rst'length));
+      else
+        ram_we_rst <= (OTHERS => '0');
+        counter := 0;
+      end if;
+    end if;
+
+  end process RST_RAM;
+
+end architecture BEHAVIORAL;

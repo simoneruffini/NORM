@@ -10,14 +10,22 @@ NORM  can  be  used  to  debug and perform functional verification of non-volati
 ## Repository Structure
 ```
 NORM
-├── prescaler.vhd               # Clock prescaler
-├── counter.vhd                 # Simple counter
-├── var_cnt.vhd                 # Variable endpoint counter
-├── power_approximation.vhd     # Energy approximator
-├── nv_mem.vhd                  # Non volatile memory (variable size dual port RAM)
-├── nv_mem_emu.vhd              # Non volatile memory emulator
-├── i_emu.vhd                   # Intermittency emulator
-├── instant_pwr_calc.vhd        # Energy calculator
-├── NORM_PKG.vhd                # NORM package
+├── CNT.vhd           # Simple counter
+├── DUAL_PRT_RAM.vhd  # Dual port ram
+├── EN_APRX.vhd       # Energy approximator 
+├── EN_CALC.vhd       # Energy calculator
+├── INT_EMU.vhd       # Intermittency emulator
+├── NORM_PKG.vhd      # NORM package
+├── NV_MEM_EMU.vhd    # Non volatile memory emulator 
+├── NV_MEM.vhd        # Non volatile memory (modified DUAL_PRT_RAM)
 └── README.md
 ```
+
+
+
+
+
+
+
+
+

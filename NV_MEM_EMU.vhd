@@ -1,91 +1,126 @@
 ----------------------------------------------------------------------------------
 -- Engineer: Simone Ruffini [simone.ruffini@tutanota.com]
--- 
--- Create Date: 06/14/2020 10:36:25 AM
--- Design Name: 
--- Module Name: nv_mem_emu - Behavioral
--- Project Name: NORM
 --
--- Description: this entity handles the emulation of the nv_mem by modifing the way a normal bram is used by
---              the user. The entity does not depend on the particular nv_mem used because it just modifies the speed of 
---              the bram or the way to access it by introducing a wait signal.
+-- Create Date:     06/14/2020 10:36:25 AM
+-- Design Name:     NV_MEM_EMU
+-- Module Name:     NV_MEM_EMU.vhd - Behavioral
+-- Project Name:    NORM
 --
--- Dependencies: 
--- 
+-- Description: Non Volatile memory emulation core
+-- Details: This entity handles the emulation of the nv_mem by generatign a BUSY
+--  signal which indicates the access time for the memory. This entity does not
+--  depend on the particular nv_mem used.
+--  NOTE: A memory that implements this emulator cannot enforce the timing if
+--  the user misshandles the access protocol/timings.
+--
+-- Dependencies:
+--
 -- Revision:
 -- Revision 00 - Simone Ruffini
 -- * File Created
 -- Revision 01 - Simone Ruffini
 -- * Refactoring
 -- Additional Comments:
--- 
+--
 ----------------------------------------------------------------------------------
 
+----------------------------- PACKAGES/LIBRARIES -------------------------------
 
 library IEEE;
-use IEEE.STD_LOGIC_1164.ALL;
+  use IEEE.STD_LOGIC_1164.all;
+  use IEEE.NUMERIC_STD.all;
+  use IEEE.MATH_REAL.all; --for log2 and ceil
 
--- Uncomment the following library declaration if using
--- arithmetic functions with Signed or Unsigned values
-use IEEE.NUMERIC_STD.ALL;
+library WORK;
+  use WORK.NORM_PKG.all;
 
--- Uncomment the following library declaration if instantiating
--- any Xilinx leaf cells in this code.
---library UNISIM;
---use UNISIM.VComponents.all;
+entity NV_MEM_EMU is
+  generic (
+    MAX_DELAY_NS : integer -- this is the maximum delay that the nv_mem uses to process data
+  );
+  port (
+    CLK      : in    std_logic;
+    RST      : in    std_logic;
+    LOAD_EN  : in    std_logic;
+    BUSY_SIG : out   std_logic;
+    BUSY     : out   std_logic
+  );
+end entity NV_MEM_EMU;
 
-use work.NORM_PKG.all;
+----------------------------- ARCHITECTURE -------------------------------------
 
-entity nv_mem_emu is
-    Generic(
-        MAX_DELAY_NS: INTEGER -- this is the maximum delay that the nv_mem uses to process data
-    );
-    Port ( 
-        clk     : IN STD_LOGIC;
-        resetN  : IN STD_LOGIC;
-        load_en : IN STD_LOGIC; 
-        busy_sig: OUT STD_LOGIC;
-        busy    : OUT STD_LOGIC
-    );
-end nv_mem_emu;
+architecture BEHAVIORAL of NV_MEM_EMU is
 
-architecture Behavioral of nv_mem_emu is
-    ----------------------------------------------------
-    --      INTERNAL SIGNALS FOR THE SAMPLING DELAY
-    ----------------------------------------------------
-    constant counter_end_value : INTEGER := get_busy_counter_end_value(MASTER_CLK_PERIOD_NS, MAX_DELAY_NS);
-    
-    signal counter : INTEGER RANGE 0 TO counter_end_value;
-    
-begin
-    
-    
-    busy <= '0' when counter = counter_end_value else '1';
-    busy_sig <= '0' when counter_end_value <2 else
-                '0' when counter >= counter_end_value -1 else '1';
-                
-    COUNT:process(clk,resetN) is
-        variable count: std_logic;
+  --########################### CONSTANTS 1 ####################################
+
+  --########################### TYPES ##########################################
+
+  --########################### FUNCTIONS ######################################
+
+    -- This function calculates the end value for counter
+    pure function get_busy_counter_end_value(
+            input_clk_freq_hz: natural;   -- input clock frequency to nv_mem
+            nv_mem_max_freq_hz: natural   -- max clock frequncy at which nv_mem behaves with no delay 
+        ) return natural is
     begin
-        if resetn = '0' then
-            counter <= counter_end_value;
-            count := '0';
-        elsif rising_edge(clk) then
-            
-            if load_en = '1' then
-                count :='1';
-            end if;
-            if(count = '1') then
-                counter <= counter + 1;
-            end if;
-            if( counter = counter_end_value) then
-                if(load_en /= '1') then 
-                    counter <= counter_end_value;
-                    count := '0';
-                else
-                    counter <= 0;
-                end if;
-            end if;
+        assert (input_clk_freq_hz > 0)
+            report "Input clock frequency must be greater then 0" severity Failure;
+        if(nv_mem_max_freq_hz >= input_clk_freq_hz) then--if the nv_mem is as fast as the clk or faster 
+            return 0; --then nothing to do 
+        else
+            return  integer(ceil(real(input_clk_freq_hz)/real(nv_mem_max_freq_hz))) - 1; --return the upper bound if division is not natural
         end if;
-    end process;
-end Behavioral;
+    end function;
+
+  --########################### CONSTANTS 2 ####################################
+  constant C_CNT_END_VAL : integer := get_busy_counter_end_value(C_CLK_FREQ_HZ, MAX_DELAY_NS);
+
+  --########################### SIGNALS ########################################
+
+  signal counter         : integer range 0 to C_CNT_END_VAL;
+
+begin
+
+  --########################### ENTITY DEFINITION ##############################
+
+  --########################## OUTPUT PORTS WIRING #############################
+
+  BUSY     <= '0' when counter = C_CNT_END_VAL else
+              '1';
+  BUSY_SIG <= '0' when C_CNT_END_VAL <2 else
+              '0' when counter >= C_CNT_END_VAL - 1 else
+              '1';
+
+  --########################## PROCESSES #######################################
+
+  P_COUNT : process (CLK, RST) is
+
+    variable count : std_logic;
+
+  begin
+
+    if (RST = '1') then
+      counter <= C_CNT_END_VAL;
+      count := '0';
+    elsif (CLK'event and CLK = '1') then
+      if (LOAD_EN = '1') then
+        count :='1';
+      end if;
+      if (count = '1') then
+        counter <= counter + 1;
+      end if;
+      if (counter = C_CNT_END_VAL) then
+        if (LOAD_EN /= '1') then
+          counter <= C_CNT_END_VAL;
+          count := '0';
+        else
+          counter <= 0;
+        end if;
+      end if;
+    end if;
+
+  end process P_COUNT;
+
+end architecture BEHAVIORAL;
+
+--------------------------------------------------------------------------------
