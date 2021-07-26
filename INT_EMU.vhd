@@ -45,7 +45,7 @@ entity INT_EMU is
     EN                  : in    std_logic;                                     -- Enable core
     INIT                : in    std_logic;                                     -- Init core
     RST_EMU             : out   std_logic;                                     -- Emulated positive reset
-    THRESH_STAT         : out   std_logic_vector(NUM_THRESHOLDS - 1 downto 0); -- Thresholds statuses
+    THRESH_STATS        : out   std_logic_vector(NUM_THRESHOLDS - 1 downto 0); -- Thresholds statuses
     THRESH_VALUES       : in    thresh_values_t(NUM_THRESHOLDS - 1 downto 0);  -- Thresholds values
     RST_EMU_THRESH_INDX : in    natural range 0 to NUM_THRESHOLDS - 1;         -- Index of threshold used for RST_EMU
     ROM_START_ADDR      : in    std_logic_vector(ROMADDR_W - 1 downto 0);      -- ROM start address for sampling
@@ -110,7 +110,7 @@ begin
 
   RESET_EMULATOR <= output_comparator(RST_EMU_THRESH_INDX);
 
-  THRESH_STAT <= output_comparator;
+  THRESH_STATS <= output_comparator;
 
   ROM_ADDR <= rom_addr_s;
 
