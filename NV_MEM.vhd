@@ -30,8 +30,10 @@ library IEEE;
 
 entity NV_MEM is
   generic (
-    ADDR_W       : natural; -- NV_MEM address ports bit depth width
-    DATA_W       : natural  -- NV_MEM data in/out ports bit depth width
+    CLK_FREQ_HZ    : positive; -- Input clk frequency in HZ
+    ACCESS_TIME_NS : positive; -- this is the maximum delay that the nv_mem uses to process data
+    ADDR_W         : natural;  -- NV_MEM address ports bit depth width
+    DATA_W         : natural   -- NV_MEM data in/out ports bit depth width
   );
   port (
     CLK             : in    std_logic;                             -- Clock signal
@@ -54,7 +56,6 @@ end entity NV_MEM;
 architecture BEHAVIORAL of NV_MEM is
 
   --########################### CONSTANTS 1 ####################################
-  constant C_NV_MEM_SIZE       : natural := 2 ** ADDR_W;
 
   --########################### TYPES ##########################################
 
@@ -93,14 +94,14 @@ begin
     )
     port map (
       CLKA  => CLK,
-      CLKB  => CLK,
-      WEA   => ram_we,
       ENA   => ram_en,
-      ENB   => ram_en,
+      WEA   => ram_we,
       ADDRA => ram_waddr,
-      ADDRB => ram_raddr,
       DIA   => ram_din,
       DOA   => open,
+      CLKB  => CLK,
+      ENB   => ram_en,
+      ADDRB => ram_raddr,
       DOB   => ram_dout
     );
 
@@ -108,7 +109,8 @@ begin
 
   U_NV_MEM_EMU : entity work.nv_mem_emu
     generic map (
-      MAX_DELAY_NS => MAX_DELAY_NS
+      CLK_FREQ_HZ    => CLK_FREQ_HZ,
+      ACCESS_TIME_NS => ACCESS_TIME_NS
     )
     port map (
       CLK      => CLK,
@@ -130,7 +132,7 @@ begin
   ram_we    <= '0' when RST = '1' else
                ram_we_latch when busy_internal = '1' else
                WE;
-  ram_raddr <= (others => '0')when RST = '1' else
+  ram_raddr <= (others => '0') when RST = '1' else
                ram_raddr_latch when busy_internal = '1' else
                RADDR;
   ram_waddr <= (others => '0') when RST = '1' else

@@ -36,7 +36,8 @@ library WORK;
 
 entity NV_MEM_EMU is
   generic (
-    MAX_DELAY_NS : integer -- this is the maximum delay that the nv_mem uses to process data
+    CLK_FREQ_HZ    : positive; -- Input clk frequency in HZ
+    ACCESS_TIME_NS : positive  -- this is the maximum delay that the nv_mem uses to process data
   );
   port (
     CLK      : in    std_logic;
@@ -57,23 +58,23 @@ architecture BEHAVIORAL of NV_MEM_EMU is
 
   --########################### FUNCTIONS ######################################
 
-    -- This function calculates the end value for counter
-    pure function get_busy_counter_end_value(
-            input_clk_freq_hz: natural;   -- input clock frequency to nv_mem
-            nv_mem_max_freq_hz: natural   -- max clock frequncy at which nv_mem behaves with no delay 
+  -- This function calculates the end value for counter
+
+  pure function get_busy_counter_end_value (
+    input_clk_freq_hz: natural;                                                           -- input clock frequency to nv_mem
+    nv_mem_max_dealy_ns: natural                                                          -- max clock frequncy at which nv_mem behaves with no delay
         ) return natural is
-    begin
-        assert (input_clk_freq_hz > 0)
-            report "Input clock frequency must be greater then 0" severity Failure;
-        if(nv_mem_max_freq_hz >= input_clk_freq_hz) then--if the nv_mem is as fast as the clk or faster 
-            return 0; --then nothing to do 
-        else
-            return  integer(ceil(real(input_clk_freq_hz)/real(nv_mem_max_freq_hz))) - 1; --return the upper bound if division is not natural
-        end if;
-    end function;
+  begin
+    assert (input_clk_freq_hz > 0)
+      report "Input clock frequency must be greater then 0"
+      severity Failure;
+
+    return  integer(ceil(real(nv_mem_max_dealy_ns) * real(input_clk_freq_hz) / 1E9)) - 1; --return the upper bound if division is not natural
+
+  end function;
 
   --########################### CONSTANTS 2 ####################################
-  constant C_CNT_END_VAL : integer := get_busy_counter_end_value(C_CLK_FREQ_HZ, MAX_DELAY_NS);
+  constant C_CNT_END_VAL : integer := get_busy_counter_end_value(CLK_FREQ_HZ, ACCESS_TIME_NS);
 
   --########################### SIGNALS ########################################
 

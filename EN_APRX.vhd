@@ -6,9 +6,9 @@
 -- Design Name:     EN_APRX
 -- Module Name:     EN_APRX.vhd - Behavioral
 -- Project Name:    NORM
--- 
+--
 -- Description: Energy approximation core.
--- Details: Given an entity this module approximates the energy consumed by it 
+-- Details: Given an entity this module approximates the energy consumed by it
 --  in terms of clk_cycles. While the entity is powered it consumes energy hence
 --  an EN_APRX   linked to it measures how much in terms of on time. To get
 --  an energy value the computed results must be multiplied by E3C
@@ -79,7 +79,7 @@ begin
 
   G_COUNTERS : for i in 0 to NUM_PWR_STATES - 1 generate
 
-    U_CNT : work.cnt
+    U_CNT : WORK.CNT
       generic map (
         MAX         => 2**C_EN_APRX_CNT_W - 1,
         INIT_VALUE  => 0,
@@ -115,4 +115,5 @@ begin
   end process P_PWR_STATE_EN;
 
 end architecture BEHAVIORAL;
+
 --------------------------------------------------------------------------------

@@ -22,6 +22,10 @@
 library ieee;
   use IEEE.STD_LOGIC_1164.all;
   use IEEE.NUMERIC_STD.all;
+  use IEEE.STD_LOGIC_TEXTIO.all; --synopsis
+
+library STD;
+  use STD.TEXTIO.all;
 
 ----------------------------- ENTITY -------------------------------------------
 
@@ -56,10 +60,24 @@ architecture RTL of DUAL_PRT_RAM is
 
   --########################### FUNCTIONS ######################################
 
+  impure function initramfromfile (RamFileName : in string) return ram_t is
+    file     RamFile     : text is in RamFileName;
+    variable ramfileline : line;
+    variable ram         : ram_t;
+  begin
+    for I in 0 to (2 ** ADDR_W) - 1 loop
+      readline (RamFile, ramfileline);
+      hread(ramfileline, ram(I));
+
+    end loop;
+    return ram;
+  end function;
+
   --########################### CONSTANTS 2 ####################################
 
   --########################### SIGNALS ########################################
-  signal ram : ram_t;
+
+  signal ram : ram_t := initramfromfile("ramInit.txt");
 
 begin
 

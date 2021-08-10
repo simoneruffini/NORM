@@ -17,11 +17,14 @@
 -- * File Created
 -- Revision 01 - Simone Ruffini
 -- * Refactoring
+-- Revision 02 - Simone Ruffini
+-- * Removed unecessary constants
 -- Additional Comments:
 --
 --------------------------------------------------------------------------------
 
 ----------------------------- PACKAGES/LIBRARIES -------------------------------
+
 library IEEE;
   use IEEE.STD_LOGIC_1164.all;
   use IEEE.NUMERIC_STD.all;
@@ -29,26 +32,29 @@ library IEEE;
 ----------------------------- PACKAGE ------------------------------------------
 package norm_pkg is
 
-  constant C_EN_APRX_CNT_W        : integer := 31;    -- The register bit dept width of all energy approximators 
+  -- The register bit dept width of all energy approximators
   -- NOTE: If the expected runtime of the system is long a bigger register size results in not overflows bugs
+  constant C_EN_APRX_CNT_W : integer := 31;
 
-  type aprx_values_t is array (integer range <>) of INTEGER range 0 to 2 ** C_EN_APRX_CNT_W - 1; -- Approximator values array type, used in EN_APRX
+  -- Approximator values array type, used in EN_APRX
   -- NOTE: will contain energy approximator values for each power state
 
-  type thresh_values_t is array (integer range <>) of integer; -- Thresholds values array type, used by INT_EMU
+  type aprx_values_t is array (integer range <>) of INTEGER range 0 to 2 ** C_EN_APRX_CNT_W - 1;
+
+  -- Thresholds values array type, used by INT_EMU
   -- NOTE: will contain voltage values in the same magnitude of the ones coming the voltage trace
 
-  constant C_CLK_FREQ_HZ : natural := 160000000; -- 160KHz master clk speed.
-  -- WARNING: keep this constant equal to the system speed
+  type thresh_values_t is array (integer range <>) of integer;
 
-  constant C_NV_MEM_MAX_FREQ_HZ : natural 8000000; -- 8Khz max frequency, below this no delayes are needed
-
-  constant C_E3CROM_DATA_W : integer := 10;    -- E3C (Energy consumption per clock cycle) ROM data out bit depth width
+  -- E3C (Energy consumption per clock cycle) ROM data out bit depth width
+  constant C_E3CROM_DATA_W : integer := 10;
 
 end package norm_pkg;
 
 package body norm_pkg is
--- Package body void
+
+  -- Package body void
+
 end package body norm_pkg;
 
 --------------------------------------------------------------------------------
