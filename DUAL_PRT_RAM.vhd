@@ -60,14 +60,19 @@ architecture RTL of DUAL_PRT_RAM is
 
   --########################### FUNCTIONS ######################################
 
+  -- Takes 32 hexadecimal values from RamFileName  and returns an array of them
+  -- NOTE: values must be 32bit hex
+
   impure function initramfromfile (RamFileName : in string) return ram_t is
     file     RamFile     : text is in RamFileName;
     variable ramfileline : line;
+    variable tmpword     : std_logic_vector(31 downto 0);
     variable ram         : ram_t;
   begin
     for I in 0 to (2 ** ADDR_W) - 1 loop
       readline (RamFile, ramfileline);
-      hread(ramfileline, ram(I));
+      hread(ramfileline, tmpword);
+      ram(i) := std_logic_vector(resize(unsigned(tmpword), DATA_W));
 
     end loop;
     return ram;
