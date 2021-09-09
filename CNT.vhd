@@ -84,6 +84,6 @@ begin
       end if;
     end if;
 
-  end process COUNT;
+  end process P_COUNT;
 
 end architecture BEHAVIORAL;

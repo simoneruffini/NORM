@@ -34,24 +34,23 @@ library IEEE;
 
 entity INT_EMU is
   generic (
-    ROMADDR_W           : natural;       -- ROM address bit width
-    ROMDOUT_W           : natural;       -- ROM dout bit widht
-    NUM_THRESHOLDS      : natural := 1;  -- Number of compared thresholds (the one for RST_EMU is one too)
-    SAMPLES_PRESCALER   : natural := 1   -- Sampling from ROM prescaler value (NOTE: > 0)
+    VTRACE_ROM_NUM_ELEMENTS     : natural;                                                     -- Number of samples inside of Voltage Trace ROM
+    NUM_THRESHOLDS              : natural := 1;                                                -- Number of compared thresholds (the one for RST_EMU is one too)
+    SAMPLES_PRESCALER           : natural := 1                                                 -- Sampling from ROM prescaler value (NOTE: > 0)
   );
   port (
-    CLK                 : in    std_logic;                                     -- Clock signal
-    RST                 : in    std_logic;                                     -- Positive reset
-    EN                  : in    std_logic;                                     -- Enable core
-    INIT                : in    std_logic;                                     -- Init core
-    RST_EMU             : out   std_logic;                                     -- Emulated positive reset
-    THRESH_STATS        : out   std_logic_vector(NUM_THRESHOLDS - 1 downto 0); -- Thresholds statuses
-    THRESH_VALUES       : in    thresh_values_t(NUM_THRESHOLDS - 1 downto 0);  -- Thresholds values
-    RST_EMU_THRESH_INDX : in    natural range 0 to NUM_THRESHOLDS - 1;         -- Index of threshold used for RST_EMU
-    ROM_START_ADDR      : in    std_logic_vector(ROMADDR_W - 1 downto 0);      -- ROM start address for sampling
-    ROM_OFFSET          : in    natural range 0 to (2 ** ROMADDR_W - 1);       -- ROM last sample, offset from ROM_START_ADDR
-    ROM_ADDR            : out   std_logic_vector(ROMADDR_W - 1 downto 0);      -- ROM address
-    ROM_DOUT            : in    std_logic_vector(ROMDOUT_W - 1 downto 0)       -- ROM dout
+    CLK                         : in    std_logic;                                                -- Clock signal
+    RST                         : in    std_logic;                                                -- Positive reset
+    EN                          : in    std_logic;                                                -- Enable core
+    INIT                        : in    std_logic;                                                -- Init core
+    RST_EMU                     : out   std_logic;                                                -- Emulated positive reset
+    THRESH_STATS                : out   std_logic_vector(NUM_THRESHOLDS - 1 downto 0);            -- Thresholds statuses
+    THRESH_VALUES               : in    thresh_values_t(NUM_THRESHOLDS - 1 downto 0);             -- Thresholds values
+    RST_EMU_THRESH_INDX         : in    natural range 0 to NUM_THRESHOLDS - 1;                    -- Index of threshold used for RST_EMU
+    VTRACE_ROM_START_INDX       : in    natural;                                                  -- Voltage Trace ROM sampling start index
+    VTRACE_ROM_SAMPLES          : in    natural;                                                  -- Voltage Trace ROM number of used samples from VTRACE_ROM_START_INDX
+    VTRACE_ROM_RADDR            : out   natural;                                                  -- ROM read address
+    VTRACE_ROM_DOUT             : in    integer                                                   -- ROM data output
   );
 end entity INT_EMU;
 
@@ -69,18 +68,20 @@ architecture BEHAVIORAL of INT_EMU is
 
   --########################### SIGNALS ########################################
 
-  signal rom_start_addr_samp  : std_logic_vector(ROMADDR_W - 1 downto 0);
-  signal rom_offset_samp      : natural range 0 to (2 ** ROMADDR_W - 1);
-  signal rom_addr_s           : std_logic_vector(ROMADDR_W - 1 downto 0);
-  signal output_comparator    : std_logic_vector(NUM_THRESHOLDS - 1 downto 0);
-  signal prescaler_cnt_tc     : std_logic;
-  signal prescaler_cnt_init   : std_logic;
+  signal rst_emu_s             : std_logic;
+  signal rst_emu_gate          : std_logic := '0';
+  signal rom_start_addr_samp   : natural := 0;
+  signal rom_offset_samp       : natural := 0;
+  signal rom_raddr_s           : natural := 0;
+  signal output_comparator     : std_logic_vector(NUM_THRESHOLDS - 1 downto 0);
+  signal prescaler_cnt_tc      : std_logic;
+  signal prescaler_cnt_init    : std_logic;
 
   --########################### ARCHITECTURE BEGIN #############################
 
 begin
 
-  assert (SAMPLES_PRESCSLER > 0)
+  assert (SAMPLES_PRESCALER > 0)
     report "The prescaler for the sampling time must be greater then 0"
     severity failure;
 
@@ -103,22 +104,30 @@ begin
 
   --########################## OUTPUT PORTS WIRING #############################
 
-  G_COMPARATOR : for i in NUM_THRESHOLDS - 1  downto 0 generate
-    output_comparator(i) <= '0' when unsigned(ROM_DOUT) > THRESH_VALUES(i) else
-                            '1';
-  end generate G_COMPARATOR;
-
-  RESET_EMULATOR <= output_comparator(RST_EMU_THRESH_INDX);
+  RST_EMU <= rst_emu_s;
 
   THRESH_STATS <= output_comparator;
 
-  ROM_ADDR <= rom_addr_s;
+  VTRACE_ROM_RADDR <= rom_raddr_s;
+
+  --########################## COBINATORIAL FUNCTIONS ##########################
+
+  G_COMPARATOR : for i in NUM_THRESHOLDS - 1  downto 0 generate
+    output_comparator(i) <= '1' when VTRACE_ROM_DOUT <= THRESH_VALUES(i) else
+                            '0';
+  end generate G_COMPARATOR;
+
+  rst_emu_s <= (rst_emu_gate AND output_comparator(RST_EMU_THRESH_INDX)) OR RST;
 
   --########################## PROCESSES #######################################
 
+  --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  -- Init Delay
+  --
   -- Keep init signal after rst is down for the rest of the clock cycle
   -- this lets PRESCALER_CNT more init time
-  P_KEEP_INIT : process (CLK) is
+
+  P_INIT_DELAY : process (CLK) is
   begin
 
     if (CLK'event and CLK = '1') then
@@ -128,46 +137,64 @@ begin
       end if;
     end if;
 
-  end process P_KEEP_INIT;
+  end process P_INIT_DELAY;
 
+  --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   -- Samples rom start address and rom offset
+  --
   -- These signals can change only after an init
+
   P_SAMP : process (CLK, RST) is
   begin
 
     if (RST = '1') then
-      rom_start_addr_samp <= (others => '0');
-      rom_offset_samp     <= (others => '0');
+      rom_start_addr_samp <= 0;
+      rom_offset_samp     <= 0;
     elsif (CLK'event and CLK = '1') then
       if (INIT = '1') then
-        rom_start_addr_samp <= ROM_START_ADDR;
-        rom_offset_samp     <= ROM_OFFSET;
+        rom_start_addr_samp <= VTRACE_ROM_START_INDX;
+        if (VTRACE_ROM_SAMPLES > 0) then
+          rom_offset_samp <= VTRACE_ROM_SAMPLES - 1;
+        else
+          rom_offset_samp <= 0;
+        end if;
       end if;
     end if;
 
   end process P_SAMP;
 
+  --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   -- Calculate rom address, and on overflow start from beginning
-  P_ROM_ADDR : process (CLK, RST) is
+
+  P_ROM_RADDR : process (CLK, RST) is
   begin
 
     if (RST = '1') then
-      rom_s <= (others => '0');
+      rom_raddr_s  <= 0;
+      rst_emu_gate <= '0';
     elsif (CLK'event and CLK = '1') then
-      if (INIT = '1') then
-        rom_s <= ROM_START_ADDR;
+      rst_emu_gate <= '1';
+
+      --remove tc counter
+      if (EN = '1' AND prescaler_cnt_tc = '1') then
+        if (rom_raddr_s = rom_start_addr_samp + rom_offset_samp) then
+          rom_raddr_s <= rom_start_addr_samp;
+        else
+          if (rom_raddr_s = VTRACE_ROM_NUM_ELEMENTS - 1) then
+            rom_raddr_s <= 0;
+          else
+            rom_raddr_s <= rom_raddr_s + 1;
+          end if;
+        end if;
       end if;
 
-      if (EN = '1' AND prescaler_cnt_tc = '1') then
-        if (rom_s = std_logic_vector(unsigned(rom_start_addr_samp) + rom_offset_samp)) then
-          roms_s <= rom_start_addr_samp;
-        else
-          rom_s <= std_logic(unsigned(rom_s) + 1);
-        end if;
+      if (INIT = '1') then
+        rom_raddr_s <= VTRACE_ROM_START_INDX;
+        --rst_emu_gate <= rst_emu_s;
       end if;
     end if;
 
-  end process P_ROM_ADDR;
+  end process P_ROM_RADDR;
 
 end architecture BEHAVIORAL;
 
